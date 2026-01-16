@@ -26,6 +26,8 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate, currentView }) => {
   }, []);
 
   useGSAP(() => {
+    if (!navRef.current) return;
+
     // Navbar hide/show on scroll direction
     const showAnim = gsap.from(navRef.current, { 
       yPercent: -100,
@@ -48,6 +50,10 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate, currentView }) => {
         }
       }
     });
+
+    return () => {
+      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+    };
   }, { scope: navRef });
 
   // Determine Theme
@@ -64,7 +70,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate, currentView }) => {
   const iconStroke = isDarkState ? '#1a3a2e' : '#f5f0e8';
 
   // WhatsApp Icon Component (Vector/Outline Style)
-  const WhatsAppIcon = ({ size = 20, color = iconStroke }: { size?: number; color?: string }) => (
+  const WhatsAppIcon = ({ size = 24, color = iconStroke }: { size?: number; color?: string }) => (
     <svg 
       width={size} 
       height={size} 
@@ -103,7 +109,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate, currentView }) => {
                 className="transition-opacity duration-300 hover:opacity-60"
                 aria-label="Instagram"
               >
-                <Instagram size={20} strokeWidth={1.5} color={iconStroke} />
+                <Instagram size={24} strokeWidth={1.5} color={iconStroke} />
               </a>
               <a 
                 href="https://wa.me/6281234567890" 
@@ -112,7 +118,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate, currentView }) => {
                 className="transition-opacity duration-300 hover:opacity-60"
                 aria-label="WhatsApp"
               >
-                <WhatsAppIcon size={20} color={iconStroke} />
+                <WhatsAppIcon size={24} color={iconStroke} />
               </a>
             </div>
 
@@ -168,7 +174,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate, currentView }) => {
                 className="flex items-center gap-2 group transition-opacity duration-300 hover:opacity-60"
                 aria-label="Language Selector"
               >
-                <Globe size={20} strokeWidth={1.5} color={iconStroke} />
+                <Globe size={24} strokeWidth={1.5} color={iconStroke} />
                 <span className={`hidden md:block text-[10px] uppercase tracking-widest font-medium ${textColor} transition-colors duration-700`}>
                   EN
                 </span>
