@@ -57,7 +57,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate, currentView }) => {
   // Logic: 
   // - Scrolled OR Inner Page = Dark Mode (White BG, Dark Text)
   // - Top of Home = Light Mode (Transparent BG, Light Text)
-  const isDarkState = isScrolled || isInnerPage;
+  const isDarkState = true;
 
   // Colors & Classes
   const textColor = isDarkState ? 'text-forest' : 'text-sand';
