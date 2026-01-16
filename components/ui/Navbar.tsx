@@ -132,8 +132,8 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate, currentView }) => {
                     alt="StayinUBUD Icon" 
                     className={`w-auto object-contain transition-all duration-700 ease-in-out
                       ${isDarkState 
-                        ? 'h-14 md:h-16' 
-                        : 'h-20 md:h-24 brightness-0 invert'
+                        ? 'h-20 md:h-24' 
+                        : 'h-32 md:h-40 brightness-0 invert'
                       } 
                     `}
                   />
