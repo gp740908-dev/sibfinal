@@ -71,7 +71,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate, currentView }) => {
         className={`fixed top-0 left-0 right-0 z-[50] border-b transition-all duration-500 ease-in-out
           ${isVisible ? 'translate-y-0' : '-translate-y-full'}
           ${isScrolled || isInnerPage
-            ? 'bg-white/95 backdrop-blur-md shadow-sm py-3' 
+            ? 'bg-sand/95 backdrop-blur-md shadow-sm py-3' // PERUBAHAN: Ganti bg-white jadi bg-sand
             : 'bg-transparent py-6 border-transparent'
           }
           ${borderColor}
