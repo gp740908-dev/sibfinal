@@ -132,8 +132,8 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate, currentView }) => {
                     alt="StayinUBUD Icon" 
                     className={`w-auto object-contain transition-all duration-700 ease-in-out
                       ${isDarkState 
-                        ? 'h-20 md:h-24' 
-                        : 'h-32 md:h-40 brightness-0 invert'
+                        ? 'h-40 md:h-48' 
+                        : 'h-40 md:h-48 brightness-0 invert'
                       } 
                     `}
                   />
@@ -151,7 +151,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate, currentView }) => {
                   <span className={`font-serif text-2xl md:text-3xl leading-none tracking-tight whitespace-nowrap ${textColor} transition-colors duration-700`}>
                     Stayin<span className="italic font-light">UBUD</span>
                   </span>
-                  <span className={`font-sans text-[0.55rem] md:text-[0.65rem] uppercase tracking-[0.25em] leading-none mt-1 md:mt-1.5 whitespace-nowrap ${textColor} opacity-80 transition-colors duration-700`}>
+                  <span className={`font-sans text-[0.55rem] md:text-[0.65rem] uppercase tracking-[0.25em] leading-none mt-5 md:mt-6 whitespace-nowrap ${textColor} opacity-80 transition-colors duration-700`}>
                     Villa Bali Culture
                   </span>
                 </div>
