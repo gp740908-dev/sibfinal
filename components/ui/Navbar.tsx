@@ -1,11 +1,8 @@
-
 import React, { useRef, useState, useEffect } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
-import { Globe } from 'lucide-react';
-import { FaInstagram, FaWhatsapp } from 'react-icons/fa6';
-import { FullScreenMenu } from '../layout/FullScreenMenu';
+import { Globe, Menu, Instagram } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -61,7 +58,23 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate, currentView }) => {
   // Colors & Classes
   const textColor = isDarkState ? 'text-forest' : 'text-sand';
   const borderColor = isDarkState ? 'border-forest/10' : 'border-sand/10';
-  const iconColorClass = isDarkState ? 'text-forest' : 'text-sand';
+  const iconStroke = isDarkState ? '#1a3a2e' : '#f5f0e8';
+
+  // WhatsApp Icon Component (Vector/Outline Style)
+  const WhatsAppIcon = ({ size = 20, color = iconStroke }: { size?: number; color?: string }) => (
+    <svg 
+      width={size} 
+      height={size} 
+      viewBox="0 0 24 24" 
+      fill="none" 
+      stroke={color} 
+      strokeWidth="1.5" 
+      strokeLinecap="round" 
+      strokeLinejoin="round"
+    >
+      <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
+    </svg>
+  );
 
   return (
     <>
@@ -69,127 +82,126 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate, currentView }) => {
         ref={navRef}
         className={`fixed top-0 left-0 right-0 z-[50] transition-all duration-700 ease-in-out border-b
           ${isDarkState 
-            ? 'bg-white/95 backdrop-blur-md shadow-sm py-4' 
-            : 'bg-transparent py-8 border-transparent'
+            ? 'bg-white/95 backdrop-blur-md shadow-sm py-3' 
+            : 'bg-transparent py-6 border-transparent'
           }
           ${borderColor}
         `}
       >
-        <div className="px-6 md:px-12 grid grid-cols-3 items-center">
+        <div className="px-6 md:px-12">
+          <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-4">
           
-          {/* LEFT: Social Icons */}
-          <div className="flex items-center gap-4 md:gap-6 justify-start">
-            <a 
-              href="https://instagram.com" 
-              target="_blank" 
-              rel="noreferrer"
-              className={`transition-colors duration-300 hover:opacity-70 ${iconColorClass}`}
-              aria-label="Instagram"
-            >
-              <FaInstagram size={20} />
-            </a>
-            <a 
-              href="https://wa.me/6281234567890" 
-              target="_blank" 
-              rel="noreferrer"
-              className={`transition-colors duration-300 hover:opacity-70 ${iconColorClass}`}
-              aria-label="WhatsApp"
-            >
-              <FaWhatsapp size={20} />
-            </a>
-          </div>
-
-          {/* CENTER: Logo Section */}
-          <div 
-            onClick={() => onNavigate('home')}
-            className="flex items-center justify-center cursor-pointer group"
-          >
-            {/* 
-               LOGO LOGIC:
-               - Icon: Always visible. Large at top, small on scroll.
-               - Text: Visible at top, Collapses (width 0) on scroll.
-            */}
-            <div className="flex items-center">
-              
-              {/* Icon Image (files.svg / logosib.png) */}
-              <img 
-                src="/ChatGPT_Image_6_Jul_2025_21.17.01-1-removebg-preview (1).png" 
-                alt="StayinUBUD Icon" 
-                className={`w-auto object-contain transition-all duration-700 ease-in-out
-                  ${isDarkState 
-                    ? 'h-12' // Scrolled Size
-                    : 'h-20 brightness-0 invert' // Top Size (Larger & White)
-                  } 
-                `}
-              />
-              
-              {/* Collapsible Text Container */}
-              <div 
-                className={`flex flex-col justify-center overflow-hidden transition-all duration-700 ease-in-out
-                  ${isScrolled 
-                    ? 'max-w-0 opacity-0 ml-0' // Hidden state
-                    : 'max-w-[200px] opacity-100 ml-4' // Visible state
-                  }
-                `}
+            {/* LEFT: Social Icons (Vector Style) */}
+            <div className="flex items-center gap-4 md:gap-6 justify-start">
+              <a 
+                href="https://instagram.com" 
+                target="_blank" 
+                rel="noreferrer"
+                className="transition-opacity duration-300 hover:opacity-60"
+                aria-label="Instagram"
               >
-                <span className={`font-serif text-2xl md:text-3xl leading-none tracking-tight whitespace-nowrap ${textColor}`}>
-                  Stayin<span className="italic font-light">UBUD</span>
-                </span>
-                <span className={`font-sans text-[0.6rem] md:text-[0.65rem] uppercase tracking-[0.25em] leading-none mt-1 whitespace-nowrap ${textColor} opacity-90`}>
-                  Villa Bali Culture
-                </span>
+                <Instagram size={20} strokeWidth={1.5} color={iconStroke} />
+              </a>
+              <a 
+                href="https://wa.me/6281234567890" 
+                target="_blank" 
+                rel="noreferrer"
+                className="transition-opacity duration-300 hover:opacity-60"
+                aria-label="WhatsApp"
+              >
+                <WhatsAppIcon size={20} color={iconStroke} />
+              </a>
+            </div>
+
+            {/* CENTER: Logo Section */}
+            <div 
+              onClick={() => onNavigate('home')}
+              className="flex items-center justify-center cursor-pointer group"
+            >
+              <div className="flex items-center relative">
+                
+                {/* Icon Image */}
+                <div className={`flex-shrink-0 transition-all duration-700 ease-in-out
+                  ${isDarkState ? 'scale-75' : 'scale-100'}
+                `}>
+                  <img 
+                    src="/ChatGPT_Image_6_Jul_2025_21.17.01-1-removebg-preview (1).png" 
+                    alt="StayinUBUD Icon" 
+                    className={`w-auto object-contain transition-all duration-700 ease-in-out
+                      ${isDarkState 
+                        ? 'h-10' 
+                        : 'h-16 brightness-0 invert'
+                      } 
+                    `}
+                  />
+                </div>
+                
+                {/* Collapsible Text Container */}
+                <div 
+                  className={`flex flex-col justify-center overflow-hidden transition-all duration-700 ease-in-out
+                    ${isScrolled 
+                      ? 'max-w-0 opacity-0 ml-0' 
+                      : 'max-w-[250px] opacity-100 ml-3 md:ml-4'
+                    }
+                  `}
+                >
+                  <span className={`font-serif text-xl md:text-3xl leading-none tracking-tight whitespace-nowrap ${textColor} transition-colors duration-700`}>
+                    Stayin<span className="italic font-light">UBUD</span>
+                  </span>
+                  <span className={`font-sans text-[0.55rem] md:text-[0.65rem] uppercase tracking-[0.25em] leading-none mt-0.5 md:mt-1 whitespace-nowrap ${textColor} opacity-80 transition-colors duration-700`}>
+                    Villa Bali Culture
+                  </span>
+                </div>
               </div>
             </div>
+
+            {/* RIGHT: Language & Hamburger Menu */}
+            <div className="flex items-center gap-4 md:gap-6 justify-end">
+              
+              {/* Language Selector */}
+              <button 
+                className="flex items-center gap-2 group transition-opacity duration-300 hover:opacity-60"
+                aria-label="Language Selector"
+              >
+                <Globe size={20} strokeWidth={1.5} color={iconStroke} />
+                <span className={`hidden md:block text-[10px] uppercase tracking-widest font-medium ${textColor} transition-colors duration-700`}>
+                  EN
+                </span>
+              </button>
+
+              {/* Hamburger Menu */}
+              <button 
+                onClick={() => setIsMenuOpen(true)}
+                className="flex items-center gap-3 group cursor-pointer"
+                aria-label="Open Menu"
+              >
+                <span className={`hidden md:block font-sans text-xs uppercase tracking-[0.2em] font-medium transition-colors duration-700 ${textColor}`}>
+                  Menu
+                </span>
+                <div className="w-7 flex flex-col items-end gap-[5px]">
+                  <span className={`block w-full h-[1.5px] transition-all duration-300 group-hover:w-2/3 
+                    ${isDarkState ? 'bg-forest' : 'bg-sand'}
+                  `} />
+                  <span className={`block w-2/3 h-[1.5px] transition-all duration-300 group-hover:w-full 
+                    ${isDarkState ? 'bg-forest' : 'bg-sand'}
+                  `} />
+                  <span className={`block w-full h-[1.5px] transition-all duration-300 group-hover:w-2/3 
+                    ${isDarkState ? 'bg-forest' : 'bg-sand'}
+                  `} />
+                </div>
+              </button>
+            </div>
+
           </div>
-
-          {/* RIGHT: Utilities */}
-          <div className="flex items-center gap-6 justify-end">
-            
-            {/* Language */}
-            <button 
-              className={`hidden md:flex items-center gap-2 group transition-colors duration-300 ${iconColorClass}`}
-              aria-label="Language Selector"
-            >
-              <Globe size={20} strokeWidth={1.5} />
-              <span className={`text-[10px] uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity duration-300 -ml-2 group-hover:ml-0`}>
-                EN
-              </span>
-            </button>
-
-            {/* Hamburger Menu */}
-            <button 
-              onClick={() => setIsMenuOpen(true)}
-              className="flex items-center gap-3 group cursor-pointer"
-              aria-label="Open Menu"
-            >
-               <span className={`hidden md:block font-sans text-xs uppercase tracking-[0.2em] font-medium transition-colors duration-300
-                  ${textColor}
-               `}>
-                 Menu
-               </span>
-               <div className="w-8 flex flex-col items-end gap-[5px]">
-                 <span className={`block w-full h-[1.5px] transition-all duration-300 group-hover:w-2/3 
-                   ${isDarkState ? 'bg-forest' : 'bg-sand'}
-                 `} />
-                 <span className={`block w-2/3 h-[1.5px] transition-all duration-300 group-hover:w-full 
-                   ${isDarkState ? 'bg-forest' : 'bg-sand'}
-                 `} />
-                 <span className={`block w-full h-[1.5px] transition-all duration-300 group-hover:w-2/3 
-                   ${isDarkState ? 'bg-forest' : 'bg-sand'}
-                 `} />
-               </div>
-            </button>
-          </div>
-
         </div>
       </nav>
 
       {/* Full Screen Menu Overlay */}
-      <FullScreenMenu 
+      {/* <FullScreenMenu 
         isOpen={isMenuOpen} 
         onClose={() => setIsMenuOpen(false)} 
         onNavigate={onNavigate}
-      />
+      /> */}
     </>
   );
 };
