@@ -81,7 +81,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate, currentView }) => {
               - Use CSS filter to turn the logo white when on top of Hero image.
             */}
             <img 
-              src="/logosib.png" 
+              src="/ChatGPT_Image_6_Jul_2025_21.17.01-1-removebg-preview (1).png" 
               alt="StayinUBUD" 
               className={`h-auto w-auto transition-all duration-500 object-contain
                 ${useDarkTheme ? 'h-10 md:h-12' : 'h-14 md:h-16 brightness-0 invert'} 
