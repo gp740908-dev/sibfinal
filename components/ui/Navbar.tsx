@@ -109,7 +109,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate, currentView }) => {
             */}
             <div className="flex items-center gap-4 transition-all duration-500">
               <img 
-                src="/ChatGPT_Image_6_Jul_2025_21.17.01-1-removebg-preview (1).png" 
+                src="/file.svg" 
                 alt="StayinUBUD Icon" 
                 className={`h-auto w-auto transition-all duration-500 object-contain
                   ${isDarkState ? 'h-12 md:h-14' : 'h-24 md:h-28 brightness-0 invert'} 
