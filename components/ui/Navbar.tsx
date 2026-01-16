@@ -121,19 +121,21 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate, currentView }) => {
               onClick={() => onNavigate('home')}
               className="flex items-center justify-center cursor-pointer group"
             >
-              <div className={`flex items-center transition-all duration-700 ease-in-out
+              <div className={`flex items-center justify-center transition-all duration-700 ease-in-out
                 ${isScrolled ? 'flex-row' : 'flex-col'}
               `}>
                 
                 {/* Icon Image */}
-                <div className="flex-shrink-0 transition-all duration-700 ease-in-out">
+                <div className={`flex-shrink-0 transition-all duration-700 ease-in-out flex items-center justify-center
+                  ${!isScrolled ? '-my-4 md:-my-6' : ''}
+                `}>
                   <img 
                     src="/rumah.png" 
                     alt="StayinUBUD Icon" 
                     className={`w-auto object-contain transition-all duration-700 ease-in-out
                       ${isDarkState 
-                        ? 'h-40 md:h-48' 
-                        : 'h-40 md:h-48 brightness-0 invert'
+                        ? 'h-16 md:h-20' 
+                        : 'h-28 md:h-36 brightness-0 invert'
                       } 
                     `}
                   />
@@ -141,17 +143,17 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate, currentView }) => {
                 
                 {/* Collapsible Text Container */}
                 <div 
-                  className={`flex flex-col justify-center overflow-hidden transition-all duration-700 ease-in-out
+                  className={`flex flex-col items-center justify-center overflow-hidden transition-all duration-700 ease-in-out
                     ${isScrolled 
-                      ? 'max-w-0 opacity-0 ml-0' 
-                      : 'max-w-[250px] opacity-100 mt-3 text-center'
+                      ? 'max-w-0 opacity-0 ml-0 mt-0' 
+                      : 'max-w-[250px] opacity-100 mt-2 md:mt-3'
                     }
                   `}
                 >
                   <span className={`font-serif text-2xl md:text-3xl leading-none tracking-tight whitespace-nowrap ${textColor} transition-colors duration-700`}>
                     Stayin<span className="italic font-light">UBUD</span>
                   </span>
-                  <span className={`font-sans text-[0.55rem] md:text-[0.65rem] uppercase tracking-[0.25em] leading-none mt-5 md:mt-6 whitespace-nowrap ${textColor} opacity-80 transition-colors duration-700`}>
+                  <span className={`font-sans text-[0.55rem] md:text-[0.65rem] uppercase tracking-[0.25em] leading-none mt-1 md:mt-1.5 whitespace-nowrap ${textColor} opacity-80 transition-colors duration-700`}>
                     Villa Bali Culture
                   </span>
                 </div>
@@ -200,11 +202,33 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate, currentView }) => {
       </nav>
 
       {/* Full Screen Menu Overlay */}
-      {/* <FullScreenMenu 
-        isOpen={isMenuOpen} 
-        onClose={() => setIsMenuOpen(false)} 
-        onNavigate={onNavigate}
-      /> */}
+      {isMenuOpen && (
+        <div className="fixed inset-0 bg-black/95 z-[100] flex items-center justify-center">
+          <button 
+            onClick={() => setIsMenuOpen(false)}
+            className="absolute top-8 right-8 text-sand hover:text-white transition-colors"
+          >
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+              <path d="M18 6L6 18M6 6l12 12" />
+            </svg>
+          </button>
+          
+          <nav className="flex flex-col items-center gap-8">
+            {['home', 'villas', 'journal', 'about', 'experiences', 'faq'].map((item) => (
+              <button
+                key={item}
+                onClick={() => {
+                  onNavigate(item as any);
+                  setIsMenuOpen(false);
+                }}
+                className="text-sand hover:text-white text-3xl md:text-5xl font-serif capitalize transition-colors"
+              >
+                {item}
+              </button>
+            ))}
+          </nav>
+        </div>
+      )}
     </>
   );
 };
