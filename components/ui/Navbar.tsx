@@ -1,4 +1,3 @@
-
 import React, { useRef, useState, useEffect } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -41,10 +40,12 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate, currentView }) => {
       start: "top top",
       end: "max",
       onUpdate: (self) => {
-        if (self.direction === 1 && self.progress > 0.05) {
-            showAnim.reverse();
-        } else {
-            showAnim.play();
+        if (self.direction === -1) {
+          // Scroll up - show navbar
+          showAnim.play();
+        } else if (self.direction === 1 && self.progress > 0.05) {
+          // Scroll down - hide navbar
+          showAnim.reverse();
         }
       }
     });
@@ -102,7 +103,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate, currentView }) => {
           {/* CENTER: Brand / Logo Stack */}
           <div 
             onClick={() => onNavigate('home')}
-            className="flex flex-col items-center justify-center cursor-pointer group"
+            className="flex flex-col items-center justify-start cursor-pointer group -my-2"
           >
             {/* Icon Image */}
             <img 
@@ -110,8 +111,8 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate, currentView }) => {
               alt="StayinUBUD Icon" 
               className={`w-auto object-contain transition-all duration-700 ease-in-out
                 ${isDarkState 
-                  ? 'h-16' // Scrolled Size (Larger icon)
-                  : 'h-16 brightness-0 invert' // Top Size (Same size & White)
+                  ? 'h-16' // Scrolled Size
+                  : 'h-20' // Top Size (Larger)
                 } 
               `}
             />
@@ -121,7 +122,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate, currentView }) => {
               className={`flex flex-col items-center justify-center overflow-hidden transition-all duration-700 ease-in-out
                 ${isScrolled 
                   ? 'max-h-0 opacity-0 mt-0' // Hidden state
-                  : 'max-h-[60px] opacity-100 mt-0' // Visible state with closer spacing
+                  : 'max-h-[60px] opacity-100 mt-1' // Visible state - closer spacing
                 }
               `}
             >
