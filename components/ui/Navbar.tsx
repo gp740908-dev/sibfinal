@@ -133,7 +133,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate, currentView }) => {
                 
                 {/* Icon Image */}
                 <div className={`flex-shrink-0 transition-all duration-700 ease-in-out flex items-center justify-center
-                  ${!isScrolled ? '-my-4 md:-my-6' : ''}
+                  ${!isScrolled ? '-my-8 md:-my-12' : ''}
                 `}>
                   <img 
                     src="/rumah.png" 
@@ -141,7 +141,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate, currentView }) => {
                     className={`w-auto object-contain transition-all duration-700 ease-in-out
                       ${isDarkState 
                         ? 'h-16 md:h-20' 
-                        : 'h-28 md:h-36 brightness-0 invert'
+                        : 'h-40 md:h-52 brightness-0 invert'
                       } 
                     `}
                   />
