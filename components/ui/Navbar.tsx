@@ -3,6 +3,8 @@ import React, { useRef, useState, useEffect } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
+import { Globe } from 'lucide-react';
+import { FaInstagram, FaWhatsapp } from 'react-icons/fa6';
 import { FullScreenMenu } from '../layout/FullScreenMenu';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -17,7 +19,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate, currentView }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
-  // Handle Scroll State for styling changes (Transparent -> Solid)
+  // Handle Scroll State
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
@@ -27,7 +29,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate, currentView }) => {
   }, []);
 
   useGSAP(() => {
-    // Navbar scroll visibility animation (Hide on scroll down, Show on scroll up)
+    // Navbar hide/show on scroll direction
     const showAnim = gsap.from(navRef.current, { 
       yPercent: -100,
       paused: true,
@@ -48,84 +50,125 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate, currentView }) => {
     });
   });
 
-  // Pages with light backgrounds need dark text/logo immediately
-  // Note: 'villa-detail' is usually passed as 'about' or handled via isInnerPage logic if passed directly
+  // Determine Theme
   const isInnerPage = ['villas', 'journal', 'about', 'experiences', 'faq', 'thank-you', 'privacy', 'terms', 'villa-detail'].includes(currentView);
-  
-  // Logic: 
-  // If Scrolled OR Inner Page -> Dark Text / Original Logo / Solid Background
-  // If Top of Home Page -> White Text / White Logo / Transparent Background
-  const useDarkTheme = isScrolled || isInnerPage;
+  // Scrolled OR Inner Page -> Dark Text (Forest/Olive) / White Background
+  // Top of Home -> Light Text (White/Sand) / Transparent Background
+  const isDarkState = isScrolled || isInnerPage;
+
+  // Colors
+  const textColor = isDarkState ? 'text-forest' : 'text-sand';
+  const borderColor = isDarkState ? 'border-forest/10' : 'border-sand/10';
+  const iconColorClass = isDarkState ? 'text-forest' : 'text-sand';
 
   return (
     <>
       <nav 
         ref={navRef}
-        className={`fixed top-0 left-0 right-0 z-[50] px-6 md:px-12 flex justify-between items-center transition-all duration-500 
-          ${useDarkTheme
-            ? 'bg-sand/95 backdrop-blur-md shadow-sm py-4 border-b border-forest/5' 
-            : 'bg-transparent py-6'
+        className={`fixed top-0 left-0 right-0 z-[50] transition-all duration-500 ease-in-out border-b
+          ${isDarkState 
+            ? 'bg-white/95 backdrop-blur-md shadow-sm py-3' 
+            : 'bg-transparent py-6 border-transparent'
           }
+          ${borderColor}
         `}
       >
-        {/* Logo Section */}
-        <div 
-          onClick={() => onNavigate('home')}
-          className="cursor-pointer relative z-50 flex items-center gap-3 group"
-        >
-           <div className="flex flex-col justify-center">
-            {/* 
-              LOGO IMPLEMENTATION:
-              - Updated to use /logosib.png
-              - Transition height for smooth scroll effect.
-              - Use CSS filter to turn the logo white when on top of Hero image.
-            */}
-            <img 
-              src="/ChatGPT_Image_6_Jul_2025_21.17.01-1-removebg-preview (1).png" 
-              alt="StayinUBUD" 
-              className={`h-auto w-auto transition-all duration-500 object-contain
-                ${useDarkTheme ? 'h-10 md:h-12' : 'h-14 md:h-16 brightness-0 invert'} 
-              `}
-            />
+        <div className="px-6 md:px-12 grid grid-cols-3 items-center">
+          
+          {/* LEFT: Social Icons */}
+          <div className="flex items-center gap-4 md:gap-6 justify-start">
+            <a 
+              href="https://instagram.com" 
+              target="_blank" 
+              rel="noreferrer"
+              className={`transition-colors duration-300 hover:opacity-70 ${iconColorClass}`}
+              aria-label="Instagram"
+            >
+              <FaInstagram size={20} />
+            </a>
+            <a 
+              href="https://wa.me/6281234567890" 
+              target="_blank" 
+              rel="noreferrer"
+              className={`transition-colors duration-300 hover:opacity-70 ${iconColorClass}`}
+              aria-label="WhatsApp"
+            >
+              <FaWhatsapp size={20} />
+            </a>
           </div>
-        </div>
 
-        {/* Right Side: Menu Trigger & CTA */}
-        <div className="flex items-center gap-8">
-           
-           {/* CTA Button (Desktop only) */}
-           <button 
-              onClick={() => onNavigate('villas')}
-              className={`hidden md:block border px-6 py-2 rounded-full text-xs uppercase tracking-widest transition-all duration-300
-                ${useDarkTheme
-                  ? 'border-forest text-forest hover:bg-forest hover:text-sand' 
-                  : 'border-sand text-sand hover:bg-sand hover:text-forest'
-                }`}
-           >
-              Our Villas
-           </button>
-
-           {/* Menu Trigger Button */}
-           <button 
-             onClick={() => setIsMenuOpen(true)}
-             className="group flex items-center gap-3 cursor-pointer"
-             aria-label="Open Menu"
-           >
-              <span className={`hidden md:block font-sans text-xs uppercase tracking-[0.2em] font-medium transition-colors duration-300
-                 ${useDarkTheme ? 'text-forest' : 'text-sand'}
-              `}>
-                Menu
-              </span>
-              <div className="w-8 flex flex-col items-end gap-[6px]">
-                {/* Hamburger Lines */}
-                <span className={`block w-full h-[1.5px] group-hover:bg-accent transition-all duration-300 group-hover:w-2/3 
-                  ${useDarkTheme ? 'bg-forest' : 'bg-sand'}
-                `} />
-                <span className={`block w-2/3 h-[1.5px] group-hover:bg-accent transition-all duration-300 group-hover:w-full 
-                  ${useDarkTheme ? 'bg-forest' : 'bg-sand'}
-                `} />
+          {/* CENTER: Brand / Logo */}
+          <div 
+            onClick={() => onNavigate('home')}
+            className="flex flex-col items-center justify-center cursor-pointer group"
+          >
+            <div className="flex items-center gap-3">
+              {/* Icon Image */}
+              <div className="relative">
+                 <img 
+                   src="/ChatGPT_Image_6_Jul_2025_21.17.01-1-removebg-preview (1).png" 
+                   alt="Logo Icon" 
+                   className={`w-auto transition-all duration-500 object-contain
+                     ${isDarkState ? 'h-8 md:h-10' : 'h-10 md:h-12 brightness-0 invert'} 
+                   `}
+                 />
               </div>
-           </button>
+
+              {/* Text Lockup (Collapses on Scroll) */}
+              <div 
+                className={`flex flex-col justify-center overflow-hidden transition-all duration-500 ease-in-out
+                  ${isScrolled ? 'w-0 opacity-0' : 'w-auto opacity-100'}
+                `}
+              >
+                <span className={`font-serif text-xl md:text-2xl leading-none tracking-tight whitespace-nowrap ${textColor}`}>
+                  Stayin<span className="italic font-light">UBUD</span>
+                </span>
+                <span className={`font-sans text-[0.5rem] md:text-[0.6rem] uppercase tracking-[0.25em] leading-none mt-1 whitespace-nowrap ${textColor} opacity-80`}>
+                  Villa Bali Culture
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* RIGHT: Utilities (Globe + Menu) */}
+          <div className="flex items-center gap-6 justify-end">
+            
+            {/* Language / Globe */}
+            <button 
+              className={`hidden md:flex items-center gap-2 group transition-colors duration-300 ${iconColorClass}`}
+              aria-label="Language Selector"
+            >
+              <Globe size={20} strokeWidth={1.5} />
+              <span className={`text-[10px] uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity duration-300 -ml-2 group-hover:ml-0`}>
+                EN
+              </span>
+            </button>
+
+            {/* Hamburger Menu */}
+            <button 
+              onClick={() => setIsMenuOpen(true)}
+              className="flex items-center gap-3 group cursor-pointer"
+              aria-label="Open Menu"
+            >
+               <span className={`hidden md:block font-sans text-xs uppercase tracking-[0.2em] font-medium transition-colors duration-300
+                  ${textColor}
+               `}>
+                 Menu
+               </span>
+               <div className="w-8 flex flex-col items-end gap-[5px]">
+                 <span className={`block w-full h-[1.5px] transition-all duration-300 group-hover:w-2/3 
+                   ${isDarkState ? 'bg-forest' : 'bg-sand'}
+                 `} />
+                 <span className={`block w-2/3 h-[1.5px] transition-all duration-300 group-hover:w-full 
+                   ${isDarkState ? 'bg-forest' : 'bg-sand'}
+                 `} />
+                 <span className={`block w-full h-[1.5px] transition-all duration-300 group-hover:w-2/3 
+                   ${isDarkState ? 'bg-forest' : 'bg-sand'}
+                 `} />
+               </div>
+            </button>
+          </div>
+
         </div>
       </nav>
 
