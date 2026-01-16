@@ -1,3 +1,4 @@
+
 import React, { useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -37,36 +38,42 @@ export const SignatureDetails: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState(0);
 
   useGSAP(() => {
-    // 1. PINNING LOGIC
-    // We pin the Left Column for the duration of the Right Column's scroll height
-    ScrollTrigger.create({
-      trigger: containerRef.current,
-      start: "top top",
-      end: "bottom bottom",
-      pin: leftColRef.current,
-      scrub: true,
-    });
-
-    // 2. STATE CHANGE LOGIC
-    // As each image section enters the center of the viewport, update the active index
-    const imageSections = gsap.utils.toArray('.moment-image-section');
+    // Only enable sticky animation on desktop (md and up)
+    const mm = gsap.matchMedia();
     
-    imageSections.forEach((section: any, i) => {
+    mm.add("(min-width: 768px)", () => {
+      // 1. PINNING LOGIC
+      // We pin the Left Column for the duration of the Right Column's scroll height
       ScrollTrigger.create({
-        trigger: section,
-        start: "top center",
-        end: "bottom center",
-        onEnter: () => setActiveIndex(i),
-        onEnterBack: () => setActiveIndex(i),
+        trigger: containerRef.current,
+        start: "top top",
+        end: "bottom bottom",
+        pin: leftColRef.current,
+        scrub: true,
+      });
+
+      // 2. STATE CHANGE LOGIC
+      // As each image section enters the center of the viewport, update the active index
+      const imageSections = gsap.utils.toArray('.moment-image-section');
+      
+      imageSections.forEach((section: any, i) => {
+        ScrollTrigger.create({
+          trigger: section,
+          start: "top center",
+          end: "bottom center",
+          onEnter: () => setActiveIndex(i),
+          onEnterBack: () => setActiveIndex(i),
+        });
       });
     });
 
   }, { scope: containerRef });
 
-  // Text Transition Effect
+  // Text Transition Effect (Desktop)
   const textRef = useRef<HTMLDivElement>(null);
   useGSAP(() => {
-    if (textRef.current) {
+    // Only run this animation on desktop to save resources on mobile where this part is hidden
+    if (textRef.current && window.innerWidth >= 768) {
       gsap.fromTo(textRef.current,
         { opacity: 0, y: 20, filter: "blur(5px)" },
         { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.6, ease: "power2.out" }
@@ -77,34 +84,36 @@ export const SignatureDetails: React.FC = () => {
   return (
     <section ref={containerRef} className="relative flex flex-col md:flex-row w-full bg-forest">
       
-      {/* LEFT COLUMN (Sticky) */}
+      {/* LEFT COLUMN (Sticky - Desktop Only) */}
       <div 
         ref={leftColRef} 
-        className="hidden md:flex w-1/2 h-screen flex-col justify-center px-16 lg:px-24 text-sand z-10"
+        className="hidden md:flex w-1/2 h-screen flex-col justify-center px-8 lg:px-24 text-sand z-10"
       >
-        <span className="font-sans text-xs uppercase tracking-[0.3em] opacity-60 mb-8 border-l border-sand/30 pl-4 h-12 flex items-center">
-          Curated Moments
-        </span>
-        
-        {/* Dynamic Text Content */}
-        <div ref={textRef} className="flex flex-col gap-6">
-          <div className="w-12 h-12 rounded-full border border-sand/30 flex items-center justify-center mb-2">
-             {MOMENTS[activeIndex].icon}
-          </div>
-          
-          <div className="flex items-baseline gap-4 opacity-50 font-serif text-lg">
-            <span>0{activeIndex + 1}</span>
-            <span className="h-px w-12 bg-sand"></span>
-            <span>0{MOMENTS.length}</span>
-          </div>
+        <div className="max-w-xl">
+            <span className="font-sans text-xs uppercase tracking-[0.3em] opacity-60 mb-8 border-l border-sand/30 pl-4 h-12 flex items-center">
+            Curated Moments
+            </span>
+            
+            {/* Dynamic Text Content */}
+            <div ref={textRef} className="flex flex-col gap-6">
+            <div className="w-12 h-12 rounded-full border border-sand/30 flex items-center justify-center mb-2">
+                {MOMENTS[activeIndex].icon}
+            </div>
+            
+            <div className="flex items-baseline gap-4 opacity-50 font-serif text-lg">
+                <span>0{activeIndex + 1}</span>
+                <span className="h-px w-12 bg-sand"></span>
+                <span>0{MOMENTS.length}</span>
+            </div>
 
-          <h2 className="text-5xl lg:text-7xl font-serif leading-none">
-            {MOMENTS[activeIndex].title}
-          </h2>
-          
-          <p className="font-sans text-lg opacity-80 leading-relaxed max-w-md">
-            {MOMENTS[activeIndex].description}
-          </p>
+            <h2 className="text-4xl lg:text-6xl xl:text-7xl font-serif leading-none">
+                {MOMENTS[activeIndex].title}
+            </h2>
+            
+            <p className="font-sans text-base lg:text-lg opacity-80 leading-relaxed max-w-md">
+                {MOMENTS[activeIndex].description}
+            </p>
+            </div>
         </div>
       </div>
 
@@ -113,7 +122,7 @@ export const SignatureDetails: React.FC = () => {
         {MOMENTS.map((moment, idx) => (
           <div 
             key={moment.id} 
-            className="moment-image-section h-screen w-full relative overflow-hidden border-b md:border-b-0 md:border-l border-sand/10"
+            className="moment-image-section h-[80vh] md:h-screen w-full relative overflow-hidden border-b border-sand/10 md:border-b-0 md:border-l"
           >
             <img 
               src={moment.image} 
@@ -122,10 +131,17 @@ export const SignatureDetails: React.FC = () => {
             />
             
             {/* Mobile Overlay (Since Sticky Layout is hidden on Mobile) */}
-            <div className="md:hidden absolute inset-0 bg-forest/60 flex flex-col justify-end p-8 text-sand">
-               <div className="mb-4 text-accent">{moment.icon}</div>
-               <h3 className="text-3xl font-serif mb-2">{moment.title}</h3>
-               <p className="font-sans text-sm opacity-90">{moment.description}</p>
+            <div className="md:hidden absolute inset-0 bg-gradient-to-t from-forest/95 via-forest/50 to-transparent flex flex-col justify-end p-8 text-sand">
+               <div className="max-w-md mx-auto w-full">
+                    <div className="mb-4 text-accent">{moment.icon}</div>
+                    <div className="flex items-center gap-3 mb-2 opacity-60 text-xs font-sans uppercase tracking-widest">
+                        <span>0{idx + 1}</span>
+                        <span className="w-8 h-px bg-sand"></span>
+                        <span>Curated Moment</span>
+                    </div>
+                    <h3 className="text-3xl font-serif mb-4 leading-none">{moment.title}</h3>
+                    <p className="font-sans text-sm opacity-80 leading-relaxed">{moment.description}</p>
+               </div>
             </div>
             
             {/* Overlay Gradient for Desktop visual separation */}
