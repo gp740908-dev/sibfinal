@@ -76,12 +76,12 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate, currentView }) => {
            <div className="flex flex-col justify-center">
             {/* 
               LOGO IMPLEMENTATION:
-              - Updated to use /siblogosvg.svg as it is present in the file list.
+              - Updated to use /logosib.png
               - Transition height for smooth scroll effect.
               - Use CSS filter to turn the logo white when on top of Hero image.
             */}
             <img 
-              src="/siblogosvg.svg" 
+              src="public/logosib.png" 
               alt="StayinUBUD" 
               className={`h-auto w-auto transition-all duration-500 object-contain
                 ${useDarkTheme ? 'h-10 md:h-12' : 'h-14 md:h-16 brightness-0 invert'} 
