@@ -2,7 +2,9 @@
 import React from 'react';
 import { Playfair_Display, Manrope } from 'next/font/google';
 import { Metadata, Viewport } from 'next';
-import './globals.css'; // Assuming global CSS location
+import './globals.css';
+import 'leaflet/dist/leaflet.css';
+import 'react-day-picker/dist/style.css';
 import { JsonLd } from '@/components/seo/JsonLd';
 
 // 1. Font Optimization (Zero Layout Shift)
