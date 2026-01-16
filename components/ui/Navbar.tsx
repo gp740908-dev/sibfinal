@@ -38,10 +38,13 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate, currentView }) => {
       start: "top top",
       end: "max",
       onUpdate: (self) => {
-        if (self.direction === 1 && self.progress > 0.05) {
-            showAnim.reverse();
-        } else {
-            showAnim.play();
+        // self.direction: -1 = scrolling up, 1 = scrolling down
+        if (self.direction === -1) {
+          // Scrolling up - show navbar
+          showAnim.play();
+        } else if (self.direction === 1 && self.progress > 0.05) {
+          // Scrolling down - hide navbar
+          showAnim.reverse();
         }
       }
     });
@@ -121,16 +124,14 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate, currentView }) => {
               <div className="flex items-center relative">
                 
                 {/* Icon Image */}
-                <div className={`flex-shrink-0 transition-all duration-700 ease-in-out
-                  ${isDarkState ? 'scale-75' : 'scale-100'}
-                `}>
+                <div className="flex-shrink-0 transition-all duration-700 ease-in-out">
                   <img 
                     src="/ChatGPT_Image_6_Jul_2025_21.17.01-1-removebg-preview (1).png" 
                     alt="StayinUBUD Icon" 
                     className={`w-auto object-contain transition-all duration-700 ease-in-out
                       ${isDarkState 
-                        ? 'h-10' 
-                        : 'h-16 brightness-0 invert'
+                        ? 'h-14 md:h-16' 
+                        : 'h-16 md:h-20 brightness-0 invert'
                       } 
                     `}
                   />
