@@ -28,13 +28,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate, currentView }) => {
   }, []);
 
   useGSAP(() => {
-    // Navbar hide/show on scroll direction (Smart Hide)
-    const showAnim = gsap.from(navRef.current, { 
-      yPercent: -100,
-      paused: true,
-      duration: 0.5,
-      ease: "power3.out"
-    }).progress(1);
+    if (!navRef.current) return;
 
     ScrollTrigger.create({
       start: "top top",
@@ -42,10 +36,18 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate, currentView }) => {
       onUpdate: (self) => {
         if (self.direction === -1) {
           // Scroll up - show navbar
-          showAnim.play();
+          gsap.to(navRef.current, {
+            yPercent: 0,
+            duration: 0.5,
+            ease: "power3.out"
+          });
         } else if (self.direction === 1 && self.progress > 0.05) {
           // Scroll down - hide navbar
-          showAnim.reverse();
+          gsap.to(navRef.current, {
+            yPercent: -100,
+            duration: 0.5,
+            ease: "power3.in"
+          });
         }
       }
     });
@@ -57,7 +59,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate, currentView }) => {
   // Logic: 
   // - Scrolled OR Inner Page = Dark Mode (White BG, Dark Text)
   // - Top of Home = Light Mode (Transparent BG, Light Text)
-  const isDarkState = true;
+  const isDarkState = isScrolled || isInnerPage;
 
   // Colors & Classes
   const textColor = isDarkState ? 'text-forest' : 'text-sand';
