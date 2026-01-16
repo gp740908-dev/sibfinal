@@ -17,61 +17,60 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate, currentView }) => {
   const navRef = useRef<HTMLElement>(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  const lastScrollY = useRef(0);
 
-  // Handle Scroll State
+  // Handle Scroll State and Visibility
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      const currentScrollY = window.scrollY;
+      
+      setIsScrolled(currentScrollY > 50);
+      
+      // Show/Hide Logic
+      if (currentScrollY < 10) {
+        // Always show at top
+        setIsVisible(true);
+      } else if (currentScrollY < lastScrollY.current) {
+        // Scrolling up - show navbar
+        setIsVisible(true);
+      } else if (currentScrollY > lastScrollY.current && currentScrollY > 100) {
+        // Scrolling down - hide navbar
+        setIsVisible(false);
+      }
+      
+      lastScrollY.current = currentScrollY;
     };
+    
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   useGSAP(() => {
-    if (!navRef.current) return;
-
-    ScrollTrigger.create({
-      start: "top top",
-      end: "max",
-      onUpdate: (self) => {
-        if (self.direction === -1) {
-          // Scroll up - show navbar
-          gsap.to(navRef.current, {
-            yPercent: 0,
-            duration: 0.5,
-            ease: "power3.out"
-          });
-        } else if (self.direction === 1 && self.progress > 0.05) {
-          // Scroll down - hide navbar
-          gsap.to(navRef.current, {
-            yPercent: -100,
-            duration: 0.5,
-            ease: "power3.in"
-          });
-        }
-      }
-    });
+    // Cleanup function only
+    return () => {
+      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+    };
   }, { scope: navRef });
 
   // Determine Theme
   const isInnerPage = ['villas', 'journal', 'about', 'experiences', 'faq', 'thank-you', 'privacy', 'terms', 'villa-detail'].includes(currentView);
   
-  // Logic: 
-  // - Scrolled OR Inner Page = Dark Mode (White BG, Dark Text)
-  // - Top of Home = Light Mode (Transparent BG, Light Text)
-  const isDarkState = isScrolled || isInnerPage;
+  // Logic: Always use Dark Mode (Forest color for all elements)
+  const isDarkState = true;
 
-  // Colors & Classes
-  const textColor = isDarkState ? 'text-forest' : 'text-sand';
-  const borderColor = isDarkState ? 'border-forest/10' : 'border-sand/10';
-  const iconColorClass = isDarkState ? 'text-forest' : 'text-sand';
+  // Colors & Classes - Always Forest/Dark
+  const textColor = 'text-forest';
+  const borderColor = isScrolled || isInnerPage ? 'border-forest/10' : 'border-forest/10';
+  const iconColorClass = 'text-forest';
 
   return (
     <>
       <nav 
         ref={navRef}
-        className={`fixed top-0 left-0 right-0 z-[50] transition-all duration-700 ease-in-out border-b
-          ${isDarkState 
+        className={`fixed top-0 left-0 right-0 z-[50] border-b transition-all duration-500 ease-in-out
+          ${isVisible ? 'translate-y-0' : '-translate-y-full'}
+          ${isScrolled || isInnerPage
             ? 'bg-white/95 backdrop-blur-md shadow-sm py-3' 
             : 'bg-transparent py-6 border-transparent'
           }
