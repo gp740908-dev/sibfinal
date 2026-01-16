@@ -1,0 +1,86 @@
+-- 1. Create Journal Posts Table
+create table public.journal_posts (
+  id uuid not null default gen_random_uuid (),
+  title text not null,
+  excerpt text not null,
+  content text null, -- Column for full article content
+  category text not null,
+  image_url text not null,
+  published_at text not null, -- Keeping as text to match current format (e.g. "March 10, 2024")
+  slug text not null unique,
+  author text not null,
+  created_at timestamp with time zone not null default now(),
+  constraint journal_posts_pkey primary key (id)
+);
+
+-- 2. Enable Row Level Security (RLS)
+alter table public.journal_posts enable row level security;
+
+-- 3. Create Policy (Allow everyone to read)
+create policy "Enable read access for all users" on public.journal_posts
+  for select using (true);
+
+-- 4. Insert Seed Data (Matches the Mock Data in your Journal component)
+insert into public.journal_posts 
+  (title, excerpt, category, image_url, published_at, slug, author, content)
+values
+  (
+    'The Art of Silence: Nyepi Day Explained',
+    'Why the entire island of Bali shuts down for 24 hours, and how this ancient tradition restores the balance of nature and spirit.',
+    'Culture',
+    'https://images.unsplash.com/photo-1555400038-63f5ba517a91?auto=format&fit=crop&q=80&w=1000',
+    'March 10, 2024',
+    'art-of-silence-nyepi',
+    'Wayan Sudra',
+    'Nyepi is a day of silence, fasting, and meditation for the Balinese. The island comes to a halt...'
+  ),
+  (
+    'Hidden Waterfalls of Northern Ubud',
+    'Venture beyond Tegenungan. We explore three secret cascades accessible only by footpaths known to locals.',
+    'Travel',
+    'https://images.unsplash.com/photo-1596395818822-7f94d35eb7a4?auto=format&fit=crop&q=80&w=800',
+    'February 28, 2024',
+    'hidden-waterfalls',
+    'Sarah Jenkins',
+    'Discovering the hidden gems of Bali requires patience and a sense of adventure...'
+  ),
+  (
+    'Farm to Table: The Organic Revolution',
+    'Meet the chefs transforming Ubud’s culinary scene by returning to the roots of traditional Balinese permaculture.',
+    'Food',
+    'https://images.unsplash.com/photo-1596919014169-2f588a800880?auto=format&fit=crop&q=80&w=800',
+    'February 15, 2024',
+    'organic-revolution',
+    'Chef Made',
+    'Organic farming in Bali is more than a trend; it is a return to our roots...'
+  ),
+  (
+    'Architectural Harmony: Building with Bamboo',
+    'How sustainable architecture is redefining luxury living without compromising the surrounding jungle ecosystem.',
+    'Design',
+    'https://images.unsplash.com/photo-1533038676602-5e6f53a47942?auto=format&fit=crop&q=80&w=800',
+    'January 20, 2024',
+    'building-with-bamboo',
+    'Elena Rossi',
+    'Bamboo is the steel of the future. Its flexibility and strength allow us to create...'
+  ),
+  (
+    'Morning Rituals: A Guide to Balinese Offerings',
+    'The "Canang Sari" is more than just flowers on the street. It is a daily gesture of gratitude found everywhere in Bali.',
+    'Culture',
+    'https://images.unsplash.com/photo-1516212176463-e5927515d90e?auto=format&fit=crop&q=80&w=800',
+    'January 05, 2024',
+    'balinese-offerings',
+    'Wayan Sudra',
+    'Every morning, the women of Bali prepare these small baskets of coconut leaves...'
+  ),
+  (
+    'Sound Healing: Vibrations of the Soul',
+    'Exploring the Pyramids of Chi and the rising trend of sound therapy in the wellness capital of Asia.',
+    'Wellness',
+    'https://images.unsplash.com/photo-1603102371900-514757c2c96b?auto=format&fit=crop&q=80&w=800',
+    'December 12, 2023',
+    'sound-healing',
+    'Dr. Anika Sharma',
+    'Sound has been used for healing for thousands of years. In Ubud, this practice has found a modern home...'
+  );

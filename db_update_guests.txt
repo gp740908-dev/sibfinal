@@ -1,0 +1,7 @@
+
+-- Run this in your Supabase SQL Editor to update the bookings table
+
+ALTER TABLE public.bookings 
+ADD COLUMN IF NOT EXISTS guest_email text,
+ADD COLUMN IF NOT EXISTS guest_whatsapp text,
+ADD COLUMN IF NOT EXISTS special_request text;

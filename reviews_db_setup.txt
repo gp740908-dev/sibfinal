@@ -1,0 +1,36 @@
+-- 1. Create Reviews Table
+create table public.reviews (
+  id uuid not null default gen_random_uuid (),
+  guest_name text not null,
+  quote text not null,
+  source text null, -- e.g., 'Architecture Digest', 'Google Review'
+  rating integer default 5,
+  image_url text null, -- Guest photo or atmosphere shot
+  is_featured boolean default false, -- Only featured reviews show on homepage
+  created_at timestamp with time zone not null default now(),
+  constraint reviews_pkey primary key (id)
+);
+
+-- 2. Enable Row Level Security (RLS)
+alter table public.reviews enable row level security;
+
+-- 3. Create Policy (Allow everyone to read)
+create policy "Enable read access for all users" on public.reviews
+  for select using (true);
+
+-- 4. Insert Seed Data
+insert into public.reviews (guest_name, quote, source, image_url, is_featured) values
+  (
+    'Elena S.', 
+    'I have never slept so deeply. The sounds of the river and the privacy of the villa created a sanctuary I didn''t know I needed.', 
+    'Architecture Digest', 
+    'https://images.unsplash.com/photo-1515377905703-c4788e51af15?auto=format&fit=crop&q=80&w=1000', 
+    true
+  ),
+  (
+    'Marcus & Sarah', 
+    'The floating breakfast was the highlight of our honeymoon. Every detail was perfect.', 
+    'Google Review', 
+    'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&q=80&w=1000', 
+    false
+  );

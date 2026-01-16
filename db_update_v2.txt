@@ -1,0 +1,39 @@
+
+-- 1. Add JSONB columns to store structured details
+ALTER TABLE public.villas 
+ADD COLUMN IF NOT EXISTS amenities_detail JSONB DEFAULT '{}'::jsonb,
+ADD COLUMN IF NOT EXISTS house_rules JSONB DEFAULT '{}'::jsonb,
+ADD COLUMN IF NOT EXISTS proximity_list JSONB DEFAULT '[]'::jsonb,
+ADD COLUMN IF NOT EXISTS sleeping_arrangements JSONB DEFAULT '[]'::jsonb;
+
+-- 2. Update existing rows with rich mock data (Example for Royal Jungle Suite)
+UPDATE public.villas
+SET 
+  amenities_detail = '{
+    "Bathroom": ["Hair dryer", "Bathtub", "Premium organic shampoo", "Hot water", "Bathrobes", "Slippers"],
+    "Bedroom": ["King-size bed", "Egyptian cotton linens", "Blackout curtains", "Safe", "Wardrobe", "Iron"],
+    "Entertainment": ["50\" HDTV with Netflix", "Marshall Bluetooth Speaker", "High-speed fiber optic Wi-Fi", "Books & Reading material"],
+    "Family": ["Baby crib (upon request)", "High chair", "Board games"],
+    "Kitchen": ["Microwave", "Refrigerator", "Nespresso Machine", "Stove", "Wine glasses", "Filtered water dispenser"],
+    "Outdoor": ["Private Infinity Pool", "Sun loungers", "Private terrace", "Yoga mats"]
+  }',
+  house_rules = '{
+    "check_in": "14:00 - 22:00",
+    "check_out": "11:00",
+    "quiet_hours": "22:00 - 07:00",
+    "parties": false,
+    "smoking": false,
+    "pets": false,
+    "max_guests": 4
+  }',
+  proximity_list = '[
+    {"name": "Monkey Forest", "distance": "15 min drive"},
+    {"name": "Tegallalang Rice Terrace", "distance": "10 min drive"},
+    {"name": "Ubud Art Market", "distance": "20 min drive"},
+    {"name": "Ngurah Rai Int. Airport", "distance": "90 min drive"}
+  ]',
+  sleeping_arrangements = '[
+    {"room": "Bedroom 1", "bed": "1 King Bed", "view": "Jungle View"},
+    {"room": "Bedroom 2", "bed": "2 Twin Beds", "view": "Garden View"}
+  ]'
+WHERE name = 'Royal Jungle Suite';

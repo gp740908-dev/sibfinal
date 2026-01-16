@@ -1,0 +1,285 @@
+-- ==========================================
+-- 1. DROP TABLES (OPTIONAL - CLEAN START)
+-- Uncomment these lines ONLY if you want to reset your database completely
+-- WARNING: This will delete all existing data!
+-- DROP TABLE IF EXISTS public.bookings CASCADE;
+-- DROP TABLE IF EXISTS public.reviews CASCADE;
+-- DROP TABLE IF EXISTS public.experiences CASCADE;
+-- DROP TABLE IF EXISTS public.journal_posts CASCADE;
+-- DROP TABLE IF EXISTS public.subscribers CASCADE;
+-- DROP TABLE IF EXISTS public.inquiries CASCADE;
+-- DROP TABLE IF EXISTS public.villas CASCADE;
+-- ==========================================
+
+
+-- ==========================================
+-- 2. CREATE TABLES
+-- ==========================================
+
+-- Table: Villas
+CREATE TABLE IF NOT EXISTS public.villas (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  name text NOT NULL,
+  description text NULL,
+  price_per_night numeric NOT NULL,
+  bedrooms integer NULL,
+  guests integer NULL,
+  image_url text NULL,
+  images text[] NULL,
+  features text[] NULL,
+  land_area numeric NULL,
+  building_area numeric NULL,
+  levels integer NULL,
+  bathrooms integer NULL,
+  pantry integer NULL,
+  pool_area numeric NULL,
+  latitude numeric NULL,
+  longitude numeric NULL,
+  created_at timestamp with time zone NOT NULL DEFAULT now(),
+  CONSTRAINT villas_pkey PRIMARY KEY (id)
+);
+
+-- Table: Bookings
+CREATE TABLE IF NOT EXISTS public.bookings (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  villa_id uuid NOT NULL,
+  start_date date NOT NULL,
+  end_date date NOT NULL,
+  total_price numeric NOT NULL,
+  status text NOT NULL DEFAULT 'pending',
+  guest_name text NULL,
+  created_at timestamp with time zone NOT NULL DEFAULT now(),
+  CONSTRAINT bookings_pkey PRIMARY KEY (id),
+  CONSTRAINT bookings_villa_id_fkey FOREIGN KEY (villa_id) REFERENCES public.villas (id)
+);
+
+-- Table: Journal Posts
+CREATE TABLE IF NOT EXISTS public.journal_posts (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  title text NOT NULL,
+  excerpt text NOT NULL,
+  content text NULL,
+  category text NOT NULL,
+  image_url text NOT NULL,
+  published_at text NOT NULL,
+  slug text NOT NULL UNIQUE,
+  author text NOT NULL,
+  created_at timestamp with time zone NOT NULL DEFAULT now(),
+  CONSTRAINT journal_posts_pkey PRIMARY KEY (id)
+);
+
+-- Table: Reviews
+CREATE TABLE IF NOT EXISTS public.reviews (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  guest_name text NOT NULL,
+  quote text NOT NULL,
+  source text NULL,
+  rating integer DEFAULT 5,
+  image_url text NULL,
+  is_featured boolean DEFAULT false,
+  created_at timestamp with time zone NOT NULL DEFAULT now(),
+  CONSTRAINT reviews_pkey PRIMARY KEY (id)
+);
+
+-- Table: Experiences
+CREATE TABLE IF NOT EXISTS public.experiences (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  title text NOT NULL,
+  description text NOT NULL,
+  category text NOT NULL,
+  image_url text NOT NULL,
+  price_start_from numeric NULL,
+  cta_label text DEFAULT 'Inquire Now',
+  created_at timestamp with time zone NOT NULL DEFAULT now(),
+  CONSTRAINT experiences_pkey PRIMARY KEY (id)
+);
+
+-- Table: Subscribers
+CREATE TABLE IF NOT EXISTS public.subscribers (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  email text NOT NULL UNIQUE,
+  subscribed_at timestamp with time zone NOT NULL DEFAULT now(),
+  CONSTRAINT subscribers_pkey PRIMARY KEY (id)
+);
+
+-- Table: Inquiries
+CREATE TABLE IF NOT EXISTS public.inquiries (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  name text,
+  email text,
+  message text,
+  type text DEFAULT 'general',
+  status text DEFAULT 'new',
+  created_at timestamp with time zone NOT NULL DEFAULT now(),
+  CONSTRAINT inquiries_pkey PRIMARY KEY (id)
+);
+
+
+-- ==========================================
+-- 3. ENABLE ROW LEVEL SECURITY (RLS)
+-- ==========================================
+
+ALTER TABLE public.villas ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.bookings ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.journal_posts ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.reviews ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.experiences ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.subscribers ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.inquiries ENABLE ROW LEVEL SECURITY;
+
+
+-- ==========================================
+-- 4. CREATE POLICIES (ACCESS RULES)
+-- ==========================================
+
+-- Helper macro to safely drop and create policies
+-- Villas
+DROP POLICY IF EXISTS "Public read villas" ON public.villas;
+CREATE POLICY "Public read villas" ON public.villas FOR SELECT USING (true);
+
+-- Bookings
+DROP POLICY IF EXISTS "Public read bookings" ON public.bookings;
+CREATE POLICY "Public read bookings" ON public.bookings FOR SELECT USING (true);
+
+DROP POLICY IF EXISTS "Public create bookings" ON public.bookings;
+CREATE POLICY "Public create bookings" ON public.bookings FOR INSERT WITH CHECK (true);
+
+-- Journal
+DROP POLICY IF EXISTS "Public read journal" ON public.journal_posts;
+CREATE POLICY "Public read journal" ON public.journal_posts FOR SELECT USING (true);
+
+-- Reviews
+DROP POLICY IF EXISTS "Public read reviews" ON public.reviews;
+CREATE POLICY "Public read reviews" ON public.reviews FOR SELECT USING (true);
+
+-- Experiences
+DROP POLICY IF EXISTS "Public read experiences" ON public.experiences;
+CREATE POLICY "Public read experiences" ON public.experiences FOR SELECT USING (true);
+
+-- Subscribers
+DROP POLICY IF EXISTS "Public subscribe" ON public.subscribers;
+CREATE POLICY "Public subscribe" ON public.subscribers FOR INSERT WITH CHECK (true);
+
+-- Inquiries
+DROP POLICY IF EXISTS "Public create inquiries" ON public.inquiries;
+CREATE POLICY "Public create inquiries" ON public.inquiries FOR INSERT WITH CHECK (true);
+
+
+-- ==========================================
+-- 5. INSERT SEED DATA (Idempotent)
+-- ==========================================
+
+-- Seed: Villas
+-- We use DO NOTHING on specific conflict checks isn't easy without a unique constraint on name.
+-- Instead, we check if records exist before inserting.
+INSERT INTO public.villas (name, description, price_per_night, bedrooms, guests, image_url, images, features, land_area, building_area, levels, bathrooms, pantry, pool_area, latitude, longitude)
+SELECT 'Royal Jungle Suite', 'A sanctuary of peace nestled in the rice terraces, offering refined luxury with a touch of Balinese heritage.', 3500000, 2, 4, 'https://images.unsplash.com/photo-1544644181-1484b3fdfc62?auto=format&fit=crop&q=80&w=1200', ARRAY['https://images.unsplash.com/photo-1544644181-1484b3fdfc62?auto=format&fit=crop&q=80&w=1200', 'https://images.unsplash.com/photo-1515266591878-5a140887de73?auto=format&fit=crop&q=80&w=800'], ARRAY['Infinity Pool', 'Rice Field View', 'Private Chef'], 250, 180, 1, 2, 1, 1, -8.5069, 115.2625
+WHERE NOT EXISTS (SELECT 1 FROM public.villas WHERE name = 'Royal Jungle Suite');
+
+INSERT INTO public.villas (name, description, price_per_night, bedrooms, guests, image_url, images, features, land_area, building_area, levels, bathrooms, pantry, pool_area, latitude, longitude)
+SELECT 'Forest Canopy House', 'Suspended in the jungle canopy for ultimate privacy, featuring an open-air bath and morning yoga shala.', 5200000, 3, 6, 'https://images.unsplash.com/photo-1533759413974-9e15f3b745ac?auto=format&fit=crop&q=80&w=1200', ARRAY['https://images.unsplash.com/photo-1533759413974-9e15f3b745ac?auto=format&fit=crop&q=80&w=1200', 'https://images.unsplash.com/photo-1588693850720-e4b2d2f34842?auto=format&fit=crop&q=80&w=800'], ARRAY['Jungle View', 'Yoga Shala', 'Open Air Bath'], 400, 320, 2, 3, 1, 1, -8.4900, 115.2500
+WHERE NOT EXISTS (SELECT 1 FROM public.villas WHERE name = 'Forest Canopy House');
+
+INSERT INTO public.villas (name, description, price_per_night, bedrooms, guests, image_url, images, features, land_area, building_area, levels, bathrooms, pantry, pool_area, latitude, longitude)
+SELECT 'Estate of Zen', 'Traditional Balinese architecture meets modern luxury. Includes a private cinema and direct river access.', 8500000, 5, 10, 'https://images.unsplash.com/photo-1601369363069-425b09579de0?auto=format&fit=crop&q=80&w=1200', ARRAY['https://images.unsplash.com/photo-1601369363069-425b09579de0?auto=format&fit=crop&q=80&w=1200', 'https://images.unsplash.com/photo-1627947700021-38cb46995646?auto=format&fit=crop&q=80&w=800'], ARRAY['River Access', 'Spa Center', 'Cinema Room'], 900, 650, 2, 6, 2, 1, -8.5200, 115.2700
+WHERE NOT EXISTS (SELECT 1 FROM public.villas WHERE name = 'Estate of Zen');
+
+INSERT INTO public.villas (name, description, price_per_night, bedrooms, guests, image_url, images, features, land_area, building_area, levels, bathrooms, pantry, pool_area, latitude, longitude)
+SELECT 'Valley Horizon', 'Perched on the edge of the Ayung river valley, offering breathtaking sunset views and infinity living.', 4100000, 2, 4, 'https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&q=80&w=1200', ARRAY['https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&q=80&w=1200', 'https://images.unsplash.com/photo-1574643156929-51fa098b0394?auto=format&fit=crop&q=80&w=800'], ARRAY['Sunset View', 'Infinity Pool', 'Butler Service'], 300, 210, 1, 2, 1, 1, -8.4850, 115.2400
+WHERE NOT EXISTS (SELECT 1 FROM public.villas WHERE name = 'Valley Horizon');
+
+
+-- Seed: Reviews
+INSERT INTO public.reviews (guest_name, quote, source, image_url, is_featured) 
+SELECT 'Elena S.', 'I have never slept so deeply. The sounds of the river and the privacy of the villa created a sanctuary I didn''t know I needed.', 'Architecture Digest', 'https://images.unsplash.com/photo-1515377905703-c4788e51af15?auto=format&fit=crop&q=80&w=1000', true
+WHERE NOT EXISTS (SELECT 1 FROM public.reviews WHERE guest_name = 'Elena S.');
+
+INSERT INTO public.reviews (guest_name, quote, source, image_url, is_featured) 
+SELECT 'Marcus & Sarah', 'The floating breakfast was the highlight of our honeymoon. Every detail was perfect.', 'Google Review', 'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&q=80&w=1000', false
+WHERE NOT EXISTS (SELECT 1 FROM public.reviews WHERE guest_name = 'Marcus & Sarah');
+
+
+-- Seed: Experiences
+INSERT INTO public.experiences (title, category, description, image_url, cta_label)
+SELECT 'Private Dining', 'Culinary', 'Our culinary team brings the restaurant to your sanctuary. From floating breakfasts in your infinity pool to 7-course degustation dinners featuring locally sourced ingredients.', 'https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&q=80&w=1200', 'View Sample Menu'
+WHERE NOT EXISTS (SELECT 1 FROM public.experiences WHERE title = 'Private Dining');
+
+INSERT INTO public.experiences (title, category, description, image_url, cta_label)
+SELECT 'Holistic Healing', 'Wellness', 'Ancient Balinese healing traditions delivered to your doorstep. Experience a traditional Boreh scrub, a flower bath ritual, or sound healing.', 'https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&q=80&w=1200', 'View Spa Menu'
+WHERE NOT EXISTS (SELECT 1 FROM public.experiences WHERE title = 'Holistic Healing');
+
+INSERT INTO public.experiences (title, category, description, image_url, cta_label)
+SELECT 'Sacred Tours', 'Adventure', 'Gain exclusive access to water temples for a purification ceremony (Melukat), trek through private rice terraces at sunrise, or explore hidden waterfalls.', 'https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&q=80&w=1200', 'Explore Itineraries'
+WHERE NOT EXISTS (SELECT 1 FROM public.experiences WHERE title = 'Sacred Tours');
+
+INSERT INTO public.experiences (title, category, description, image_url, cta_label)
+SELECT 'Vintage Land Rover', 'Transport', 'Navigate the island in timeless style. Our fleet of restored vintage Land Rovers and premium SUVs are available for airport transfers and daily excursions.', 'https://images.unsplash.com/photo-1533587851505-d119e13fa0d7?auto=format&fit=crop&q=80&w=1200', 'Check Availability'
+WHERE NOT EXISTS (SELECT 1 FROM public.experiences WHERE title = 'Vintage Land Rover');
+
+
+-- Seed: Journal Posts
+-- Using ON CONFLICT because 'slug' is a unique constraint
+INSERT INTO public.journal_posts 
+  (title, excerpt, category, image_url, published_at, slug, author, content)
+VALUES
+  (
+    'The Art of Silence: Nyepi Day Explained',
+    'Why the entire island of Bali shuts down for 24 hours, and how this ancient tradition restores the balance of nature and spirit.',
+    'Culture',
+    'https://images.unsplash.com/photo-1555400038-63f5ba517a91?auto=format&fit=crop&q=80&w=1000',
+    'March 10, 2024',
+    'art-of-silence-nyepi',
+    'Wayan Sudra',
+    'Nyepi is a day of silence...'
+  ),
+  (
+    'Hidden Waterfalls of Northern Ubud',
+    'Venture beyond Tegenungan. We explore three secret cascades accessible only by footpaths known to locals.',
+    'Travel',
+    'https://images.unsplash.com/photo-1596395818822-7f94d35eb7a4?auto=format&fit=crop&q=80&w=800',
+    'February 28, 2024',
+    'hidden-waterfalls',
+    'Sarah Jenkins',
+    'Discovering the hidden gems...'
+  ),
+  (
+    'Farm to Table: The Organic Revolution',
+    'Meet the chefs transforming Ubud’s culinary scene by returning to the roots of traditional Balinese permaculture.',
+    'Food',
+    'https://images.unsplash.com/photo-1596919014169-2f588a800880?auto=format&fit=crop&q=80&w=800',
+    'February 15, 2024',
+    'organic-revolution',
+    'Chef Made',
+    'Organic farming in Bali...'
+  ),
+  (
+    'Architectural Harmony: Building with Bamboo',
+    'How sustainable architecture is redefining luxury living without compromising the surrounding jungle ecosystem.',
+    'Design',
+    'https://images.unsplash.com/photo-1533038676602-5e6f53a47942?auto=format&fit=crop&q=80&w=800',
+    'January 20, 2024',
+    'building-with-bamboo',
+    'Elena Rossi',
+    'Bamboo is the steel of the future...'
+  ),
+  (
+    'Morning Rituals: A Guide to Balinese Offerings',
+    'The "Canang Sari" is more than just flowers on the street. It is a daily gesture of gratitude found everywhere in Bali.',
+    'Culture',
+    'https://images.unsplash.com/photo-1516212176463-e5927515d90e?auto=format&fit=crop&q=80&w=800',
+    'January 05, 2024',
+    'balinese-offerings',
+    'Wayan Sudra',
+    'Every morning...'
+  ),
+  (
+    'Sound Healing: Vibrations of the Soul',
+    'Exploring the Pyramids of Chi and the rising trend of sound therapy in the wellness capital of Asia.',
+    'Wellness',
+    'https://images.unsplash.com/photo-1603102371900-514757c2c96b?auto=format&fit=crop&q=80&w=800',
+    'December 12, 2023',
+    'sound-healing',
+    'Dr. Anika Sharma',
+    'Sound has been used...'
+  )
+ON CONFLICT (slug) DO NOTHING;
