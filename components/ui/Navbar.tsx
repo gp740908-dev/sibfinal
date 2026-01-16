@@ -121,17 +121,19 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate, currentView }) => {
               onClick={() => onNavigate('home')}
               className="flex items-center justify-center cursor-pointer group"
             >
-              <div className="flex items-center relative">
+              <div className={`flex items-center transition-all duration-700 ease-in-out
+                ${isScrolled ? 'flex-row' : 'flex-col'}
+              `}>
                 
                 {/* Icon Image */}
                 <div className="flex-shrink-0 transition-all duration-700 ease-in-out">
                   <img 
-                    src="/ChatGPT_Image_6_Jul_2025_21.17.01-1-removebg-preview (1).png" 
+                    src="/rumah.png" 
                     alt="StayinUBUD Icon" 
                     className={`w-auto object-contain transition-all duration-700 ease-in-out
                       ${isDarkState 
                         ? 'h-14 md:h-16' 
-                        : 'h-16 md:h-20 brightness-0 invert'
+                        : 'h-20 md:h-24 brightness-0 invert'
                       } 
                     `}
                   />
@@ -142,14 +144,14 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate, currentView }) => {
                   className={`flex flex-col justify-center overflow-hidden transition-all duration-700 ease-in-out
                     ${isScrolled 
                       ? 'max-w-0 opacity-0 ml-0' 
-                      : 'max-w-[250px] opacity-100 ml-3 md:ml-4'
+                      : 'max-w-[250px] opacity-100 mt-3 text-center'
                     }
                   `}
                 >
-                  <span className={`font-serif text-xl md:text-3xl leading-none tracking-tight whitespace-nowrap ${textColor} transition-colors duration-700`}>
+                  <span className={`font-serif text-2xl md:text-3xl leading-none tracking-tight whitespace-nowrap ${textColor} transition-colors duration-700`}>
                     Stayin<span className="italic font-light">UBUD</span>
                   </span>
-                  <span className={`font-sans text-[0.55rem] md:text-[0.65rem] uppercase tracking-[0.25em] leading-none mt-0.5 md:mt-1 whitespace-nowrap ${textColor} opacity-80 transition-colors duration-700`}>
+                  <span className={`font-sans text-[0.55rem] md:text-[0.65rem] uppercase tracking-[0.25em] leading-none mt-1 md:mt-1.5 whitespace-nowrap ${textColor} opacity-80 transition-colors duration-700`}>
                     Villa Bali Culture
                   </span>
                 </div>
