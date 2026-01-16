@@ -189,7 +189,7 @@ export const About: React.FC = () => {
             {/* Host Photo */}
             <div className="w-32 h-32 md:w-48 md:h-48 flex-shrink-0 overflow-hidden rounded-full border border-forest/20">
               <img 
-                src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=400" 
+                src="https://cdn.discordapp.com/attachments/899895963685109810/1382100420209672383/image.png?" 
                 alt="Founder" 
                 className="w-full h-full object-cover grayscale opacity-90"
               />
@@ -202,7 +202,7 @@ export const About: React.FC = () => {
               </p>
               <div className="flex flex-col md:flex-row items-center md:items-end justify-between gap-4">
                 <div>
-                   <span className="block font-sans text-xs uppercase tracking-widest font-bold">Elena & Wayan</span>
+                   <span className="block font-sans text-xs uppercase tracking-widest font-bold">Cipeng</span>
                    <span className="block font-sans text-xs opacity-60 mt-1">Founders, StayinUBUD</span>
                 </div>
                 
