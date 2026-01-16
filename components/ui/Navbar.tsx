@@ -110,8 +110,8 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate, currentView }) => {
               alt="StayinUBUD Icon" 
               className={`w-auto object-contain transition-all duration-700 ease-in-out
                 ${isDarkState 
-                  ? 'h-16' // Scrolled Size (Larger icon)
-                  : 'h-16 brightness-0 invert' // Top Size (Same size & White)
+                  ? 'h-32' // Scrolled Size (Larger icon)
+                  : 'h-32 brightness-0 invert' // Top Size (Same size & White)
                 } 
               `}
             />
@@ -121,7 +121,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate, currentView }) => {
               className={`flex flex-col items-center justify-center overflow-hidden transition-all duration-700 ease-in-out
                 ${isScrolled 
                   ? 'max-h-0 opacity-0 mt-0' // Hidden state
-                  : 'max-h-[60px] opacity-100 mt-1.5' // Visible state with closer spacing
+                  : 'max-h-[60px] opacity-100 mt-1' // Visible state with closer spacing
                 }
               `}
             >
