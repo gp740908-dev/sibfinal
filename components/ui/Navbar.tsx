@@ -113,7 +113,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate, currentView }) => {
               
               {/* Icon Image (files.svg / logosib.png) */}
               <img 
-                src="/file.svg" 
+                src="/ChatGPT_Image_6_Jul_2025_21.17.01-1-removebg-preview (1).png" 
                 alt="StayinUBUD Icon" 
                 className={`w-auto object-contain transition-all duration-700 ease-in-out
                   ${isDarkState 
