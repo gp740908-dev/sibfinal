@@ -52,11 +52,13 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate, currentView }) => {
 
   // Determine Theme
   const isInnerPage = ['villas', 'journal', 'about', 'experiences', 'faq', 'thank-you', 'privacy', 'terms', 'villa-detail'].includes(currentView);
-  // Scrolled OR Inner Page -> Dark Text (Forest/Olive) / White Background
-  // Top of Home -> Light Text (White/Sand) / Transparent Background
+  
+  // Logic: 
+  // - Scrolled OR Inner Page = Dark Mode (White BG, Dark Text)
+  // - Top of Home = Light Mode (Transparent BG, Light Text)
   const isDarkState = isScrolled || isInnerPage;
 
-  // Colors
+  // Colors & Classes
   const textColor = isDarkState ? 'text-forest' : 'text-sand';
   const borderColor = isDarkState ? 'border-forest/10' : 'border-sand/10';
   const iconColorClass = isDarkState ? 'text-forest' : 'text-sand';
@@ -65,7 +67,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate, currentView }) => {
     <>
       <nav 
         ref={navRef}
-        className={`fixed top-0 left-0 right-0 z-[50] transition-all duration-500 ease-in-out border-b
+        className={`fixed top-0 left-0 right-0 z-[50] transition-all duration-700 ease-in-out border-b
           ${isDarkState 
             ? 'bg-white/95 backdrop-blur-md shadow-sm py-4' 
             : 'bg-transparent py-8 border-transparent'
@@ -97,45 +99,53 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate, currentView }) => {
             </a>
           </div>
 
-          {/* CENTER: Brand / Logo */}
+          {/* CENTER: Logo Section */}
           <div 
             onClick={() => onNavigate('home')}
             className="flex items-center justify-center cursor-pointer group"
           >
             {/* 
-              LOGO IMPLEMENTATION:
-              - Icon: Uses /logosib.png. Resizes dynamically.
-              - Text: Visible only at top (Hero). Collapses to width 0 on scroll.
+               LOGO LOGIC:
+               - Icon: Always visible. Large at top, small on scroll.
+               - Text: Visible at top, Collapses (width 0) on scroll.
             */}
-            <div className="flex items-center gap-4 transition-all duration-500">
+            <div className="flex items-center">
+              
+              {/* Icon Image (files.svg / logosib.png) */}
               <img 
-                src="/file.svg" 
+                src="/logosib.png" 
                 alt="StayinUBUD Icon" 
-                className={`h-auto w-auto transition-all duration-500 object-contain
-                  ${isDarkState ? 'h-12 md:h-14' : 'h-24 md:h-28 brightness-0 invert'} 
+                className={`w-auto object-contain transition-all duration-700 ease-in-out
+                  ${isDarkState 
+                    ? 'h-12' // Scrolled Size
+                    : 'h-20 brightness-0 invert' // Top Size (Larger & White)
+                  } 
                 `}
               />
               
-              {/* Text Container - Collapses to zero width/opacity on scroll */}
+              {/* Collapsible Text Container */}
               <div 
-                className={`flex flex-col justify-center overflow-hidden transition-all duration-500 ease-in-out origin-left
-                  ${isScrolled ? 'w-0 m-0 opacity-0 scale-95' : 'w-auto opacity-100 scale-100'}
+                className={`flex flex-col justify-center overflow-hidden transition-all duration-700 ease-in-out
+                  ${isScrolled 
+                    ? 'max-w-0 opacity-0 ml-0' // Hidden state
+                    : 'max-w-[200px] opacity-100 ml-4' // Visible state
+                  }
                 `}
               >
-                <span className={`font-serif text-3xl md:text-4xl leading-none tracking-tight whitespace-nowrap ${textColor}`}>
+                <span className={`font-serif text-2xl md:text-3xl leading-none tracking-tight whitespace-nowrap ${textColor}`}>
                   Stayin<span className="italic font-light">UBUD</span>
                 </span>
-                <span className={`font-sans text-[0.65rem] md:text-[0.75rem] uppercase tracking-[0.3em] leading-none mt-2 whitespace-nowrap ${textColor} opacity-90`}>
+                <span className={`font-sans text-[0.6rem] md:text-[0.65rem] uppercase tracking-[0.25em] leading-none mt-1 whitespace-nowrap ${textColor} opacity-90`}>
                   Villa Bali Culture
                 </span>
               </div>
             </div>
           </div>
 
-          {/* RIGHT: Utilities (Globe + Menu) */}
+          {/* RIGHT: Utilities */}
           <div className="flex items-center gap-6 justify-end">
             
-            {/* Language / Globe */}
+            {/* Language */}
             <button 
               className={`hidden md:flex items-center gap-2 group transition-colors duration-300 ${iconColorClass}`}
               aria-label="Language Selector"
