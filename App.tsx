@@ -125,6 +125,7 @@ const App: React.FC = () => {
   const [connectionStatus, setConnectionStatus] = useState<'connected' | 'error' | 'table_missing' | 'auth_error' | 'mock'>('connected');
   const [errorMessage, setErrorMessage] = useState<string>('');
   const [seeding, setSeeding] = useState(false);
+  const [selectedPostSlug, setSelectedPostSlug] = useState<string | null>(null);
 
   // Fetch Villas from Supabase
   useEffect(() => {
@@ -262,6 +263,12 @@ const App: React.FC = () => {
     if (currentView === 'not-found') {
       return <NotFound onReturnHome={() => setCurrentView('home')} />;
     }
+
+    if (currentView === 'journal-post' && selectedPostSlug) {
+
+      return <JournalPost slug={selectedPostSlug} onNavigate={setCurrentView} />;
+
+    }
     
     if (currentView === 'thank-you') {
       return <ThankYou onReturnHome={() => setCurrentView('home')} />;
@@ -293,6 +300,7 @@ const App: React.FC = () => {
     if (currentView === 'faq') return <FAQ />;
     if (currentView === 'privacy') return <PrivacyPolicy />;
     if (currentView === 'terms') return <TermsOfService />;
+    
 
     // Home View
     return (
