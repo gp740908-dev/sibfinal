@@ -29,10 +29,10 @@ const MOCK_POSTS: BlogPost[] = [
       <li><strong>Amati Lelanguan</strong> - No entertainment or pleasure</li>
     </ul>
     
-    <p>The silence is so profound that you can hear the wind moving through the palm trees and the distant sound of the ocean. It's a day of meditation, reflection, and renewal.</p>
+    <p>The silence is so profound that you can hear the wind moving through the palm trees and the distant sound of the ocean. It is a day of meditation, reflection, and renewal.</p>
     
     <h2>Why It Matters</h2>
-    <p>In our hyperconnected world, Nyepi offers something increasingly rare: complete disconnection. It's a reminder that sometimes, the most powerful thing we can do is nothing at all.</p>`
+    <p>In our hyperconnected world, Nyepi offers something increasingly rare: complete disconnection. It is a reminder that sometimes, the most powerful thing we can do is nothing at all.</p>`
   },
   {
     id: '2',
@@ -58,17 +58,17 @@ const MOCK_POSTS: BlogPost[] = [
   {
     id: '3',
     title: 'Farm to Table: The Organic Revolution',
-    excerpt: 'Meet the chefs transforming Ubud's culinary scene by returning to the roots of traditional Balinese permaculture.',
+    excerpt: 'Meet the chefs transforming Ubud culinary scene by returning to the roots of traditional Balinese permaculture.',
     category: 'Food',
     imageUrl: 'https://images.unsplash.com/photo-1596919014169-2f588a800880?auto=format&fit=crop&q=80&w=800',
     publishedAt: 'February 15, 2024',
     slug: 'organic-revolution',
     author: 'Chef Made',
     content: `<h2>The Movement</h2>
-    <p>Ubud's restaurants are leading a quiet revolution: returning to traditional Balinese farming methods that predate modern agriculture by centuries.</p>
+    <p>Ubud restaurants are leading a quiet revolution: returning to traditional Balinese farming methods that predate modern agriculture by centuries.</p>
     
     <h2>Permaculture Principles</h2>
-    <p>Balinese farmers have practiced sustainable agriculture for over a thousand years. The <em>subak</em> irrigation system, recognized by UNESCO, distributes water fairly while maintaining biodiversity.</p>
+    <p>Balinese farmers have practiced sustainable agriculture for over a thousand years. The subak irrigation system, recognized by UNESCO, distributes water fairly while maintaining biodiversity.</p>
     
     <h2>Where to Eat</h2>
     <p>Restaurants like Locavore, Moksa, and Alchemy are sourcing 90% of ingredients within 50km. The result? Dishes that taste like Bali itself.</p>`
@@ -83,10 +83,10 @@ const MOCK_POSTS: BlogPost[] = [
     slug: 'building-with-bamboo',
     author: 'Elena Rossi',
     content: `<h2>Bamboo: The Steel of the 21st Century</h2>
-    <p>Bamboo grows 3 feet per day. It sequesters carbon faster than trees. And in the hands of Bali's master builders, it becomes architecture that breathes.</p>
+    <p>Bamboo grows 3 feet per day. It sequesters carbon faster than trees. And in the hands of Bali master builders, it becomes architecture that breathes.</p>
     
     <h2>Structural Innovation</h2>
-    <p>Modern engineering has unlocked bamboo's potential. When treated properly, it's stronger than concrete and more flexible than steel—perfect for earthquake-prone Bali.</p>
+    <p>Modern engineering has unlocked bamboo potential. When treated properly, it is stronger than concrete and more flexible than steel—perfect for earthquake-prone Bali.</p>
     
     <h2>Living Architecture</h2>
     <p>The best bamboo structures feel alive. They creak gently in the wind, age gracefully, and blend seamlessly into the jungle canopy.</p>`
@@ -94,19 +94,19 @@ const MOCK_POSTS: BlogPost[] = [
   {
     id: '5',
     title: 'Morning Rituals: A Guide to Balinese Offerings',
-    excerpt: 'The "Canang Sari" is more than just flowers on the street. It is a daily gesture of gratitude found everywhere in Bali.',
+    excerpt: 'The Canang Sari is more than just flowers on the street. It is a daily gesture of gratitude found everywhere in Bali.',
     category: 'Culture',
     imageUrl: 'https://images.unsplash.com/photo-1516212176463-e5927515d90e?auto=format&fit=crop&q=80&w=800',
     publishedAt: 'January 05, 2024',
     slug: 'balinese-offerings',
     author: 'Wayan Sudra',
     content: `<h2>The Daily Offering</h2>
-    <p>Before sunrise, Balinese women weave palm leaves into small baskets called <em>canang sari</em>. Inside: flowers, rice, incense, and sometimes a sweet or cigarette.</p>
+    <p>Before sunrise, Balinese women weave palm leaves into small baskets called canang sari. Inside: flowers, rice, incense, and sometimes a sweet or cigarette.</p>
     
     <h2>Symbolism</h2>
-    <p>Each color represents a Hindu deity and cardinal direction. The act of giving matters more than what's given—it's about maintaining cosmic balance.</p>
+    <p>Each color represents a Hindu deity and cardinal direction. The act of giving matters more than what is given—it is about maintaining cosmic balance.</p>
     
-    <h2>Where You'll See Them</h2>
+    <h2>Where You Will See Them</h2>
     <p>Everywhere. On doorsteps, in temples, on car dashboards, even on sidewalks. Watch your step—stepping on one accidentally is forgiven, but try to walk around them.</p>`
   },
   {
@@ -119,10 +119,10 @@ const MOCK_POSTS: BlogPost[] = [
     slug: 'sound-healing',
     author: 'Dr. Anika Sharma',
     content: `<h2>The Science of Sound</h2>
-    <p>Sound healing isn't mystical—it's physics. Different frequencies affect brainwave patterns, shifting us from beta (stress) to alpha (calm) and theta (meditation).</p>
+    <p>Sound healing is not mystical—it is physics. Different frequencies affect brainwave patterns, shifting us from beta (stress) to alpha (calm) and theta (meditation).</p>
     
     <h2>The Pyramids of Chi</h2>
-    <p>Ubud's most unique venue. Seven copper pyramids create acoustic resonance. Lie on the floor as gongs, singing bowls, and didgeridoos wash over you.</p>
+    <p>Ubud most unique venue. Seven copper pyramids create acoustic resonance. Lie on the floor as gongs, singing bowls, and didgeridoos wash over you.</p>
     
     <h2>What to Expect</h2>
     <p>Physical sensations: tingling, warmth, even tears. Sound bypasses the logical brain and speaks directly to the nervous system. Leave your skepticism at the door.</p>`
@@ -134,7 +134,7 @@ const mapDbToPost = (p: any): BlogPost => ({
   id: p.id,
   title: p.title,
   excerpt: p.excerpt,
-  content: p.content, // ← ADDED: Include content field
+  content: p.content,
   category: p.category,
   imageUrl: p.image_url,
   publishedAt: p.published_at,
@@ -142,10 +142,9 @@ const mapDbToPost = (p: any): BlogPost => ({
   author: p.author
 });
 
-// ✅ UPDATED INTERFACE - Added onPostClick prop
 interface JournalProps {
   onNavigate?: (view: 'home' | 'journal') => void;
-  onPostClick?: (slug: string) => void; // ← NEW: Handler for clicking post
+  onPostClick?: (slug: string) => void;
 }
 
 export const Journal: React.FC<JournalProps> = ({ onNavigate, onPostClick }) => {
@@ -178,12 +177,11 @@ export const Journal: React.FC<JournalProps> = ({ onNavigate, onPostClick }) => 
         if (data && data.length > 0) {
           setPosts(data.map(mapDbToPost));
         } else {
-           // Auto-seed if empty
            console.log('Journal empty. Seeding...');
            const seedData = MOCK_POSTS.map(({id, ...p}) => ({
              title: p.title,
              excerpt: p.excerpt,
-             content: p.content, // ← ADDED: Include content in seed
+             content: p.content,
              category: p.category,
              image_url: p.imageUrl,
              published_at: p.publishedAt,
@@ -225,8 +223,8 @@ export const Journal: React.FC<JournalProps> = ({ onNavigate, onPostClick }) => 
     try {
       const { error } = await supabase.from('subscribers').insert([{ email }]);
       if (error) {
-        if (error.code === '23505') { // Unique violation
-           setSubscribeStatus('success'); // Treat existing as success for UX
+        if (error.code === '23505') {
+           setSubscribeStatus('success');
         } else {
            setSubscribeStatus('error');
         }
@@ -241,7 +239,6 @@ export const Journal: React.FC<JournalProps> = ({ onNavigate, onPostClick }) => 
     }
   };
 
-  // ✅ NEW: Click handler for posts
   const handlePostClick = (slug: string) => {
     if (onPostClick) {
       onPostClick(slug);
@@ -292,12 +289,12 @@ export const Journal: React.FC<JournalProps> = ({ onNavigate, onPostClick }) => 
         </div>
       </div>
 
-      {/* 2. Featured Story - ✅ UPDATED: Added onClick */}
+      {/* 2. Featured Story */}
       {featuredPost && (
         <section className="px-6 md:px-12 mb-24 max-w-7xl mx-auto">
           <div 
             className="group grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-16 items-center cursor-pointer"
-            onClick={() => handlePostClick(featuredPost.slug)} // ← ADDED
+            onClick={() => handlePostClick(featuredPost.slug)}
           >
             
             {/* Left: Image (60%) */}
@@ -333,14 +330,14 @@ export const Journal: React.FC<JournalProps> = ({ onNavigate, onPostClick }) => 
         </section>
       )}
 
-      {/* 3. The Article Grid - ✅ UPDATED: Passed onClick */}
+      {/* 3. The Article Grid */}
       <section className="px-6 md:px-12 mb-32 max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-16">
           {gridPosts.map(post => (
             <JournalCard 
               key={post.id} 
               post={post}
-              onClick={handlePostClick} // ← ADDED
+              onClick={handlePostClick}
             />
           ))}
         </div>
@@ -354,7 +351,6 @@ export const Journal: React.FC<JournalProps> = ({ onNavigate, onPostClick }) => 
 
       {/* 4. Newsletter Signup */}
       <section className="bg-forest text-sand py-24 px-6 md:px-12 relative overflow-hidden">
-        {/* Background Pattern */}
         <div className="absolute top-0 left-0 w-full h-full opacity-5 pointer-events-none">
              <div className="w-full h-full" style={{ backgroundImage: 'radial-gradient(#D3D49F 1px, transparent 1px)', backgroundSize: '20px 20px' }}></div>
         </div>
