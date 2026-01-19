@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { JournalCard } from './JournalCard';
 import { BlogPost } from '../../types';
@@ -17,7 +16,23 @@ const MOCK_POSTS: BlogPost[] = [
     imageUrl: 'https://images.unsplash.com/photo-1555400038-63f5ba517a91?auto=format&fit=crop&q=80&w=1000',
     publishedAt: 'March 10, 2024',
     slug: 'art-of-silence-nyepi',
-    author: 'Wayan Sudra'
+    author: 'Wayan Sudra',
+    content: `<h2>The Sacred Silence</h2>
+    <p>Nyepi, the Balinese Day of Silence, is perhaps one of the most unique celebrations in the world. On this day, the entire island of Bali—including the international airport—shuts down for 24 hours. No flights land or take off, no vehicles drive on the roads, and even tourists are required to stay inside their hotels.</p>
+    
+    <h2>The Four Prohibitions</h2>
+    <p>The day is governed by four main restrictions called Catur Brata Penyepian:</p>
+    <ul>
+      <li><strong>Amati Geni</strong> - No fire or light (including no electricity)</li>
+      <li><strong>Amati Karya</strong> - No working</li>
+      <li><strong>Amati Lelungan</strong> - No traveling</li>
+      <li><strong>Amati Lelanguan</strong> - No entertainment or pleasure</li>
+    </ul>
+    
+    <p>The silence is so profound that you can hear the wind moving through the palm trees and the distant sound of the ocean. It's a day of meditation, reflection, and renewal.</p>
+    
+    <h2>Why It Matters</h2>
+    <p>In our hyperconnected world, Nyepi offers something increasingly rare: complete disconnection. It's a reminder that sometimes, the most powerful thing we can do is nothing at all.</p>`
   },
   {
     id: '2',
@@ -27,17 +42,36 @@ const MOCK_POSTS: BlogPost[] = [
     imageUrl: 'https://images.unsplash.com/photo-1596395818822-7f94d35eb7a4?auto=format&fit=crop&q=80&w=800',
     publishedAt: 'February 28, 2024',
     slug: 'hidden-waterfalls',
-    author: 'Sarah Jenkins'
+    author: 'Sarah Jenkins',
+    content: `<h2>Beyond the Tourist Trail</h2>
+    <p>While Tegenungan Waterfall draws crowds daily, Northern Ubud hides gems known only to locals and adventurous travelers willing to trek off the beaten path.</p>
+    
+    <h2>1. Tukad Cepung Waterfall</h2>
+    <p>Hidden inside a cave, sunlight streams through the opening above, creating ethereal light beams. The trek involves descending into a canyon—wear good shoes.</p>
+    
+    <h2>2. Kanto Lampo Waterfall</h2>
+    <p>A terraced waterfall perfect for photography. Visit early morning to avoid crowds and catch golden hour light.</p>
+    
+    <h2>3. Goa Rang Reng</h2>
+    <p>The most secret of all. Requires a local guide to find. Worth every step.</p>`
   },
   {
     id: '3',
     title: 'Farm to Table: The Organic Revolution',
-    excerpt: 'Meet the chefs transforming Ubud’s culinary scene by returning to the roots of traditional Balinese permaculture.',
+    excerpt: 'Meet the chefs transforming Ubud's culinary scene by returning to the roots of traditional Balinese permaculture.',
     category: 'Food',
     imageUrl: 'https://images.unsplash.com/photo-1596919014169-2f588a800880?auto=format&fit=crop&q=80&w=800',
     publishedAt: 'February 15, 2024',
     slug: 'organic-revolution',
-    author: 'Chef Made'
+    author: 'Chef Made',
+    content: `<h2>The Movement</h2>
+    <p>Ubud's restaurants are leading a quiet revolution: returning to traditional Balinese farming methods that predate modern agriculture by centuries.</p>
+    
+    <h2>Permaculture Principles</h2>
+    <p>Balinese farmers have practiced sustainable agriculture for over a thousand years. The <em>subak</em> irrigation system, recognized by UNESCO, distributes water fairly while maintaining biodiversity.</p>
+    
+    <h2>Where to Eat</h2>
+    <p>Restaurants like Locavore, Moksa, and Alchemy are sourcing 90% of ingredients within 50km. The result? Dishes that taste like Bali itself.</p>`
   },
   {
     id: '4',
@@ -47,7 +81,15 @@ const MOCK_POSTS: BlogPost[] = [
     imageUrl: 'https://images.unsplash.com/photo-1533038676602-5e6f53a47942?auto=format&fit=crop&q=80&w=800',
     publishedAt: 'January 20, 2024',
     slug: 'building-with-bamboo',
-    author: 'Elena Rossi'
+    author: 'Elena Rossi',
+    content: `<h2>Bamboo: The Steel of the 21st Century</h2>
+    <p>Bamboo grows 3 feet per day. It sequesters carbon faster than trees. And in the hands of Bali's master builders, it becomes architecture that breathes.</p>
+    
+    <h2>Structural Innovation</h2>
+    <p>Modern engineering has unlocked bamboo's potential. When treated properly, it's stronger than concrete and more flexible than steel—perfect for earthquake-prone Bali.</p>
+    
+    <h2>Living Architecture</h2>
+    <p>The best bamboo structures feel alive. They creak gently in the wind, age gracefully, and blend seamlessly into the jungle canopy.</p>`
   },
   {
     id: '5',
@@ -57,7 +99,15 @@ const MOCK_POSTS: BlogPost[] = [
     imageUrl: 'https://images.unsplash.com/photo-1516212176463-e5927515d90e?auto=format&fit=crop&q=80&w=800',
     publishedAt: 'January 05, 2024',
     slug: 'balinese-offerings',
-    author: 'Wayan Sudra'
+    author: 'Wayan Sudra',
+    content: `<h2>The Daily Offering</h2>
+    <p>Before sunrise, Balinese women weave palm leaves into small baskets called <em>canang sari</em>. Inside: flowers, rice, incense, and sometimes a sweet or cigarette.</p>
+    
+    <h2>Symbolism</h2>
+    <p>Each color represents a Hindu deity and cardinal direction. The act of giving matters more than what's given—it's about maintaining cosmic balance.</p>
+    
+    <h2>Where You'll See Them</h2>
+    <p>Everywhere. On doorsteps, in temples, on car dashboards, even on sidewalks. Watch your step—stepping on one accidentally is forgiven, but try to walk around them.</p>`
   },
   {
     id: '6',
@@ -67,7 +117,15 @@ const MOCK_POSTS: BlogPost[] = [
     imageUrl: 'https://images.unsplash.com/photo-1603102371900-514757c2c96b?auto=format&fit=crop&q=80&w=800',
     publishedAt: 'December 12, 2023',
     slug: 'sound-healing',
-    author: 'Dr. Anika Sharma'
+    author: 'Dr. Anika Sharma',
+    content: `<h2>The Science of Sound</h2>
+    <p>Sound healing isn't mystical—it's physics. Different frequencies affect brainwave patterns, shifting us from beta (stress) to alpha (calm) and theta (meditation).</p>
+    
+    <h2>The Pyramids of Chi</h2>
+    <p>Ubud's most unique venue. Seven copper pyramids create acoustic resonance. Lie on the floor as gongs, singing bowls, and didgeridoos wash over you.</p>
+    
+    <h2>What to Expect</h2>
+    <p>Physical sensations: tingling, warmth, even tears. Sound bypasses the logical brain and speaks directly to the nervous system. Leave your skepticism at the door.</p>`
   }
 ];
 
@@ -76,6 +134,7 @@ const mapDbToPost = (p: any): BlogPost => ({
   id: p.id,
   title: p.title,
   excerpt: p.excerpt,
+  content: p.content, // ← ADDED: Include content field
   category: p.category,
   imageUrl: p.image_url,
   publishedAt: p.published_at,
@@ -83,7 +142,13 @@ const mapDbToPost = (p: any): BlogPost => ({
   author: p.author
 });
 
-export const Journal: React.FC = () => {
+// ✅ UPDATED INTERFACE - Added onPostClick prop
+interface JournalProps {
+  onNavigate?: (view: 'home' | 'journal') => void;
+  onPostClick?: (slug: string) => void; // ← NEW: Handler for clicking post
+}
+
+export const Journal: React.FC<JournalProps> = ({ onNavigate, onPostClick }) => {
   const [activeCategory, setActiveCategory] = useState('All');
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
@@ -118,6 +183,7 @@ export const Journal: React.FC = () => {
            const seedData = MOCK_POSTS.map(({id, ...p}) => ({
              title: p.title,
              excerpt: p.excerpt,
+             content: p.content, // ← ADDED: Include content in seed
              category: p.category,
              image_url: p.imageUrl,
              published_at: p.publishedAt,
@@ -175,6 +241,13 @@ export const Journal: React.FC = () => {
     }
   };
 
+  // ✅ NEW: Click handler for posts
+  const handlePostClick = (slug: string) => {
+    if (onPostClick) {
+      onPostClick(slug);
+    }
+  };
+
   // Filter Logic
   const filteredPosts = activeCategory === 'All' 
     ? posts 
@@ -219,10 +292,13 @@ export const Journal: React.FC = () => {
         </div>
       </div>
 
-      {/* 2. Featured Story */}
+      {/* 2. Featured Story - ✅ UPDATED: Added onClick */}
       {featuredPost && (
         <section className="px-6 md:px-12 mb-24 max-w-7xl mx-auto">
-          <div className="group grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-16 items-center cursor-pointer">
+          <div 
+            className="group grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-16 items-center cursor-pointer"
+            onClick={() => handlePostClick(featuredPost.slug)} // ← ADDED
+          >
             
             {/* Left: Image (60%) */}
             <div className="lg:col-span-3 overflow-hidden aspect-video relative">
@@ -257,11 +333,15 @@ export const Journal: React.FC = () => {
         </section>
       )}
 
-      {/* 3. The Article Grid */}
+      {/* 3. The Article Grid - ✅ UPDATED: Passed onClick */}
       <section className="px-6 md:px-12 mb-32 max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-16">
           {gridPosts.map(post => (
-            <JournalCard key={post.id} post={post} />
+            <JournalCard 
+              key={post.id} 
+              post={post}
+              onClick={handlePostClick} // ← ADDED
+            />
           ))}
         </div>
         
