@@ -118,7 +118,7 @@ const mapDbToVilla = (v: any): Villa => ({
 });
 
 const App: React.FC = () => {
-  const [currentView, setCurrentView] = useState<'home' | 'villas' | 'journal' | 'about' | 'experiences' | 'faq' | 'thank-you' | 'privacy' | 'terms' | 'villa-detail' | 'not-found'>('home');
+  const [currentView, setCurrentView] = useState<'home' | 'villas' | 'journal' | 'journal-post' | 'about' | 'experiences' | 'faq' | 'thank-you' | 'privacy' | 'terms' | 'villa-detail' | 'not-found'>('home');
   const [selectedVillaId, setSelectedVillaId] = useState<string | null>(null);
   const [villas, setVillas] = useState<Villa[]>([]);
   const [isLoading, setIsLoading] = useState(true);
