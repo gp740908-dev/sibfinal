@@ -100,8 +100,8 @@ export default async function BaliGuidePage() {
                 {/* Background */}
                 <div className="absolute inset-0 z-0">
                     <img
-                        src="https://images.unsplash.com/photo-1537953773345-d172ccf08acf?auto=format&fit=crop&q=80&w=2000"
-                        alt="Bali Rice Terraces Cinematic"
+                        src="https://images.unsplash.com/photo-1555400038-63f5ba517a47?auto=format&fit=crop&q=80&w=2000"
+                        alt="Bali Temple Gate Guide"
                         className="w-full h-full object-cover brightness-50"
                     />
                     <div className="absolute inset-0 bg-forest/20 mix-blend-multiply" />
@@ -130,7 +130,7 @@ export default async function BaliGuidePage() {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-[minmax(300px,auto)]">
 
                     {/* Card A: Legal Guide (Large) */}
-                    <Link href="/journal/legal-guide" className="group md:col-span-2 relative overflow-hidden rounded-3xl bg-forest text-sand p-8 md:p-12 flex flex-col justify-between shadow-xl transition-transform duration-500 hover:-translate-y-2">
+                    <Link href="/bali-guide/legal-guide" className="group md:col-span-2 relative overflow-hidden rounded-3xl bg-forest text-sand p-8 md:p-12 flex flex-col justify-between shadow-xl transition-transform duration-500 hover:-translate-y-2">
                         <div className="absolute inset-0 opacity-20 group-hover:opacity-30 transition-opacity">
                             <img src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&q=80&w=1000" className="w-full h-full object-cover grayscale" />
                         </div>
@@ -152,7 +152,7 @@ export default async function BaliGuidePage() {
                     </Link>
 
                     {/* Card B: Location Guide (Tall) */}
-                    <Link href="/journal/neighborhoods" className="group md:col-span-1 relative overflow-hidden rounded-3xl bg-[#EBEBC0] text-forest p-8 flex flex-col justify-between shadow-xl transition-transform duration-500 hover:-translate-y-2">
+                    <Link href="/bali-guide/neighborhoods" className="group md:col-span-1 relative overflow-hidden rounded-3xl bg-[#EBEBC0] text-forest p-8 flex flex-col justify-between shadow-xl transition-transform duration-500 hover:-translate-y-2">
                         <div className="absolute inset-0 opacity-10 group-hover:opacity-20 transition-opacity">
                             {/* Abstract Map Pattern */}
                             <svg className="w-full h-full" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -179,7 +179,7 @@ export default async function BaliGuidePage() {
                     </Link>
 
                     {/* Card C: Market Insights (Wide) */}
-                    <Link href="/journal/market-trends" className="group md:col-span-3 relative overflow-hidden rounded-3xl bg-sand border border-forest/10 text-forest p-8 md:p-12 flex flex-col md:flex-row items-center gap-8 shadow-xl transition-transform duration-500 hover:-translate-y-2">
+                    <Link href="/bali-guide/market-trends" className="group md:col-span-3 relative overflow-hidden rounded-3xl bg-sand border border-forest/10 text-forest p-8 md:p-12 flex flex-col md:flex-row items-center gap-8 shadow-xl transition-transform duration-500 hover:-translate-y-2">
                         <div className="absolute inset-0 bg-[#D3D49F]/20 -skew-x-12 translate-x-1/2 group-hover:translate-x-[40%] transition-transform duration-700"></div>
 
                         <div className="flex-1 relative z-10">
