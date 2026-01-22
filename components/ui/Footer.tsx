@@ -34,6 +34,7 @@ export const Footer: React.FC = () => {
           <div className="flex gap-8">
             <Link href="/villas" className="font-sans text-xs uppercase tracking-widest hover:text-accent-light transition-colors">Villas</Link>
             <Link href="/experiences" className="font-sans text-xs uppercase tracking-widest hover:text-accent-light transition-colors">Experience</Link>
+            <Link href="/bali-guide" className="font-sans text-xs uppercase tracking-widest hover:text-accent-light transition-colors">Guide</Link>
             <Link href="/journal" className="font-sans text-xs uppercase tracking-widest hover:text-accent-light transition-colors">Journal</Link>
             <Link href="/faq" className="font-sans text-xs uppercase tracking-widest hover:text-accent-light transition-colors">FAQ</Link>
           </div>

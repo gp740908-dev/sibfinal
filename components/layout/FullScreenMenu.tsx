@@ -12,13 +12,13 @@ interface FullScreenMenuProps {
   onClose: () => void;
 }
 
-const MENU_ITEMS = [
-  { label: 'Home', href: '/' },
-  { label: 'Our Villas', href: '/villas' },
-  { label: 'Experiences', href: '/experiences' },
-  { label: 'The Journal', href: '/journal' },
-  { label: 'Our Story', href: '/about' },
-  { label: 'FAQ', href: '/faq' },
+{ label: 'Home', href: '/' },
+{ label: 'Our Villas', href: '/villas' },
+{ label: 'Experiences', href: '/experiences' },
+{ label: 'Bali Guide', href: '/bali-guide' },
+{ label: 'The Journal', href: '/journal' },
+{ label: 'Our Story', href: '/about' },
+{ label: 'FAQ', href: '/faq' },
 ];
 
 export const FullScreenMenu: React.FC<FullScreenMenuProps> = ({ isOpen, onClose }) => {
