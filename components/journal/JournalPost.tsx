@@ -6,9 +6,10 @@ import { ArrowLeft, Calendar, User, Loader2 } from 'lucide-react';
 interface JournalPostProps {
   slug: string;
   onNavigate: (view: 'journal') => void;
+  onPostClick?: (slug: string) => void;
 }
 
-export const JournalPost: React.FC<JournalPostProps> = ({ slug, onNavigate }) => {
+export const JournalPost: React.FC<JournalPostProps> = ({ slug, onNavigate, onPostClick }) => {
   const [post, setPost] = useState<BlogPost | null>(null);
   const [loading, setLoading] = useState(true);
   const [relatedPosts, setRelatedPosts] = useState<BlogPost[]>([]);
@@ -16,14 +17,14 @@ export const JournalPost: React.FC<JournalPostProps> = ({ slug, onNavigate }) =>
   useEffect(() => {
     async function fetchPost() {
       setLoading(true);
-      
+
       // Fetch main post
       const { data, error } = await supabase
         .from('journal_posts')
         .select('*')
         .eq('slug', slug)
         .single();
-      
+
       if (data) {
         setPost({
           id: data.id,
@@ -44,7 +45,7 @@ export const JournalPost: React.FC<JournalPostProps> = ({ slug, onNavigate }) =>
           .eq('category', data.category)
           .neq('id', data.id)
           .limit(3);
-        
+
         if (related) {
           setRelatedPosts(related.map(p => ({
             id: p.id,
@@ -58,10 +59,10 @@ export const JournalPost: React.FC<JournalPostProps> = ({ slug, onNavigate }) =>
           })));
         }
       }
-      
+
       setLoading(false);
     }
-    
+
     fetchPost();
   }, [slug]);
 
@@ -77,7 +78,7 @@ export const JournalPost: React.FC<JournalPostProps> = ({ slug, onNavigate }) =>
     return (
       <div className="min-h-screen bg-sand flex flex-col items-center justify-center px-6">
         <h1 className="text-4xl font-serif text-forest mb-4">Post Not Found</h1>
-        <button 
+        <button
           onClick={() => onNavigate('journal')}
           className="flex items-center gap-2 text-forest hover:text-accent transition-colors"
         >
@@ -89,10 +90,10 @@ export const JournalPost: React.FC<JournalPostProps> = ({ slug, onNavigate }) =>
 
   return (
     <div className="bg-sand min-h-screen pt-32 pb-20">
-      
+
       {/* Back Button */}
       <div className="px-6 md:px-12 max-w-4xl mx-auto mb-8">
-        <button 
+        <button
           onClick={() => onNavigate('journal')}
           className="flex items-center gap-2 text-forest/60 hover:text-forest text-xs uppercase tracking-widest transition-colors"
         >
@@ -103,8 +104,8 @@ export const JournalPost: React.FC<JournalPostProps> = ({ slug, onNavigate }) =>
       {/* Hero Image */}
       <div className="px-6 md:px-12 max-w-5xl mx-auto mb-12">
         <div className="aspect-[16/9] overflow-hidden rounded-2xl">
-          <img 
-            src={post.imageUrl} 
+          <img
+            src={post.imageUrl}
             alt={post.title}
             className="w-full h-full object-cover"
           />
@@ -113,7 +114,7 @@ export const JournalPost: React.FC<JournalPostProps> = ({ slug, onNavigate }) =>
 
       {/* Article Content */}
       <article className="px-6 md:px-12 max-w-3xl mx-auto">
-        
+
         {/* Meta */}
         <div className="flex items-center gap-4 text-xs uppercase tracking-widest text-forest/60 mb-6">
           <span className="bg-forest/10 px-3 py-1 rounded-full">{post.category}</span>
@@ -139,7 +140,7 @@ export const JournalPost: React.FC<JournalPostProps> = ({ slug, onNavigate }) =>
 
         {/* Content */}
         <div className="prose prose-lg prose-forest max-w-none">
-          <div 
+          <div
             className="font-sans text-forest/90 leading-relaxed space-y-6"
             dangerouslySetInnerHTML={{ __html: post.content || '' }}
           />
@@ -162,7 +163,7 @@ export const JournalPost: React.FC<JournalPostProps> = ({ slug, onNavigate }) =>
             </div>
           </div>
           <p className="font-sans text-forest/70 text-sm leading-relaxed">
-            {post.author} is a passionate storyteller exploring the intersection of culture, 
+            {post.author} is a passionate storyteller exploring the intersection of culture,
             wellness, and sustainable living in Bali.
           </p>
         </div>
@@ -177,14 +178,14 @@ export const JournalPost: React.FC<JournalPostProps> = ({ slug, onNavigate }) =>
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {relatedPosts.map(related => (
-              <div 
+              <div
                 key={related.id}
-                onClick={() => window.location.hash = `#journal/${related.slug}`}
+                onClick={() => onPostClick?.(related.slug)}
                 className="group cursor-pointer"
               >
                 <div className="aspect-[4/5] overflow-hidden rounded-lg mb-4">
-                  <img 
-                    src={related.imageUrl} 
+                  <img
+                    src={related.imageUrl}
                     alt={related.title}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   />

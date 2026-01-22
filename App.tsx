@@ -7,8 +7,8 @@ import { Footer } from './components/ui/Footer';
 import { SocialFab } from './components/ui/SocialFab'; // Imported SocialFab
 import { Hero } from './components/home/Hero';
 import { VillaShowcase } from './components/home/VillaShowcase';
-import { LocationSection } from './components/home/LocationSection'; 
-import { OurServices } from './components/home/OurServices'; 
+import { LocationSection } from './components/home/LocationSection';
+import { OurServices } from './components/home/OurServices';
 import { RecentJournal } from './components/home/RecentJournal';
 import { VideoParallax } from './components/home/VideoParallax';
 import { GuestDiaries } from './components/home/GuestDiaries';
@@ -142,24 +142,24 @@ const App: React.FC = () => {
       console.log("App attempting REAL CONNECTION...");
       try {
         const { data, error } = await supabase.from('villas').select('*');
-        
+
         if (error) {
           console.error('Supabase Error:', JSON.stringify(error, null, 2));
-          
+
           if (error.code === '42P01') {
             setConnectionStatus('table_missing');
             setErrorMessage('Tables Missing in DB');
           } else if (error.message?.includes('AbortError') || error.message?.includes('Failed to fetch')) {
-             setConnectionStatus('error');
-             setErrorMessage('Network/URL Error');
+            setConnectionStatus('error');
+            setErrorMessage('Network/URL Error');
           } else if (error.code === 'PGRST301' || error.message?.includes('JWT')) {
-             setConnectionStatus('auth_error');
-             setErrorMessage('Invalid API Key');
+            setConnectionStatus('auth_error');
+            setErrorMessage('Invalid API Key');
           } else {
             setConnectionStatus('error');
             setErrorMessage(error.message || 'Connection Failed');
           }
-          
+
           // Fallback to mock data on error, BUT status is NOT 'mock'
           setVillas(MOCK_VILLAS);
           return;
@@ -172,7 +172,7 @@ const App: React.FC = () => {
         } else {
           console.log('DB empty. Seeding initial data...');
           setSeeding(true);
-          
+
           const seedData = MOCK_VILLAS.map(({ id, ...v }) => ({
             name: v.name,
             description: v.description,
@@ -193,16 +193,16 @@ const App: React.FC = () => {
           }));
 
           const { error: seedError } = await supabase.from('villas').insert(seedData);
-          
+
           if (!seedError) {
-             const { data: newData } = await supabase.from('villas').select('*');
-             if (newData) setVillas(newData.map(mapDbToVilla));
-             setConnectionStatus('connected');
+            const { data: newData } = await supabase.from('villas').select('*');
+            if (newData) setVillas(newData.map(mapDbToVilla));
+            setConnectionStatus('connected');
           } else {
-             console.error("Auto-seed failed:", JSON.stringify(seedError, null, 2));
-             setConnectionStatus('error');
-             setErrorMessage('Seeding Failed');
-             setVillas(MOCK_VILLAS);
+            console.error("Auto-seed failed:", JSON.stringify(seedError, null, 2));
+            setConnectionStatus('error');
+            setErrorMessage('Seeding Failed');
+            setVillas(MOCK_VILLAS);
           }
           setSeeding(false);
         }
@@ -230,17 +230,17 @@ const App: React.FC = () => {
         <div className="h-screen w-full flex flex-col items-center justify-center bg-sand text-forest relative overflow-hidden">
           {/* Subtle Texture/Gradient Background */}
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(83,127,93,0.05)_0%,transparent_70%)]" />
-          
+
           <div className="relative z-10 flex flex-col items-center">
-            
+
             {/* Custom Luxury Loader */}
             <div className="relative mb-10">
               {/* Outer Slow Ring */}
               <div className="w-20 h-20 border-[1px] border-forest/10 rounded-full animate-[spin_10s_linear_infinite]" />
-              
+
               {/* Inner Faster Segmented Ring */}
               <div className="absolute inset-2 border-[1px] border-forest/30 rounded-full border-t-transparent animate-[spin_3s_linear_infinite_reverse]" />
-              
+
               {/* Pulsing Center Icon */}
               <div className="absolute inset-0 flex items-center justify-center">
                 <Leaf size={20} className="text-forest opacity-80 animate-pulse" strokeWidth={1.5} />
@@ -251,7 +251,7 @@ const App: React.FC = () => {
             <h3 className="font-serif text-2xl md:text-3xl text-forest tracking-wide mb-3 italic">
               {seeding ? "Planting Seeds..." : "Summoning the Jungle"}
             </h3>
-            
+
             <p className="font-sans text-[10px] uppercase tracking-[0.3em] text-forest/50">
               Curating Luxury
             </p>
@@ -266,10 +266,19 @@ const App: React.FC = () => {
 
     if (currentView === 'journal-post' && selectedPostSlug) {
 
-      return <JournalPost slug={selectedPostSlug} onNavigate={setCurrentView} />;
+      return (
+        <JournalPost
+          slug={selectedPostSlug}
+          onNavigate={setCurrentView}
+          onPostClick={(slug) => {
+            setSelectedPostSlug(slug);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}
+        />
+      );
 
     }
-    
+
     if (currentView === 'thank-you') {
       return <ThankYou onReturnHome={() => setCurrentView('home')} />;
     }
@@ -278,13 +287,13 @@ const App: React.FC = () => {
       const selectedVilla = villas.find(v => v.id === selectedVillaId);
       if (selectedVilla) {
         return (
-          <VillaDetail 
-            villa={selectedVilla} 
-            allVillas={villas} 
+          <VillaDetail
+            villa={selectedVilla}
+            allVillas={villas}
             onNavigate={(view: string, id?: string) => {
               if (id) setSelectedVillaId(id);
               setCurrentView(view as any);
-            }} 
+            }}
           />
         );
       }
@@ -294,13 +303,20 @@ const App: React.FC = () => {
       return <VillasPage villas={villas} onVillaClick={handleVillaClick} />;
     }
 
-    if (currentView === 'journal') return <Journal />;
+    if (currentView === 'journal') return (
+      <Journal
+        onPostClick={(slug) => {
+          setSelectedPostSlug(slug);
+          setCurrentView('journal-post');
+        }}
+      />
+    );
     if (currentView === 'about') return <About />;
     if (currentView === 'experiences') return <Experiences />;
     if (currentView === 'faq') return <FAQ />;
     if (currentView === 'privacy') return <PrivacyPolicy />;
     if (currentView === 'terms') return <TermsOfService />;
-    
+
 
     // Home View
     return (
@@ -312,13 +328,13 @@ const App: React.FC = () => {
         <section id="about" className="py-24 md:py-32 px-6 md:px-12 max-w-7xl mx-auto flex flex-col md:flex-row gap-16 items-center">
           <div className="md:w-1/2">
             <h2 className="text-4xl md:text-6xl font-serif text-forest leading-tight mb-8">
-              Where luxury meets <br/> <span className="italic text-accent">serenity.</span>
+              Where luxury meets <br /> <span className="italic text-accent">serenity.</span>
             </h2>
           </div>
           <div className="md:w-1/2">
             <p className="text-forest/80 font-sans text-lg leading-relaxed mb-6">
-              Ubud is not just a destination; it is a feeling. At StayinUBUD, we select homes that breathe. 
-              Our collection features villas that open up to the jungle, float above rice terraces, and offer 
+              Ubud is not just a destination; it is a feeling. At StayinUBUD, we select homes that breathe.
+              Our collection features villas that open up to the jungle, float above rice terraces, and offer
               silence so profound you can hear your own thoughts.
             </p>
             <p className="text-forest/80 font-sans text-lg leading-relaxed">
@@ -329,18 +345,18 @@ const App: React.FC = () => {
 
         {/* Villa Showcase Section */}
         <div id="villas">
-          <VillaShowcase 
-            villas={villas} 
-            onNavigate={setCurrentView} 
+          <VillaShowcase
+            villas={villas}
+            onNavigate={setCurrentView}
             onVillaClick={handleVillaClick}
           />
-          
+
           <div className="flex justify-center mt-8 gap-4 mb-20">
-             {villas.map(v => (
-               <button key={v.id} onClick={() => handleVillaClick(v.id)} className="text-xs uppercase tracking-widest border-b border-forest/20 pb-1 hover:border-forest">
-                  View {v.name}
-               </button>
-             ))}
+            {villas.map(v => (
+              <button key={v.id} onClick={() => handleVillaClick(v.id)} className="text-xs uppercase tracking-widest border-b border-forest/20 pb-1 hover:border-forest">
+                View {v.name}
+              </button>
+            ))}
           </div>
         </div>
 
@@ -349,7 +365,7 @@ const App: React.FC = () => {
 
         {/* Experience Section */}
         <div id="experiences">
-           <OurServices />
+          <OurServices />
         </div>
 
         {/* Guest Diaries Social Proof */}
@@ -383,28 +399,28 @@ const App: React.FC = () => {
         <Navbar onNavigate={(view) => setCurrentView(view)} currentView={currentView === 'villa-detail' ? 'about' : currentView} />
       )}
 
-      <div 
+      <div
         className={`relative z-10 w-full bg-sand flex flex-col ${isTransientView ? 'mb-0' : 'mb-[450px] md:mb-[500px] shadow-[0_25px_50px_-12px_rgba(83,127,93,0.5)] rounded-b-[2rem] md:rounded-b-[3rem]'} overflow-hidden min-h-screen origin-top`}
       >
         {renderView()}
       </div>
 
       {!isTransientView && <Footer onNavigate={(view) => setCurrentView(view)} />}
-      
+
       {/* Floating Social Button */}
       <SocialFab />
 
       {/* 
          --- DEBUGGING STATUS INDICATORS --- 
       */}
-      
+
       {/* CASE 1: NETWORK/URL ERROR */}
       {connectionStatus === 'error' && (
         <div className="fixed bottom-4 left-4 z-[100] bg-red-500/90 text-white text-[10px] px-3 py-2 rounded-full flex items-center gap-2 shadow-lg backdrop-blur-sm group cursor-pointer hover:bg-red-600 transition-colors">
           <WifiOff size={12} />
           <span className="font-bold">Connection Failed</span>
           <span className="hidden group-hover:inline opacity-80 border-l border-white/20 pl-2 ml-1">
-             {errorMessage} (Using Cached Data)
+            {errorMessage} (Using Cached Data)
           </span>
         </div>
       )}
@@ -415,7 +431,7 @@ const App: React.FC = () => {
           <KeyRound size={12} />
           <span className="font-bold">Auth Error</span>
           <span className="hidden group-hover:inline opacity-80 border-l border-white/20 pl-2 ml-1">
-             Check API Key
+            Check API Key
           </span>
         </div>
       )}
@@ -426,14 +442,14 @@ const App: React.FC = () => {
           <AlertTriangle size={12} />
           <span className="font-bold">Database Empty</span>
           <span className="hidden group-hover:inline opacity-80 border-l border-white/20 pl-2 ml-1">
-             SQL Setup Required
+            SQL Setup Required
           </span>
         </div>
       )}
-      
+
       {/* CASE 4: CONNECTED SUCCESS */}
       {connectionStatus === 'connected' && !isLoading && (
-         <div className="fixed bottom-4 left-4 z-[100] bg-forest/90 text-sand text-[10px] px-3 py-2 rounded-full flex items-center gap-2 shadow-lg backdrop-blur-sm pointer-events-none opacity-50 hover:opacity-100 transition-opacity">
+        <div className="fixed bottom-4 left-4 z-[100] bg-forest/90 text-sand text-[10px] px-3 py-2 rounded-full flex items-center gap-2 shadow-lg backdrop-blur-sm pointer-events-none opacity-50 hover:opacity-100 transition-opacity">
           <Database size={12} />
           <span>Supabase Connected</span>
         </div>
@@ -441,7 +457,7 @@ const App: React.FC = () => {
 
       {/* CASE 5: MOCK MODE */}
       {connectionStatus === 'mock' && !isLoading && (
-         <div className="fixed bottom-4 left-4 z-[100] bg-blue-500/90 text-white text-[10px] px-3 py-2 rounded-full flex items-center gap-2 shadow-lg backdrop-blur-sm pointer-events-none opacity-50 hover:opacity-100 transition-opacity">
+        <div className="fixed bottom-4 left-4 z-[100] bg-blue-500/90 text-white text-[10px] px-3 py-2 rounded-full flex items-center gap-2 shadow-lg backdrop-blur-sm pointer-events-none opacity-50 hover:opacity-100 transition-opacity">
           <Database size={12} />
           <span>Demo Mode</span>
         </div>

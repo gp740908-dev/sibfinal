@@ -8,10 +8,12 @@ interface JournalCardProps {
   onClick?: (slug: string) => void; // ← Tambah prop
 }
 
-export const JournalCard: React.FC<JournalCardProps> = ({ post }) => {
+export const JournalCard: React.FC<JournalCardProps> = ({ post, onClick }) => {
   return (
-    <div className="group cursor-pointer flex flex-col gap-4">
+    <div 
+      className="group cursor-pointer flex flex-col gap-4"
       onClick={() => onClick?.(post.slug)}
+    >
       {/* Image Container */}
       <div className="overflow-hidden aspect-[3/4] relative bg-forest/5">
         <img 
