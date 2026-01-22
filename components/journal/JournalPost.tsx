@@ -5,7 +5,7 @@ import { ArrowLeft, Calendar, User, Loader2 } from 'lucide-react';
 
 interface JournalPostProps {
   slug: string;
-  onNavigate: (view: 'journal') => void;
+  onNavigate: () => void;
   onPostClick?: (slug: string) => void;
 }
 
@@ -79,7 +79,7 @@ export const JournalPost: React.FC<JournalPostProps> = ({ slug, onNavigate, onPo
       <div className="min-h-screen bg-sand flex flex-col items-center justify-center px-6">
         <h1 className="text-4xl font-serif text-forest mb-4">Post Not Found</h1>
         <button
-          onClick={() => onNavigate('journal')}
+          onClick={() => onNavigate()}
           className="flex items-center gap-2 text-forest hover:text-accent transition-colors"
         >
           <ArrowLeft size={16} /> Back to Journal
@@ -94,7 +94,7 @@ export const JournalPost: React.FC<JournalPostProps> = ({ slug, onNavigate, onPo
       {/* Back Button */}
       <div className="px-6 md:px-12 max-w-4xl mx-auto mb-8">
         <button
-          onClick={() => onNavigate('journal')}
+          onClick={() => onNavigate()}
           className="flex items-center gap-2 text-forest/60 hover:text-forest text-xs uppercase tracking-widest transition-colors"
         >
           <ArrowLeft size={14} /> Back to Journal

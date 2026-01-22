@@ -270,7 +270,7 @@ const App: React.FC = () => {
       return (
         <JournalPost
           slug={selectedPostSlug}
-          onNavigate={setCurrentView}
+          onNavigate={() => setCurrentView('journal')}
           onPostClick={(slug) => {
             setSelectedPostSlug(slug);
             window.scrollTo({ top: 0, behavior: 'smooth' });
