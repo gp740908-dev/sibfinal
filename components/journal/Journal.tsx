@@ -1,4 +1,7 @@
-import React, { useState, useEffect } from 'react';
+'use client';
+
+import React, { useState } from 'react';
+import Link from 'next/link';
 import { JournalCard } from './JournalCard';
 import { BlogPost } from '../../types';
 import { ArrowRight, Loader2 } from 'lucide-react';
@@ -6,7 +9,7 @@ import { supabase, isMock } from '../../lib/supabase';
 
 const CATEGORIES = ['All', 'Culture', 'Wellness', 'Food', 'Design', 'Travel'];
 
-// Mock Data for Fallback - SIMPLIFIED (no HTML to avoid issues)
+// Mock Data for Fallback
 const MOCK_POSTS: BlogPost[] = [
   {
     id: '1',
@@ -84,89 +87,42 @@ const mapDbToPost = (p: any): BlogPost => ({
 });
 
 interface JournalProps {
-  onNavigate?: (view: 'home' | 'journal') => void;
-  onPostClick?: (slug: string) => void;
+  initialPosts?: any[];
 }
 
-export const Journal: React.FC<JournalProps> = ({ onNavigate, onPostClick }) => {
+export const Journal: React.FC<JournalProps> = ({ initialPosts }) => {
   const [activeCategory, setActiveCategory] = useState('All');
-  const [posts, setPosts] = useState<BlogPost[]>([]);
-  const [loading, setLoading] = useState(true);
-  
+
+  // Map initial posts or use mock data
+  const posts: BlogPost[] = initialPosts && initialPosts.length > 0
+    ? initialPosts.map(mapDbToPost)
+    : MOCK_POSTS;
+
   // Newsletter state
   const [email, setEmail] = useState('');
   const [subscribing, setSubscribing] = useState(false);
   const [subscribeStatus, setSubscribeStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
-  // Fetch Data from Supabase
-  useEffect(() => {
-    async function fetchPosts() {
-      if (isMock) {
-        setPosts(MOCK_POSTS);
-        setLoading(false);
-        return;
-      }
-
-      try {
-        const { data, error } = await supabase
-          .from('journal_posts')
-          .select('*')
-          .order('created_at', { ascending: false });
-
-        if (error) throw error;
-
-        if (data && data.length > 0) {
-          setPosts(data.map(mapDbToPost));
-        } else {
-           console.log('Journal empty. Seeding...');
-           const seedData = MOCK_POSTS.map(({id, ...p}) => ({
-             title: p.title,
-             excerpt: p.excerpt,
-             category: p.category,
-             image_url: p.imageUrl,
-             published_at: p.publishedAt,
-             slug: p.slug,
-             author: p.author
-           }));
-           
-           const { error: seedError } = await supabase.from('journal_posts').insert(seedData);
-           if (!seedError) {
-             const { data: newData } = await supabase.from('journal_posts').select('*').order('created_at', { ascending: false });
-             if (newData) setPosts(newData.map(mapDbToPost));
-           } else {
-             setPosts(MOCK_POSTS);
-           }
-        }
-      } catch (err) {
-        console.error("Error loading journal, using fallback:", err);
-        setPosts(MOCK_POSTS);
-      } finally {
-        setLoading(false);
-      }
-    }
-    fetchPosts();
-  }, []);
-
   const handleSubscribe = async () => {
     if (!email || !email.includes('@')) return;
     setSubscribing(true);
-    
+
     if (isMock) {
-        setTimeout(() => {
-            setSubscribeStatus('success');
-            setEmail('');
-            setSubscribing(false);
-        }, 1000);
-        return;
+      setTimeout(() => {
+        setSubscribeStatus('success');
+        setEmail('');
+        setSubscribing(false);
+      }, 1000);
+      return;
     }
 
     try {
       const { error } = await supabase.from('subscribers').insert([{ email }]);
       if (error) {
         if (error.code === '23505') {
-           setSubscribeStatus('success');
+          setSubscribeStatus('success');
         } else {
-           setSubscribeStatus('error');
+          setSubscribeStatus('error');
         }
       } else {
         setSubscribeStatus('success');
@@ -179,28 +135,18 @@ export const Journal: React.FC<JournalProps> = ({ onNavigate, onPostClick }) => 
     }
   };
 
-  const handlePostClick = (slug: string) => {
-    if (onPostClick) {
-      onPostClick(slug);
-    }
-  };
-
   // Filter Logic
-  const filteredPosts = activeCategory === 'All' 
-    ? posts 
+  const filteredPosts = activeCategory === 'All'
+    ? posts
     : posts.filter(post => post.category === activeCategory);
 
   // Split Featured vs Grid
   const featuredPost = filteredPosts[0];
   const gridPosts = filteredPosts.slice(1);
 
-  if (loading) {
-    return <div className="min-h-screen bg-sand flex items-center justify-center text-forest"><Loader2 className="animate-spin" /></div>;
-  }
-
   return (
     <div className="pt-24 pb-0 min-h-screen bg-sand">
-      
+
       {/* 1. Page Header */}
       <div className="px-6 md:px-12 py-12 md:py-20 text-center max-w-4xl mx-auto">
         <span className="block font-serif italic text-forest/70 text-lg md:text-xl mb-4">
@@ -209,7 +155,7 @@ export const Journal: React.FC<JournalProps> = ({ onNavigate, onPostClick }) => 
         <h1 className="text-5xl md:text-7xl lg:text-8xl font-serif text-forest tracking-widest mb-12">
           THE JOURNAL
         </h1>
-        
+
         {/* Filter Bar */}
         <div className="flex flex-wrap justify-center gap-6 md:gap-10 border-t border-b border-forest/10 py-6">
           {CATEGORIES.map(cat => (
@@ -232,15 +178,15 @@ export const Journal: React.FC<JournalProps> = ({ onNavigate, onPostClick }) => 
       {/* 2. Featured Story */}
       {featuredPost && (
         <section className="px-6 md:px-12 mb-24 max-w-7xl mx-auto">
-          <div 
+          <Link
+            href={`/journal/${featuredPost.slug}`}
             className="group grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-16 items-center cursor-pointer"
-            onClick={() => handlePostClick(featuredPost.slug)}
           >
-            
+
             {/* Left: Image (60%) */}
             <div className="lg:col-span-3 overflow-hidden aspect-video relative">
-              <img 
-                src={featuredPost.imageUrl} 
+              <img
+                src={featuredPost.imageUrl}
                 alt={featuredPost.title}
                 className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
               />
@@ -249,24 +195,24 @@ export const Journal: React.FC<JournalProps> = ({ onNavigate, onPostClick }) => 
             {/* Right: Text (40%) */}
             <div className="lg:col-span-2 flex flex-col justify-center">
               <div className="flex items-center gap-3 mb-4 text-xs font-sans uppercase tracking-widest text-forest/60">
-                 <span>Featured Story</span>
-                 <span className="w-8 h-px bg-forest/30"></span>
-                 <span>{featuredPost.category}</span>
+                <span>Featured Story</span>
+                <span className="w-8 h-px bg-forest/30"></span>
+                <span>{featuredPost.category}</span>
               </div>
-              
+
               <h2 className="text-4xl md:text-5xl font-serif text-forest leading-tight mb-6 group-hover:underline decoration-forest/30 underline-offset-8 transition-all">
                 {featuredPost.title}
               </h2>
-              
+
               <p className="text-forest/70 font-sans text-base md:text-lg leading-relaxed mb-8">
                 {featuredPost.excerpt}
               </p>
-              
+
               <div className="flex items-center gap-2 text-forest text-xs uppercase tracking-widest font-bold group-hover:gap-4 transition-all">
                 Read Story <ArrowRight size={14} />
               </div>
             </div>
-          </div>
+          </Link>
         </section>
       )}
 
@@ -274,25 +220,24 @@ export const Journal: React.FC<JournalProps> = ({ onNavigate, onPostClick }) => 
       <section className="px-6 md:px-12 mb-32 max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-16">
           {gridPosts.map(post => (
-            <JournalCard 
-              key={post.id} 
+            <JournalCard
+              key={post.id}
               post={post}
-              onClick={handlePostClick}
             />
           ))}
         </div>
-        
+
         {gridPosts.length === 0 && !featuredPost && (
-            <div className="text-center py-20 text-forest/50 font-serif italic">
-                No stories found in this category.
-            </div>
+          <div className="text-center py-20 text-forest/50 font-serif italic">
+            No stories found in this category.
+          </div>
         )}
       </section>
 
       {/* 4. Newsletter Signup */}
       <section className="bg-forest text-sand py-24 px-6 md:px-12 relative overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-full opacity-5 pointer-events-none">
-             <div className="w-full h-full" style={{ backgroundImage: 'radial-gradient(#D3D49F 1px, transparent 1px)', backgroundSize: '20px 20px' }}></div>
+          <div className="w-full h-full" style={{ backgroundImage: 'radial-gradient(#D3D49F 1px, transparent 1px)', backgroundSize: '20px 20px' }}></div>
         </div>
 
         <div className="max-w-xl mx-auto text-center relative z-10">
@@ -300,17 +245,17 @@ export const Journal: React.FC<JournalProps> = ({ onNavigate, onPostClick }) => 
           <p className="font-sans text-sand/70 mb-10 text-sm md:text-base tracking-wide">
             Receive curated travel guides, hidden gem alerts, and exclusive villa offers directly to your inbox.
           </p>
-          
+
           <div className="flex flex-col md:flex-row gap-4">
-            <input 
-              type="email" 
+            <input
+              type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="Your email address" 
+              placeholder="Your email address"
               className="flex-1 bg-transparent border-b border-sand/30 py-3 px-2 text-sand placeholder-sand/30 focus:outline-none focus:border-sand transition-colors font-sans text-sm"
               disabled={subscribing || subscribeStatus === 'success'}
             />
-            <button 
+            <button
               onClick={handleSubscribe}
               disabled={subscribing || subscribeStatus === 'success'}
               className="bg-sand text-forest px-8 py-3 uppercase tracking-widest text-xs font-bold hover:bg-white transition-colors disabled:opacity-70"

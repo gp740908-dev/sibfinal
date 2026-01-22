@@ -1,0 +1,139 @@
+'use client';
+
+import React from 'react';
+import Link from 'next/link';
+import { ArrowLeft, Calendar, User } from 'lucide-react';
+
+interface BlogPost {
+    id: string;
+    title: string;
+    excerpt: string;
+    content?: string;
+    category: string;
+    image_url: string;
+    published_at: string;
+    slug: string;
+    author: string;
+}
+
+interface JournalPostContentProps {
+    post: BlogPost;
+    relatedPosts: BlogPost[];
+}
+
+export const JournalPostContent: React.FC<JournalPostContentProps> = ({ post, relatedPosts }) => {
+    return (
+        <div className="bg-sand min-h-screen pt-32 pb-20">
+
+            {/* Back Button */}
+            <div className="px-6 md:px-12 max-w-4xl mx-auto mb-8">
+                <Link
+                    href="/journal"
+                    className="flex items-center gap-2 text-forest/60 hover:text-forest text-xs uppercase tracking-widest transition-colors"
+                >
+                    <ArrowLeft size={14} /> Back to Journal
+                </Link>
+            </div>
+
+            {/* Hero Image */}
+            <div className="px-6 md:px-12 max-w-5xl mx-auto mb-12">
+                <div className="aspect-[16/9] overflow-hidden rounded-2xl">
+                    <img
+                        src={post.image_url}
+                        alt={post.title}
+                        className="w-full h-full object-cover"
+                    />
+                </div>
+            </div>
+
+            {/* Article Content */}
+            <article className="px-6 md:px-12 max-w-3xl mx-auto">
+
+                {/* Meta */}
+                <div className="flex items-center gap-4 text-xs uppercase tracking-widest text-forest/60 mb-6">
+                    <span className="bg-forest/10 px-3 py-1 rounded-full">{post.category}</span>
+                    <div className="flex items-center gap-2">
+                        <Calendar size={12} />
+                        <span>{post.published_at}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                        <User size={12} />
+                        <span>{post.author}</span>
+                    </div>
+                </div>
+
+                {/* Title */}
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif text-forest leading-tight mb-8">
+                    {post.title}
+                </h1>
+
+                {/* Excerpt */}
+                <p className="text-xl text-forest/80 font-serif italic leading-relaxed mb-12 border-l-2 border-forest/20 pl-6">
+                    {post.excerpt}
+                </p>
+
+                {/* Content */}
+                <div className="prose prose-lg prose-forest max-w-none">
+                    <div
+                        className="font-sans text-forest/90 leading-relaxed space-y-6"
+                        dangerouslySetInnerHTML={{ __html: post.content || '' }}
+                    />
+                </div>
+
+                {/* Divider */}
+                <div className="my-16 flex items-center justify-center">
+                    <div className="w-24 h-px bg-forest/20"></div>
+                </div>
+
+                {/* Author Info */}
+                <div className="bg-white/40 border border-white/60 rounded-2xl p-8 mb-16">
+                    <div className="flex items-center gap-4 mb-4">
+                        <div className="w-16 h-16 rounded-full bg-forest/10 flex items-center justify-center">
+                            <User size={24} className="text-forest/60" />
+                        </div>
+                        <div>
+                            <h3 className="font-serif text-xl text-forest">{post.author}</h3>
+                            <p className="text-sm text-forest/60">Contributing Writer</p>
+                        </div>
+                    </div>
+                    <p className="font-sans text-forest/70 text-sm leading-relaxed">
+                        {post.author} is a passionate storyteller exploring the intersection of culture,
+                        wellness, and sustainable living in Bali.
+                    </p>
+                </div>
+
+            </article>
+
+            {/* Related Posts */}
+            {relatedPosts.length > 0 && (
+                <section className="px-6 md:px-12 max-w-7xl mx-auto mt-24 pt-12 border-t border-forest/10">
+                    <h2 className="text-3xl font-serif text-forest mb-12 text-center">
+                        More From <span className="italic">{post.category}</span>
+                    </h2>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        {relatedPosts.map(related => (
+                            <Link
+                                key={related.id}
+                                href={`/journal/${related.slug}`}
+                                className="group cursor-pointer"
+                            >
+                                <div className="aspect-[4/5] overflow-hidden rounded-lg mb-4">
+                                    <img
+                                        src={related.image_url}
+                                        alt={related.title}
+                                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                    />
+                                </div>
+                                <h3 className="font-serif text-xl text-forest group-hover:underline">
+                                    {related.title}
+                                </h3>
+                                <p className="text-sm text-forest/60 mt-2">{related.published_at}</p>
+                            </Link>
+                        ))}
+                    </div>
+                </section>
+            )}
+
+        </div>
+    );
+};

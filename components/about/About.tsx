@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -21,12 +23,12 @@ export const About: React.FC = () => {
       ease: "power3.out",
       delay: 0.2
     })
-    .from('.philosophy-sub', {
-      y: 20,
-      opacity: 0,
-      duration: 1,
-      ease: "power2.out"
-    }, "-=0.5");
+      .from('.philosophy-sub', {
+        y: 20,
+        opacity: 0,
+        duration: 1,
+        ease: "power2.out"
+      }, "-=0.5");
 
     // 2. Rotating Seal
     gsap.to(sealRef.current, {
@@ -39,7 +41,7 @@ export const About: React.FC = () => {
     // 3. Scroll Reveal Sections
     const sections = gsap.utils.toArray('.reveal-section');
     sections.forEach((section: any) => {
-      gsap.fromTo(section, 
+      gsap.fromTo(section,
         { y: 50, opacity: 0 },
         {
           y: 0,
@@ -66,7 +68,7 @@ export const About: React.FC = () => {
           start: "top bottom",
           end: "bottom top",
           scrub: true
-        } 
+        }
       });
     });
 
@@ -83,7 +85,7 @@ export const About: React.FC = () => {
 
   return (
     <div ref={containerRef} className="pt-24 pb-0 min-h-screen bg-sand text-forest overflow-hidden">
-      
+
       {/* SECTION 1: THE PHILOSOPHY (Hero) */}
       <section className="min-h-[80vh] flex flex-col justify-center items-center text-center px-6 md:px-12 max-w-5xl mx-auto">
         <h1 className="text-5xl md:text-7xl lg:text-[7rem] font-serif leading-none tracking-tight mb-12">
@@ -98,24 +100,24 @@ export const About: React.FC = () => {
       {/* SECTION 2: THE ORIGINS (Asymmetrical Grid) */}
       <section className="reveal-section py-24 px-6 md:px-12 max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-12 items-center relative">
-          
+
           {/* Rotating Seal Graphic */}
           <div ref={sealRef} className="absolute -top-10 -left-10 md:-left-20 md:top-0 w-32 h-32 md:w-48 md:h-48 z-10 opacity-20 pointer-events-none">
-             <svg viewBox="0 0 200 200" className="w-full h-full text-forest fill-current">
-                <path id="curve" d="M 100, 100 m -75, 0 a 75,75 0 1,1 150,0 a 75,75 0 1,1 -150,0" fill="transparent"/>
-                <text className="text-[12px] uppercase tracking-[0.2em] font-bold">
-                  <textPath href="#curve">
-                    StayinUBUD • Est. 2024 • Luxury Sanctuary • Bali •
-                  </textPath>
-                </text>
-             </svg>
+            <svg viewBox="0 0 200 200" className="w-full h-full text-forest fill-current">
+              <path id="curve" d="M 100, 100 m -75, 0 a 75,75 0 1,1 150,0 a 75,75 0 1,1 -150,0" fill="transparent" />
+              <text className="text-[12px] uppercase tracking-[0.2em] font-bold">
+                <textPath href="#curve">
+                  StayinUBUD • Est. 2024 • Luxury Sanctuary • Bali •
+                </textPath>
+              </text>
+            </svg>
           </div>
 
           {/* Left Image */}
           <div className="md:col-span-5 h-[600px] overflow-hidden rounded-t-[10rem] relative z-0">
-            <img 
-              src="https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?auto=format&fit=crop&q=80&w=800" 
-              alt="Ubud Temple Texture" 
+            <img
+              src="https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?auto=format&fit=crop&q=80&w=800"
+              alt="Ubud Temple Texture"
               className="parallax-img w-full h-[120%] object-cover -mt-[10%]"
             />
           </div>
@@ -124,7 +126,7 @@ export const About: React.FC = () => {
           <div className="md:col-span-1 md:col-start-7"></div> {/* Spacer */}
           <div className="md:col-span-5">
             <span className="block font-sans text-xs uppercase tracking-[0.2em] opacity-60 mb-6">Origins</span>
-            <h2 className="text-4xl md:text-5xl font-serif mb-8 leading-tight">Born in the <br/> <span className="italic opacity-80">Sacred Valley</span></h2>
+            <h2 className="text-4xl md:text-5xl font-serif mb-8 leading-tight">Born in the <br /> <span className="italic opacity-80">Sacred Valley</span></h2>
             <p className="font-sans text-lg leading-relaxed mb-6 opacity-80">
               StayinUBUD started as a whisper. A desire to share the side of Bali that often goes unseen—the misty mornings in the highlands, the intricate devotion of daily offerings, and the profound stillness of the jungle.
             </p>
@@ -139,11 +141,11 @@ export const About: React.FC = () => {
       <section className="reveal-section py-32 px-6 md:px-12 border-t border-forest/10">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-20">
-             <h2 className="text-3xl md:text-4xl font-serif">OUR PILLARS</h2>
+            <h2 className="text-3xl md:text-4xl font-serif">OUR PILLARS</h2>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-            
+
             {/* Value 1 */}
             <div className="group p-8 border border-forest/10 hover:border-forest/50 transition-all duration-500 hover:-translate-y-2 bg-sand">
               <div className="mb-6 text-forest/70 group-hover:text-forest transition-colors">
@@ -185,12 +187,12 @@ export const About: React.FC = () => {
       <section className="reveal-section py-24 px-6 md:px-12 bg-forest/5">
         <div className="max-w-4xl mx-auto border border-forest/20 p-8 md:p-16 relative bg-sand/50">
           <div className="flex flex-col md:flex-row gap-10 items-center">
-            
+
             {/* Host Photo */}
             <div className="w-32 h-32 md:w-48 md:h-48 flex-shrink-0 overflow-hidden rounded-full border border-forest/20">
-              <img 
-                src="https://cdn.discordapp.com/attachments/899895963685109810/1382100420209672383/image.png?" 
-                alt="Founder" 
+              <img
+                src="https://cdn.discordapp.com/attachments/899895963685109810/1382100420209672383/image.png?"
+                alt="Founder"
                 className="w-full h-full object-cover grayscale opacity-90"
               />
             </div>
@@ -202,15 +204,15 @@ export const About: React.FC = () => {
               </p>
               <div className="flex flex-col md:flex-row items-center md:items-end justify-between gap-4">
                 <div>
-                   <span className="block font-sans text-xs uppercase tracking-widest font-bold">Cipeng</span>
-                   <span className="block font-sans text-xs opacity-60 mt-1">Founders, StayinUBUD</span>
+                  <span className="block font-sans text-xs uppercase tracking-widest font-bold">Cipeng</span>
+                  <span className="block font-sans text-xs opacity-60 mt-1">Founders, StayinUBUD</span>
                 </div>
-                
+
                 {/* Signature SVG */}
                 <svg width="150" height="40" viewBox="0 0 150 40" className="text-forest opacity-80">
-                  <path d="M10,20 Q30,5 50,20 T90,20 T130,20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-                  <path d="M60,20 Q70,35 80,10" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-                  <path d="M100,20 Q110,30 120,15" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                  <path d="M10,20 Q30,5 50,20 T90,20 T130,20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                  <path d="M60,20 Q70,35 80,10" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                  <path d="M100,20 Q110,30 120,15" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
                 </svg>
               </div>
             </div>

@@ -1,9 +1,10 @@
+'use client';
+
 import React, { useRef, useState, useEffect } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
 import { ArrowRight, MessageCircle } from 'lucide-react';
-import { supabase } from '../../lib/supabase';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -16,27 +17,54 @@ interface Experience {
   image: string;
 }
 
-export const Experiences: React.FC = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [experiences, setExperiences] = useState<Experience[]>([]);
+interface ExperiencesProps {
+  initialExperiences?: any[];
+}
 
-  useEffect(() => {
-    async function fetchExperiences() {
-      const { data } = await supabase.from('experiences').select('*').order('created_at', { ascending: true });
-      if (data) {
-        const formatted = data.map((item: any) => ({
-          id: item.id,
-          title: item.title,
-          description: item.description,
-          category: item.category,
-          image: item.image_url,
-          cta: item.cta_label
-        }));
-        setExperiences(formatted);
-      }
-    }
-    fetchExperiences();
-  }, []);
+const mapExperience = (item: any): Experience => ({
+  id: item.id,
+  title: item.title,
+  description: item.description,
+  category: item.category,
+  image: item.image_url,
+  cta: item.cta_label || 'Learn More'
+});
+
+// Mock data fallback
+const MOCK_EXPERIENCES: Experience[] = [
+  {
+    id: '1',
+    category: 'Wellness',
+    title: 'Holistic Healing Rituals',
+    description: 'Immerse yourself in ancient Balinese healing traditions. Our curated wellness experiences include sound healing sessions, traditional Melukat purification ceremonies, and private yoga sessions overlooking the valley.',
+    cta: 'Book Session',
+    image: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&q=80&w=1000'
+  },
+  {
+    id: '2',
+    category: 'Culinary',
+    title: 'Private Dining Experiences',
+    description: 'From sunrise breakfasts floating in your infinity pool to candlelit dinners in the rice fields, our private chefs craft bespoke menus using the freshest local ingredients.',
+    cta: 'View Menus',
+    image: 'https://images.unsplash.com/photo-1414235077428-338989a2e814?auto=format&fit=crop&q=80&w=1000'
+  },
+  {
+    id: '3',
+    category: 'Adventure',
+    title: 'Sacred Temple Tours',
+    description: 'Venture beyond the tourist trails with our local guides to discover hidden temples, participate in authentic offerings ceremonies, and learn the spiritual significance of these sacred sites.',
+    cta: 'Explore Tours',
+    image: 'https://images.unsplash.com/photo-1555400038-63f5ba517a91?auto=format&fit=crop&q=80&w=1000'
+  }
+];
+
+export const Experiences: React.FC<ExperiencesProps> = ({ initialExperiences }) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  // Use initial data or mock data
+  const experiences: Experience[] = initialExperiences && initialExperiences.length > 0
+    ? initialExperiences.map(mapExperience)
+    : MOCK_EXPERIENCES;
 
   useGSAP(() => {
     if (experiences.length === 0) return;
@@ -71,7 +99,7 @@ export const Experiences: React.FC = () => {
       // Image Parallax
       gsap.fromTo(section.querySelector('.exp-image'),
         { yPercent: -10, scale: 1.1 },
-        { 
+        {
           yPercent: 10,
           scale: 1,
           ease: "none",
@@ -95,7 +123,7 @@ export const Experiences: React.FC = () => {
 
   return (
     <div ref={containerRef} className="bg-sand min-h-screen pt-24 pb-20 overflow-hidden">
-      
+
       {/* 1. HERO */}
       <section className="px-6 md:px-12 py-20 md:py-32 text-center max-w-5xl mx-auto">
         <span className="exp-hero-text block font-sans text-xs md:text-sm uppercase tracking-[0.3em] text-forest/60 mb-6">
@@ -113,8 +141,8 @@ export const Experiences: React.FC = () => {
       {/* 2. CONTENT BLOCKS */}
       <div className="flex flex-col gap-0">
         {experiences.map((item, index) => (
-          <section 
-            key={item.id} 
+          <section
+            key={item.id}
             className={`exp-section py-24 px-6 md:px-12 flex flex-col md:flex-row items-center gap-12 lg:gap-24 max-w-7xl mx-auto
               ${index % 2 === 1 ? 'md:flex-row-reverse' : ''}
             `}
@@ -130,7 +158,7 @@ export const Experiences: React.FC = () => {
               <p className="font-sans text-forest/80 text-lg leading-relaxed mb-8">
                 {item.description}
               </p>
-              <button 
+              <button
                 onClick={handleInquire}
                 className="group flex items-center gap-3 text-sm font-bold uppercase tracking-widest text-forest hover:text-accent transition-colors"
               >
@@ -141,8 +169,8 @@ export const Experiences: React.FC = () => {
             {/* Image Side */}
             <div className="w-full md:w-1/2 aspect-[3/4] md:aspect-[4/5] overflow-hidden relative shadow-2xl bg-forest/10">
               <div className="w-full h-full overflow-hidden">
-                <img 
-                  src={item.image} 
+                <img
+                  src={item.image}
                   alt={item.title}
                   className="exp-image w-full h-[120%] object-cover -mt-[10%]"
                 />
@@ -156,7 +184,7 @@ export const Experiences: React.FC = () => {
 
       {/* 3. FLOATING CTA */}
       <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-40 animate-slide-up">
-        <button 
+        <button
           onClick={handleInquire}
           className="bg-forest text-sand pl-6 pr-8 py-4 rounded-full shadow-2xl hover:bg-forest/90 hover:scale-105 transition-all duration-300 flex items-center gap-3 group border border-sand/10"
         >

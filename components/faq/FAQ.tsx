@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState, useRef } from 'react';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
@@ -69,7 +71,7 @@ export const FAQ: React.FC = () => {
       duration: 1,
       ease: "power3.out"
     });
-    
+
     gsap.from('.faq-tabs', {
       y: 20,
       opacity: 0,
@@ -94,17 +96,17 @@ export const FAQ: React.FC = () => {
   return (
     <div ref={containerRef} className="min-h-screen bg-sand pt-32 pb-20 px-6 md:px-12 text-forest">
       <div className="max-w-3xl mx-auto">
-        
+
         {/* Header */}
         <div className="faq-header text-center mb-16">
           <span className="block font-sans text-xs uppercase tracking-[0.2em] opacity-60 mb-4">
             Support
           </span>
           <h1 className="text-4xl md:text-6xl font-serif leading-none mb-6">
-            FREQUENTLY ASKED <br/> <span className="italic opacity-70">QUESTIONS</span>
+            FREQUENTLY ASKED <br /> <span className="italic opacity-70">QUESTIONS</span>
           </h1>
           <p className="font-sans text-forest/70 max-w-lg mx-auto">
-            Everything you need to know about your upcoming escape to Ubud. 
+            Everything you need to know about your upcoming escape to Ubud.
             If you can't find what you're looking for, our concierge is always available.
           </p>
         </div>
@@ -132,8 +134,8 @@ export const FAQ: React.FC = () => {
           {FAQ_DATA[activeTab].map((item, index) => {
             const isOpen = openIndex === index;
             return (
-              <div 
-                key={index} 
+              <div
+                key={index}
                 className="border-b border-forest/10 last:border-none"
               >
                 <button
@@ -147,8 +149,8 @@ export const FAQ: React.FC = () => {
                     {isOpen ? <Minus size={20} /> : <Plus size={20} />}
                   </div>
                 </button>
-                
-                <div 
+
+                <div
                   className={`grid transition-[grid-template-rows] duration-500 ease-out ${isOpen ? 'grid-rows-[1fr] opacity-100 pb-8' : 'grid-rows-[0fr] opacity-0'}`}
                 >
                   <div className="overflow-hidden">

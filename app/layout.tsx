@@ -6,6 +6,7 @@ import './globals.css';
 import 'leaflet/dist/leaflet.css';
 import 'react-day-picker/dist/style.css';
 import { JsonLd } from '@/components/seo/JsonLd';
+import { ClientLayout } from '@/components/layout/ClientLayout';
 
 // 1. Font Optimization (Zero Layout Shift)
 const playfair = Playfair_Display({
@@ -110,7 +111,9 @@ export default function RootLayout({
         <JsonLd data={organizationSchema} />
       </head>
       <body className="bg-sand text-forest antialiased min-h-screen flex flex-col">
-        {children}
+        <ClientLayout>
+          {children}
+        </ClientLayout>
       </body>
     </html>
   );

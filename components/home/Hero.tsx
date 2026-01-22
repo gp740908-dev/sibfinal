@@ -1,14 +1,12 @@
+'use client';
 
 import React, { useRef, useState, useEffect } from 'react';
+import Link from 'next/link';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
 
 gsap.registerPlugin(ScrollTrigger);
-
-interface HeroProps {
-  onNavigate: (view: 'villas') => void;
-}
 
 // Configuration for the slideshow
 const SLIDE_DURATION = 6000; // 6 seconds
@@ -16,7 +14,7 @@ const HERO_SLIDES = [
   {
     id: 1,
     // Pool/Villa View
-    src: 'https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&q=80&w=1920', 
+    src: 'https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&q=80&w=1920',
     alt: 'Luxury Infinity Pool overlooking Jungle',
   },
   {
@@ -39,10 +37,10 @@ const HERO_SLIDES = [
   },
 ];
 
-export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
+export const Hero: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLDivElement>(null);
-  
+
   // State for Slideshow
   const [activeSlide, setActiveSlide] = useState(0);
   const imageRefs = useRef<(HTMLImageElement | null)[]>([]);
@@ -84,20 +82,20 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
       ease: "power3.out",
       delay: 0.5 // Wait a bit for first image to load
     })
-    .fromTo('.hero-sub', {
+      .fromTo('.hero-sub', {
         y: 30,
         opacity: 0
-    }, {
+      }, {
         y: 0,
         opacity: 1,
         stagger: 0.2,
         duration: 1,
         ease: "power2.out"
-    }, "-=0.5");
+      }, "-=0.5");
 
     // B. Text Parallax (Moves slower than scroll)
     gsap.to(textRef.current, {
-      yPercent: -50, 
+      yPercent: -50,
       ease: "none",
       scrollTrigger: {
         trigger: containerRef.current,
@@ -114,12 +112,12 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
     const currentImg = imageRefs.current[activeSlide];
     if (currentImg) {
       // Reset scale instantly then animate
-      gsap.fromTo(currentImg, 
-        { scale: 1.15 }, 
-        { 
-          scale: 1.0, 
+      gsap.fromTo(currentImg,
+        { scale: 1.15 },
+        {
+          scale: 1.0,
           duration: SLIDE_DURATION / 1000 + 1, // Slightly longer than slide duration to prevent abrupt stop
-          ease: "power1.out" 
+          ease: "power1.out"
         }
       );
     }
@@ -127,7 +125,7 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
 
   return (
     <section ref={containerRef} className="relative h-screen w-full flex items-center justify-center overflow-hidden bg-forest">
-      
+
       {/* LAYER 1: Background Slideshow */}
       <div className="absolute inset-0 z-0 w-full h-full">
         {HERO_SLIDES.map((slide, index) => (
@@ -147,22 +145,22 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
             />
           </div>
         ))}
-        
+
         {/* Layer 1.5: Gradient Overlay for Readability */}
         <div className="absolute inset-0 bg-gradient-to-b from-forest/30 via-forest/10 to-forest/60 mix-blend-multiply z-20 pointer-events-none" />
-        
+
         {/* Layer 1.6: Subtle Texture (Optional Luxury Feel) */}
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-[0.03] z-20 pointer-events-none" />
       </div>
 
       {/* LAYER 2: Text Content */}
       <div ref={textRef} className="relative z-30 flex flex-col items-center justify-center text-center px-6 max-w-6xl mx-auto h-full pt-20">
-        
+
         {/* Headline */}
         <h1 className="text-5xl md:text-7xl lg:text-[9rem] font-serif text-sand mb-6 tracking-widest leading-none drop-shadow-2xl">
-           <span className="block whitespace-nowrap">
-             {splitText("STAYINUBUD")}
-           </span>
+          <span className="block whitespace-nowrap">
+            {splitText("STAYINUBUD")}
+          </span>
         </h1>
 
         {/* Subheadline */}
@@ -171,15 +169,15 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
         </p>
 
         {/* CTA Button */}
-        <button 
-          onClick={() => onNavigate('villas')}
-          className="hero-sub group relative px-10 py-4 overflow-hidden border border-sand transition-all duration-300"
+        <Link
+          href="/villas"
+          className="hero-sub group relative px-10 py-4 overflow-hidden border border-sand transition-all duration-300 inline-block"
         >
-           <span className="relative z-10 font-sans text-xs md:text-sm uppercase tracking-[0.2em] text-sand group-hover:text-forest transition-colors duration-300 font-bold">
+          <span className="relative z-10 font-sans text-xs md:text-sm uppercase tracking-[0.2em] text-sand group-hover:text-forest transition-colors duration-300 font-bold">
             Explore Villas
-           </span>
-           <div className="absolute inset-0 bg-sand transform scale-y-0 group-hover:scale-y-100 transition-transform duration-500 origin-bottom ease-out" />
-        </button>
+          </span>
+          <div className="absolute inset-0 bg-sand transform scale-y-0 group-hover:scale-y-100 transition-transform duration-500 origin-bottom ease-out" />
+        </Link>
       </div>
 
       {/* LAYER 3: Slide Indicators */}

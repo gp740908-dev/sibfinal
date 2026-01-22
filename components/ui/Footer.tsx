@@ -1,27 +1,11 @@
+'use client';
+
 import React from 'react';
+import Link from 'next/link';
 
-interface FooterProps {
-  onNavigate?: (view: 'home' | 'journal' | 'about' | 'experiences' | 'faq' | 'thank-you' | 'privacy' | 'terms') => void;
-}
-
-export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
-  const handleNavigation = (e: React.MouseEvent, view: 'home' | 'journal' | 'about' | 'experiences' | 'faq' | 'thank-you' | 'privacy' | 'terms', hash?: string) => {
-    e.preventDefault();
-    if (onNavigate) {
-      onNavigate(view);
-      if (hash) {
-        setTimeout(() => {
-          const element = document.querySelector(hash);
-          if (element) element.scrollIntoView({ behavior: 'smooth' });
-        }, 100);
-      } else {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }
-    }
-  };
-
+export const Footer: React.FC = () => {
   return (
-    <footer 
+    <footer
       className="fixed bottom-0 left-0 w-full z-0 bg-forest text-sand flex flex-col justify-between py-12 px-6 md:px-12 h-[450px] md:h-[500px]"
     >
       {/* Top Section: CTA */}
@@ -33,39 +17,42 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
           Ready to <br />
           <span className="italic font-light text-accent-light">Escape?</span>
         </h2>
-        <button className="group relative px-8 py-3 overflow-hidden rounded-full border border-sand/30 hover:border-sand transition-colors duration-300">
+        <Link
+          href="/villas"
+          className="group relative px-8 py-3 overflow-hidden rounded-full border border-sand/30 hover:border-sand transition-colors duration-300"
+        >
           <span className="relative z-10 font-sans text-xs md:text-sm tracking-widest uppercase group-hover:text-forest transition-colors duration-300">
             Check Availability
           </span>
           <div className="absolute inset-0 bg-sand transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left ease-out" />
-        </button>
+        </Link>
       </div>
 
       {/* Bottom Section: Links & Copyright */}
       <div className="w-full flex flex-col md:flex-row justify-between items-end border-t border-sand/10 pt-8 mt-4">
         <div className="flex flex-col md:flex-row gap-4 md:gap-8 mb-4 md:mb-0">
           <div className="flex gap-8">
-            <a href="#villas" onClick={(e) => handleNavigation(e, 'home', '#villas')} className="font-sans text-xs uppercase tracking-widest hover:text-accent-light transition-colors">Villas</a>
-            <a href="#" onClick={(e) => handleNavigation(e, 'experiences')} className="font-sans text-xs uppercase tracking-widest hover:text-accent-light transition-colors">Experience</a>
-            <a href="#" onClick={(e) => handleNavigation(e, 'journal')} className="font-sans text-xs uppercase tracking-widest hover:text-accent-light transition-colors">Journal</a>
-            <a href="#" onClick={(e) => handleNavigation(e, 'faq')} className="font-sans text-xs uppercase tracking-widest hover:text-accent-light transition-colors">FAQ</a>
+            <Link href="/villas" className="font-sans text-xs uppercase tracking-widest hover:text-accent-light transition-colors">Villas</Link>
+            <Link href="/experiences" className="font-sans text-xs uppercase tracking-widest hover:text-accent-light transition-colors">Experience</Link>
+            <Link href="/journal" className="font-sans text-xs uppercase tracking-widest hover:text-accent-light transition-colors">Journal</Link>
+            <Link href="/faq" className="font-sans text-xs uppercase tracking-widest hover:text-accent-light transition-colors">FAQ</Link>
           </div>
           <div className="flex gap-8 md:border-l md:border-sand/20 md:pl-8">
-            <a href="#" onClick={(e) => handleNavigation(e, 'privacy')} className="font-sans text-xs uppercase tracking-widest opacity-60 hover:opacity-100 hover:text-accent-light transition-colors">Privacy</a>
-            <a href="#" onClick={(e) => handleNavigation(e, 'terms')} className="font-sans text-xs uppercase tracking-widest opacity-60 hover:opacity-100 hover:text-accent-light transition-colors">Terms</a>
+            <Link href="/privacy" className="font-sans text-xs uppercase tracking-widest opacity-60 hover:opacity-100 hover:text-accent-light transition-colors">Privacy</Link>
+            <Link href="/terms" className="font-sans text-xs uppercase tracking-widest opacity-60 hover:opacity-100 hover:text-accent-light transition-colors">Terms</Link>
           </div>
         </div>
-        
+
         <div className="text-right">
-          <p className="font-serif text-2xl mb-1">Stayin<span className="italic">UBUD</span></p>
+          <Link href="/" className="font-serif text-2xl mb-1 block">Stayin<span className="italic">UBUD</span></Link>
           <div className="flex gap-4 justify-end opacity-50">
-            <a href="#" className="hover:opacity-100 transition-opacity">
+            <a href="https://instagram.com/stayinubud" target="_blank" rel="noreferrer" className="hover:opacity-100 transition-opacity">
               <span className="sr-only">Instagram</span>
               IG
             </a>
-            <a href="#" className="hover:opacity-100 transition-opacity">
-               <span className="sr-only">Twitter</span>
-               TW
+            <a href="https://twitter.com/stayinubud" target="_blank" rel="noreferrer" className="hover:opacity-100 transition-opacity">
+              <span className="sr-only">Twitter</span>
+              TW
             </a>
           </div>
           <p className="font-sans text-[10px] uppercase tracking-widest opacity-40 mt-2">© 2024 Luxury Rentals</p>

@@ -1,5 +1,7 @@
+'use client';
 
 import React, { useRef, useState, useEffect } from 'react';
+import Link from 'next/link';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
@@ -8,10 +10,6 @@ import { BlogPost } from '../../types';
 import { supabase, isMock } from '../../lib/supabase';
 
 gsap.registerPlugin(ScrollTrigger);
-
-interface RecentJournalProps {
-  onNavigate: (view: 'home' | 'journal' | 'about') => void;
-}
 
 // Fallback data to ensure section visibility
 const MOCK_POSTS: BlogPost[] = [
@@ -38,7 +36,7 @@ const MOCK_POSTS: BlogPost[] = [
   {
     id: '3',
     title: 'Farm to Table: The Organic Revolution',
-    excerpt: 'Meet the chefs transforming Ubud’s culinary scene by returning to the roots of traditional Balinese permaculture.',
+    excerpt: 'Meet the chefs transforming Ubud\'s culinary scene by returning to the roots of traditional Balinese permaculture.',
     category: 'Food',
     imageUrl: 'https://images.unsplash.com/photo-1596919014169-2f588a800880?auto=format&fit=crop&q=80&w=800',
     publishedAt: 'February 15, 2024',
@@ -47,58 +45,56 @@ const MOCK_POSTS: BlogPost[] = [
   }
 ];
 
-export const RecentJournal: React.FC<RecentJournalProps> = ({ onNavigate }) => {
+export const RecentJournal: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const [posts, setPosts] = useState<BlogPost[]>([]);
 
   useEffect(() => {
-     async function fetchRecent() {
-       if (isMock) {
-         setPosts(MOCK_POSTS);
-         return;
-       }
+    async function fetchRecent() {
+      if (isMock) {
+        setPosts(MOCK_POSTS);
+        return;
+      }
 
-       try {
-         const { data, error } = await supabase
-           .from('journal_posts')
-           .select('*')
-           .order('created_at', { ascending: false })
-           .limit(3);
-         
-         if (error) throw error;
+      try {
+        const { data, error } = await supabase
+          .from('journal_posts')
+          .select('*')
+          .order('created_at', { ascending: false })
+          .limit(3);
 
-         if (data && data.length > 0) {
-            const formatted: BlogPost[] = data.map((p: any) => ({
-              id: p.id,
-              title: p.title,
-              excerpt: p.excerpt,
-              category: p.category,
-              imageUrl: p.image_url,
-              publishedAt: p.published_at,
-              slug: p.slug,
-              author: p.author
-            }));
-            setPosts(formatted);
-         } else {
-            // Use mock data if DB is empty
-            setPosts(MOCK_POSTS);
-         }
-       } catch (err) {
-         console.warn("Error fetching recent journal, using fallback:", err);
-         setPosts(MOCK_POSTS);
-       }
-     }
-     fetchRecent();
+        if (error) throw error;
+
+        if (data && data.length > 0) {
+          const formatted: BlogPost[] = data.map((p: any) => ({
+            id: p.id,
+            title: p.title,
+            excerpt: p.excerpt,
+            category: p.category,
+            imageUrl: p.image_url,
+            publishedAt: p.published_at,
+            slug: p.slug,
+            author: p.author
+          }));
+          setPosts(formatted);
+        } else {
+          setPosts(MOCK_POSTS);
+        }
+      } catch (err) {
+        console.warn("Error fetching recent journal, using fallback:", err);
+        setPosts(MOCK_POSTS);
+      }
+    }
+    fetchRecent();
   }, []);
 
   useGSAP(() => {
-    // Only animate if posts exist
     if (posts.length === 0) return;
 
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: sectionRef.current,
-        start: "top 75%", 
+        start: "top 75%",
         toggleActions: "play none none reverse"
       }
     });
@@ -120,13 +116,12 @@ export const RecentJournal: React.FC<RecentJournalProps> = ({ onNavigate }) => {
 
   }, { scope: sectionRef, dependencies: [posts] });
 
-  // If even mock data fails (unlikely), render nothing
   if (posts.length === 0) return null;
 
   return (
     <section ref={sectionRef} className="py-24 md:py-32 px-6 md:px-12 bg-sand text-forest">
       <div className="max-w-7xl mx-auto">
-        
+
         {/* Header */}
         <div className="journal-header flex flex-col md:flex-row justify-between items-end mb-16 border-b border-forest/10 pb-6">
           <div>
@@ -135,28 +130,28 @@ export const RecentJournal: React.FC<RecentJournalProps> = ({ onNavigate }) => {
               STORIES FROM UBUD
             </h2>
           </div>
-          <button 
-            onClick={() => onNavigate('journal')}
+          <Link
+            href="/journal"
             className="group flex items-center gap-2 text-sm uppercase tracking-widest font-bold mt-6 md:mt-0 hover:text-accent transition-colors"
           >
             Read All Stories
             <ArrowRight size={16} className="transform group-hover:translate-x-1 transition-transform" />
-          </button>
+          </Link>
         </div>
 
         {/* Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
           {posts.map((post) => (
-            <div 
-              key={post.id} 
+            <Link
+              key={post.id}
+              href={`/journal/${post.slug}`}
               className="journal-card group cursor-pointer flex flex-col gap-6"
-              onClick={() => onNavigate('journal')}
             >
               {/* Image */}
               <div className="overflow-hidden aspect-[4/5] relative bg-forest/5">
-                <img 
-                  src={post.imageUrl} 
-                  alt={post.title} 
+                <img
+                  src={post.imageUrl}
+                  alt={post.title}
                   className="w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-105 group-hover:brightness-95"
                 />
               </div>
@@ -167,16 +162,16 @@ export const RecentJournal: React.FC<RecentJournalProps> = ({ onNavigate }) => {
                   <span>{post.category}</span>
                   <span>{post.publishedAt}</span>
                 </div>
-                
+
                 <h3 className="font-serif text-2xl md:text-3xl text-forest leading-tight group-hover:underline decoration-forest/30 underline-offset-4 transition-all">
                   {post.title}
                 </h3>
-                
+
                 <p className="font-sans text-forest/70 text-sm leading-relaxed line-clamp-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500 transform translate-y-2 group-hover:translate-y-0">
                   {post.excerpt}
                 </p>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
 

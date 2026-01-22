@@ -1,4 +1,7 @@
+'use client';
+
 import React, { useRef, useState, useEffect } from 'react';
+import Link from 'next/link';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
@@ -9,11 +12,10 @@ import { FullScreenMenu } from '../layout/FullScreenMenu';
 gsap.registerPlugin(ScrollTrigger);
 
 interface NavbarProps {
-  onNavigate: (view: 'home' | 'villas' | 'journal' | 'about' | 'experiences' | 'faq' | 'thank-you' | 'privacy' | 'terms') => void;
-  currentView: string;
+  currentView?: string;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({ onNavigate, currentView }) => {
+export const Navbar: React.FC<NavbarProps> = ({ currentView = 'home' }) => {
   const navRef = useRef<HTMLElement>(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -24,75 +26,67 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate, currentView }) => {
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-      
+
       setIsScrolled(currentScrollY > 50);
-      
+
       // Show/Hide Logic
       if (currentScrollY < 10) {
-        // Always show at top
         setIsVisible(true);
       } else if (currentScrollY < lastScrollY.current) {
-        // Scrolling up - show navbar
         setIsVisible(true);
       } else if (currentScrollY > lastScrollY.current && currentScrollY > 100) {
-        // Scrolling down - hide navbar
         setIsVisible(false);
       }
-      
+
       lastScrollY.current = currentScrollY;
     };
-    
+
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   useGSAP(() => {
-    // Cleanup function only
     return () => {
       ScrollTrigger.getAll().forEach(trigger => trigger.kill());
     };
   }, { scope: navRef });
 
   // Determine Theme
-  const isInnerPage = ['villas', 'journal', 'about', 'experiences', 'faq', 'thank-you', 'privacy', 'terms', 'villa-detail'].includes(currentView);
-  
-  // Logic: Always use Dark Mode (Forest color for all elements)
+  const isInnerPage = currentView !== 'home';
   const isDarkState = true;
-
-  // Colors & Classes - Always Forest/Dark
   const textColor = 'text-forest';
   const borderColor = isScrolled || isInnerPage ? 'border-forest/10' : 'border-forest/10';
   const iconColorClass = 'text-forest';
 
   return (
     <>
-      <nav 
+      <nav
         ref={navRef}
         className={`fixed top-0 left-0 right-0 z-[50] border-b transition-all duration-500 ease-in-out
           ${isVisible ? 'translate-y-0' : '-translate-y-full'}
           ${isScrolled || isInnerPage
-            ? 'bg-sand/95 backdrop-blur-md shadow-sm py-3' // PERUBAHAN: Ganti bg-white jadi bg-sand
+            ? 'bg-sand/95 backdrop-blur-md shadow-sm py-3'
             : 'bg-transparent py-6 border-transparent'
           }
           ${borderColor}
         `}
       >
         <div className="px-6 md:px-12 grid grid-cols-3 items-center">
-          
+
           {/* LEFT: Social Icons */}
           <div className="flex items-center gap-4 md:gap-6 justify-start">
-            <a 
-              href="https://instagram.com" 
-              target="_blank" 
+            <a
+              href="https://instagram.com"
+              target="_blank"
               rel="noreferrer"
               className={`transition-colors duration-300 hover:opacity-70 ${iconColorClass}`}
               aria-label="Instagram"
             >
               <FaInstagram size={20} />
             </a>
-            <a 
-              href="https://wa.me/6281234567890" 
-              target="_blank" 
+            <a
+              href="https://wa.me/6281234567890"
+              target="_blank"
               rel="noreferrer"
               className={`transition-colors duration-300 hover:opacity-70 ${iconColorClass}`}
               aria-label="WhatsApp"
@@ -102,28 +96,28 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate, currentView }) => {
           </div>
 
           {/* CENTER: Brand / Logo Stack */}
-          <div 
-            onClick={() => onNavigate('home')}
+          <Link
+            href="/"
             className="flex flex-col items-center justify-start cursor-pointer group -my-2"
           >
             {/* Icon Image */}
-            <img 
-              src="/rumah.png" 
-              alt="StayinUBUD Icon" 
+            <img
+              src="/rumah.png"
+              alt="StayinUBUD Icon"
               className={`w-auto object-contain transition-all duration-700 ease-in-out
-                ${isDarkState 
-                  ? 'h-16' // Scrolled Size
-                  : 'h-20' // Top Size (Larger)
+                ${isDarkState
+                  ? 'h-16'
+                  : 'h-20'
                 } 
               `}
             />
-            
-            {/* Text Container - Collapses Vertically on Scroll */}
-            <div 
+
+            {/* Text Container */}
+            <div
               className={`flex flex-col items-center justify-center overflow-hidden transition-all duration-700 ease-in-out
-                ${isScrolled 
-                  ? 'max-h-0 opacity-0 mt-0' // Hidden state
-                  : 'max-h-[60px] opacity-100 mt-0' // Visible state - closer spacing
+                ${isScrolled
+                  ? 'max-h-0 opacity-0 mt-0'
+                  : 'max-h-[60px] opacity-100 mt-0'
                 }
               `}
             >
@@ -134,13 +128,13 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate, currentView }) => {
                 Villa Bali Culture
               </span>
             </div>
-          </div>
+          </Link>
 
           {/* RIGHT: Utilities */}
           <div className="flex items-center gap-6 justify-end">
-            
+
             {/* Language */}
-            <button 
+            <button
               className={`hidden md:flex items-center gap-2 group transition-colors duration-300 ${iconColorClass}`}
               aria-label="Language Selector"
             >
@@ -151,27 +145,27 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate, currentView }) => {
             </button>
 
             {/* Hamburger Menu */}
-            <button 
+            <button
               onClick={() => setIsMenuOpen(true)}
               className="flex items-center gap-3 group cursor-pointer"
               aria-label="Open Menu"
             >
-               <span className={`hidden md:block font-sans text-xs uppercase tracking-[0.2em] font-medium transition-colors duration-300
+              <span className={`hidden md:block font-sans text-xs uppercase tracking-[0.2em] font-medium transition-colors duration-300
                   ${textColor}
                `}>
-                 Menu
-               </span>
-               <div className="w-8 flex flex-col items-end gap-[5px]">
-                 <span className={`block w-full h-[1.5px] transition-all duration-300 group-hover:w-2/3 
+                Menu
+              </span>
+              <div className="w-8 flex flex-col items-end gap-[5px]">
+                <span className={`block w-full h-[1.5px] transition-all duration-300 group-hover:w-2/3 
                    ${isDarkState ? 'bg-forest' : 'bg-sand'}
                  `} />
-                 <span className={`block w-2/3 h-[1.5px] transition-all duration-300 group-hover:w-full 
+                <span className={`block w-2/3 h-[1.5px] transition-all duration-300 group-hover:w-full 
                    ${isDarkState ? 'bg-forest' : 'bg-sand'}
                  `} />
-                 <span className={`block w-full h-[1.5px] transition-all duration-300 group-hover:w-2/3 
+                <span className={`block w-full h-[1.5px] transition-all duration-300 group-hover:w-2/3 
                    ${isDarkState ? 'bg-forest' : 'bg-sand'}
                  `} />
-               </div>
+              </div>
             </button>
           </div>
 
@@ -179,10 +173,9 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate, currentView }) => {
       </nav>
 
       {/* Full Screen Menu Overlay */}
-      <FullScreenMenu 
-        isOpen={isMenuOpen} 
-        onClose={() => setIsMenuOpen(false)} 
-        onNavigate={onNavigate}
+      <FullScreenMenu
+        isOpen={isMenuOpen}
+        onClose={() => setIsMenuOpen(false)}
       />
     </>
   );
