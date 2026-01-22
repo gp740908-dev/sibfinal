@@ -15,6 +15,7 @@ import { GuestDiaries } from './components/home/GuestDiaries';
 import { SignatureDetails } from './components/home/SignatureDetails';
 import { Newsletter } from './components/home/Newsletter';
 import { Journal } from './components/journal/Journal';
+import { JournalPost } from './components/journal/JournalPost';
 import { About } from './components/about/About';
 import { Experiences } from './components/experiences/Experiences';
 import { FAQ } from './components/faq/FAQ';
