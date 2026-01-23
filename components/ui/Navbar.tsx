@@ -101,17 +101,24 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView = 'home' }) => {
             href="/"
             className="flex flex-col items-center justify-start cursor-pointer group -my-2"
           >
-            {/* Icon Image */}
-            <img
-              src="/rumah.png"
-              alt="StayinUBUD Icon"
-              className={`w-auto object-contain transition-all duration-700 ease-in-out
-                ${isDarkState
-                  ? 'h-16'
-                  : 'h-20 brightness-0 invert'
-                } 
-              `}
-            />
+            {/* Icon Image - Dual Layer for Color Control */}
+            <div className={`relative w-auto transition-all duration-700 ease-in-out ${isDarkState ? 'h-16' : 'h-20'}`}>
+
+              {/* 1. Layout Spacer (Invisible) */}
+              <img src="/rumah.png" alt="" className="h-full w-auto opacity-0 pointer-events-none select-none" />
+
+              {/* 2. Original Version (For Dark/Scrolled State) */}
+              <img
+                src="/rumah.png"
+                alt="StayinUBUD Icon"
+                className={`absolute inset-0 h-full w-auto object-contain transition-opacity duration-500 ${isDarkState ? 'opacity-100' : 'opacity-0'}`}
+              />
+
+              {/* 3. Sand Tint Version (Mask) */}
+              <div
+                className={`absolute inset-0 h-full w-full bg-sand [mask-image:url(/rumah.png)] [mask-size:contain] [mask-repeat:no-repeat] [mask-position:center] transition-opacity duration-500 ${isDarkState ? 'opacity-0' : 'opacity-100'}`}
+              />
+            </div>
 
             {/* Text Container */}
             <div
