@@ -53,10 +53,11 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView = 'home' }) => {
 
   // Determine Theme
   const isInnerPage = currentView !== 'home';
-  const isDarkState = true;
-  const textColor = 'text-forest';
-  const borderColor = isScrolled || isInnerPage ? 'border-forest/10' : 'border-forest/10';
-  const iconColorClass = 'text-forest';
+  const isDarkState = isScrolled || isInnerPage;
+
+  const textColor = isDarkState ? 'text-forest' : 'text-sand';
+  const borderColor = isDarkState ? 'border-forest/10' : 'border-transparent';
+  const iconColorClass = isDarkState ? 'text-forest' : 'text-sand';
 
   return (
     <>
@@ -107,7 +108,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView = 'home' }) => {
               className={`w-auto object-contain transition-all duration-700 ease-in-out
                 ${isDarkState
                   ? 'h-16'
-                  : 'h-20'
+                  : 'h-20 brightness-0 invert'
                 } 
               `}
             />
