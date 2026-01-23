@@ -86,7 +86,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView = 'home' }) => {
               <FaInstagram size={20} />
             </a>
             <a
-              href="https://wa.me/6281234567890"
+              href="https://wa.me/6282269128232"
               target="_blank"
               rel="noreferrer"
               className={`transition-colors duration-300 hover:opacity-70 ${iconColorClass}`}

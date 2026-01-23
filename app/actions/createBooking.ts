@@ -21,7 +21,7 @@ export async function createBooking(input: CreateBookingInput) {
   try {
     // 1. Validation
     const result = bookingSchema.safeParse(input);
-    
+
     if (!result.success) {
       const errorMessage = result.error.errors.map(e => e.message).join(', ');
       console.error("Validation Error:", errorMessage);
@@ -70,7 +70,7 @@ ${data.special_request ? `Special Request: ${data.special_request}` : ''}
 
 Please confirm availability.`;
 
-    const targetNumber = '6281234567890'; 
+    const targetNumber = '6282269128232';
     const redirectUrl = `https://wa.me/${targetNumber}?text=${encodeURIComponent(message)}`;
 
     return { success: true, redirectUrl };

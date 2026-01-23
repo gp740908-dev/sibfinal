@@ -5,6 +5,7 @@ import { differenceInCalendarDays, format, addDays } from 'date-fns';
 import { Calendar } from './Calendar';
 import { MobileBookingDrawer } from './MobileBookingDrawer';
 import { GuestFormModal, GuestFormData } from './GuestFormModal';
+import { BookingSuccessModal } from './BookingSuccessModal';
 import { ChevronDown, Loader2, Info } from 'lucide-react';
 import { submitBookingRequest } from '../../app/actions/booking';
 
@@ -15,9 +16,9 @@ interface BookingWidgetProps {
   blockedDates?: Date[];
 }
 
-export const BookingWidget: React.FC<BookingWidgetProps> = ({ 
-  pricePerNight, 
-  villaName, 
+export const BookingWidget: React.FC<BookingWidgetProps> = ({
+  pricePerNight,
+  villaName,
   villaId,
   blockedDates = []
 }) => {
@@ -27,7 +28,15 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
   const [isMobileDrawerOpen, setIsMobileDrawerOpen] = useState(false);
   const [isGuestFormOpen, setIsGuestFormOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  
+  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+  const [lastBookingDetails, setLastBookingDetails] = useState<{
+    villaName: string;
+    guestName: string;
+    checkIn: string;
+    checkOut: string;
+    totalPrice: string;
+  } | null>(null);
+
   const calendarRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -40,8 +49,8 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const nightCount = dateRange?.from && dateRange?.to 
-    ? differenceInCalendarDays(dateRange.to, dateRange.from) 
+  const nightCount = dateRange?.from && dateRange?.to
+    ? differenceInCalendarDays(dateRange.to, dateRange.from)
     : 0;
 
   const subTotal = nightCount * pricePerNight;
@@ -83,9 +92,24 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
       );
 
       if (result.success && result.whatsappUrl) {
+        // Store booking details for success modal
+        setLastBookingDetails({
+          villaName: villaName,
+          guestName: guestData.fullName,
+          checkIn: format(dateRange.from, 'dd MMM yyyy'),
+          checkOut: format(dateRange.to, 'dd MMM yyyy'),
+          totalPrice: formatPrice(total)
+        });
+
+        // Open WhatsApp in new tab
         window.open(result.whatsappUrl, '_blank');
+
+        // Close form and show success modal
         setIsGuestFormOpen(false);
-        // Optional: Reset form or show success message
+        setIsSuccessModalOpen(true);
+
+        // Reset date selection for new booking
+        setDateRange(undefined);
       } else {
         console.error("Booking Failed:", result.error);
         alert(result.error || "Something went wrong. Please try again.");
@@ -103,7 +127,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
       {/* --- DESKTOP STICKY WIDGET --- */}
       <div id="booking-widget" className="hidden md:block sticky top-32 z-30" ref={calendarRef}>
         <div className="bg-white rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] border border-forest/10 p-6 overflow-visible relative">
-          
+
           {/* Header */}
           <div className="flex justify-between items-end mb-6">
             <div>
@@ -115,7 +139,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
           {/* Input Interface */}
           <div className="border border-gray-300 rounded-xl mb-4 relative">
             {/* Dates Trigger */}
-            <div 
+            <div
               className="grid grid-cols-2 border-b border-gray-300 cursor-pointer"
               onClick={() => setIsCalendarOpen(!isCalendarOpen)}
             >
@@ -142,14 +166,14 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
                 </div>
                 <ChevronDown size={16} className="text-gray-400 group-hover:text-forest transition-colors" />
               </div>
-              
+
               {/* Simple Guest Counter Popover */}
-              <select 
+              <select
                 className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                 value={guests}
                 onChange={(e) => setGuests(Number(e.target.value))}
               >
-                {[1,2,3,4,5,6,7,8].map(n => (
+                {[1, 2, 3, 4, 5, 6, 7, 8].map(n => (
                   <option key={n} value={n}>{n} Guests</option>
                 ))}
               </select>
@@ -158,25 +182,25 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
             {/* Calendar Popup */}
             {isCalendarOpen && (
               <div className="absolute top-[58px] right-0 z-50 bg-white rounded-xl shadow-2xl border border-forest/10 p-4 animate-in fade-in zoom-in-95 duration-200 origin-top-right min-w-[320px]">
-                <Calendar 
+                <Calendar
                   selected={dateRange}
                   onSelect={setDateRange}
                   disabledDates={blockedDates}
                   numberOfMonths={1}
                 />
-                
+
                 {/* Legend */}
                 <div className="flex items-center justify-center gap-6 py-3 border-t border-gray-100">
-                   <div className="flex items-center gap-2 text-[10px] uppercase tracking-widest text-gray-500">
-                      <div className="w-2 h-2 rounded-full bg-forest"></div> Selected
-                   </div>
-                   <div className="flex items-center gap-2 text-[10px] uppercase tracking-widest text-gray-400">
-                      <span className="line-through decoration-gray-400">12</span> Occupied
-                   </div>
+                  <div className="flex items-center gap-2 text-[10px] uppercase tracking-widest text-gray-500">
+                    <div className="w-2 h-2 rounded-full bg-forest"></div> Selected
+                  </div>
+                  <div className="flex items-center gap-2 text-[10px] uppercase tracking-widest text-gray-400">
+                    <span className="line-through decoration-gray-400">12</span> Occupied
+                  </div>
                 </div>
 
                 <div className="flex justify-end pt-2">
-                  <button 
+                  <button
                     onClick={() => setIsCalendarOpen(false)}
                     className="text-xs font-bold uppercase text-forest hover:bg-forest/10 px-4 py-2 rounded-md transition-colors"
                   >
@@ -213,10 +237,10 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
             </div>
           )}
         </div>
-        
+
         <div className="mt-4 flex items-center justify-center gap-2 text-xs text-gray-400">
-           <Info size={14} />
-           <span>Prices in IDR. Free cancel within 48h.</span>
+          <Info size={14} />
+          <span>Prices in IDR. Free cancel within 48h.</span>
         </div>
       </div>
 
@@ -225,16 +249,16 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
         <div className="flex justify-between items-center gap-4">
           <div className="flex flex-col">
             {nightCount > 0 ? (
-               <span className="font-serif text-lg text-forest">{formatPrice(total)} <span className="text-xs font-sans text-gray-500">total</span></span>
+              <span className="font-serif text-lg text-forest">{formatPrice(total)} <span className="text-xs font-sans text-gray-500">total</span></span>
             ) : (
-               <span className="font-serif text-lg text-forest">{formatPrice(pricePerNight)} <span className="text-xs font-sans text-gray-500">/ night</span></span>
+              <span className="font-serif text-lg text-forest">{formatPrice(pricePerNight)} <span className="text-xs font-sans text-gray-500">/ night</span></span>
             )}
             <span className="text-xs text-gray-500 underline">
               {dateRange?.from && dateRange?.to ? `${format(dateRange.from, 'dd MMM')} - ${format(dateRange.to, 'dd MMM')}` : 'Select dates'}
             </span>
           </div>
-          
-          <button 
+
+          <button
             onClick={handleRequestClick}
             className="bg-forest text-white px-6 py-3 rounded-lg font-bold uppercase text-xs tracking-widest shadow-lg shadow-forest/20"
           >
@@ -244,7 +268,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
       </div>
 
       {/* --- MOBILE DRAWER COMPONENT --- */}
-      <MobileBookingDrawer 
+      <MobileBookingDrawer
         isOpen={isMobileDrawerOpen}
         onClose={() => setIsMobileDrawerOpen(false)}
         pricePerNight={pricePerNight}
@@ -258,7 +282,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
 
       {/* --- GUEST FORM MODAL --- */}
       {dateRange?.from && dateRange?.to && (
-        <GuestFormModal 
+        <GuestFormModal
           isOpen={isGuestFormOpen}
           onClose={() => setIsGuestFormOpen(false)}
           onSubmit={handleFinalSubmit}
@@ -271,6 +295,15 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
             nights: nightCount,
             guests: guests
           }}
+        />
+      )}
+
+      {/* --- SUCCESS MODAL --- */}
+      {lastBookingDetails && (
+        <BookingSuccessModal
+          isOpen={isSuccessModalOpen}
+          onClose={() => setIsSuccessModalOpen(false)}
+          bookingDetails={lastBookingDetails}
         />
       )}
     </>

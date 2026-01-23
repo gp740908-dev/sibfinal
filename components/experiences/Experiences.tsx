@@ -116,7 +116,7 @@ export const Experiences: React.FC<ExperiencesProps> = ({ initialExperiences }) 
   }, { scope: containerRef, dependencies: [experiences] });
 
   const handleInquire = () => {
-    window.open('https://wa.me/6281234567890?text=I%20would%20like%20to%20inquire%20about%20an%20experience', '_blank');
+    window.open('https://wa.me/6282269128232?text=I%20would%20like%20to%20inquire%20about%20an%20experience', '_blank');
   };
 
   if (experiences.length === 0) return <div className="min-h-screen bg-sand"></div>;

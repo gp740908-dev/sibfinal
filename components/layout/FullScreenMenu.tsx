@@ -154,8 +154,8 @@ export const FullScreenMenu: React.FC<FullScreenMenuProps> = ({ isOpen, onClose 
                 <a href="mailto:host@stayinubud.com" className="flex items-center gap-3 hover:text-accent-light transition-colors">
                   <Mail size={18} /> host@stayinubud.com
                 </a>
-                <a href="tel:+6281234567890" className="flex items-center gap-3 hover:text-accent-light transition-colors">
-                  <Phone size={18} /> +62 812 3456 7890
+                <a href="tel:+6282269128232" className="flex items-center gap-3 hover:text-accent-light transition-colors">
+                  <Phone size={18} /> +62 822 6912 8232
                 </a>
               </div>
             </div>

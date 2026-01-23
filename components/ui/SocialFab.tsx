@@ -13,7 +13,7 @@ const SOCIAL_LINKS = [
     id: 'whatsapp',
     label: 'WhatsApp',
     icon: FaWhatsapp,
-    href: 'https://wa.me/6281234567890', // Replace with real number
+    href: 'https://wa.me/6282269128232',
     colorClass: 'text-[#25D366]', // Official WhatsApp Green
   },
   {
@@ -65,7 +65,7 @@ export const SocialFab: React.FC = () => {
         ease: "back.out(1.7)",
         pointerEvents: "auto"
       });
-      
+
       // Rotate Icon to X
       gsap.to(iconRef.current, {
         rotation: 135,
@@ -95,8 +95,8 @@ export const SocialFab: React.FC = () => {
   }, { scope: containerRef, dependencies: [isOpen] });
 
   return (
-    <div 
-      ref={containerRef} 
+    <div
+      ref={containerRef}
       className="fixed bottom-8 right-6 md:right-10 z-50 flex flex-col items-end gap-4"
     >
       {/* SVG Definition for Instagram Gradient */}
@@ -116,8 +116,8 @@ export const SocialFab: React.FC = () => {
       `}</style>
 
       {/* Social Buttons Stack */}
-      <div 
-        ref={menuRef} 
+      <div
+        ref={menuRef}
         className="flex flex-col gap-3 items-end mb-2"
       >
         {SOCIAL_LINKS.map((social) => (
@@ -148,7 +148,7 @@ export const SocialFab: React.FC = () => {
         aria-label="Open Social Menu"
       >
         <div ref={iconRef} className="relative w-8 h-8 flex items-center justify-center">
-           {/* We use the Plus icon because we rotate it 135deg to make an X, or 0 to be a Plus. 
+          {/* We use the Plus icon because we rotate it 135deg to make an X, or 0 to be a Plus. 
                However, the prompt requested MessageCircle. 
                Let's use a Plus/X concept for the rotation, but if we want MessageCircle, rotation might look weird.
                Let's stick to the Plus icon concept for rotation, or overlay icons.
@@ -159,7 +159,7 @@ export const SocialFab: React.FC = () => {
                
                Let's use the MessageCircle, but on Open, we fade it to an X.
            */}
-           {isOpen ? <X size={32} /> : <MessageCircle size={32} />}
+          {isOpen ? <X size={32} /> : <MessageCircle size={32} />}
         </div>
       </button>
     </div>

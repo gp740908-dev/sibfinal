@@ -88,7 +88,7 @@ _Ref: MOCK-123_`;
 
     return {
       success: true,
-      whatsappUrl: `https://wa.me/6281234567890?text=${encodeURIComponent(message)}`
+      whatsappUrl: `https://wa.me/6282269128232?text=${encodeURIComponent(message)}`
     };
   }
 
@@ -184,7 +184,7 @@ ${guestDetails.specialRequest ? `📝 *Note:* ${guestDetails.specialRequest}` : 
 
 _Ref: ${booking.id.slice(0, 8)}_`;
 
-    const whatsappUrl = `https://wa.me/6281234567890?text=${encodeURIComponent(message)}`;
+    const whatsappUrl = `https://wa.me/6282269128232?text=${encodeURIComponent(message)}`;
 
     return { success: true, whatsappUrl };
 
