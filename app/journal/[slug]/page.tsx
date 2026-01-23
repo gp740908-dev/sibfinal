@@ -4,6 +4,15 @@ import { supabase } from '@/lib/supabase';
 import { JournalPostContent } from '@/components/journal/JournalPostContent';
 import { JsonLd } from '@/components/seo/JsonLd';
 
+// ISR: Revalidate daily for blog content
+export const revalidate = 86400;
+
+// Pre-generate journal pages at build time for SEO
+export async function generateStaticParams() {
+    const { data: posts } = await supabase.from('journal_posts').select('slug');
+    return (posts || []).map((post) => ({ slug: post.slug }));
+}
+
 interface PageProps {
     params: Promise<{ slug: string }>;
 }

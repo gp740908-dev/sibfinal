@@ -6,6 +6,15 @@ import { mapDbToVilla, getBlockedDates } from '@/lib/utils';
 import { JsonLd } from '@/components/seo/JsonLd';
 import { Metadata } from 'next';
 
+// ISR: Revalidate every hour for fresh content while keeping speed
+export const revalidate = 3600;
+
+// Pre-generate villa pages at build time for SEO
+export async function generateStaticParams() {
+  const { data: villas } = await supabase.from('villas').select('id');
+  return (villas || []).map((villa) => ({ id: villa.id }));
+}
+
 interface PageProps {
   params: Promise<{ id: string }>;
 }

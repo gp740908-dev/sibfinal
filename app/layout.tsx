@@ -93,7 +93,7 @@ export default function RootLayout({
     logo: 'https://stayinubud.com/logo.png',
     contactPoint: {
       '@type': 'ContactPoint',
-      telephone: '+62-812-3456-7890',
+      telephone: '+62-822-6912-8232',
       contactType: 'reservations',
       areaServed: 'ID',
       availableLanguage: ['English', 'Indonesian'],
@@ -104,11 +104,50 @@ export default function RootLayout({
     ],
   };
 
+  // LodgingBusiness Schema for Google Local SEO
+  const lodgingBusinessSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'LodgingBusiness',
+    name: 'StayinUBUD Luxury Villas',
+    description: 'Luxury private pool villas in the heart of Ubud, Bali. Experience authentic Balinese hospitality with personal concierge service.',
+    url: 'https://stayinubud.com',
+    telephone: '+62-822-6912-8232',
+    email: 'host@stayinubud.com',
+    image: 'https://stayinubud.com/og-image.jpg',
+    priceRange: 'IDR 2,000,000 - IDR 15,000,000',
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: 'Jl. Raya Ubud',
+      addressLocality: 'Ubud',
+      addressRegion: 'Bali',
+      postalCode: '80571',
+      addressCountry: 'ID',
+    },
+    geo: {
+      '@type': 'GeoCoordinates',
+      latitude: -8.5069,
+      longitude: 115.2625,
+    },
+    amenityFeature: [
+      { '@type': 'LocationFeatureSpecification', name: 'Private Pool', value: true },
+      { '@type': 'LocationFeatureSpecification', name: 'Free WiFi', value: true },
+      { '@type': 'LocationFeatureSpecification', name: 'Air Conditioning', value: true },
+      { '@type': 'LocationFeatureSpecification', name: 'Kitchen', value: true },
+      { '@type': 'LocationFeatureSpecification', name: 'Concierge Service', value: true },
+    ],
+    starRating: {
+      '@type': 'Rating',
+      ratingValue: '5',
+    },
+  };
+
   return (
     <html lang="en" className={`${playfair.variable} ${manrope.variable} scroll-smooth`}>
       <head>
         {/* Organization Schema for Knowledge Graph */}
         <JsonLd data={organizationSchema} />
+        {/* LodgingBusiness Schema for Local SEO */}
+        <JsonLd data={lodgingBusinessSchema} />
       </head>
       <body className="bg-sand text-forest antialiased min-h-screen flex flex-col">
         <ClientLayout>

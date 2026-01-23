@@ -5,6 +5,8 @@ import { Metadata } from 'next';
 import { supabase } from '../../lib/supabase';
 import { BlogPost } from '../../types';
 import { JournalCard } from '../../components/journal/JournalCard';
+import { JsonLd } from '@/components/seo/JsonLd';
+import { BreadcrumbSchema } from '@/components/seo/BreadcrumbSchema';
 import {
     Shield,
     MapPin,
@@ -14,9 +16,37 @@ import {
     Building
 } from 'lucide-react';
 
+// ISR: Revalidate daily for evergreen content
+export const revalidate = 86400;
+
+// Enhanced SEO Metadata with Target Keywords
 export const metadata: Metadata = {
-    title: 'The Bali Guide - Property, Culture & Investment | StayinUBUD',
-    description: 'Your essential guide to navigating Bali ownership regulations, discovering key neighborhoods, and understanding the real estate market trends.',
+    title: 'Bali Guide: Luxury Villa Investment & Property Ownership | StayinUBUD',
+    description: 'Expert guide to Bali real estate investment. Learn about luxury villa Ubud ownership, Ubud private pool villa rentals, foreign property rights, and top neighborhoods for investment.',
+    keywords: [
+        'Luxury Villa Ubud',
+        'Bali Real Estate Investment',
+        'Ubud Private Pool Villa',
+        'Bali Property Ownership',
+        'Foreign Ownership Bali',
+        'Bali Investment Guide',
+        'Ubud Villa Rental ROI'
+    ],
+    alternates: {
+        canonical: 'https://stayinubud.com/bali-guide',
+    },
+    openGraph: {
+        type: 'website',
+        title: 'The Bali Guide - Property, Culture & Investment',
+        description: 'Your essential guide to luxury villa investment in Ubud, Bali. Navigate ownership regulations, discover key neighborhoods, and understand market trends.',
+        url: 'https://stayinubud.com/bali-guide',
+        images: [{
+            url: 'https://images.unsplash.com/photo-1555400038-63f5ba517a47?auto=format&fit=crop&q=80&w=1200',
+            width: 1200,
+            height: 630,
+            alt: 'Bali Temple Gate - StayinUBUD Guide'
+        }],
+    },
 };
 
 // Fallback Mock Data for Guides
