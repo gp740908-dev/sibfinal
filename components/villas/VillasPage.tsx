@@ -96,7 +96,7 @@ export const VillasPage: React.FC<VillasPageProps> = ({ villas }) => {
           OUR SANCTUARIES
         </h1>
         <div className="w-px h-16 bg-forest/20 mx-auto mb-8"></div>
-        <p className="font-sans text-lg md:text-xl text-forest/80 leading-relaxed max-w-2xl mx-auto">
+        <p className="font-sans text-lg md:text-xl text-neutral-800 leading-relaxed max-w-2xl mx-auto">
           Each residence is chosen for its profound connection to the land.
           Discover a home that breathes with the rhythm of Ubud.
         </p>
@@ -148,16 +148,16 @@ export const VillasPage: React.FC<VillasPageProps> = ({ villas }) => {
                     <h3 className="font-serif text-2xl md:text-3xl text-forest mb-2 group-hover:underline underline-offset-4 decoration-forest/30">
                       {villa.name}
                     </h3>
-                    <p className="font-sans text-sm text-forest/60">
+                    <p className="font-sans text-sm text-neutral-600">
                       {villa.bedrooms} Bedrooms • {villa.guests} Guests
                     </p>
                   </div>
                   <div className="text-right">
-                    <p className="font-sans text-xs text-forest/50 uppercase tracking-widest">From</p>
+                    <p className="font-sans text-xs text-neutral-500 uppercase tracking-widest">From</p>
                     <p className="font-serif text-xl text-forest">
                       {formatPrice(villa.pricePerNight)}
                     </p>
-                    <p className="font-sans text-xs text-forest/50">per night</p>
+                    <p className="font-sans text-xs text-neutral-500">per night</p>
                   </div>
                 </div>
               </Link>

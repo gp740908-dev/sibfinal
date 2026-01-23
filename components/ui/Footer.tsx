@@ -29,24 +29,24 @@ export const Footer: React.FC = () => {
       </div>
 
       {/* Bottom Section: Links & Copyright */}
-      <div className="w-full flex flex-col md:flex-row justify-between items-end border-t border-sand/10 pt-8 mt-4">
-        <div className="flex flex-col md:flex-row gap-4 md:gap-8 mb-4 md:mb-0">
-          <div className="flex gap-8">
+      <div className="w-full flex flex-col md:flex-row justify-between items-center md:items-end border-t border-sand/10 pt-8 mt-4">
+        <div className="flex flex-col md:flex-row gap-4 md:gap-8 mb-8 md:mb-0 items-center md:items-start w-full md:w-auto">
+          <div className="flex gap-4 md:gap-8 flex-wrap justify-center">
             <Link href="/villas" className="font-sans text-xs uppercase tracking-widest hover:text-accent-light transition-colors">Villas</Link>
             <Link href="/experiences" className="font-sans text-xs uppercase tracking-widest hover:text-accent-light transition-colors">Experience</Link>
             <Link href="/bali-guide" className="font-sans text-xs uppercase tracking-widest hover:text-accent-light transition-colors">Guide</Link>
             <Link href="/journal" className="font-sans text-xs uppercase tracking-widest hover:text-accent-light transition-colors">Journal</Link>
             <Link href="/faq" className="font-sans text-xs uppercase tracking-widest hover:text-accent-light transition-colors">FAQ</Link>
           </div>
-          <div className="flex gap-8 md:border-l md:border-sand/20 md:pl-8">
+          <div className="flex gap-4 md:gap-8 md:border-l md:border-sand/20 md:pl-8 flex-wrap justify-center">
             <Link href="/privacy" className="font-sans text-xs uppercase tracking-widest opacity-60 hover:opacity-100 hover:text-accent-light transition-colors">Privacy</Link>
             <Link href="/terms" className="font-sans text-xs uppercase tracking-widest opacity-60 hover:opacity-100 hover:text-accent-light transition-colors">Terms</Link>
           </div>
         </div>
 
-        <div className="text-right">
-          <Link href="/" className="font-serif text-2xl mb-1 block">Stayin<span className="italic">UBUD</span></Link>
-          <div className="flex gap-4 justify-end opacity-50">
+        <div className="text-center md:text-right w-full md:w-auto">
+          <Link href="/" className="font-serif text-2xl mb-2 md:mb-1 block">Stayin<span className="italic">UBUD</span></Link>
+          <div className="flex gap-4 justify-center md:justify-end opacity-50">
             <a href="https://instagram.com/stayinubud" target="_blank" rel="noreferrer" className="hover:opacity-100 transition-opacity">
               <span className="sr-only">Instagram</span>
               IG

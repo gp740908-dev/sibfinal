@@ -112,7 +112,7 @@ export const FullScreenMenu: React.FC<FullScreenMenuProps> = ({ isOpen, onClose 
         </div>
 
         {/* Middle Section: Split Grid */}
-        <div className="flex-1 flex flex-col md:flex-row items-center md:items-stretch py-12 md:py-0">
+        <div className="flex-1 flex flex-col md:flex-row items-center md:items-stretch py-12 md:py-0 overflow-y-auto md:overflow-visible no-scrollbar">
 
           {/* B. Left Column: Primary Nav */}
           <div className="w-full md:w-1/2 flex flex-col justify-center items-start space-y-2 md:space-y-6">

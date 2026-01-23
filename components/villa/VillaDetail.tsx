@@ -162,15 +162,15 @@ export const VillaDetail: React.FC<VillaDetailProps> = ({
 
             {/* Highlights */}
             <div className="flex flex-wrap gap-6 mb-8 border-y border-forest/10 py-6">
-              <div className="flex items-center gap-3"><Waves size={20} className="text-forest/70" /> <span className="text-sm">Private Pool</span></div>
-              <div className="flex items-center gap-3"><Wifi size={20} className="text-forest/70" /> <span className="text-sm">Fast Wifi (100Mbps)</span></div>
-              <div className="flex items-center gap-3"><Shield size={20} className="text-forest/70" /> <span className="text-sm">24/7 Security</span></div>
-              <div className="flex items-center gap-3"><Coffee size={20} className="text-forest/70" /> <span className="text-sm">Daily Breakfast</span></div>
+              <div className="flex items-center gap-3"><Waves size={20} className="text-forest/70" /> <span className="text-sm text-neutral-700">Private Pool</span></div>
+              <div className="flex items-center gap-3"><Wifi size={20} className="text-forest/70" /> <span className="text-sm text-neutral-700">Fast Wifi (100Mbps)</span></div>
+              <div className="flex items-center gap-3"><Shield size={20} className="text-forest/70" /> <span className="text-sm text-neutral-700">24/7 Security</span></div>
+              <div className="flex items-center gap-3"><Coffee size={20} className="text-forest/70" /> <span className="text-sm text-neutral-700">Daily Breakfast</span></div>
             </div>
 
             {/* Narrative Description */}
             <div className="mb-10">
-              <p className={`font-sans text-forest/80 text-lg leading-relaxed ${!isDescExpanded && 'line-clamp-4'}`}>
+              <p className={`font-sans text-neutral-800 text-lg leading-relaxed ${!isDescExpanded && 'line-clamp-4'}`}>
                 {villa.description} Experience the true essence of Ubud in this curated sanctuary.
                 Designed to blend traditional Balinese architecture with modern luxury, every corner tells a story.
                 Wake up to the symphony of the jungle, enjoy a floating breakfast in your private infinity pool,
@@ -220,7 +220,7 @@ export const VillaDetail: React.FC<VillaDetailProps> = ({
                   </h3>
                   <ul className="space-y-3">
                     {items.map((item, i) => (
-                      <li key={i} className="flex items-start gap-3 text-forest/80 text-sm">
+                      <li key={i} className="flex items-start gap-3 text-neutral-800 text-sm">
                         <CheckCircle2 size={16} className="mt-0.5 text-forest/40 shrink-0" />
                         {item}
                       </li>

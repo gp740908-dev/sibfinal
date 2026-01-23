@@ -174,12 +174,12 @@ export const HomePage: React.FC = () => {
                     </h2>
                 </div>
                 <div className="md:w-1/2">
-                    <p className="text-forest/80 font-sans text-lg leading-relaxed mb-6">
+                    <p className="text-neutral-800 font-sans text-lg leading-relaxed mb-6">
                         Ubud is not just a destination; it is a feeling. At StayinUBUD, we select homes that breathe.
                         Our collection features villas that open up to the jungle, float above rice terraces, and offer
                         silence so profound you can hear your own thoughts.
                     </p>
-                    <p className="text-forest/80 font-sans text-lg leading-relaxed">
+                    <p className="text-neutral-800 font-sans text-lg leading-relaxed">
                         Every stay includes 24/7 personal concierge service to ensure your retreat is effortless.
                     </p>
                 </div>
