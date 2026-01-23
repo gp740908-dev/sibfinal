@@ -7,13 +7,11 @@ import { JsonLd } from '@/components/seo/JsonLd';
 import { Metadata } from 'next';
 
 // ISR: Revalidate every hour for fresh content while keeping speed
+// Pages are rendered on first request, then cached for 1 hour
 export const revalidate = 3600;
 
-// Pre-generate villa pages at build time for SEO
-export async function generateStaticParams() {
-  const { data: villas } = await supabase.from('villas').select('id');
-  return (villas || []).map((villa) => ({ id: villa.id }));
-}
+// Dynamic params: Allow any villa ID (rendered on-demand, then cached)
+export const dynamicParams = true;
 
 interface PageProps {
   params: Promise<{ id: string }>;

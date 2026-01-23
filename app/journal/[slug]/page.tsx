@@ -5,13 +5,11 @@ import { JournalPostContent } from '@/components/journal/JournalPostContent';
 import { JsonLd } from '@/components/seo/JsonLd';
 
 // ISR: Revalidate daily for blog content
+// Pages are rendered on first request, then cached for 24 hours
 export const revalidate = 86400;
 
-// Pre-generate journal pages at build time for SEO
-export async function generateStaticParams() {
-    const { data: posts } = await supabase.from('journal_posts').select('slug');
-    return (posts || []).map((post) => ({ slug: post.slug }));
-}
+// Dynamic params: Allow any slug (rendered on-demand, then cached)
+export const dynamicParams = true;
 
 interface PageProps {
     params: Promise<{ slug: string }>;
