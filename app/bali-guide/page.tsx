@@ -169,7 +169,7 @@ export default async function BaliGuidePage() {
                         <div className="relative z-10 mt-auto">
                             <span className="block text-xs font-bold uppercase tracking-widest mb-2 opacity-60">Neighborhoods</span>
                             <h3 className="text-3xl font-serif mb-4">Area Guides</h3>
-                            <p className="text-forest/70 text-sm mb-6 leading-relaxed">
+                            <p className="text-neutral-700 text-sm mb-6 leading-relaxed">
                                 From the spiritual heart of Ubud to the surf breaks of Uluwatu. Discover where you belong.
                             </p>
                             <div className="flex items-center gap-2 text-xs uppercase tracking-widest font-bold group-hover:gap-4 transition-all">
@@ -190,7 +190,7 @@ export default async function BaliGuidePage() {
                                 <span className="text-xs font-bold uppercase tracking-widest opacity-60">Market Intelligence</span>
                             </div>
                             <h3 className="text-3xl md:text-5xl font-serif mb-4">Bali Real Estate Trends 2024</h3>
-                            <p className="text-forest/70 max-w-xl text-lg leading-relaxed">
+                            <p className="text-neutral-700 max-w-xl text-lg leading-relaxed">
                                 Data-driven insights on occupancy rates, ROI projections, and emerging investment hotspots across the island.
                             </p>
                         </div>

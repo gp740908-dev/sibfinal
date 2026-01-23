@@ -133,7 +133,7 @@ export const Experiences: React.FC<ExperiencesProps> = ({ initialExperiences }) 
           CURATED <span className="italic">MOMENTS</span>
         </h1>
         <div className="exp-hero-text w-px h-20 bg-forest/20 mx-auto mb-8"></div>
-        <p className="exp-hero-text font-sans text-lg md:text-xl text-forest/80 max-w-2xl mx-auto leading-relaxed">
+        <p className="exp-hero-text font-sans text-lg md:text-xl text-neutral-800 max-w-2xl mx-auto leading-relaxed">
           We believe that a true luxury escape is defined not just by where you stay, but by how you feel. Our concierge team crafts bespoke itineraries to immerse you in the magic of Ubud.
         </p>
       </section>
@@ -155,7 +155,7 @@ export const Experiences: React.FC<ExperiencesProps> = ({ initialExperiences }) 
               <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif text-forest mb-8 leading-tight">
                 {item.title}
               </h2>
-              <p className="font-sans text-forest/80 text-lg leading-relaxed mb-8">
+              <p className="font-sans text-neutral-800 text-lg leading-relaxed mb-8">
                 {item.description}
               </p>
               <button

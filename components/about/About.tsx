@@ -127,10 +127,10 @@ export const About: React.FC = () => {
           <div className="md:col-span-5">
             <span className="block font-sans text-xs uppercase tracking-[0.2em] opacity-60 mb-6">Origins</span>
             <h2 className="text-4xl md:text-5xl font-serif mb-8 leading-tight">Born in the <br /> <span className="italic opacity-80">Sacred Valley</span></h2>
-            <p className="font-sans text-lg leading-relaxed mb-6 opacity-80">
+            <p className="font-sans text-lg leading-relaxed mb-6 text-neutral-800">
               StayinUBUD started as a whisper. A desire to share the side of Bali that often goes unseen—the misty mornings in the highlands, the intricate devotion of daily offerings, and the profound stillness of the jungle.
             </p>
-            <p className="font-sans text-lg leading-relaxed opacity-80">
+            <p className="font-sans text-lg leading-relaxed text-neutral-800">
               We moved away from the crowded centers to curate homes that honor the land they stand on. Each villa tells a story of craftsmanship, heritage, and harmony with nature.
             </p>
           </div>
@@ -174,7 +174,7 @@ export const About: React.FC = () => {
                 <ShieldCheck size={32} strokeWidth={1.5} />
               </div>
               <h3 className="text-2xl font-serif mb-4">Privacy First</h3>
-              <p className="font-sans opacity-70 leading-relaxed">
+              <p className="font-sans text-neutral-600 leading-relaxed">
                 Your sanctuary, undisturbed. We prioritize secluded locations and discreet service, giving you the rarest luxury of all: true privacy.
               </p>
             </div>
@@ -199,7 +199,7 @@ export const About: React.FC = () => {
 
             {/* Text */}
             <div className="flex-1 text-center md:text-left">
-              <p className="font-serif text-xl md:text-2xl italic leading-relaxed mb-6">
+              <p className="font-serif text-xl md:text-2xl text-neutral-800 italic leading-relaxed mb-6">
                 "We invite you to experience the Bali we love—the one that smells of incense and rain, feels like rough stone and soft silk, and sounds like a distant gamelan carried by the wind."
               </p>
               <div className="flex flex-col md:flex-row items-center md:items-end justify-between gap-4">
