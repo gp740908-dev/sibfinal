@@ -139,7 +139,11 @@ _Ref: MOCK-123_`;
     // 3. Send Booking Confirmation Email
     if (guestDetails.email) {
       try {
-        await fetch('/api/send-booking-email', {
+        const baseUrl = process.env.NEXT_PUBLIC_APP_URL || process.env.VERCEL_URL
+          ? `https://${process.env.VERCEL_URL}`
+          : 'http://localhost:3000';
+
+        await fetch(`${baseUrl}/api/send-booking-email`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
