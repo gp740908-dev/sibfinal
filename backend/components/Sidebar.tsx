@@ -7,21 +7,30 @@ import {
     Home,
     Map,
     Calendar,
-    Users,
     PieChart,
     Settings,
     LogOut,
     Bell,
-    X
+    X,
+    Sparkles,
+    FileText,
+    MessageSquare,
+    Star,
+    Users
 } from 'lucide-react';
 
 const NAV_ITEMS = [
     { label: 'Overview', icon: Home, href: '/dashboard' },
     { label: 'Properties', icon: Map, href: '/dashboard/villas' },
     { label: 'Bookings', icon: Calendar, href: '/dashboard/bookings' },
-    { label: 'Guests', icon: Users, href: '/dashboard/guests' },
+    { label: 'Experiences', icon: Sparkles, href: '/dashboard/experiences' },
+    { label: 'Reviews', icon: Star, href: '/dashboard/reviews' },
+    { label: 'Subscribers', icon: Users, href: '/dashboard/subscribers' },
+    { label: 'Journal', icon: FileText, href: '/dashboard/blog' },
+    { label: 'Inquiries', icon: MessageSquare, href: '/dashboard/inquiries' },
     { label: 'Finance', icon: PieChart, href: '/dashboard/finance' },
 ];
+
 
 interface SidebarProps {
     mobileOpen?: boolean;

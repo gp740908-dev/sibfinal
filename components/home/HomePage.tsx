@@ -187,10 +187,10 @@ export const HomePage: React.FC = () => {
 
             {/* Villa Showcase Section */}
             <div id="villas">
-                <VillaShowcase villas={villas} />
+                <VillaShowcase villas={villas.slice(0, 4)} />
 
                 <div className="flex justify-center mt-8 gap-4 mb-20 flex-wrap px-4">
-                    {villas.map(v => (
+                    {villas.slice(0, 4).map(v => (
                         <Link
                             key={v.id}
                             href={`/villas/${v.id}`}

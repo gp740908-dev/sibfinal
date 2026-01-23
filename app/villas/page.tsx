@@ -4,6 +4,9 @@ import { mapDbToVilla } from '@/lib/utils';
 import { VillasPage } from '@/components/villas/VillasPage';
 import { JsonLd } from '@/components/seo/JsonLd';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export const metadata: Metadata = {
     title: 'Our Villas | Luxury Private Pool Villas in Ubud',
     description: 'Browse our collection of handpicked luxury villas in Ubud, Bali. Each villa features private pools, jungle views, and 24/7 concierge service.',
