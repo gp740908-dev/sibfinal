@@ -3,6 +3,9 @@ import { supabase } from '@/lib/supabase';
 import { Journal } from '@/components/journal/Journal';
 import { JsonLd } from '@/components/seo/JsonLd';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export const metadata: Metadata = {
     title: 'The Journal | Stories from Ubud, Bali',
     description: 'Discover Ubud through our curated stories. Travel guides, cultural insights, wellness tips, and hidden gems from the heart of Bali.',

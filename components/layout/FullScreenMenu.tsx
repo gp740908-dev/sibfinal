@@ -112,15 +112,15 @@ export const FullScreenMenu: React.FC<FullScreenMenuProps> = ({ isOpen, onClose 
         </div>
 
         {/* Middle Section: Split Grid */}
-        <div className="flex-1 flex flex-col md:flex-row items-center md:items-stretch py-12 md:py-0 overflow-y-auto md:overflow-visible no-scrollbar">
+        <div className="flex-1 flex flex-col md:flex-row items-center md:items-stretch py-4 md:py-0 overflow-hidden">
 
           {/* B. Left Column: Primary Nav */}
-          <div className="w-full md:w-1/2 flex flex-col justify-center items-start space-y-2 md:space-y-6">
+          <div className="w-full md:w-1/2 flex flex-col justify-center items-start space-y-0 md:space-y-6">
             {MENU_ITEMS.map((item, idx) => (
-              <div key={idx} className="menu-link-item">
+              <div key={idx} className="menu-link-item py-1">
                 <button
                   onClick={() => handleLinkClick(item.href)}
-                  className="group block text-4xl md:text-6xl lg:text-7xl font-serif text-sand leading-tight transition-all duration-500 hover:italic hover:translate-x-4 md:hover:translate-x-8 text-left"
+                  className="group block text-[32px] md:text-6xl lg:text-7xl font-serif text-sand leading-tight transition-all duration-500 hover:italic hover:translate-x-4 md:hover:translate-x-8 text-left"
                 >
                   <span className="group-hover:text-accent-light transition-colors">{item.label}</span>
                 </button>
@@ -129,7 +129,7 @@ export const FullScreenMenu: React.FC<FullScreenMenuProps> = ({ isOpen, onClose 
           </div>
 
           {/* C. Right Column: Informative */}
-          <div className="w-full md:w-1/2 flex flex-col justify-center items-start md:items-end md:text-right mt-12 md:mt-0 space-y-12">
+          <div className="w-full md:w-1/2 flex flex-col justify-center items-start md:items-end md:text-right mt-6 md:mt-0 space-y-6 md:space-y-12">
 
             {/* Socials */}
             <div className="menu-info-item flex flex-col gap-4 items-start md:items-end">
