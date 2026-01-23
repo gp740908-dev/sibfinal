@@ -18,12 +18,12 @@ export async function getUnavailableDates(villaId: string) {
   // MOCK MODE
   if (isMock) {
     const today = new Date();
-    return { 
-      success: true, 
+    return {
+      success: true,
       data: [
         { from: addDays(today, 5), to: addDays(today, 7) },
         { from: addDays(today, 12), to: addDays(today, 15) }
-      ] 
+      ]
     };
   }
 
@@ -63,15 +63,15 @@ export async function submitBookingRequest(
   const nights = differenceInCalendarDays(endDate, startDate);
   const totalPrice = nights * pricePerNight;
   const grandTotal = totalPrice * 1.1; // +10% service
-  
+
   const formattedStart = format(startDate, 'dd MMM yyyy');
   const formattedEnd = format(endDate, 'dd MMM yyyy');
   const formattedTotal = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(grandTotal);
 
   // MOCK MODE
   if (isMock) {
-    await new Promise(resolve => setTimeout(resolve, 1500)); 
-    
+    await new Promise(resolve => setTimeout(resolve, 1500));
+
     const message = `*NEW BOOKING REQUEST*
     
 🏡 *Villa:* ${villaName}
@@ -86,9 +86,9 @@ ${guestDetails.specialRequest ? `📝 *Note:* ${guestDetails.specialRequest}` : 
 
 _Ref: MOCK-123_`;
 
-    return { 
-      success: true, 
-      whatsappUrl: `https://wa.me/6281234567890?text=${encodeURIComponent(message)}` 
+    return {
+      success: true,
+      whatsappUrl: `https://wa.me/6281234567890?text=${encodeURIComponent(message)}`
     };
   }
 
@@ -136,7 +136,31 @@ _Ref: MOCK-123_`;
       throw insertError;
     }
 
-    // 3. Construct WhatsApp Message
+    // 3. Send Booking Confirmation Email
+    if (guestDetails.email) {
+      try {
+        await fetch('/api/send-booking-email', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            to: guestDetails.email,
+            data: {
+              guestName: guestDetails.fullName,
+              villaName: villaName,
+              checkIn: formattedStart,
+              checkOut: formattedEnd,
+              guests: guests,
+              totalPrice: formattedTotal
+            }
+          })
+        });
+      } catch (emailError) {
+        console.error('Email send failed (non-blocking):', emailError);
+        // Don't fail the booking if email fails
+      }
+    }
+
+    // 4. Construct WhatsApp Message
     const message = `*NEW BOOKING REQUEST*
     
 🏡 *Villa:* ${villaName}
@@ -158,7 +182,7 @@ _Ref: ${booking.id.slice(0, 8)}_`;
   } catch (error: any) {
     // Detailed error logging
     console.error('Booking Submission Exception:', error);
-    
+
     // Check for common issues
     let errorMessage = 'Failed to process booking request.';
     if (error?.code === '42703') {
