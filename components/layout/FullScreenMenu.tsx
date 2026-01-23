@@ -87,7 +87,7 @@ export const FullScreenMenu: React.FC<FullScreenMenuProps> = ({ isOpen, onClose 
   return (
     <div
       ref={containerRef}
-      className="fixed inset-0 z-[100] invisible w-full h-full"
+      className="fixed inset-0 z-[100] invisible w-full h-[100dvh]"
     >
       {/* Background Layer */}
       <div className="menu-bg absolute inset-0 bg-forest w-full h-full"></div>
@@ -117,7 +117,7 @@ export const FullScreenMenu: React.FC<FullScreenMenuProps> = ({ isOpen, onClose 
           {/* B. Left Column: Primary Nav */}
           <div className="w-full md:w-1/2 flex flex-col justify-center items-start space-y-2 md:space-y-6">
             {MENU_ITEMS.map((item, idx) => (
-              <div key={idx} className="menu-link-item overflow-hidden">
+              <div key={idx} className="menu-link-item">
                 <button
                   onClick={() => handleLinkClick(item.href)}
                   className="group block text-4xl md:text-6xl lg:text-7xl font-serif text-sand leading-tight transition-all duration-500 hover:italic hover:translate-x-4 md:hover:translate-x-8 text-left"

@@ -50,8 +50,8 @@ export const JournalPostContent: React.FC<JournalPostContentProps> = ({ post, re
             <article className="px-6 md:px-12 max-w-3xl mx-auto">
 
                 {/* Meta */}
-                <div className="flex items-center gap-4 text-xs uppercase tracking-widest text-forest/60 mb-6">
-                    <span className="bg-forest/10 px-3 py-1 rounded-full">{post.category}</span>
+                <div className="flex items-center gap-4 text-xs uppercase tracking-widest text-neutral-600 mb-6">
+                    <span className="bg-forest/10 px-3 py-1 rounded-full text-forest">{post.category}</span>
                     <div className="flex items-center gap-2">
                         <Calendar size={12} />
                         <span>{post.published_at}</span>
@@ -68,14 +68,14 @@ export const JournalPostContent: React.FC<JournalPostContentProps> = ({ post, re
                 </h1>
 
                 {/* Excerpt */}
-                <p className="text-xl text-forest/80 font-serif italic leading-relaxed mb-12 border-l-2 border-forest/20 pl-6">
+                <p className="text-xl text-neutral-800 font-serif italic leading-relaxed mb-12 border-l-2 border-forest/20 pl-6">
                     {post.excerpt}
                 </p>
 
                 {/* Content */}
                 <div className="prose prose-lg prose-forest max-w-none">
                     <div
-                        className="font-sans text-forest/90 leading-relaxed space-y-6"
+                        className="font-sans text-neutral-900 leading-relaxed space-y-6"
                         dangerouslySetInnerHTML={{ __html: post.content || '' }}
                     />
                 </div>
@@ -93,10 +93,10 @@ export const JournalPostContent: React.FC<JournalPostContentProps> = ({ post, re
                         </div>
                         <div>
                             <h3 className="font-serif text-xl text-forest">{post.author}</h3>
-                            <p className="text-sm text-forest/60">Contributing Writer</p>
+                            <p className="text-sm text-neutral-600">Contributing Writer</p>
                         </div>
                     </div>
-                    <p className="font-sans text-forest/70 text-sm leading-relaxed">
+                    <p className="font-sans text-neutral-700 text-sm leading-relaxed">
                         {post.author} is a passionate storyteller exploring the intersection of culture,
                         wellness, and sustainable living in Bali.
                     </p>

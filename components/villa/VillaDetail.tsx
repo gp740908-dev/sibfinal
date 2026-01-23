@@ -1,7 +1,9 @@
 
 'use client';
 
-import React, { useState, Suspense, lazy } from 'react';
+import React, { useState, Suspense, lazy, useRef } from 'react';
+import gsap from 'gsap';
+import { useGSAP } from '@gsap/react';
 import Link from 'next/link';
 import { Villa } from '../../types';
 import { BookingWidget } from '../booking/BookingWidget';
@@ -35,6 +37,32 @@ export const VillaDetail: React.FC<VillaDetailProps> = ({
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [activeSection, setActiveSection] = useState('overview');
   const [isDescExpanded, setIsDescExpanded] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(() => {
+    const tl = gsap.timeline();
+
+    // Hero Gallery Entrance
+    tl.from('.hero-gallery-item', {
+      y: 100,
+      opacity: 0,
+      duration: 1.2,
+      stagger: 0.1,
+      ease: 'power3.out'
+    })
+      .from('.villa-title', {
+        y: 50,
+        opacity: 0,
+        duration: 1,
+        ease: 'power3.out'
+      }, "-=0.8")
+      .from('.villa-meta', {
+        y: 20,
+        opacity: 0,
+        duration: 0.8,
+        ease: 'power2.out'
+      }, "-=0.6");
+  }, { scope: containerRef });
 
   // Fallback Data if DB is empty or missing JSON fields
   const amenitiesDetail: Record<string, string[]> = villa.amenities_detail || {
@@ -99,7 +127,7 @@ export const VillaDetail: React.FC<VillaDetailProps> = ({
   };
 
   return (
-    <div className="bg-sand min-h-screen pt-24 pb-20 animate-fade-in text-forest">
+    <div ref={containerRef} className="bg-sand min-h-screen pt-24 pb-20 text-forest">
 
       {/* 1. HERO GALLERY (Bento Grid) */}
       <section className="px-4 md:px-12 max-w-7xl mx-auto mb-8">
@@ -111,12 +139,12 @@ export const VillaDetail: React.FC<VillaDetailProps> = ({
         </Link>
 
         <div className="grid grid-cols-1 md:grid-cols-4 grid-rows-2 gap-2 h-[50vh] md:h-[60vh] rounded-2xl overflow-hidden relative group">
-          <div className="md:col-span-2 md:row-span-2 relative cursor-pointer overflow-hidden" onClick={() => { setActiveImageIndex(0); setLightboxOpen(true); }}>
+          <div className="hero-gallery-item md:col-span-2 md:row-span-2 relative cursor-pointer overflow-hidden" onClick={() => { setActiveImageIndex(0); setLightboxOpen(true); }}>
             <img src={galleryImages[0]} className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" alt="Main View" />
             <div className="absolute inset-0 bg-black/0 hover:bg-black/10 transition-colors" />
           </div>
           {galleryImages.slice(1, 5).map((img, idx) => (
-            <div key={idx} className="hidden md:block relative cursor-pointer overflow-hidden" onClick={() => { setActiveImageIndex(idx + 1); setLightboxOpen(true); }}>
+            <div key={idx} className="hero-gallery-item hidden md:block relative cursor-pointer overflow-hidden" onClick={() => { setActiveImageIndex(idx + 1); setLightboxOpen(true); }}>
               <img src={img} className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" alt={`Gallery ${idx}`} />
               <div className="absolute inset-0 bg-black/0 hover:bg-black/10 transition-colors" />
             </div>
@@ -155,8 +183,8 @@ export const VillaDetail: React.FC<VillaDetailProps> = ({
 
           {/* SECTION: OVERVIEW */}
           <div id="overview" className="scroll-mt-48">
-            <h1 className="text-4xl md:text-5xl font-serif mb-4">{villa.name}</h1>
-            <div className="flex flex-wrap gap-4 text-sm font-sans text-forest/70 uppercase tracking-wider mb-8">
+            <h1 className="villa-title text-4xl md:text-5xl font-serif mb-4">{villa.name}</h1>
+            <div className="villa-meta flex flex-wrap gap-4 text-sm font-sans text-forest/70 uppercase tracking-wider mb-8">
               <span>{villa.guests} Guests</span> • <span>{villa.bedrooms} Bedrooms</span> • <span>{villa.bathrooms} Baths</span> • <span>{villa.building_area} m²</span>
             </div>
 
