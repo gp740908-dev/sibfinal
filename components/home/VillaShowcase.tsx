@@ -105,9 +105,10 @@ export const VillaShowcase: React.FC<VillaShowcaseProps> = ({ villas }) => {
                 {activeVilla && (
                   <div className="aspect-[4/3] w-full overflow-hidden rounded-sm shadow-2xl relative">
                     <img
+                      key={`${activeVilla.id}-${currentImageIndex}`}
                       src={carouselImages[currentImageIndex]}
                       alt={activeVilla.name}
-                      className="w-full h-full object-cover transition-transform duration-700 ease-out transform scale-100 group-hover:scale-105"
+                      className="w-full h-full object-cover transition-all duration-500 ease-out transform scale-100 group-hover:scale-105 animate-in fade-in zoom-in-105"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-forest/40 to-transparent opacity-60"></div>
 
@@ -217,6 +218,16 @@ export const VillaShowcase: React.FC<VillaShowcaseProps> = ({ villas }) => {
             </div>
           </>
         )}
+
+        {/* Hidden Preloader for Instant Switching */}
+        <div className="hidden h-0 w-0 overflow-hidden" aria-hidden="true">
+          {villas.map(v => (
+            <React.Fragment key={v.id}>
+              <img src={v.imageUrl} alt="" />
+              {v.images?.map((img, i) => <img key={`${v.id}-${i}`} src={img} alt="" />)}
+            </React.Fragment>
+          ))}
+        </div>
       </div>
     </section>
   );
