@@ -23,85 +23,86 @@ export const BookingSuccessModal: React.FC<BookingSuccessModalProps> = ({
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-2 sm:p-4">
             {/* Backdrop */}
             <div
                 className="absolute inset-0 bg-black/60 backdrop-blur-sm"
                 onClick={onClose}
             />
 
-            {/* Modal */}
-            <div className="relative bg-white rounded-3xl max-w-md w-full p-8 shadow-2xl animate-in zoom-in-95 fade-in duration-300">
+            {/* Modal - Responsive sizing */}
+            <div className="relative bg-white rounded-2xl sm:rounded-3xl w-full max-w-[95vw] sm:max-w-md max-h-[90vh] overflow-y-auto p-4 sm:p-6 md:p-8 shadow-2xl animate-in zoom-in-95 fade-in duration-300">
                 {/* Close Button */}
                 <button
                     onClick={onClose}
-                    className="absolute top-4 right-4 p-2 text-gray-400 hover:text-gray-600 transition-colors"
+                    className="absolute top-2 right-2 sm:top-4 sm:right-4 p-2 text-gray-400 hover:text-gray-600 transition-colors z-10"
                 >
                     <X size={20} />
                 </button>
 
-                {/* Success Icon */}
-                <div className="flex justify-center mb-6">
-                    <div className="w-20 h-20 bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center shadow-lg shadow-green-500/30">
-                        <CheckCircle size={40} className="text-white" />
+                {/* Success Icon - Responsive sizing */}
+                <div className="flex justify-center mb-4 sm:mb-6">
+                    <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center shadow-lg shadow-green-500/30">
+                        <CheckCircle size={32} className="sm:hidden text-white" />
+                        <CheckCircle size={40} className="hidden sm:block text-white" />
                     </div>
                 </div>
 
-                {/* Title */}
-                <h2 className="font-serif text-3xl text-center text-forest mb-2">
+                {/* Title - Responsive text */}
+                <h2 className="font-serif text-2xl sm:text-3xl text-center text-forest mb-1 sm:mb-2">
                     Thank You!
                 </h2>
-                <p className="text-center text-gray-500 mb-6">
+                <p className="text-center text-gray-500 text-sm sm:text-base mb-4 sm:mb-6">
                     Your booking request has been submitted
                 </p>
 
                 {/* Booking Summary Card */}
-                <div className="bg-sand/30 rounded-2xl p-5 mb-6">
-                    <div className="text-center mb-4">
-                        <p className="text-xs uppercase tracking-widest text-gold font-semibold mb-1">Reservation</p>
-                        <p className="font-serif text-xl text-forest">{bookingDetails.villaName}</p>
+                <div className="bg-sand/30 rounded-xl sm:rounded-2xl p-3 sm:p-5 mb-4 sm:mb-6">
+                    <div className="text-center mb-3 sm:mb-4">
+                        <p className="text-[10px] sm:text-xs uppercase tracking-widest text-gold font-semibold mb-1">Reservation</p>
+                        <p className="font-serif text-lg sm:text-xl text-forest truncate">{bookingDetails.villaName}</p>
                     </div>
 
-                    <div className="grid grid-cols-2 gap-4 text-sm">
+                    <div className="grid grid-cols-2 gap-2 sm:gap-4 text-xs sm:text-sm">
                         <div>
-                            <p className="text-gray-400 text-xs uppercase tracking-wide">Check-in</p>
-                            <p className="text-forest font-medium">{bookingDetails.checkIn}</p>
+                            <p className="text-gray-400 text-[10px] sm:text-xs uppercase tracking-wide">Check-in</p>
+                            <p className="text-forest font-medium truncate">{bookingDetails.checkIn}</p>
                         </div>
                         <div>
-                            <p className="text-gray-400 text-xs uppercase tracking-wide">Check-out</p>
-                            <p className="text-forest font-medium">{bookingDetails.checkOut}</p>
+                            <p className="text-gray-400 text-[10px] sm:text-xs uppercase tracking-wide">Check-out</p>
+                            <p className="text-forest font-medium truncate">{bookingDetails.checkOut}</p>
                         </div>
                     </div>
 
-                    <div className="mt-4 pt-4 border-t border-forest/10 flex justify-between items-center">
-                        <span className="text-gray-500">Total</span>
-                        <span className="font-serif text-xl text-forest">{bookingDetails.totalPrice}</span>
+                    <div className="mt-3 sm:mt-4 pt-3 sm:pt-4 border-t border-forest/10 flex justify-between items-center">
+                        <span className="text-gray-500 text-sm">Total</span>
+                        <span className="font-serif text-lg sm:text-xl text-forest">{bookingDetails.totalPrice}</span>
                     </div>
                 </div>
 
-                {/* What's Next */}
-                <div className="space-y-3 mb-6">
-                    <p className="text-sm font-semibold text-forest">What happens next?</p>
-                    <div className="flex items-start gap-3 text-sm text-gray-600">
-                        <MessageCircle size={18} className="text-green-500 mt-0.5 shrink-0" />
-                        <p>Our team will contact you via WhatsApp within 24 hours to confirm availability and payment.</p>
+                {/* What's Next - Responsive text */}
+                <div className="space-y-2 sm:space-y-3 mb-4 sm:mb-6">
+                    <p className="text-xs sm:text-sm font-semibold text-forest">What happens next?</p>
+                    <div className="flex items-start gap-2 sm:gap-3 text-xs sm:text-sm text-gray-600">
+                        <MessageCircle size={16} className="sm:w-[18px] sm:h-[18px] text-green-500 mt-0.5 shrink-0" />
+                        <p>Our team will contact you via WhatsApp within 24 hours.</p>
                     </div>
-                    <div className="flex items-start gap-3 text-sm text-gray-600">
-                        <Mail size={18} className="text-blue-500 mt-0.5 shrink-0" />
+                    <div className="flex items-start gap-2 sm:gap-3 text-xs sm:text-sm text-gray-600">
+                        <Mail size={16} className="sm:w-[18px] sm:h-[18px] text-blue-500 mt-0.5 shrink-0" />
                         <p>A confirmation email has been sent to your inbox.</p>
                     </div>
                 </div>
 
-                {/* Close Button */}
+                {/* Close Button - Responsive */}
                 <button
                     onClick={onClose}
-                    className="w-full bg-forest text-white py-4 rounded-xl font-bold uppercase tracking-widest text-sm hover:bg-forest/90 transition-colors"
+                    className="w-full bg-forest text-white py-3 sm:py-4 rounded-lg sm:rounded-xl font-bold uppercase tracking-widest text-xs sm:text-sm hover:bg-forest/90 transition-colors"
                 >
                     Got it, Thanks!
                 </button>
 
                 {/* Brand */}
-                <p className="text-center text-xs text-gray-400 mt-4">
+                <p className="text-center text-[10px] sm:text-xs text-gray-400 mt-3 sm:mt-4">
                     Stayin<span className="italic text-gold">UBUD</span> · Bali Luxury Villas
                 </p>
             </div>
