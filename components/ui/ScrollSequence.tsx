@@ -160,7 +160,7 @@ export default function ScrollSequence({
 
 
     return (
-        <div ref={containerRef} className={`relative w-full h-[100vh] bg-black overflow-hidden ${className}`}>
+        <div ref={containerRef} className={`relative w-full h-[100vh] bg-forest/5 overflow-hidden ${className}`}>
 
             {/* Canvas Layer */}
             <canvas
@@ -171,7 +171,7 @@ export default function ScrollSequence({
 
             {/* Loading Overlay */}
             {isLoading && (
-                <div className="absolute inset-0 flex flex-col items-center justify-center text-white z-50 bg-black">
+                <div className="absolute inset-0 flex flex-col items-center justify-center text-sand z-50 bg-forest">
                     <p className="mb-4 font-serif text-xl tracking-widest animate-pulse">LOADING EXPERIENCE</p>
                     <div className="w-64 h-1 bg-white/20 rounded-full overflow-hidden">
                         <div

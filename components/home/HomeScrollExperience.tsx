@@ -48,7 +48,7 @@ export const HomeScrollExperience: React.FC = () => {
     }, { scope: containerRef });
 
     return (
-        <div ref={containerRef} className="relative bg-black">
+        <div ref={containerRef} className="relative">
             <ScrollSequence
                 frameCount={240}
                 folderPath="/imgseq"
