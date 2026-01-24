@@ -125,7 +125,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
   return (
     <>
       {/* --- DESKTOP STICKY WIDGET --- */}
-      <div id="booking-widget" className="hidden md:block sticky top-40 z-30" ref={calendarRef}>
+      <div id="booking-widget" className="hidden lg:block sticky top-40 z-30" ref={calendarRef}>
         <div className="bg-white rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] border border-forest/10 p-6 overflow-visible relative">
 
           {/* Header */}
@@ -245,7 +245,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
       </div>
 
       {/* --- MOBILE FIXED BOTTOM BAR --- */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white border-t border-gray-200 p-4 pb-6 shadow-[0_-4px_20px_rgb(0,0,0,0.05)]">
+      <div className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white border-t border-gray-200 p-4 pb-6 shadow-[0_-4px_20px_rgb(0,0,0,0.05)]">
         <div className="flex justify-between items-center gap-4">
           <div className="flex flex-col">
             {nightCount > 0 ? (

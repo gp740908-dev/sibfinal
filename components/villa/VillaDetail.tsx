@@ -350,7 +350,7 @@ export const VillaDetail: React.FC<VillaDetailProps> = ({
         </div>
 
         {/* RIGHT COLUMN: Sticky Booking Widget (Desktop) */}
-        <div className="lg:col-span-1 relative">
+        <div className="lg:col-span-1 h-full">
           <BookingWidget
             pricePerNight={villa.pricePerNight}
             villaName={villa.name}
