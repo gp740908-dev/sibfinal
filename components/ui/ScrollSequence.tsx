@@ -75,16 +75,21 @@ export default function ScrollSequence({
 
         if (!canvas || !ctx || !img) return;
 
-        // Clear canvas
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        // Use logical dimensions for calculations (since context is scaled)
+        const dpr = window.devicePixelRatio || 1;
+        const logicalWidth = canvas.width / dpr;
+        const logicalHeight = canvas.height / dpr;
+
+        // Clear canvas (using logical coords due to scale)
+        ctx.clearRect(0, 0, logicalWidth, logicalHeight);
 
         // Object-Fit: Cover Logic
         // Calculate the scale needed to cover the canvas
-        const scale = Math.max(canvas.width / img.width, canvas.height / img.height);
+        const scale = Math.max(logicalWidth / img.width, logicalHeight / img.height);
 
         // Calculate centered position
-        const x = (canvas.width / 2) - (img.width / 2) * scale;
-        const y = (canvas.height / 2) - (img.height / 2) * scale;
+        const x = (logicalWidth / 2) - (img.width / 2) * scale;
+        const y = (logicalHeight / 2) - (img.height / 2) * scale;
 
         ctx.drawImage(img, x, y, img.width * scale, img.height * scale);
     };
@@ -114,9 +119,7 @@ export default function ScrollSequence({
                     contextRef.current.scale(dpr, dpr);
                 }
 
-                // Re-render current frame on resize (if loaded) to prevent blank screen
-                // Note: The renderFrame function will use canvas.width/height which are now scaled
-                // So we need to adjustments in renderFrame logic to use logical pixels or adjust calculation
+                // Note: We rely on GSAP loop or next renderFrame call to update the visual
             }
         };
 
