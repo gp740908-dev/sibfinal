@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useState, Suspense, lazy, useRef } from 'react';
@@ -42,26 +41,19 @@ export const VillaDetail: React.FC<VillaDetailProps> = ({
   useGSAP(() => {
     const tl = gsap.timeline();
 
-    // Hero Gallery Entrance
-    tl.from('.hero-gallery-item', {
-      y: 100,
-      opacity: 0,
-      duration: 1.2,
-      stagger: 0.1,
-      ease: 'power3.out'
+    // Cinematic Hero Entrance
+    tl.from('.hero-bg', {
+      scale: 1.1,
+      duration: 2,
+      ease: 'power2.out'
     })
-      .from('.villa-title', {
-        y: 50,
+      .from('.hero-content > *', {
+        y: 30,
         opacity: 0,
         duration: 1,
+        stagger: 0.1,
         ease: 'power3.out'
-      }, "-=0.8")
-      .from('.villa-meta', {
-        y: 20,
-        opacity: 0,
-        duration: 0.8,
-        ease: 'power2.out'
-      }, "-=0.6");
+      }, "-=1.5");
   }, { scope: containerRef });
 
   // Fallback Data if DB is empty or missing JSON fields
@@ -127,46 +119,71 @@ export const VillaDetail: React.FC<VillaDetailProps> = ({
   };
 
   return (
-    <div ref={containerRef} className="bg-sand min-h-screen pt-24 pb-20 text-forest">
+    <div ref={containerRef} className="bg-sand min-h-screen pb-20 text-forest selection:bg-forest selection:text-sand">
 
-      {/* 1. HERO GALLERY (Bento Grid) */}
-      <section className="px-4 md:px-12 max-w-7xl mx-auto mb-8">
-        <Link
-          href="/villas"
-          className="flex items-center gap-2 text-forest/60 hover:text-forest text-xs uppercase tracking-widest mb-6 transition-colors inline-block"
-        >
-          <ArrowLeft size={14} /> Back to Collection
-        </Link>
-
-        <div className="grid grid-cols-1 md:grid-cols-4 grid-rows-2 gap-2 h-[50vh] md:h-[60vh] rounded-2xl overflow-hidden relative group">
-          <div className="hero-gallery-item md:col-span-2 md:row-span-2 relative cursor-pointer overflow-hidden" onClick={() => { setActiveImageIndex(0); setLightboxOpen(true); }}>
-            <img src={galleryImages[0]} className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" alt="Main View" />
-            <div className="absolute inset-0 bg-black/0 hover:bg-black/10 transition-colors" />
-          </div>
-          {galleryImages.slice(1, 5).map((img, idx) => (
-            <div key={idx} className="hero-gallery-item hidden md:block relative cursor-pointer overflow-hidden" onClick={() => { setActiveImageIndex(idx + 1); setLightboxOpen(true); }}>
-              <img src={img} className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" alt={`Gallery ${idx}`} />
-              <div className="absolute inset-0 bg-black/0 hover:bg-black/10 transition-colors" />
-            </div>
-          ))}
-          <button
-            onClick={() => setLightboxOpen(true)}
-            className="absolute bottom-4 right-4 bg-white/90 backdrop-blur-md text-forest px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-widest shadow-lg hover:bg-white transition-all flex items-center gap-2"
-          >
-            <Maximize2 size={14} /> View Photos
-          </button>
+      {/* 1. CINEMATIC HERO HEADER */}
+      <header className="relative w-full h-[85vh] overflow-hidden">
+        {/* Background Image with Parallax Scale Init */}
+        <div className="hero-bg absolute inset-0 w-full h-full">
+          <img
+            src={galleryImages[0]}
+            alt={villa.name}
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
         </div>
-      </section>
+
+        {/* Top Nav Overlay */}
+        <div className="absolute top-0 left-0 right-0 p-6 md:p-12 z-20 flex justify-between items-start">
+          <Link
+            href="/villas"
+            className="flex items-center gap-2 text-white/80 hover:text-white text-xs uppercase tracking-[0.2em] transition-colors border border-white/20 px-4 py-2 rounded-full backdrop-blur-sm hover:bg-white/10"
+          >
+            <ArrowLeft size={14} /> Back to Collection
+          </Link>
+        </div>
+
+        {/* Hero Content */}
+        <div className="hero-content absolute bottom-0 left-0 right-0 p-6 md:p-12 z-20 text-white pb-20 md:pb-24">
+          <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-end justify-between gap-8">
+            <div className="max-w-3xl">
+              <span className="block text-sand font-sans text-xs md:text-sm font-bold uppercase tracking-[0.2em] mb-4">
+                Luxury Sanctuary in Ubud
+              </span>
+              <h1 className="text-5xl md:text-7xl lg:text-8xl font-serif mb-6 leading-[0.9]">
+                {villa.name}
+              </h1>
+              <div className="flex flex-wrap gap-6 text-sm md:text-base font-medium opacity-90">
+                <span className="flex items-center gap-2"><MapPin size={18} /> Ubud, Bali</span>
+                <span className="flex items-center gap-2">{villa.guests} Guests</span>
+                <span className="flex items-center gap-2">{villa.bedrooms} Bedrooms</span>
+                <span className="flex items-center gap-2">{villa.building_area} m²</span>
+              </div>
+            </div>
+
+            <button
+              onClick={() => setLightboxOpen(true)}
+              className="flex items-center gap-3 bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/30 text-white px-6 py-4 rounded-lg uppercase tracking-widest text-xs font-bold transition-all group"
+            >
+              <Maximize2 size={16} />
+              View All Photos
+              <span className="bg-white text-black text-[10px] w-6 h-6 flex items-center justify-center rounded-full ml-2">
+                {galleryImages.length}
+              </span>
+            </button>
+          </div>
+        </div>
+      </header>
 
       {/* STICKY SUB-NAV */}
-      <div className="sticky top-[72px] md:top-[88px] z-40 bg-sand/95 backdrop-blur-md border-b border-forest/10 px-4 md:px-12 mb-12 shadow-sm transition-all">
-        <div className="max-w-7xl mx-auto flex gap-6 md:gap-10 overflow-x-auto no-scrollbar">
+      <div className="sticky top-[72px] md:top-0 z-40 bg-sand/90 backdrop-blur-xl border-b border-forest/5 px-4 md:px-12 mb-12 transition-all">
+        <div className="max-w-7xl mx-auto flex gap-8 md:gap-12 overflow-x-auto no-scrollbar">
           {SECTIONS.map((section) => (
             <button
               key={section.id}
               onClick={() => scrollToSection(section.id)}
-              className={`py-4 text-xs md:text-sm uppercase tracking-widest whitespace-nowrap border-b-2 transition-colors duration-300
-                 ${activeSection === section.id ? 'border-forest text-forest font-bold' : 'border-transparent text-forest/50 hover:text-forest'}
+              className={`py-6 text-xs font-bold uppercase tracking-widest whitespace-nowrap border-b-2 transition-all duration-300
+                 ${activeSection === section.id ? 'border-forest text-forest' : 'border-transparent text-forest/40 hover:text-forest'}
                `}
             >
               {section.label}
@@ -176,24 +193,28 @@ export const VillaDetail: React.FC<VillaDetailProps> = ({
       </div>
 
       {/* MAIN CONTENT GRID */}
-      <div className="px-4 md:px-12 max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-20">
+      <div className="px-4 md:px-12 max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-24">
 
         {/* LEFT COLUMN: Content */}
         <div className="lg:col-span-2 space-y-20">
 
           {/* SECTION: OVERVIEW */}
           <div id="overview" className="scroll-mt-48">
-            <h1 className="villa-title text-4xl md:text-5xl font-serif mb-4">{villa.name}</h1>
-            <div className="villa-meta flex flex-wrap gap-4 text-sm font-sans text-forest/70 uppercase tracking-wider mb-8">
-              <span>{villa.guests} Guests</span> • <span>{villa.bedrooms} Bedrooms</span> • <span>{villa.bathrooms} Baths</span> • <span>{villa.building_area} m²</span>
-            </div>
+            <h2 className="text-3xl font-serif text-forest mb-8">The Experience</h2>
 
-            {/* Highlights */}
-            <div className="flex flex-wrap gap-6 mb-8 border-y border-forest/10 py-6">
-              <div className="flex items-center gap-3"><Waves size={20} className="text-forest/70" /> <span className="text-sm text-neutral-700">Private Pool</span></div>
-              <div className="flex items-center gap-3"><Wifi size={20} className="text-forest/70" /> <span className="text-sm text-neutral-700">Fast Wifi (100Mbps)</span></div>
-              <div className="flex items-center gap-3"><Shield size={20} className="text-forest/70" /> <span className="text-sm text-neutral-700">24/7 Security</span></div>
-              <div className="flex items-center gap-3"><Coffee size={20} className="text-forest/70" /> <span className="text-sm text-neutral-700">Daily Breakfast</span></div>
+            {/* Highlights - Modern Style */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
+              {[
+                { icon: Waves, label: "Private Pool" },
+                { icon: Wifi, label: "Fast Wifi" },
+                { icon: Shield, label: "24/7 Service" },
+                { icon: Coffee, label: "Breakfast" }
+              ].map((item, idx) => (
+                <div key={idx} className="flex flex-col items-center justify-center p-6 border border-forest/10 rounded-xl hover:bg-forest/5 transition-colors text-center">
+                  <item.icon size={24} className="text-forest mb-3" />
+                  <span className="text-xs uppercase tracking-wider font-bold text-forest/80">{item.label}</span>
+                </div>
+              ))}
             </div>
 
             {/* Narrative Description */}
@@ -207,23 +228,25 @@ export const VillaDetail: React.FC<VillaDetailProps> = ({
               </p>
               <button
                 onClick={() => setIsDescExpanded(!isDescExpanded)}
-                className="mt-2 text-xs font-bold uppercase tracking-widest border-b border-forest pb-0.5 hover:opacity-70"
+                className="mt-4 text-xs font-bold uppercase tracking-widest border-b border-forest pb-0.5 hover:opacity-70"
               >
                 {isDescExpanded ? 'Read Less' : 'Read More'}
               </button>
             </div>
 
             {/* Sleeping Arrangements */}
-            <div className="bg-white/40 p-6 rounded-2xl border border-white/60">
-              <h3 className="font-serif text-xl mb-4">Sleeping Arrangements</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="bg-white/40 p-8 rounded-2xl border border-white/60">
+              <h3 className="font-serif text-2xl mb-6">Sleeping Arrangements</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {sleepingArrangements.map((room, idx) => (
-                  <div key={idx} className="flex gap-4 items-start p-3 bg-sand/30 rounded-lg">
-                    <Bed size={24} className="mt-1 text-forest/70" />
+                  <div key={idx} className="flex gap-4 items-start p-4 bg-sand/30 rounded-xl border border-forest/5">
+                    <div className="bg-white p-2 rounded-full text-forest">
+                      <Bed size={20} />
+                    </div>
                     <div>
-                      <span className="block font-bold text-sm">{room.room}</span>
-                      <span className="block text-sm opacity-80">{room.bed}</span>
-                      <span className="block text-xs opacity-60 mt-1">{room.view}</span>
+                      <span className="block font-bold text-base">{room.room}</span>
+                      <span className="block text-sm opacity-80 mt-1">{room.bed}</span>
+                      <span className="block text-xs opacity-60 mt-1 uppercase tracking-wider">{room.view}</span>
                     </div>
                   </div>
                 ))}
@@ -232,24 +255,24 @@ export const VillaDetail: React.FC<VillaDetailProps> = ({
           </div>
 
           {/* SECTION: AMENITIES */}
-          <div id="amenities" className="scroll-mt-48 border-t border-forest/10 pt-12">
-            <h2 className="text-3xl font-serif mb-8">What this place offers</h2>
+          <div id="amenities" className="scroll-mt-48 border-t border-forest/10 pt-16">
+            <h2 className="text-3xl font-serif mb-10">Amenities</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-12">
               {Object.entries(amenitiesDetail).map(([category, items]) => (
                 <div key={category}>
-                  <h3 className="text-sm font-bold uppercase tracking-widest mb-4 flex items-center gap-2">
-                    {category === 'Bathroom' && <Waves size={16} />}
-                    {category === 'Entertainment' && <Tv size={16} />}
-                    {category === 'Kitchen' && <Utensils size={16} />}
-                    {category === 'Bedroom' && <Bed size={16} />}
-                    {category === 'Family' && <Shield size={16} />}
-                    {category === 'Outdoor' && <Wind size={16} />}
+                  <h3 className="text-xs font-black uppercase tracking-widest mb-6 flex items-center gap-3 text-forest/40">
+                    {category === 'Bathroom' && <Waves size={14} />}
+                    {category === 'Entertainment' && <Tv size={14} />}
+                    {category === 'Kitchen' && <Utensils size={14} />}
+                    {category === 'Bedroom' && <Bed size={14} />}
+                    {category === 'Family' && <Shield size={14} />}
+                    {category === 'Outdoor' && <Wind size={14} />}
                     {category}
                   </h3>
-                  <ul className="space-y-3">
+                  <ul className="space-y-4">
                     {items.map((item, i) => (
-                      <li key={i} className="flex items-start gap-3 text-neutral-800 text-sm">
-                        <CheckCircle2 size={16} className="mt-0.5 text-forest/40 shrink-0" />
+                      <li key={i} className="flex items-center gap-3 text-forest font-medium">
+                        <div className="w-1.5 h-1.5 rounded-full bg-forest/30"></div>
                         {item}
                       </li>
                     ))}
@@ -260,28 +283,27 @@ export const VillaDetail: React.FC<VillaDetailProps> = ({
           </div>
 
           {/* SECTION: LOCATION */}
-          <div id="location" className="scroll-mt-48 border-t border-forest/10 pt-12">
-            <h2 className="text-3xl font-serif mb-8">Where you'll be</h2>
+          <div id="location" className="scroll-mt-48 border-t border-forest/10 pt-16">
+            <h2 className="text-3xl font-serif mb-8">Location</h2>
             <div className="flex flex-col md:flex-row gap-8">
 
               {/* Map */}
-              <div className="w-full md:w-2/3 h-[400px] rounded-2xl overflow-hidden border border-forest/10 relative z-0">
+              <div className="w-full md:w-2/3 h-[450px] rounded-2xl overflow-hidden border border-forest/10 relative z-0 shadow-lg">
                 <Suspense fallback={<div className="bg-forest/5 w-full h-full flex items-center justify-center">Loading Map...</div>}>
                   <MapComponent villas={[villa]} activeVillaId={villa.id} />
                 </Suspense>
               </div>
 
               {/* Proximity List */}
-              <div className="w-full md:w-1/3 flex flex-col gap-6 justify-center">
-                <h3 className="text-sm font-bold uppercase tracking-widest flex items-center gap-2">
-                  <MapPin size={16} /> Nearby
+              <div className="w-full md:w-1/3 flex flex-col gap-2 justify-center">
+                <h3 className="text-xs font-bold uppercase tracking-widest flex items-center gap-2 mb-4 text-forest/50">
+                  <MapPin size={14} /> Nearby
                 </h3>
-                <div className="space-y-6">
+                <div className="space-y-2">
                   {proximity.map((place, idx) => (
-                    <div key={idx} className="flex items-center justify-between group">
-                      <span className="text-sm font-medium">{place.name}</span>
-                      <div className="flex-1 border-b border-dashed border-forest/20 mx-4 relative top-1"></div>
-                      <span className="text-xs opacity-70 whitespace-nowrap">{place.distance}</span>
+                    <div key={idx} className="flex items-center justify-between group p-4 bg-white/40 rounded-xl border border-transparent hover:border-forest/10 transition-all">
+                      <span className="text-sm font-bold text-forest">{place.name}</span>
+                      <span className="text-xs opacity-70 whitespace-nowrap bg-white px-2 py-1 rounded-md">{place.distance}</span>
                     </div>
                   ))}
                 </div>
@@ -291,53 +313,46 @@ export const VillaDetail: React.FC<VillaDetailProps> = ({
           </div>
 
           {/* SECTION: HOUSE RULES */}
-          <div id="rules" className="scroll-mt-48 border-t border-forest/10 pt-12 pb-12">
+          <div id="rules" className="scroll-mt-48 border-t border-forest/10 pt-16 pb-12">
             <h2 className="text-3xl font-serif mb-8">Things to know</h2>
-            <div className="bg-white/30 border border-white/60 p-8 rounded-2xl">
+            <div className="bg-forest text-sand p-8 md:p-12 rounded-2xl">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
 
                 {/* Logistics */}
                 <div className="space-y-6">
-                  <div className="flex items-start gap-4">
-                    <Clock className="mt-1 text-forest/70" />
-                    <div>
-                      <span className="block font-bold text-sm">Check-in</span>
-                      <span className="text-sm opacity-80">After {houseRules.check_in}</span>
-                    </div>
+                  <h4 className="text-xs font-bold uppercase tracking-widest opacity-50 mb-6">Logistics</h4>
+                  <div className="flex justify-between items-center border-b border-sand/10 pb-4">
+                    <span className="font-serif text-xl">Check-in</span>
+                    <span className="font-mono text-sm opacity-80">After {houseRules.check_in}</span>
                   </div>
-                  <div className="flex items-start gap-4">
-                    <Clock className="mt-1 text-forest/70" />
-                    <div>
-                      <span className="block font-bold text-sm">Check-out</span>
-                      <span className="text-sm opacity-80">Before {houseRules.check_out}</span>
-                    </div>
+                  <div className="flex justify-between items-center border-b border-sand/10 pb-4">
+                    <span className="font-serif text-xl">Check-out</span>
+                    <span className="font-mono text-sm opacity-80">Before {houseRules.check_out}</span>
                   </div>
-                  <div className="flex items-start gap-4">
-                    <Wind className="mt-1 text-forest/70" />
-                    <div>
-                      <span className="block font-bold text-sm">Quiet Hours</span>
-                      <span className="text-sm opacity-80">{houseRules.quiet_hours}</span>
-                    </div>
+                  <div className="flex justify-between items-center border-b border-sand/10 pb-4">
+                    <span className="font-serif text-xl">Quiet Hours</span>
+                    <span className="font-mono text-sm opacity-80">{houseRules.quiet_hours}</span>
                   </div>
                 </div>
 
                 {/* Policies */}
                 <div className="space-y-6">
+                  <h4 className="text-xs font-bold uppercase tracking-widest opacity-50 mb-6">House Rules</h4>
                   <div className="flex items-center gap-4 text-sm">
-                    {houseRules.parties ? <CheckCircle2 size={20} /> : <Ban size={20} className="text-forest/60" />}
-                    <span className={houseRules.parties ? "" : "opacity-80"}>
+                    {houseRules.parties ? <CheckCircle2 size={20} className="text-accent" /> : <Ban size={20} className="text-sand/40" />}
+                    <span className={houseRules.parties ? "" : "opacity-60"}>
                       {houseRules.parties ? "Parties allowed" : "No parties or events"}
                     </span>
                   </div>
                   <div className="flex items-center gap-4 text-sm">
-                    {houseRules.smoking ? <Cigarette size={20} /> : <Ban size={20} className="text-forest/60" />}
-                    <span className={houseRules.smoking ? "" : "opacity-80"}>
+                    {houseRules.smoking ? <Cigarette size={20} className="text-accent" /> : <Ban size={20} className="text-sand/40" />}
+                    <span className={houseRules.smoking ? "" : "opacity-60"}>
                       {houseRules.smoking ? "Smoking allowed" : "No smoking inside"}
                     </span>
                   </div>
                   <div className="flex items-center gap-4 text-sm">
-                    {houseRules.pets ? <Dog size={20} /> : <Ban size={20} className="text-forest/60" />}
-                    <span className={houseRules.pets ? "" : "opacity-80"}>
+                    {houseRules.pets ? <Dog size={20} className="text-accent" /> : <Ban size={20} className="text-sand/40" />}
+                    <span className={houseRules.pets ? "" : "opacity-60"}>
                       {houseRules.pets ? "Pets allowed" : "No pets allowed"}
                     </span>
                   </div>
@@ -351,7 +366,7 @@ export const VillaDetail: React.FC<VillaDetailProps> = ({
 
         {/* RIGHT COLUMN: Sticky Booking Widget (Desktop) */}
         <div className="lg:col-span-1 self-start">
-          <div className="sticky top-40">
+          <div className="sticky top-24">
             <BookingWidget
               pricePerNight={villa.pricePerNight}
               villaName={villa.name}
@@ -364,20 +379,26 @@ export const VillaDetail: React.FC<VillaDetailProps> = ({
       </div>
 
       {/* 3. SIMILAR VILLAS */}
-      <section className="px-4 md:px-12 max-w-7xl mx-auto mt-24 pt-12 border-t border-forest/10">
-        <h2 className="text-3xl md:text-4xl font-serif text-forest mb-12">More Sanctuaries</h2>
+      <section className="px-4 md:px-12 max-w-7xl mx-auto mt-24 pt-20 border-t border-forest/10">
+        <div className="flex justify-between items-end mb-12">
+          <h2 className="text-3xl md:text-5xl font-serif text-forest">You may also like</h2>
+          <Link href="/villas" className="hidden md:flex items-center gap-2 text-xs font-bold uppercase tracking-widest hover:underline">
+            View Collection <ArrowRight size={14} className="ArrowRight" />
+          </Link>
+        </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {similarVillas.map(v => (
-            <Link key={v.id} href={`/villas/${v.id}`} className="group">
-              <div className="aspect-[4/3] overflow-hidden rounded-xl mb-4">
+            <Link key={v.id} href={`/villas/${v.id}`} className="group block">
+              <div className="aspect-[4/3] overflow-hidden rounded-sm mb-6 relative">
                 <img
                   src={v.imageUrl}
                   alt={v.name}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
                 />
+                <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors" />
               </div>
-              <h3 className="font-serif text-xl text-forest mb-1 group-hover:underline">{v.name}</h3>
-              <p className="font-sans text-sm text-forest/60">{v.bedrooms} Bedrooms • {v.guests} Guests</p>
+              <h3 className="font-serif text-2xl text-forest mb-2 group-hover:text-forest/70 transition-colors">{v.name}</h3>
+              <p className="font-sans text-xs uppercase tracking-widest text-forest/50">{v.bedrooms} Bedrooms • {v.guests} Guests</p>
             </Link>
           ))}
         </div>
