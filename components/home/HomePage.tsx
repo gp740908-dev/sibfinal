@@ -10,6 +10,7 @@ import { RecentJournal } from './RecentJournal';
 import { VideoParallax } from './VideoParallax';
 import { GuestDiaries } from './GuestDiaries';
 import { SignatureDetails } from './SignatureDetails';
+import { HomeScrollExperience } from './HomeScrollExperience';
 import { Newsletter } from './Newsletter';
 import { Villa } from '../../types';
 import { supabase, isMock } from '../../lib/supabase';
@@ -215,6 +216,9 @@ export const HomePage: React.FC = () => {
 
             {/* Signature Details (Sticky Scroll) */}
             <SignatureDetails />
+
+            {/* Scroll Experience (Image Sequence) */}
+            <HomeScrollExperience />
 
             {/* Location Section */}
             <div id="locations">

@@ -14,6 +14,7 @@ interface ScrollSequenceProps {
     fileExtension?: string;
     scrollDistance?: string;
     className?: string; // Additional classes for the container
+    children?: React.ReactNode;
 }
 
 export default function ScrollSequence({
@@ -23,6 +24,7 @@ export default function ScrollSequence({
     fileExtension = 'jpg',
     scrollDistance = '300%', // Default scroll distance
     className = '',
+    children,
 }: ScrollSequenceProps) {
     const containerRef = useRef<HTMLDivElement>(null);
     const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -167,7 +169,10 @@ export default function ScrollSequence({
                 </div>
             )}
 
-            {/* Optional: Overlay Content Slot via Children? Or just pure sequence */}
+            {/* Overlay Content Slot */}
+            <div className="absolute inset-0 z-20 pointer-events-none">
+                {children}
+            </div>
         </div>
     );
 }
