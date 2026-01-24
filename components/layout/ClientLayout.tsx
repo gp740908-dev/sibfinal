@@ -43,7 +43,7 @@ export const ClientLayout: React.FC<ClientLayoutProps> = ({ children }) => {
                 className={`relative z-10 w-full bg-sand flex flex-col ${isTransientPage
                     ? 'mb-0'
                     : 'mb-[450px] md:mb-[500px] shadow-[0_25px_50px_-12px_rgba(83,127,93,0.5)] rounded-b-[2rem] md:rounded-b-[3rem]'
-                    } overflow-x-hidden min-h-screen origin-top`}
+                    } min-h-screen origin-top`}
             >
                 {children}
             </div>
