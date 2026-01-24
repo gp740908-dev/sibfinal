@@ -1,3 +1,4 @@
+'use client';
 
 import React, { useRef, useState, useLayoutEffect } from 'react';
 import gsap from 'gsap';
@@ -7,7 +8,7 @@ export const Preloader: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const counterRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLDivElement>(null);
-  
+
   // Default to true so it blocks view initially if JS hasn't run, 
   // but we'll check session storage immediately.
   const [isVisible, setIsVisible] = useState(true);
@@ -15,7 +16,7 @@ export const Preloader: React.FC = () => {
   useLayoutEffect(() => {
     // Check if user has already seen the preloader in this session
     const hasLoaded = sessionStorage.getItem('hasLoaded');
-    
+
     if (hasLoaded) {
       setIsVisible(false);
       document.body.style.overflow = ''; // Ensure scroll is unlocked
@@ -38,7 +39,7 @@ export const Preloader: React.FC = () => {
 
     // Phase 1: Counting Animation (0 to 100)
     const counterProxy = { value: 0 };
-    
+
     tl.to(counterProxy, {
       value: 100,
       duration: 1.8,
@@ -71,12 +72,12 @@ export const Preloader: React.FC = () => {
   if (!isVisible) return null;
 
   return (
-    <div 
-      ref={containerRef} 
+    <div
+      ref={containerRef}
       className="fixed inset-0 z-[9999] bg-forest flex flex-col items-center justify-center text-sand"
     >
       {/* Counter */}
-      <div 
+      <div
         ref={counterRef}
         className="text-8xl md:text-[10rem] font-serif leading-none font-medium tabular-nums"
       >
@@ -84,7 +85,7 @@ export const Preloader: React.FC = () => {
       </div>
 
       {/* Brand Label */}
-      <div 
+      <div
         ref={textRef}
         className="mt-6 font-sans text-xs md:text-sm uppercase tracking-[0.4em] opacity-80"
       >

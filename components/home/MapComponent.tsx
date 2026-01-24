@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useEffect, useMemo } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import L from 'leaflet';
@@ -60,17 +62,17 @@ const MapComponent: React.FC<MapComponentProps> = ({ villas, activeVillaId }) =>
   // Determine center position safely
   const centerPosition = useMemo((): [number, number] => {
     const activeVilla = validVillas.find(v => v.id === activeVillaId) || validVillas[0];
-    
+
     if (activeVilla && isValidLatLng(activeVilla.latitude, activeVilla.longitude)) {
       return [activeVilla.latitude, activeVilla.longitude];
     }
-    
+
     return DEFAULT_CENTER;
   }, [validVillas, activeVillaId]);
 
   return (
     <div className="h-full w-full relative isolation-auto">
-       {/* CSS to tint the map tiles to match the Sand/Forest theme */}
+      {/* CSS to tint the map tiles to match the Sand/Forest theme */}
       <style>{`
         .leaflet-tile-pane {
           filter: sepia(0.6) hue-rotate(40deg) contrast(0.9) brightness(0.95);
@@ -99,10 +101,10 @@ const MapComponent: React.FC<MapComponentProps> = ({ villas, activeVillaId }) =>
         but MapController handles smooth panning.
         We ensure centerPosition is never NaN here.
       */}
-      <MapContainer 
-        center={centerPosition} 
-        zoom={13} 
-        scrollWheelZoom={false} 
+      <MapContainer
+        center={centerPosition}
+        zoom={13}
+        scrollWheelZoom={false}
         className="h-full w-full z-10 bg-[#e3e4b6]" // Set background color to match tiles
         zoomControl={false} // Minimalist look
       >
@@ -114,29 +116,29 @@ const MapComponent: React.FC<MapComponentProps> = ({ villas, activeVillaId }) =>
         <MapController center={centerPosition} zoom={13} />
 
         {validVillas.map((villa) => (
-          <Marker 
-            key={villa.id} 
+          <Marker
+            key={villa.id}
             position={[villa.latitude, villa.longitude]}
             icon={createCustomIcon(villa.id === activeVillaId)}
           >
             <Popup>
-               <div className="flex flex-col gap-2 min-w-[150px]">
-                 <img src={villa.imageUrl} alt={villa.name} className="w-full h-24 object-cover" />
-                 <h4 className="font-serif text-lg font-bold leading-none">{villa.name}</h4>
-                 <a 
-                   href={`https://www.google.com/maps/search/?api=1&query=${villa.latitude},${villa.longitude}`} 
-                   target="_blank" 
-                   rel="noreferrer"
-                   className="text-[10px] uppercase tracking-widest underline hover:text-white transition-colors"
-                 >
-                   Get Directions
-                 </a>
-               </div>
+              <div className="flex flex-col gap-2 min-w-[150px]">
+                <img src={villa.imageUrl} alt={villa.name} className="w-full h-24 object-cover" />
+                <h4 className="font-serif text-lg font-bold leading-none">{villa.name}</h4>
+                <a
+                  href={`https://www.google.com/maps/search/?api=1&query=${villa.latitude},${villa.longitude}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-[10px] uppercase tracking-widest underline hover:text-white transition-colors"
+                >
+                  Get Directions
+                </a>
+              </div>
             </Popup>
           </Marker>
         ))}
       </MapContainer>
-      
+
       {/* Decorative Overlay to blend map edges into the page background if needed */}
       <div className="absolute inset-0 pointer-events-none border-[20px] border-[#D3D49F]/20 z-20 hidden md:block"></div>
     </div>
