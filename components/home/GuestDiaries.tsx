@@ -47,7 +47,7 @@ export const GuestDiaries: React.FC = () => {
           .eq('is_featured', true)
           .limit(1)
           .maybeSingle(); // Safer than single() for 0 rows
-        
+
         if (error) {
           console.warn('GuestDiaries: Error fetching from Supabase, falling back to mock.', error.message);
           setReview(MOCK_REVIEW);
@@ -71,27 +71,32 @@ export const GuestDiaries: React.FC = () => {
   useGSAP(() => {
     if (!review) return;
 
-    // Only set up animation if elements exist
-    if (imageRef.current && cardRef.current) {
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: "top bottom",
-          end: "bottom top",
-          scrub: 1
-        }
-      });
+    // Responsive Animation: Only run on desktop (min-width: 768px)
+    const mm = gsap.matchMedia();
 
-      tl.to(imageRef.current, {
-        yPercent: 10,
-        ease: "none"
-      }, 0);
+    mm.add("(min-width: 768px)", () => {
+      if (imageRef.current && cardRef.current) {
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: 1
+          }
+        });
 
-      tl.to(cardRef.current, {
-        yPercent: -30,
-        ease: "none"
-      }, 0);
-    }
+        tl.to(imageRef.current, {
+          yPercent: 10,
+          ease: "none"
+        }, 0);
+
+        tl.to(cardRef.current, {
+          yPercent: -30,
+          ease: "none"
+        }, 0);
+      }
+    });
+
   }, { scope: containerRef, dependencies: [review, loading] });
 
   // Render loading state
@@ -106,50 +111,50 @@ export const GuestDiaries: React.FC = () => {
   if (!review) return null;
 
   return (
-    <section ref={containerRef} className="py-24 md:py-40 px-6 md:px-12 bg-forest/5 overflow-hidden">
+    <section ref={containerRef} className="py-20 md:py-40 px-4 md:px-12 bg-forest/5 overflow-hidden">
       <div className="max-w-7xl mx-auto relative flex flex-col md:flex-row items-center justify-center">
-        
+
         {/* LAYER 1: IMAGE (Left, 40%) */}
-        <div 
-          ref={imageRef} 
-          className="w-full md:w-5/12 aspect-[3/4] relative z-0 shadow-2xl"
+        <div
+          ref={imageRef}
+          className="w-full md:w-5/12 aspect-[4/5] md:aspect-[3/4] relative z-0 shadow-2xl rounded-sm overflow-hidden"
         >
           <div className="w-full h-full overflow-hidden">
-             <img 
-               src={review.image_url} 
-               alt="Guest relaxing in villa sanctuary"
-               className="w-full h-full object-cover transition-transform duration-[2s] hover:scale-110"
-             />
-             {/* Subtle Overlay to blend */}
-             <div className="absolute inset-0 bg-forest/10 mix-blend-multiply"></div>
+            <img
+              src={review.image_url}
+              alt="Guest relaxing in villa sanctuary"
+              className="w-full h-full object-cover transition-transform duration-[2s] hover:scale-110"
+            />
+            {/* Subtle Overlay to blend */}
+            <div className="absolute inset-0 bg-forest/10 mix-blend-multiply"></div>
           </div>
         </div>
 
         {/* LAYER 2: TEXT CARD (Overlapping) */}
-        <div 
+        <div
           ref={cardRef}
-          className="w-full md:w-1/2 bg-[#D3D49F] p-10 md:p-16 shadow-2xl relative z-10 -mt-20 md:mt-0 md:-ml-24 border-t border-l border-white/20"
+          className="w-[90%] md:w-1/2 bg-[#D3D49F] p-8 md:p-16 shadow-2xl relative z-10 -mt-16 md:mt-0 md:-ml-24 border-t border-l border-white/20 rounded-sm"
         >
           {/* Decorative Quote Icon Layer */}
-          <div className="absolute top-8 left-8 text-forest opacity-10 pointer-events-none">
-             <Quote size={140} fill="currentColor" strokeWidth={0} />
+          <div className="absolute top-6 left-6 md:top-8 md:left-8 text-forest opacity-10 pointer-events-none">
+            <Quote size={80} className="md:w-[140px] md:h-[140px]" fill="currentColor" strokeWidth={0} />
           </div>
 
           {/* Content */}
           <div className="relative z-10">
-            <div className="flex items-center gap-4 mb-8">
-              <span className="h-px w-12 bg-forest/40"></span>
-              <span className="font-sans text-xs uppercase tracking-[0.2em] text-forest/60">Guest Diaries</span>
+            <div className="flex items-center gap-3 md:gap-4 mb-6 md:mb-8">
+              <span className="h-px w-8 md:w-12 bg-forest/40"></span>
+              <span className="font-sans text-[10px] md:text-xs uppercase tracking-[0.2em] text-forest/60">Guest Diaries</span>
             </div>
 
-            <blockquote className="font-serif text-2xl md:text-4xl lg:text-5xl text-forest leading-[1.2] mb-10 italic">
+            <blockquote className="font-serif text-xl md:text-4xl lg:text-5xl text-forest leading-relaxed md:leading-[1.2] mb-6 md:mb-10 italic">
               "{review.quote}"
             </blockquote>
 
             <div className="flex flex-col border-l-2 border-forest/20 pl-4">
-              <span className="font-sans text-sm font-bold uppercase tracking-widest text-forest">{review.guest_name}</span>
+              <span className="font-sans text-xs md:text-sm font-bold uppercase tracking-widest text-forest">{review.guest_name}</span>
               {review.source && (
-                 <span className="font-sans text-xs text-forest/60 mt-1 italic">{review.source}</span>
+                <span className="font-sans text-[10px] md:text-xs text-forest/60 mt-1 italic">{review.source}</span>
               )}
             </div>
           </div>

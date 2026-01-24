@@ -98,14 +98,25 @@ export default function ScrollSequence({
 
         const handleResize = () => {
             if (canvasRef.current) {
-                canvasRef.current.width = window.innerWidth;
-                canvasRef.current.height = window.innerHeight;
-                // Re-render current frame on resize (if loaded)
-                if (imagesRef.current.length > 0) {
-                    // We might need access to current playhead here, but usually it's fine 
-                    // providing we re-render inside the GSAP loop or separate global state.
-                    // For now, let GSAP handle the next tick or just render frame 0 if static.
+                // High-DPI Support
+                const dpr = window.devicePixelRatio || 1;
+
+                // Set Display Size (CSS Pixels)
+                canvasRef.current.style.width = `${window.innerWidth}px`;
+                canvasRef.current.style.height = `${window.innerHeight}px`;
+
+                // Set Actual Size (Physical Pixels)
+                canvasRef.current.width = window.innerWidth * dpr;
+                canvasRef.current.height = window.innerHeight * dpr;
+
+                // Scale Context
+                if (contextRef.current) {
+                    contextRef.current.scale(dpr, dpr);
                 }
+
+                // Re-render current frame on resize (if loaded) to prevent blank screen
+                // Note: The renderFrame function will use canvas.width/height which are now scaled
+                // So we need to adjustments in renderFrame logic to use logical pixels or adjust calculation
             }
         };
 
