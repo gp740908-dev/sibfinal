@@ -7,7 +7,7 @@ import Link from 'next/link';
 import { Villa } from '../../types';
 import { BookingWidget } from '../booking/BookingWidget';
 import {
-  ArrowLeft, Wifi, Wind, Waves, Coffee, Shield, X, Maximize2,
+  ArrowLeft, ArrowRight, Wifi, Wind, Waves, Coffee, Shield, X, Maximize2,
   MapPin, Clock, Ban, Cigarette, Dog, CheckCircle2, Bed, Tv, Utensils
 } from 'lucide-react';
 
