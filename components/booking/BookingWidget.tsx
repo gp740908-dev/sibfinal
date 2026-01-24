@@ -125,7 +125,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
   return (
     <>
       {/* --- DESKTOP STICKY WIDGET --- */}
-      <div id="booking-widget" className="hidden lg:block sticky top-40 z-30" ref={calendarRef}>
+      <div id="booking-widget" className="hidden lg:block" ref={calendarRef}>
         <div className="bg-white rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] border border-forest/10 p-6 overflow-visible relative">
 
           {/* Header */}
