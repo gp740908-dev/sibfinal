@@ -8,13 +8,15 @@ interface CalendarProps {
   onSelect?: (range: DateRange | undefined) => void;
   disabledDates?: Date[];
   numberOfMonths?: number;
+  showLegend?: boolean;
 }
 
-export const Calendar: React.FC<CalendarProps> = ({ 
-  selected, 
-  onSelect, 
+export const Calendar: React.FC<CalendarProps> = ({
+  selected,
+  onSelect,
   disabledDates = [],
-  numberOfMonths = 1
+  numberOfMonths = 1,
+  showLegend = true
 }) => {
   // Wrapper to safely handle the selection event
   const handleSelect = (range: DateRange | undefined) => {
@@ -23,20 +25,22 @@ export const Calendar: React.FC<CalendarProps> = ({
     }
   };
 
+  const bookedCount = disabledDates.length;
+
   return (
-    <div className="p-2 md:p-4 bg-white flex justify-center w-full">
+    <div className="p-2 md:p-4 bg-white flex flex-col items-center w-full">
       <style>{`
         .rdp { 
-          --rdp-cell-size: 44px; /* Larger touch targets */
+          --rdp-cell-size: 44px;
           --rdp-accent-color: #537F5D; 
           --rdp-background-color: #D3D49F;
           margin: 0;
         }
-        /* Mobile adjustment */
         @media (max-width: 768px) {
           .rdp { --rdp-cell-size: 40px; }
         }
         
+        /* Selected Range */
         .rdp-day_selected:not([disabled]) { 
           background-color: #537F5D; 
           color: white;
@@ -47,13 +51,36 @@ export const Calendar: React.FC<CalendarProps> = ({
           opacity: 0.9;
         }
         
-        /* Booked / Disabled State - Strikethrough */
+        /* Range Middle Days */
+        .rdp-day_range_middle:not([disabled]) {
+          background-color: rgba(83, 127, 93, 0.15);
+          color: #537F5D;
+        }
+        
+        /* Booked / Disabled State */
         .rdp-day_disabled { 
-          text-decoration: line-through;
-          color: #d1d5db; /* gray-300 */
-          background-color: #f9fafb; /* gray-50 */
+          position: relative;
+          color: #ef4444 !important;
+          background-color: #fef2f2 !important;
           cursor: not-allowed;
-          opacity: 0.7;
+          opacity: 1;
+        }
+        .rdp-day_disabled::after {
+          content: '';
+          position: absolute;
+          top: 50%;
+          left: 15%;
+          right: 15%;
+          height: 2px;
+          background-color: #ef4444;
+          transform: rotate(-45deg);
+        }
+
+        /* Today */
+        .rdp-day_today:not(.rdp-day_selected):not(.rdp-day_disabled) {
+          background-color: #fef3c7;
+          color: #92400e;
+          font-weight: bold;
         }
 
         /* Nav Buttons */
@@ -71,7 +98,7 @@ export const Calendar: React.FC<CalendarProps> = ({
           background-color: #e5e7eb;
         }
       `}</style>
-      
+
       <DayPicker
         mode="range"
         selected={selected}
@@ -90,6 +117,53 @@ export const Calendar: React.FC<CalendarProps> = ({
           table: "w-full border-collapse",
         }}
       />
+
+      {/* Legend */}
+      {showLegend && (
+        <div className="w-full mt-4 pt-4 border-t border-gray-100">
+          <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 text-[10px] sm:text-xs">
+            {/* Available */}
+            <div className="flex items-center gap-2">
+              <div className="w-6 h-6 rounded-full border-2 border-forest/30 bg-white flex items-center justify-center text-[10px] text-forest/60">
+                12
+              </div>
+              <span className="text-gray-500 uppercase tracking-wider">Available</span>
+            </div>
+
+            {/* Selected */}
+            <div className="flex items-center gap-2">
+              <div className="w-6 h-6 rounded-full bg-forest flex items-center justify-center text-[10px] text-white font-bold">
+                ✓
+              </div>
+              <span className="text-gray-500 uppercase tracking-wider">Selected</span>
+            </div>
+
+            {/* Booked */}
+            <div className="flex items-center gap-2">
+              <div className="w-6 h-6 rounded-full bg-red-50 border border-red-200 flex items-center justify-center relative overflow-hidden">
+                <span className="text-[10px] text-red-400">12</span>
+                <div className="absolute w-full h-0.5 bg-red-400 rotate-[-45deg]"></div>
+              </div>
+              <span className="text-gray-500 uppercase tracking-wider">Booked</span>
+            </div>
+
+            {/* Today */}
+            <div className="flex items-center gap-2">
+              <div className="w-6 h-6 rounded-full bg-amber-100 border border-amber-300 flex items-center justify-center text-[10px] text-amber-700 font-bold">
+                T
+              </div>
+              <span className="text-gray-500 uppercase tracking-wider">Today</span>
+            </div>
+          </div>
+
+          {/* Booking Status Info */}
+          {bookedCount > 0 && (
+            <p className="text-center text-xs text-gray-400 mt-3">
+              <span className="text-red-500 font-semibold">{bookedCount}</span> dates unavailable this month
+            </p>
+          )}
+        </div>
+      )}
     </div>
   );
 };
