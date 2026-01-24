@@ -71,14 +71,21 @@ export default async function JournalPostPage({ params }: PageProps) {
         .neq('id', post.id)
         .limit(3);
 
+    // Enhanced BlogPosting Schema for Google Rich Results
     const blogPostSchema = {
         '@context': 'https://schema.org',
         '@type': 'BlogPosting',
+        '@id': `https://stayinubud.com/journal/${slug}#article`,
         headline: post.title,
         description: post.excerpt,
-        image: post.image_url,
+        image: {
+            '@type': 'ImageObject',
+            url: post.image_url,
+            width: 1200,
+            height: 630,
+        },
         datePublished: post.published_at,
-        dateModified: post.created_at,
+        dateModified: post.created_at || post.published_at,
         author: {
             '@type': 'Person',
             name: post.author,
@@ -86,15 +93,21 @@ export default async function JournalPostPage({ params }: PageProps) {
         publisher: {
             '@type': 'Organization',
             name: 'StayinUBUD',
+            url: 'https://stayinubud.com',
             logo: {
                 '@type': 'ImageObject',
                 url: 'https://stayinubud.com/logo.png',
+                width: 200,
+                height: 60,
             },
         },
         mainEntityOfPage: {
             '@type': 'WebPage',
             '@id': `https://stayinubud.com/journal/${slug}`,
         },
+        articleSection: post.category || 'Travel',
+        wordCount: post.content ? post.content.split(/\s+/).length : 500,
+        inLanguage: 'en-US',
     };
 
     return (

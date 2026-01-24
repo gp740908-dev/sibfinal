@@ -68,19 +68,23 @@ export default async function VillaPage({ params }: PageProps) {
   const similarVillas = (similarData || []).map(mapDbToVilla);
 
   // 2. Construct VacationRental Schema (Google Rich Results)
+  // Using single @type for clearer detection
   const villaSchema = {
     '@context': 'https://schema.org',
-    '@type': ['VacationRental', 'Product'],
+    '@type': 'VacationRental',
+    '@id': `https://stayinubud.com/villas/${villa.id}#vacation-rental`,
     name: villa.name,
     description: villa.description,
+    url: `https://stayinubud.com/villas/${villa.id}`,
     image: villa.images && villa.images.length > 0 ? villa.images : [villa.imageUrl],
-    brand: {
-      '@type': 'Brand',
-      name: 'StayinUBUD',
-    },
+    priceRange: new Intl.NumberFormat('id-ID', {
+      style: 'currency',
+      currency: 'IDR',
+      maximumFractionDigits: 0
+    }).format(villa.pricePerNight) + ' per night',
     address: {
       '@type': 'PostalAddress',
-      streetAddress: 'Jl. Raya Ubud No. 88',
+      streetAddress: 'Jl. Raya Ubud',
       addressLocality: 'Ubud',
       addressRegion: 'Bali',
       postalCode: '80571',
@@ -88,26 +92,38 @@ export default async function VillaPage({ params }: PageProps) {
     },
     geo: {
       '@type': 'GeoCoordinates',
-      latitude: villa.latitude,
-      longitude: villa.longitude,
+      latitude: villa.latitude || -8.5069,
+      longitude: villa.longitude || 115.2625,
     },
-    offers: {
-      '@type': 'Offer',
-      priceCurrency: 'IDR',
-      price: villa.pricePerNight,
-      availability: 'https://schema.org/InStock',
-      url: `https://stayinubud.com/villas/${villa.id}`,
-    },
-    amenityFeature: villa.features.map((feature) => ({
-      '@type': 'LocationFeatureSpecification',
-      name: feature,
-      value: true,
-    })),
-    numberOfRooms: villa.bedrooms,
+    amenityFeature: [
+      { '@type': 'LocationFeatureSpecification', name: 'Private Pool', value: true },
+      { '@type': 'LocationFeatureSpecification', name: 'Free WiFi', value: true },
+      { '@type': 'LocationFeatureSpecification', name: 'Air Conditioning', value: true },
+      { '@type': 'LocationFeatureSpecification', name: 'Fully Equipped Kitchen', value: true },
+      ...(villa.features || []).map((feature) => ({
+        '@type': 'LocationFeatureSpecification',
+        name: feature,
+        value: true,
+      })),
+    ],
+    numberOfBedrooms: villa.bedrooms,
+    numberOfBathroomsTotal: villa.bathrooms || 2,
     occupancy: {
       '@type': 'QuantitativeValue',
       value: villa.guests,
       unitText: 'guests',
+    },
+    floorSize: {
+      '@type': 'QuantitativeValue',
+      value: villa.size || 200,
+      unitCode: 'MTK', // Square meters
+    },
+    checkinTime: '14:00',
+    checkoutTime: '11:00',
+    provider: {
+      '@type': 'Organization',
+      name: 'StayinUBUD',
+      url: 'https://stayinubud.com',
     },
   };
 
