@@ -176,7 +176,7 @@ export const VillaDetail: React.FC<VillaDetailProps> = ({
       </header>
 
       {/* STICKY SUB-NAV */}
-      <div className="sticky top-[72px] md:top-0 z-40 bg-sand/90 backdrop-blur-xl border-b border-forest/5 px-4 md:px-12 mb-12 transition-all">
+      <div className="bg-sand border-b border-forest/5 px-4 md:px-12 mb-12 transition-all">
         <div className="max-w-7xl mx-auto flex gap-8 md:gap-12 overflow-x-auto no-scrollbar">
           {SECTIONS.map((section) => (
             <button
