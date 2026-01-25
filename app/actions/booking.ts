@@ -169,6 +169,26 @@ _Ref: MOCK-123_`;
       }
     }
 
+    // 3.5 Trigger Admin Push Notification
+    const adminUrl = process.env.ADMIN_URL;
+    if (adminUrl) {
+      try {
+        await fetch(`${adminUrl}/api/push/send`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            title: 'New Booking Request',
+            body: `${guestDetails.fullName} for ${villaName} (${formattedStart} - ${formattedEnd})`,
+            url: '/dashboard/bookings'
+          }),
+        });
+      } catch (pushError) {
+        console.error('Failed to send push notification:', pushError);
+      }
+    }
+
     // 4. Construct WhatsApp Message
     const message = `*NEW BOOKING REQUEST*
     
