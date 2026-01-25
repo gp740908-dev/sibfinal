@@ -152,6 +152,45 @@ export function generateBookingConfirmationEmail(data: BookingEmailData): string
     return emailWrapper(content);
 }
 
+
+export function generateWelcomeEmail(): string {
+    const content = `
+        <p style="margin: 0 0 24px 0; font-size: 14px; color: ${BRAND_COLORS.lightText}; text-transform: uppercase; letter-spacing: 0.15em;">
+            Welcome to the Inner Circle
+        </p>
+        
+        <h2 style="margin: 0 0 16px 0; font-size: 28px; font-weight: 300; color: ${BRAND_COLORS.forest};">
+            You're In.
+        </h2>
+        
+        <p style="margin: 0 0 24px 0; font-size: 16px; line-height: 1.7; color: ${BRAND_COLORS.text};">
+            Welcome to our private guest list. You are now part of a community that appreciates the slower, deeper side of Bali.
+        </p>
+
+        <p style="margin: 0 0 24px 0; font-size: 16px; line-height: 1.7; color: ${BRAND_COLORS.text};">
+            As an Inner Circle member, you'll receive:
+        </p>
+
+        <ul style="margin: 0 0 32px 0; padding-left: 20px; font-size: 16px; line-height: 1.7; color: ${BRAND_COLORS.text};">
+            <li style="margin-bottom: 8px;">First access to new villa openings.</li>
+            <li style="margin-bottom: 8px;">Curated Ubud itineraries and hidden gems.</li>
+            <li style="margin-bottom: 8px;">Invites to exclusive cultural experiences.</li>
+        </ul>
+        
+        <p style="margin: 0 0 8px 0; font-size: 15px; line-height: 1.7; color: ${BRAND_COLORS.text};">
+            We promise to only write when we have something truly inspiring to share.
+        </p>
+        
+        <p style="margin: 40px 0 0 0; font-size: 15px; line-height: 1.7; color: ${BRAND_COLORS.text};">
+            Warmly,<br>
+            <span style="color: ${BRAND_COLORS.forest}; font-weight: 500;">The StayinUBUD Team</span>
+        </p>
+    `;
+
+    return emailWrapper(content);
+}
+
 export const EMAIL_SUBJECTS = {
-    bookingConfirmation: 'Your Reservation at StayinUBUD'
+    bookingConfirmation: 'Your Reservation at StayinUBUD',
+    welcome: 'Welcome to the Inner Circle'
 };
