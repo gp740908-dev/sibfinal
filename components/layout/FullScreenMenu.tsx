@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import gsap from 'gsap';
@@ -12,20 +12,25 @@ interface FullScreenMenuProps {
   onClose: () => void;
 }
 
-const MENU_ITEMS = [
-  { label: 'Home', href: '/' },
-  { label: 'Our Villas', href: '/villas' },
-  { label: 'Experiences', href: '/experiences' },
-  { label: 'Bali Guide', href: '/bali-guide' },
-  { label: 'The Journal', href: '/journal' },
+const PRIMARY_LINKS = [
+  { label: 'Our Villas', href: '/villas', image: 'https://images.unsplash.com/photo-1576013551627-0cc60a6f1d22?auto=format&fit=crop&q=80&w=2000' },
+  { label: 'Experiences', href: '/experiences', image: 'https://images.unsplash.com/photo-1544644181-1484b3fdfc62?auto=format&fit=crop&q=80&w=2000' },
+  { label: 'The Journal', href: '/journal', image: 'https://images.unsplash.com/photo-1552802058-202bc9bd791e?auto=format&fit=crop&q=80&w=2000' },
+  { label: 'Bali Guide', href: '/bali-guide', image: 'https://images.unsplash.com/photo-1555400038-63f5ba517a47?auto=format&fit=crop&q=80&w=2000' },
+];
+
+const SECONDARY_LINKS = [
   { label: 'Our Story', href: '/about' },
   { label: 'FAQ', href: '/faq' },
+  { label: 'Contact', href: '/contact' },
 ];
 
 export const FullScreenMenu: React.FC<FullScreenMenuProps> = ({ isOpen, onClose }) => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const revealImageRef = useRef<HTMLDivElement>(null);
   const tl = useRef<gsap.core.Timeline | null>(null);
   const router = useRouter();
+  const [activeImage, setActiveImage] = useState<string | null>(null);
 
   useGSAP(() => {
     tl.current = gsap.timeline({ paused: true });
@@ -43,24 +48,24 @@ export const FullScreenMenu: React.FC<FullScreenMenuProps> = ({ isOpen, onClose 
           ease: "power4.inOut"
         }
       )
-      .from('.menu-header, .menu-footer', {
+      .from('.menu-header', {
         y: -20,
         opacity: 0,
         duration: 0.5,
         ease: "power2.out"
       }, "-=0.3")
-      .from('.menu-link-item', {
+      .from('.primary-link', {
         y: 100,
         opacity: 0,
         stagger: 0.1,
         duration: 1,
         ease: "power3.out"
-      }, "-=0.5")
-      .from('.menu-info-item', {
-        x: 20,
+      }, "-=0.6")
+      .from('.secondary-link, .menu-info', {
+        y: 20,
         opacity: 0,
-        stagger: 0.1,
-        duration: 0.8,
+        stagger: 0.05,
+        duration: 0.6,
         ease: "power2.out"
       }, "-=0.8");
 
@@ -73,12 +78,33 @@ export const FullScreenMenu: React.FC<FullScreenMenuProps> = ({ isOpen, onClose 
     } else {
       tl.current?.reverse();
       document.body.style.overflow = '';
+      setActiveImage(null); // Reset image on close
     }
   }, [isOpen]);
 
+  // Handle Hover Reveal Animation
+  useEffect(() => {
+    if (!revealImageRef.current) return;
+
+    if (activeImage) {
+      gsap.to(revealImageRef.current, {
+        opacity: 0.4,
+        scale: 1.05,
+        duration: 0.6,
+        ease: 'power2.out'
+      });
+    } else {
+      gsap.to(revealImageRef.current, {
+        opacity: 0,
+        scale: 1,
+        duration: 0.4,
+        ease: 'power2.out'
+      });
+    }
+  }, [activeImage]);
+
   const handleLinkClick = (href: string) => {
     onClose();
-    // Small delay to allow menu animation to start closing
     setTimeout(() => {
       router.push(href);
     }, 100);
@@ -89,98 +115,108 @@ export const FullScreenMenu: React.FC<FullScreenMenuProps> = ({ isOpen, onClose 
       ref={containerRef}
       className="fixed inset-0 z-[100] invisible w-full h-[100dvh]"
     >
-      {/* Background Layer */}
-      <div className="menu-bg absolute inset-0 bg-forest w-full h-full"></div>
+      {/* 1. Backgrounds */}
+      <div className="menu-bg absolute inset-0 bg-forest w-full h-full overflow-hidden">
+        {/* Reveal Image Layer */}
+        <div
+          ref={revealImageRef}
+          className="absolute inset-0 bg-cover bg-center opacity-0 transition-opacity duration-500 ease-in-out"
+          style={{ backgroundImage: activeImage ? `url(${activeImage})` : 'none' }}
+        />
+        {/* Gradient Overlay to ensure text readability */}
+        <div className="absolute inset-0 bg-gradient-to-r from-forest/90 via-forest/80 to-forest/60" />
+      </div>
 
-      {/* Content Layer */}
+      {/* 2. Content */}
       <div className="relative z-10 w-full h-full flex flex-col justify-between p-6 md:p-12 text-sand">
 
-        {/* A. Header */}
+        {/* Header */}
         <div className="menu-header flex justify-between items-center">
           <div className="font-serif text-2xl md:text-3xl font-bold tracking-tight">
             Stayin<span className="italic font-light">UBUD</span>
           </div>
           <button
             onClick={onClose}
-            className="group flex items-center gap-2 hover:opacity-70 transition-opacity"
+            className="group flex items-center gap-3 hover:opacity-70 transition-opacity"
           >
             <span className="hidden md:block font-sans text-xs uppercase tracking-widest">Close</span>
-            <div className="w-10 h-10 md:w-14 md:h-14 flex items-center justify-center group-hover:rotate-90 transition-transform duration-500">
-              <X size={24} />
+            <div className="w-10 h-10 md:w-12 md:h-12 border border-sand/20 rounded-full flex items-center justify-center group-hover:bg-sand group-hover:text-forest transition-all duration-300">
+              <X size={20} />
             </div>
           </button>
         </div>
 
-        {/* Middle Section: Split Grid */}
-        <div className="flex-1 flex flex-col md:flex-row items-center md:items-stretch py-4 md:py-0 overflow-hidden">
+        {/* Main Grid */}
+        <div className="flex-1 flex flex-col md:flex-row items-stretch overflow-hidden mt-8 md:mt-0">
 
-          {/* B. Left Column: Primary Nav */}
-          <div className="w-full md:w-1/2 flex flex-col justify-center items-start space-y-0 md:space-y-6">
-            {MENU_ITEMS.map((item, idx) => (
-              <div key={idx} className="menu-link-item py-1">
+          {/* LEFT: Nav Links */}
+          <div className="w-full md:w-2/3 flex flex-col justify-center gap-8 md:gap-16">
+
+            {/* Primary Links (Big) */}
+            <div className="flex flex-col items-start gap-2">
+              {PRIMARY_LINKS.map((item, idx) => (
+                <div key={idx} className="primary-link overflow-hidden">
+                  <button
+                    onClick={() => handleLinkClick(item.href)}
+                    onMouseEnter={() => setActiveImage(item.image)}
+                    onMouseLeave={() => setActiveImage(null)}
+                    className="group block text-[42px] md:text-[5rem] lg:text-[6rem] font-serif text-sand leading-[0.9] text-left transition-all duration-300 opacity-70 hover:opacity-100 hover:translate-x-4 mix-blend-overlay hover:mix-blend-normal"
+                  >
+                    {item.label}
+                    <span className="opacity-0 -ml-4 group-hover:ml-4 group-hover:opacity-100 text-base md:text-2xl font-sans font-light tracking-wide align-middle transition-all duration-300">
+                      Explore
+                    </span>
+                  </button>
+                </div>
+              ))}
+            </div>
+
+            {/* Secondary Links (Small) */}
+            <div className="flex flex-wrap gap-6 md:gap-12 pl-1">
+              {SECONDARY_LINKS.map((item, idx) => (
                 <button
+                  key={idx}
                   onClick={() => handleLinkClick(item.href)}
-                  className="group block text-[32px] md:text-6xl lg:text-7xl font-serif text-sand leading-tight transition-all duration-500 hover:italic hover:translate-x-4 md:hover:translate-x-8 text-left"
+                  className="secondary-link text-sm md:text-base font-sans uppercase tracking-widest hover:text-accent-light transition-colors relative group"
                 >
-                  <span className="group-hover:text-accent-light transition-colors">{item.label}</span>
+                  {item.label}
+                  <span className="absolute -bottom-1 left-0 w-0 h-px bg-current transition-all group-hover:w-full" />
                 </button>
-              </div>
-            ))}
-          </div>
-
-          {/* C. Right Column: Informative */}
-          <div className="w-full md:w-1/2 flex flex-col justify-center items-start md:items-end md:text-right mt-6 md:mt-0 space-y-6 md:space-y-12">
-
-            {/* Socials */}
-            <div className="menu-info-item flex flex-col gap-4 items-start md:items-end">
-              <span className="font-serif text-lg italic opacity-50">Connect</span>
-              <div className="flex flex-col gap-2 items-start md:items-end">
-                <a href="https://instagram.com/stayinubud" target="_blank" rel="noreferrer" className="flex items-center gap-2 font-sans text-sm md:text-base uppercase tracking-widest hover:text-accent-light transition-colors">
-                  Instagram <ArrowUpRight size={14} />
-                </a>
-                <a href="https://tiktok.com/@stayinubud" target="_blank" rel="noreferrer" className="flex items-center gap-2 font-sans text-sm md:text-base uppercase tracking-widest hover:text-accent-light transition-colors">
-                  TikTok <ArrowUpRight size={14} />
-                </a>
-                <a href="https://facebook.com/stayinubud" target="_blank" rel="noreferrer" className="flex items-center gap-2 font-sans text-sm md:text-base uppercase tracking-widest hover:text-accent-light transition-colors">
-                  Facebook <ArrowUpRight size={14} />
-                </a>
-              </div>
-            </div>
-
-            {/* Contact */}
-            <div className="menu-info-item flex flex-col gap-4 items-start md:items-end">
-              <span className="font-serif text-lg italic opacity-50">Enquire</span>
-              <div className="flex flex-col gap-2 items-start md:items-end font-sans text-lg">
-                <a href="mailto:host@stayinubud.com" className="flex items-center gap-3 hover:text-accent-light transition-colors">
-                  <Mail size={18} /> host@stayinubud.com
-                </a>
-                <a href="tel:+6282269128232" className="flex items-center gap-3 hover:text-accent-light transition-colors">
-                  <Phone size={18} /> +62 822 6912 8232
-                </a>
-              </div>
-            </div>
-
-            {/* Address */}
-            <div className="menu-info-item flex flex-col gap-4 items-start md:items-end max-w-xs">
-              <span className="font-serif text-lg italic opacity-50">Visit</span>
-              <p className="flex items-start gap-3 text-left md:text-right font-sans opacity-80 leading-relaxed">
-                Jl. Raya Ubud No. 88, Gianyar, Bali, Indonesia 80571.
-              </p>
+              ))}
             </div>
 
           </div>
-        </div>
 
-        {/* D. Footer */}
-        <div className="menu-footer relative h-20 overflow-hidden">
-          <div className="absolute bottom-[-20%] left-1/2 -translate-x-1/2 w-full text-center opacity-10 pointer-events-none select-none">
-            <span className="font-serif text-[5rem] md:text-[10rem] lg:text-[14rem] leading-none whitespace-nowrap text-sand">
-              ESCAPE TO PARADISE
-            </span>
+          {/* RIGHT: Info (Cleaned) */}
+          <div className="w-full md:w-1/3 flex flex-col justify-end items-start md:items-end text-left md:text-right pb-4 md:pb-12 space-y-8 md:space-y-12">
+
+            <div className="menu-info flex flex-col gap-4">
+              <span className="font-serif text-xl italic opacity-50">Say Hello</span>
+              <a href="mailto:host@stayinubud.com" className="font-sans text-lg hover:underline decoration-1 underline-offset-4">host@stayinubud.com</a>
+              <a href="tel:+6282269128232" className="font-sans text-lg hover:underline decoration-1 underline-offset-4">+62 822 6912 8232</a>
+            </div>
+
+            <div className="menu-info flex flex-col gap-4">
+              <span className="font-serif text-xl italic opacity-50">Follow Us</span>
+              <div className="flex gap-6 md:gap-4 md:flex-col items-start md:items-end">
+                {['Instagram', 'TikTok', 'Facebook'].map((social) => (
+                  <a
+                    key={social}
+                    href={`https://${social.toLowerCase()}.com/stayinubud`}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="font-sans text-xs uppercase tracking-widest hover:text-accent-light flex items-center gap-2 group"
+                  >
+                    {social} <ArrowUpRight size={12} className="opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
+                  </a>
+                ))}
+              </div>
+            </div>
+
           </div>
+
         </div>
 
       </div>
     </div>
   );
-};
