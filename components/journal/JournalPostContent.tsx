@@ -3,6 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Calendar, User } from 'lucide-react';
+import { BlockRenderer } from './BlockRenderer';
 
 interface BlogPost {
     id: string;
@@ -74,10 +75,7 @@ export const JournalPostContent: React.FC<JournalPostContentProps> = ({ post, re
 
                 {/* Content */}
                 <div className="prose prose-lg prose-forest max-w-none">
-                    <div
-                        className="font-sans text-neutral-900 leading-relaxed space-y-6"
-                        dangerouslySetInnerHTML={{ __html: post.content || '' }}
-                    />
+                    <BlockRenderer content={post.content || ''} />
                 </div>
 
                 {/* Divider */}
