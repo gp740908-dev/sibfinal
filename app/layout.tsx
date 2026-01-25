@@ -64,6 +64,10 @@ export const metadata: Metadata = {
     description: 'Escape to the jungle.',
     images: ['/og-image.jpg'],
   },
+  icons: {
+    icon: '/imgfavicon/favicon.ico',
+    apple: '/imgfavicon/apple-icon.png',
+  },
   robots: {
     index: true,
     follow: true,

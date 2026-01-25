@@ -1,3 +1,4 @@
+import withPWAInit from 'next-pwa';
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -12,6 +13,10 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'picsum.photos',
       },
+      {
+        protocol: 'https',
+        hostname: 'anrhsknhczzwfkfrtqsl.supabase.co',
+      },
     ],
   },
   // Mencegah kegagalan build karena error TypeScript/ESLint kecil saat deploy
@@ -23,4 +28,11 @@ const nextConfig = {
   },
 };
 
-export default nextConfig;
+const withPWA = withPWAInit({
+  dest: 'public',
+  disable: process.env.NODE_ENV === 'development',
+  register: true,
+  skipWaiting: true,
+});
+
+export default withPWA(nextConfig);
