@@ -20,7 +20,7 @@ const MOMENTS = [
     title: "Floral Bath Ritual",
     description: "A sensory journey using thousands of fresh marigold and frangipani petals. Prepared by our wellness therapists to soothe the body and calm the spirit.",
     icon: <Sparkles size={24} />,
-    image: "https://images.unsplash.com/photo-1555819206-79c0990390f7?auto=format&fit=crop&q=80&w=1000" // Flower bath shot
+    image: "https://images.unsplash.com/photo-1676141570940-7f79ca4f070b?auto=format&fit=crop&q=80&w=1000" // Flower bath shot
   },
   {
     id: 2,
