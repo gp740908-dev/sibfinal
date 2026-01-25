@@ -50,7 +50,7 @@ export const HomeScrollExperience: React.FC = () => {
     return (
         <div ref={containerRef} className="relative">
             <ScrollSequence
-                frameCount={240}
+                frameCount={150}
                 folderPath="/imgseq"
                 filePrefix="ezgif-frame-"
                 fileExtension="jpg"
