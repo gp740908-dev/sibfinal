@@ -220,3 +220,4 @@ export const FullScreenMenu: React.FC<FullScreenMenuProps> = ({ isOpen, onClose 
       </div>
     </div>
   );
+};
