@@ -116,7 +116,7 @@ export default async function VillaPage({ params }: PageProps) {
     },
     floorSize: {
       '@type': 'QuantitativeValue',
-      value: villa.size || 200,
+      value: villa.building_area || 200,
       unitCode: 'MTK', // Square meters
     },
     checkinTime: '14:00',

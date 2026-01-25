@@ -205,16 +205,25 @@ export const VillaDetail: React.FC<VillaDetailProps> = ({
             {/* Highlights - Modern Style */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
               {[
-                { icon: Waves, label: "Private Pool" },
-                { icon: Wifi, label: "Fast Wifi" },
-                { icon: Shield, label: "24/7 Service" },
-                { icon: Coffee, label: "Breakfast" }
-              ].map((item, idx) => (
-                <div key={idx} className="flex flex-col items-center justify-center p-6 border border-forest/10 rounded-xl hover:bg-forest/5 transition-colors text-center">
-                  <item.icon size={24} className="text-forest mb-3" />
-                  <span className="text-xs uppercase tracking-wider font-bold text-forest/80">{item.label}</span>
-                </div>
-              ))}
+                { icon: Waves, label: "Private Pool", key: "pool" },
+                { icon: Wifi, label: "Fast Wifi", key: "wifi" },
+                { icon: Shield, label: "24/7 Service", key: "service" },
+                { icon: Coffee, label: "Breakfast", key: "breakfast" },
+                { icon: Wind, label: "AC", key: "ac" },
+                { icon: Utensils, label: "Kitchen", key: "kitchen" }
+              ]
+                .filter(item => {
+                  // Always show if no features list (fallback) or if feature keyword matches
+                  if (!villa.features || villa.features.length === 0) return true;
+                  return villa.features.some(f => f.toLowerCase().includes(item.key) || f.toLowerCase().includes(item.label.toLowerCase()));
+                })
+                .slice(0, 4) // Limit to 4 items max for grid
+                .map((item, idx) => (
+                  <div key={idx} className="flex flex-col items-center justify-center p-6 border border-forest/10 rounded-xl hover:bg-forest/5 transition-colors text-center">
+                    <item.icon size={24} className="text-forest mb-3" />
+                    <span className="text-xs uppercase tracking-wider font-bold text-forest/80">{item.label}</span>
+                  </div>
+                ))}
             </div>
 
             {/* Narrative Description */}
