@@ -3,6 +3,7 @@ import { supabase } from '@/lib/supabase';
 import { mapDbToVilla } from '@/lib/utils';
 import { VillasPage } from '@/components/villas/VillasPage';
 import { JsonLd } from '@/components/seo/JsonLd';
+import { BreadcrumbsSchema } from '@/components/seo/BreadcrumbsSchema';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
@@ -51,6 +52,12 @@ export default async function VillasPageRoute() {
     return (
         <>
             <JsonLd data={villasListSchema} />
+            <BreadcrumbsSchema
+                items={[
+                    { name: 'Home', url: '/' },
+                    { name: 'Our Villas', url: '/villas' }
+                ]}
+            />
             <VillasPage villas={villas} />
         </>
     );

@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import { supabase } from '@/lib/supabase';
 import { Journal } from '@/components/journal/Journal';
 import { JsonLd } from '@/components/seo/JsonLd';
+import { BreadcrumbsSchema } from '@/components/seo/BreadcrumbsSchema';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
@@ -53,6 +54,12 @@ export default async function JournalPageRoute() {
     return (
         <>
             <JsonLd data={blogSchema} />
+            <BreadcrumbsSchema
+                items={[
+                    { name: 'Home', url: '/' },
+                    { name: 'Journal', url: '/journal' }
+                ]}
+            />
             <Journal initialPosts={posts || []} />
         </>
     );

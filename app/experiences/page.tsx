@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import { Experiences } from '@/components/experiences/Experiences';
 import { JsonLd } from '@/components/seo/JsonLd';
+import { BreadcrumbsSchema } from '@/components/seo/BreadcrumbsSchema';
 import { supabase } from '@/lib/supabase';
 
 export const metadata: Metadata = {
@@ -46,6 +47,12 @@ export default async function ExperiencesPage() {
     return (
         <>
             <JsonLd data={experiencesSchema} />
+            <BreadcrumbsSchema
+                items={[
+                    { name: 'Home', url: '/' },
+                    { name: 'Experiences', url: '/experiences' }
+                ]}
+            />
             <Experiences initialExperiences={experiences || []} />
         </>
     );

@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import { VillaDetail } from '@/components/villa/VillaDetail';
 import { mapDbToVilla, getBlockedDates } from '@/lib/utils';
 import { JsonLd } from '@/components/seo/JsonLd';
+import { BreadcrumbsSchema } from '@/components/seo/BreadcrumbsSchema';
 import { Metadata } from 'next';
 
 // ISR: Revalidate every hour for fresh content while keeping speed
@@ -130,6 +131,13 @@ export default async function VillaPage({ params }: PageProps) {
   return (
     <>
       <JsonLd data={villaSchema} />
+      <BreadcrumbsSchema
+        items={[
+          { name: 'Home', url: '/' },
+          { name: 'Our Villas', url: '/villas' },
+          { name: villa.name, url: `/villas/${villa.id}` }
+        ]}
+      />
       <VillaDetail
         villa={villa}
         blockedDates={blockedDates}

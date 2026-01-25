@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
 import { JournalPostContent } from '@/components/journal/JournalPostContent';
 import { JsonLd } from '@/components/seo/JsonLd';
+import { BreadcrumbsSchema } from '@/components/seo/BreadcrumbsSchema';
 
 // ISR: Revalidate daily for blog content
 // Pages are rendered on first request, then cached for 24 hours
@@ -113,6 +114,13 @@ export default async function JournalPostPage({ params }: PageProps) {
     return (
         <>
             <JsonLd data={blogPostSchema} />
+            <BreadcrumbsSchema
+                items={[
+                    { name: 'Home', url: '/' },
+                    { name: 'Journal', url: '/journal' },
+                    { name: post.title, url: `/journal/${slug}` }
+                ]}
+            />
             <JournalPostContent post={post} relatedPosts={relatedPosts || []} />
         </>
     );
