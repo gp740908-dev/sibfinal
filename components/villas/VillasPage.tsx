@@ -103,7 +103,7 @@ export const VillasPage: React.FC<VillasPageProps> = ({ villas }) => {
       </div>
 
       {/* 2. Sticky Filter Bar */}
-      <div className="filter-bar sticky top-24 z-30 mb-16 px-6">
+      <div className="filter-bar mb-16 px-6">
         <div className="max-w-fit mx-auto bg-sand/80 backdrop-blur-md border border-forest/10 rounded-full px-2 py-2 flex flex-wrap justify-center gap-2 shadow-xl">
           {FILTERS.map(filter => (
             <button
