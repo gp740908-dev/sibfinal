@@ -18,7 +18,7 @@ export const Footer: React.FC = () => {
           <span className="italic font-light text-accent-light">Escape?</span>
         </h2>
         <Link
-          href="/villas"
+          href="/availability"
           className="group relative px-8 py-3 overflow-hidden rounded-full border border-sand/30 hover:border-sand transition-colors duration-300"
         >
           <span className="relative z-10 font-sans text-xs md:text-sm tracking-widest uppercase group-hover:text-forest transition-colors duration-300">
