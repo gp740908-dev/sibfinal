@@ -104,19 +104,22 @@ export const VillasPage: React.FC<VillasPageProps> = ({ villas }) => {
 
       {/* 2. Sticky Filter Bar */}
       <div className="filter-bar mb-16 px-6">
-        <div className="max-w-fit mx-auto bg-sand/80 backdrop-blur-md border border-forest/10 rounded-full px-2 py-2 flex flex-wrap justify-center gap-2 shadow-xl">
+        <div className="flex flex-wrap justify-center gap-6 md:gap-10 border-t border-b border-forest/10 py-6 max-w-4xl mx-auto">
           {FILTERS.map(filter => (
             <button
               key={filter}
               onClick={() => setActiveFilter(filter)}
-              className={`px-6 py-2 rounded-full text-xs uppercase tracking-widest transition-all duration-300
+              className={`font-sans text-xs uppercase tracking-[0.2em] transition-all duration-300 relative
                 ${activeFilter === filter
-                  ? 'bg-forest text-sand font-bold shadow-md'
-                  : 'text-forest/60 hover:text-forest hover:bg-forest/5'
+                  ? 'text-forest font-bold'
+                  : 'text-forest/50 hover:text-forest'
                 }
               `}
             >
               {filter}
+              {activeFilter === filter && (
+                <span className="absolute -bottom-2 left-0 w-full h-px bg-forest animate-fade-in" />
+              )}
             </button>
           ))}
         </div>
