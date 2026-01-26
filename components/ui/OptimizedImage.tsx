@@ -16,7 +16,7 @@ export function OptimizedImage({
     containerClassName,
     ...props
 }: OptimizedImageProps) {
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(!props.priority);
 
     // ...existing imports...
     // We ensure props are passed through. fetchPriority is supported in React 18+ as a standard attribute.

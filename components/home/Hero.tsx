@@ -116,6 +116,7 @@ export const Hero: React.FC = () => {
               src={slide.src}
               alt={slide.alt}
               priority={index === 0} // Critical for LCP
+              fetchPriority={index === 0 ? "high" : "auto"}
               className="object-cover" // Let GSAP handle transform
               sizes="100vw"
               quality={90}
