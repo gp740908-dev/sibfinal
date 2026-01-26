@@ -12,7 +12,6 @@ import { Villa } from '../../types';
 // Heavy components - Lazy loaded with Default Exports for stability
 const LocationSection = dynamic(() => import('./LocationSection'), { ssr: false });
 const VideoParallax = dynamic(() => import('./VideoParallax'), { ssr: false });
-const HomeScrollExperience = dynamic(() => import('./HomeScrollExperience'), { ssr: false });
 
 interface HomePageProps {
     villas: Villa[];
@@ -74,8 +73,7 @@ export const HomePage: React.FC<HomePageProps> = ({ villas }) => {
             {/* Signature Details (Sticky Scroll) */}
             <SignatureDetails />
 
-            {/* Scroll Experience (Image Sequence) */}
-            <HomeScrollExperience />
+
 
             {/* Location Section */}
             <div id="locations">
