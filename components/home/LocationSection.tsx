@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef, lazy, Suspense } from 'react';
+import React, { useState, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';

@@ -1,5 +1,9 @@
 'use client';
 
+import React, { useState, useRef } from 'react';
+import gsap from 'gsap';
+import { useGSAP } from '@gsap/react';
+import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import { Villa } from '../../types';
 import { BookingWidget } from '../booking/BookingWidget';
