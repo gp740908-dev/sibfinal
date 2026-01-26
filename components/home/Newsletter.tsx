@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState } from 'react';
 import { supabase } from '../../lib/supabase';
 import { Loader2, ArrowRight, Mail } from 'lucide-react';
