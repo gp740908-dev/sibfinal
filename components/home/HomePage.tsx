@@ -1,18 +1,18 @@
-import dynamic from 'next/dynamic';
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 import { Hero } from './Hero';
+import { VillaShowcase } from './VillaShowcase';
+import { OurServices } from './OurServices';
+import { RecentJournal } from './RecentJournal';
+import { GuestDiaries } from './GuestDiaries';
+import { SignatureDetails } from './SignatureDetails';
+import { Newsletter } from './Newsletter';
 import { Villa } from '../../types';
-import { Loader2, Leaf } from 'lucide-react';
 
-const VillaShowcase = dynamic(() => import('./VillaShowcase').then(mod => mod.VillaShowcase));
-const LocationSection = dynamic(() => import('./LocationSection').then(mod => mod.LocationSection), { ssr: false });
-const OurServices = dynamic(() => import('./OurServices').then(mod => mod.OurServices));
-const RecentJournal = dynamic(() => import('./RecentJournal').then(mod => mod.RecentJournal));
-const VideoParallax = dynamic(() => import('./VideoParallax').then(mod => mod.VideoParallax), { ssr: false });
-const GuestDiaries = dynamic(() => import('./GuestDiaries').then(mod => mod.GuestDiaries));
-const SignatureDetails = dynamic(() => import('./SignatureDetails').then(mod => mod.SignatureDetails));
-const HomeScrollExperience = dynamic(() => import('./HomeScrollExperience').then(mod => mod.HomeScrollExperience), { ssr: false });
-const Newsletter = dynamic(() => import('./Newsletter').then(mod => mod.Newsletter));
+// Heavy components - Lazy loaded with Default Exports for stability
+const LocationSection = dynamic(() => import('./LocationSection'), { ssr: false });
+const VideoParallax = dynamic(() => import('./VideoParallax'), { ssr: false });
+const HomeScrollExperience = dynamic(() => import('./HomeScrollExperience'), { ssr: false });
 
 interface HomePageProps {
     villas: Villa[];

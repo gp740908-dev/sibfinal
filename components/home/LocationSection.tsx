@@ -104,3 +104,5 @@ export const LocationSection: React.FC<LocationSectionProps> = ({ villas }) => {
     </section>
   );
 };
+
+export default LocationSection;

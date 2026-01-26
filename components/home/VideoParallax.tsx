@@ -87,3 +87,5 @@ export const VideoParallax: React.FC = () => {
     </section>
   );
 };
+
+export default VideoParallax;

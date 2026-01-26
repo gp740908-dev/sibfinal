@@ -101,3 +101,5 @@ export const HomeScrollExperience: React.FC = () => {
         </div>
     );
 };
+
+export default HomeScrollExperience;
