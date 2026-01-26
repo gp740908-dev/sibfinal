@@ -181,3 +181,5 @@ export const RecentJournal: React.FC = () => {
     </section>
   );
 };
+
+export default RecentJournal;

@@ -4,13 +4,13 @@ import { Hero } from './Hero';
 import { Villa } from '../../types';
 
 // Components
-const VillaShowcase = dynamic(() => import('./VillaShowcase').then(mod => mod.VillaShowcase), {
+const VillaShowcase = dynamic(() => import('./VillaShowcase'), {
     loading: () => <div className="h-96 w-full animate-pulse bg-neutral-100" />,
 });
-const RecentJournal = dynamic(() => import('./RecentJournal').then(mod => mod.RecentJournal), {
+const RecentJournal = dynamic(() => import('./RecentJournal'), {
     loading: () => <div className="h-96 w-full animate-pulse bg-neutral-100" />,
 });
-const Newsletter = dynamic(() => import('./Newsletter').then(mod => mod.Newsletter));
+const Newsletter = dynamic(() => import('./Newsletter'));
 
 // Heavy components - Lazy loaded with Default Exports for stability
 const LocationSection = dynamic(() => import('./LocationSection'), { ssr: false });

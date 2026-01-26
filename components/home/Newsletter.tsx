@@ -117,3 +117,5 @@ export const Newsletter: React.FC = () => {
     </section>
   );
 };
+
+export default Newsletter;

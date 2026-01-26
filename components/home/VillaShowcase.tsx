@@ -241,3 +241,5 @@ const SpecItem: React.FC<{ icon: React.ReactNode; label: string; value: string }
     <span className="text-forest font-serif text-lg leading-none">{value}</span>
   </div>
 );
+
+export default VillaShowcase;
