@@ -88,7 +88,8 @@ export const Hero: React.FC = () => {
               priority={index === 0} // Critical for LCP
               className="object-cover"
               sizes="100vw"
-              containerClassName="w-full h-full"
+              quality={90}
+              containerClassName="absolute inset-0 w-full h-full"
               fill
             />
             {/* Gradients */}
