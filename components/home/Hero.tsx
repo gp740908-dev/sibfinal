@@ -9,17 +9,17 @@ import { OptimizedImage } from '@/components/ui/OptimizedImage';
 const HERO_SLIDES = [
   {
     id: 1,
-    src: 'https://images.unsplash.com/photo-1544644181-1484b3fdfc62?auto=format&fit=crop&q=80&w=1920',
+    src: '/herohomapage/1.webp',
     alt: 'Luxury Pool Villa in Ubud',
   },
   {
     id: 2,
-    src: 'https://images.unsplash.com/photo-1533759413974-9e15f3b745ac?auto=format&fit=crop&q=80&w=1920',
+    src: '/herohomapage/2.webp',
     alt: 'Jungle Canopy House',
   },
   {
     id: 3,
-    src: 'https://images.unsplash.com/photo-1582653291997-d7bed646f585?auto=format&fit=crop&q=80&w=1920', // New high-availability URL
+    src: '/herohomapage/3.webp',
     alt: 'Balinese Architecture Detail',
   },
 ];
@@ -28,6 +28,7 @@ export const Hero: React.FC = () => {
   const [activeSlide, setActiveSlide] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
   const textTitleRef = useRef<HTMLHeadingElement>(null);
+  const slideRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   useGSAP(() => {
     // Initial Text Reveal
@@ -50,8 +51,30 @@ export const Hero: React.FC = () => {
 
   }, { scope: containerRef });
 
+  // Handle Slide Transitions & Ken Burns Effect
+  useGSAP(() => {
+    const currentSlide = slideRefs.current[activeSlide];
+
+    if (currentSlide) {
+      // Kil previous animations on all slides to be safe
+      slideRefs.current.forEach(slide => {
+        if (slide && slide !== currentSlide) {
+          gsap.killTweensOf(slide.querySelector('img'));
+          gsap.set(slide.querySelector('img'), { scale: 1 }); // Reset others
+        }
+      });
+
+      // Animate current slide image (Slow Zoom / Ken Burns)
+      // duration 6s (slightly longer than interval 5s to ensure continuous movement)
+      gsap.fromTo(currentSlide.querySelector('img'),
+        { scale: 1 },
+        { scale: 1.1, duration: 6, ease: "none" }
+      );
+    }
+  }, { scope: containerRef, dependencies: [activeSlide] });
+
   useEffect(() => {
-    // Preload images for smoother transitions
+    // Preload images
     HERO_SLIDES.forEach((slide) => {
       const img = new Image();
       img.src = slide.src;
@@ -85,6 +108,7 @@ export const Hero: React.FC = () => {
         {HERO_SLIDES.map((slide, index) => (
           <div
             key={slide.id}
+            ref={el => { slideRefs.current[index] = el; }}
             className={`absolute inset-0 w-full h-full transition-opacity duration-1000 ease-in-out ${index === activeSlide ? 'opacity-100 z-10' : 'opacity-0 z-0'
               }`}
           >
@@ -92,7 +116,7 @@ export const Hero: React.FC = () => {
               src={slide.src}
               alt={slide.alt}
               priority={index === 0} // Critical for LCP
-              className="object-cover scale-100 blur-0 grayscale-0" // Force no-zoom/blur
+              className="object-cover" // Let GSAP handle transform
               sizes="100vw"
               quality={90}
               containerClassName="absolute inset-0 w-full h-full"
