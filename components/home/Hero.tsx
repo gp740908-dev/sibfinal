@@ -19,7 +19,7 @@ const HERO_SLIDES = [
   },
   {
     id: 3,
-    src: 'https://images.unsplash.com/photo-1601369363069-425b09579de0?auto=format&fit=crop&q=80&w=1920',
+    src: 'https://images.unsplash.com/photo-1582653291997-d7bed646f585?auto=format&fit=crop&q=80&w=1920', // New high-availability URL
     alt: 'Balinese Architecture Detail',
   },
 ];
@@ -51,6 +51,12 @@ export const Hero: React.FC = () => {
   }, { scope: containerRef });
 
   useEffect(() => {
+    // Preload images for smoother transitions
+    HERO_SLIDES.forEach((slide) => {
+      const img = new Image();
+      img.src = slide.src;
+    });
+
     const interval = setInterval(() => {
       setActiveSlide((prev) => (prev + 1) % HERO_SLIDES.length);
     }, 5000);
@@ -73,7 +79,7 @@ export const Hero: React.FC = () => {
   };
 
   return (
-    <section ref={containerRef} className="relative w-full h-[70vh] md:h-screen overflow-hidden bg-forest">
+    <section ref={containerRef} className="relative w-full h-screen overflow-hidden bg-forest">
       {/* Background Slides */}
       <div className="absolute inset-0 w-full h-full">
         {HERO_SLIDES.map((slide, index) => (
@@ -86,7 +92,7 @@ export const Hero: React.FC = () => {
               src={slide.src}
               alt={slide.alt}
               priority={index === 0} // Critical for LCP
-              className="object-cover"
+              className="object-cover scale-100 blur-0 grayscale-0" // Force no-zoom/blur
               sizes="100vw"
               quality={90}
               containerClassName="absolute inset-0 w-full h-full"
