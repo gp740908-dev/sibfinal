@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState, useEffect } from 'react';
 import { DayPicker, DateRange } from 'react-day-picker';
 import { differenceInCalendarDays, addDays, isSameDay } from 'date-fns';
@@ -19,11 +21,11 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ villa }) => {
   // 1. Fetch Availability on Mount
   useEffect(() => {
     let isMounted = true;
-    
+
     async function fetchAvailability() {
       setIsLoadingAvailability(true);
       const result = await getUnavailableDates(villa.id);
-      
+
       if (isMounted && result.success && result.data) {
         // Disable past dates AND fetched booked dates
         setDisabledDays([
@@ -40,10 +42,10 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ villa }) => {
   }, [villa.id]);
 
   // 2. Calculations
-  const nightCount = range?.from && range?.to 
-    ? differenceInCalendarDays(range.to, range.from) 
+  const nightCount = range?.from && range?.to
+    ? differenceInCalendarDays(range.to, range.from)
     : 0;
-  
+
   const totalPrice = nightCount * villa.pricePerNight;
   const serviceFee = totalPrice * 0.10; // 10% Service Fee
   const grandTotal = totalPrice + serviceFee;
@@ -62,11 +64,11 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ villa }) => {
         range.from,
         range.to,
         2, // Default guests (since this simplified widget has no guest picker)
-        { 
-          fullName: "Guest", 
-          email: "", 
-          whatsapp: "", 
-          specialRequest: "" 
+        {
+          fullName: "Guest",
+          email: "",
+          whatsapp: "",
+          specialRequest: ""
         }
       );
 
@@ -80,7 +82,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ villa }) => {
       // We don't turn off isSubmitting to keep the button state while redirecting
       setTimeout(() => {
         if (result.whatsappUrl) {
-           window.open(result.whatsappUrl, '_blank');
+          window.open(result.whatsappUrl, '_blank');
         }
         // Optional: Redirect to Thank You page
         window.location.hash = '#thank-you'; // Or use onNavigate from props if available
@@ -117,10 +119,10 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ villa }) => {
           <span className="text-2xl md:text-3xl font-serif text-forest">{formatPrice(villa.pricePerNight)}</span>
         </div>
         <div className="text-right">
-             <div className="flex items-center gap-1 text-xs font-bold uppercase tracking-widest text-forest bg-sand/50 px-2 py-1 rounded">
-               <CalendarIcon size={12} />
-               <span>Available</span>
-             </div>
+          <div className="flex items-center gap-1 text-xs font-bold uppercase tracking-widest text-forest bg-sand/50 px-2 py-1 rounded">
+            <CalendarIcon size={12} />
+            <span>Available</span>
+          </div>
         </div>
       </div>
 
@@ -175,7 +177,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ villa }) => {
         disabled={!nightCount || isSubmitting || isLoadingAvailability}
         className={`w-full py-4 text-sm font-bold uppercase tracking-widest transition-all duration-300 flex items-center justify-center gap-2
           ${!nightCount || isSubmitting
-            ? 'bg-forest/20 text-forest/50 cursor-not-allowed' 
+            ? 'bg-forest/20 text-forest/50 cursor-not-allowed'
             : 'bg-forest text-sand hover:bg-forest/90 shadow-lg hover:shadow-2xl hover:-translate-y-1'
           }
         `}

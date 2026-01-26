@@ -4,6 +4,7 @@ import React, { useState, useRef, lazy, Suspense } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
+import dynamic from 'next/dynamic';
 import { Villa } from '../../types';
 import { MapPin } from 'lucide-react';
 
@@ -11,8 +12,11 @@ if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
 }
 
-// Use React.lazy instead of next/dynamic to ensure compatibility with the single React instance in this ESM environment
-const MapComponent = lazy(() => import('./MapComponent'));
+// Use next/dynamic with ssr: false to prevent Leaflet window errors
+const MapComponent = dynamic(() => import('./MapComponent'), {
+  ssr: false,
+  loading: () => <div className="h-full w-full flex items-center justify-center bg-sand/50 text-forest animate-pulse">Loading Map...</div>
+});
 
 interface LocationSectionProps {
   villas: Villa[];
@@ -94,9 +98,7 @@ export const LocationSection: React.FC<LocationSectionProps> = ({ villas }) => {
 
       {/* RIGHT: Map */}
       <div className="loc-map w-full lg:w-2/3 h-[500px] lg:h-full relative z-10 bg-[#e3e4b6]">
-        <Suspense fallback={<div className="h-full w-full flex items-center justify-center bg-sand/50 text-forest animate-pulse">Loading Map...</div>}>
-          <MapComponent villas={villas} activeVillaId={activeVillaId} />
-        </Suspense>
+        <MapComponent villas={villas} activeVillaId={activeVillaId} />
       </div>
 
     </section>

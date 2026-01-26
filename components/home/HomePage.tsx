@@ -1,4 +1,5 @@
 import dynamic from 'next/dynamic';
+import Link from 'next/link';
 import { Hero } from './Hero';
 import { Villa } from '../../types';
 import { Loader2, Leaf } from 'lucide-react';

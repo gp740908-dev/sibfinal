@@ -1,9 +1,6 @@
 'use client';
 
-import React, { useState, Suspense, lazy, useRef } from 'react';
-import gsap from 'gsap';
-import { useGSAP } from '@gsap/react';
-import Link from 'next/link';
+import dynamic from 'next/dynamic';
 import { Villa } from '../../types';
 import { BookingWidget } from '../booking/BookingWidget';
 import {
@@ -11,8 +8,11 @@ import {
   MapPin, Clock, Ban, Cigarette, Dog, CheckCircle2, Bed, Tv, Utensils
 } from 'lucide-react';
 
-// Lazy load map
-const MapComponent = lazy(() => import('../home/MapComponent'));
+// Lazy load map with no SSR to prevent Leaflet window errors
+const MapComponent = dynamic(() => import('../home/MapComponent'), {
+  ssr: false,
+  loading: () => <div className="bg-forest/5 w-full h-full flex items-center justify-center">Loading Map...</div>
+});
 
 interface VillaDetailProps {
   villa: Villa;
@@ -298,9 +298,7 @@ export const VillaDetail: React.FC<VillaDetailProps> = ({
 
               {/* Map */}
               <div className="w-full md:w-2/3 h-[450px] rounded-2xl overflow-hidden border border-forest/10 relative z-0 shadow-lg">
-                <Suspense fallback={<div className="bg-forest/5 w-full h-full flex items-center justify-center">Loading Map...</div>}>
-                  <MapComponent villas={[villa]} activeVillaId={villa.id} />
-                </Suspense>
+                <MapComponent villas={[villa]} activeVillaId={villa.id} />
               </div>
 
               {/* Proximity List */}
