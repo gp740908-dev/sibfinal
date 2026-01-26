@@ -168,3 +168,5 @@ export const GuestDiaries: React.FC = () => {
     </section>
   );
 };
+
+export default GuestDiaries;

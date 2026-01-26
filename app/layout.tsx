@@ -148,6 +148,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${playfair.variable} ${manrope.variable} scroll-smooth`}>
       <head>
+        <link rel="preconnect" href="https://images.unsplash.com" />
         {/* Organization Schema for Knowledge Graph */}
         <JsonLd data={organizationSchema} />
         {/* LodgingBusiness Schema for Local SEO */}

@@ -223,3 +223,5 @@ export const OurServices: React.FC = () => {
     </section>
   );
 };
+
+export default OurServices;

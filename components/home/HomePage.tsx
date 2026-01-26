@@ -2,16 +2,16 @@ import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import { Hero } from './Hero';
 import { VillaShowcase } from './VillaShowcase';
-import { OurServices } from './OurServices';
 import { RecentJournal } from './RecentJournal';
-import { GuestDiaries } from './GuestDiaries';
-import { SignatureDetails } from './SignatureDetails';
 import { Newsletter } from './Newsletter';
 import { Villa } from '../../types';
 
 // Heavy components - Lazy loaded with Default Exports for stability
 const LocationSection = dynamic(() => import('./LocationSection'), { ssr: false });
 const VideoParallax = dynamic(() => import('./VideoParallax'), { ssr: false });
+const OurServices = dynamic(() => import('./OurServices'), { ssr: false });
+const GuestDiaries = dynamic(() => import('./GuestDiaries'), { ssr: false });
+const SignatureDetails = dynamic(() => import('./SignatureDetails'), { ssr: false });
 
 interface HomePageProps {
     villas: Villa[];

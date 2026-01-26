@@ -164,3 +164,5 @@ export const SignatureDetails: React.FC = () => {
     </section>
   );
 };
+
+export default SignatureDetails;
