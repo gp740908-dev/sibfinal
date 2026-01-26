@@ -64,35 +64,47 @@ export const OurServices: React.FC = () => {
   useGSAP(() => {
     if (services.length === 0) return;
 
-    // 1. Initial Scroll Reveal
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: containerRef.current,
-        start: "top 70%",
-        end: "bottom bottom",
-        toggleActions: "play none none reverse"
-      }
+    // Only enable ScrollTrigger animations on Desktop
+    const mm = gsap.matchMedia();
+
+    mm.add("(min-width: 768px)", () => {
+      // 1. Initial Scroll Reveal
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top 70%",
+          end: "bottom bottom",
+          toggleActions: "play none none reverse"
+        }
+      });
+
+      tl.from('.service-header', {
+        y: 30,
+        opacity: 0,
+        duration: 0.8,
+        ease: "power3.out"
+      })
+        .from('.service-item', {
+          x: -50,
+          opacity: 0,
+          stagger: 0.1,
+          duration: 1,
+          ease: "power3.out"
+        }, "-=0.4")
+        .from('.service-image-container', {
+          scale: 0.95,
+          opacity: 0,
+          duration: 1,
+          ease: "power2.out"
+        }, "-=1");
     });
 
-    tl.from('.service-header', {
-      y: 30,
-      opacity: 0,
-      duration: 0.8,
-      ease: "power3.out"
-    })
-      .from('.service-item', {
-        x: -50,
-        opacity: 0,
-        stagger: 0.1,
-        duration: 1,
-        ease: "power3.out"
-      }, "-=0.4")
-      .from('.service-image-container', {
-        scale: 0.95,
-        opacity: 0,
-        duration: 1,
-        ease: "power2.out"
-      }, "-=1");
+    // Mobile Fallback: Just ensure things are visible (CSS handles this mostly, but safety check)
+    mm.add("(max-width: 767px)", () => {
+      gsap.set(['.service-header', '.service-item', '.service-image-container'], {
+        opacity: 1, y: 0, x: 0, scale: 1
+      });
+    });
 
   }, { scope: containerRef, dependencies: [services] });
 
