@@ -73,7 +73,7 @@ export const Hero: React.FC = () => {
   };
 
   return (
-    <section ref={containerRef} className="relative w-full h-screen overflow-hidden bg-forest">
+    <section ref={containerRef} className="relative w-full h-[70vh] md:h-screen overflow-hidden bg-forest">
       {/* Background Slides */}
       <div className="absolute inset-0 w-full h-full">
         {HERO_SLIDES.map((slide, index) => (

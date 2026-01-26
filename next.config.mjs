@@ -28,10 +28,27 @@ const nextConfig = {
     ],
   },
   experimental: {
-    optimizePackageImports: ['lucide-react', 'date-fns', 'lodash', 'framer-motion'],
+    optimizePackageImports: ['lucide-react', 'date-fns', 'lodash'],
   },
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',
+  },
+  // Enable Gzip/Brotli compression
+  compress: true,
+  // Aggressive Caching Headers for Fonts & Images
+  async headers() {
+    return [
+      {
+        source: '/:all*(svg|jpg|png|webp|avif|woff2)',
+        locale: false,
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          }
+        ],
+      },
+    ];
   },
   // Mencegah kegagalan build karena error TypeScript/ESLint kecil saat deploy
   typescript: {

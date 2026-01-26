@@ -18,6 +18,8 @@ export function OptimizedImage({
 }: OptimizedImageProps) {
     const [isLoading, setIsLoading] = useState(true);
 
+    // ...existing imports...
+    // We ensure props are passed through. fetchPriority is supported in React 18+ as a standard attribute.
     return (
         <div className={cn('relative overflow-hidden', containerClassName)}>
             <Image

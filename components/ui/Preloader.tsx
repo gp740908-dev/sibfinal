@@ -42,7 +42,7 @@ export const Preloader: React.FC = () => {
 
     tl.to(counterProxy, {
       value: 100,
-      duration: 0.8, // Reduced from 1.8
+      duration: 0.5, // Ultra-fast (was 0.8)
       ease: "power2.out",
       onUpdate: () => {
         if (counterRef.current) {
@@ -62,7 +62,7 @@ export const Preloader: React.FC = () => {
     // Phase 3: The Curtain Reveal (Background slides UP)
     tl.to(containerRef.current, {
       yPercent: -100,
-      duration: 0.8, // Reduced from 1.2
+      duration: 0.5, // Ultra-fast (was 0.8)
       ease: "power4.inOut"
     }, "-=0.2"); // Overlap slightly with content fade out
 
