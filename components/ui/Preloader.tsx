@@ -37,12 +37,12 @@ export const Preloader: React.FC = () => {
       }
     });
 
-    // Phase 1: Counting Animation (0 to 100)
+    // Phase 1: Counting Animation (0 to 100) - Fast!
     const counterProxy = { value: 0 };
 
     tl.to(counterProxy, {
       value: 100,
-      duration: 1.8,
+      duration: 0.8, // Reduced from 1.8
       ease: "power2.out",
       onUpdate: () => {
         if (counterRef.current) {
@@ -55,14 +55,14 @@ export const Preloader: React.FC = () => {
     tl.to([counterRef.current, textRef.current], {
       y: -50,
       autoAlpha: 0,
-      duration: 0.5,
+      duration: 0.3,
       ease: "power2.in"
     });
 
     // Phase 3: The Curtain Reveal (Background slides UP)
     tl.to(containerRef.current, {
       yPercent: -100,
-      duration: 1.2,
+      duration: 0.8, // Reduced from 1.2
       ease: "power4.inOut"
     }, "-=0.2"); // Overlap slightly with content fade out
 

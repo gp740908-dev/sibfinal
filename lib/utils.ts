@@ -14,7 +14,7 @@ export const scrollToBooking = () => {
       behavior: 'smooth'
     });
   } else {
-    window.scrollTo({ top: 0, behavior: 'smooth' }); 
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 };
 
@@ -50,9 +50,9 @@ export const mapDbToVilla = (v: any): Villa => ({
 
 export const getBlockedDates = (bookings: { start_date: string; end_date: string }[]): Date[] => {
   if (!bookings) return [];
-  
+
   const allDates: Date[] = [];
-  
+
   bookings.forEach(booking => {
     try {
       const interval = {
@@ -65,6 +65,13 @@ export const getBlockedDates = (bookings: { start_date: string; end_date: string
       console.error("Error parsing dates", e);
     }
   });
-  
+
   return allDates;
 };
+
+import { type ClassValue, clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}
