@@ -9,7 +9,9 @@ import { ArrowRight } from 'lucide-react';
 import { BlogPost } from '../../types';
 import { supabase, isMock } from '../../lib/supabase';
 
-gsap.registerPlugin(ScrollTrigger);
+if (typeof window !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 // Fallback data to ensure section visibility
 const MOCK_POSTS: BlogPost[] = [

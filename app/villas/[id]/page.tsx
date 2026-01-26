@@ -14,6 +14,18 @@ export const revalidate = 3600;
 // Dynamic params: Allow any villa ID (rendered on-demand, then cached)
 export const dynamicParams = true;
 
+// 0. Static Params Generation (Pre-build popular paths)
+export async function generateStaticParams() {
+  const { data: villas } = await supabase
+    .from('villas')
+    .select('id')
+    .limit(10); // Pre-build first 10 villas
+
+  return (villas || []).map((villa) => ({
+    id: villa.id,
+  }));
+}
+
 interface PageProps {
   params: Promise<{ id: string }>;
 }

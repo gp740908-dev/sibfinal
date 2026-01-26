@@ -4,6 +4,9 @@ import { JsonLd } from '@/components/seo/JsonLd';
 import { BreadcrumbsSchema } from '@/components/seo/BreadcrumbsSchema';
 import { supabase } from '@/lib/supabase';
 
+// Revalidate experiences every hour
+export const revalidate = 3600;
+
 export const metadata: Metadata = {
     title: 'Curated Experiences | Bali Activities & Tours',
     description: 'Elevate your stay with bespoke Bali experiences. Private dining, holistic healing, sacred temple tours, and vintage Land Rover adventures.',

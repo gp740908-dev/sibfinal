@@ -6,7 +6,9 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
 import ScrollSequence from '@/components/ui/ScrollSequence';
 
-gsap.registerPlugin(ScrollTrigger);
+if (typeof window !== 'undefined') {
+    gsap.registerPlugin(ScrollTrigger);
+}
 
 export const HomeScrollExperience: React.FC = () => {
     const containerRef = useRef<HTMLDivElement>(null);

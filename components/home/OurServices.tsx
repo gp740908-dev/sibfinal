@@ -6,7 +6,9 @@ import { useGSAP } from '@gsap/react';
 import { ArrowUpRight } from 'lucide-react';
 import { supabase, isMock } from '../../lib/supabase';
 
-gsap.registerPlugin(ScrollTrigger);
+if (typeof window !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 interface ServiceItem {
   id: string;
@@ -38,9 +40,9 @@ export const OurServices: React.FC = () => {
       try {
         // Re-use experiences data for the home page services section
         const { data, error } = await supabase.from('experiences').select('*').limit(4).order('created_at', { ascending: true });
-        
+
         if (error || !data || data.length === 0) {
-           setServices(MOCK_SERVICES);
+          setServices(MOCK_SERVICES);
         } else {
           const formatted: ServiceItem[] = data.map((item: any) => ({
             id: item.id,
@@ -76,19 +78,19 @@ export const OurServices: React.FC = () => {
       duration: 0.8,
       ease: "power3.out"
     })
-    .from('.service-item', {
-      x: -50,
-      opacity: 0,
-      stagger: 0.1,
-      duration: 1,
-      ease: "power3.out"
-    }, "-=0.4")
-    .from('.service-image-container', {
-      scale: 0.95,
-      opacity: 0,
-      duration: 1,
-      ease: "power2.out"
-    }, "-=1");
+      .from('.service-item', {
+        x: -50,
+        opacity: 0,
+        stagger: 0.1,
+        duration: 1,
+        ease: "power3.out"
+      }, "-=0.4")
+      .from('.service-image-container', {
+        scale: 0.95,
+        opacity: 0,
+        duration: 1,
+        ease: "power2.out"
+      }, "-=1");
 
   }, { scope: containerRef, dependencies: [services] });
 
@@ -101,25 +103,25 @@ export const OurServices: React.FC = () => {
       // Fade out all images not matching index
       Array.from(images).forEach((img, idx) => {
         if (idx !== activeIndex) {
-          gsap.to(img, { 
-            opacity: 0, 
-            scale: 1.05, 
+          gsap.to(img, {
+            opacity: 0,
+            scale: 1.05,
             zIndex: 0,
             duration: 0.6,
-            ease: "power2.inOut" 
+            ease: "power2.inOut"
           });
         }
       });
 
       // Fade in active image
-      gsap.fromTo(images[activeIndex], 
+      gsap.fromTo(images[activeIndex],
         { opacity: 0, scale: 1.1, zIndex: 10 },
-        { 
-          opacity: 1, 
-          scale: 1, 
+        {
+          opacity: 1,
+          scale: 1,
           zIndex: 10,
           duration: 0.8,
-          ease: "power2.out" 
+          ease: "power2.out"
         }
       );
     }
@@ -129,10 +131,10 @@ export const OurServices: React.FC = () => {
 
   return (
     <section ref={containerRef} className="bg-sand text-forest min-h-[70vh] flex flex-col lg:flex-row overflow-hidden border-t border-forest/10">
-      
+
       {/* LEFT COLUMN: Content */}
       <div className="w-full lg:w-1/2 p-8 md:p-16 lg:p-24 flex flex-col justify-center relative z-20">
-        
+
         <div className="service-header mb-12 md:mb-20">
           <span className="block font-sans text-xs uppercase tracking-[0.2em] opacity-60 mb-4">
             Curated For You
@@ -144,7 +146,7 @@ export const OurServices: React.FC = () => {
 
         <ul className="space-y-8 relative">
           {services.map((service, index) => (
-            <li 
+            <li
               key={service.id}
               className="service-item group relative"
               onMouseEnter={() => setActiveIndex(index)}
@@ -154,11 +156,11 @@ export const OurServices: React.FC = () => {
                 <span className={`font-sans text-xs font-bold transition-opacity duration-300 ${activeIndex === index ? 'opacity-100 text-accent' : 'opacity-30'}`}>
                   0{index + 1}
                 </span>
-                
-                <h3 
+
+                <h3
                   className={`text-4xl md:text-6xl font-serif transition-all duration-500 ease-out 
-                    ${activeIndex === index 
-                      ? 'opacity-100 translate-x-4 md:translate-x-8 italic' 
+                    ${activeIndex === index
+                      ? 'opacity-100 translate-x-4 md:translate-x-8 italic'
                       : 'opacity-40 group-hover:opacity-60'
                     }
                   `}
@@ -172,7 +174,7 @@ export const OurServices: React.FC = () => {
               </div>
 
               {/* Description Accordion (Visible only when active) */}
-              <div 
+              <div
                 className={`overflow-hidden transition-all duration-500 ease-in-out pl-8 md:pl-16
                   ${activeIndex === index ? 'max-h-40 opacity-100 mt-4' : 'max-h-0 opacity-0 mt-0'}
                 `}
@@ -193,23 +195,23 @@ export const OurServices: React.FC = () => {
       <div className="service-image-container w-full lg:w-1/2 min-h-[400px] lg:h-auto relative overflow-hidden bg-forest/5">
         <div ref={imagesRef} className="w-full h-full relative">
           {services.map((service, index) => (
-            <div 
+            <div
               key={service.id}
               className="absolute inset-0 w-full h-full"
             >
               <div className="absolute inset-0 bg-forest/10 z-10 mix-blend-multiply"></div>
-              <img 
+              <img
                 src={service.imageUrl}
                 alt={service.title}
                 className="w-full h-full object-cover"
                 loading="lazy"
               />
-              
+
               {/* Mobile overlay text (optional if list is scrolled out of view, but mostly purely aesthetic here) */}
               <div className="absolute bottom-6 right-6 z-20 lg:hidden">
-                 <span className="bg-sand/90 text-forest px-4 py-1 text-xs uppercase tracking-widest font-bold backdrop-blur-sm">
-                   {service.title}
-                 </span>
+                <span className="bg-sand/90 text-forest px-4 py-1 text-xs uppercase tracking-widest font-bold backdrop-blur-sm">
+                  {service.title}
+                </span>
               </div>
             </div>
           ))}

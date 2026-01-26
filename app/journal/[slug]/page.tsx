@@ -7,10 +7,24 @@ import { BreadcrumbsSchema } from '@/components/seo/BreadcrumbsSchema';
 
 // ISR: Revalidate daily for blog content
 // Pages are rendered on first request, then cached for 24 hours
+// ISR: Revalidate daily for blog content
+// Pages are rendered on first request, then cached for 24 hours
 export const revalidate = 86400;
 
 // Dynamic params: Allow any slug (rendered on-demand, then cached)
 export const dynamicParams = true;
+
+// 0. Static Params Generation
+export async function generateStaticParams() {
+    const { data: posts } = await supabase
+        .from('journal_posts')
+        .select('slug')
+        .limit(10);
+
+    return (posts || []).map((post) => ({
+        slug: post.slug,
+    }));
+}
 
 interface PageProps {
     params: Promise<{ slug: string }>;

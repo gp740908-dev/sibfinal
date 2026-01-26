@@ -9,7 +9,9 @@ import { Globe } from 'lucide-react';
 import { FaInstagram, FaWhatsapp } from 'react-icons/fa6';
 import { FullScreenMenu } from '../layout/FullScreenMenu';
 
-gsap.registerPlugin(ScrollTrigger);
+if (typeof window !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 interface NavbarProps {
   currentView?: string;

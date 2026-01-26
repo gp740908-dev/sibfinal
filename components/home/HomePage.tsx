@@ -1,18 +1,17 @@
-'use client';
-
-import React from 'react';
-import Link from 'next/link';
+import dynamic from 'next/dynamic';
 import { Hero } from './Hero';
-import { VillaShowcase } from './VillaShowcase';
-import { LocationSection } from './LocationSection';
-import { OurServices } from './OurServices';
-import { RecentJournal } from './RecentJournal';
-import { VideoParallax } from './VideoParallax';
-import { GuestDiaries } from './GuestDiaries';
-import { SignatureDetails } from './SignatureDetails';
-import { HomeScrollExperience } from './HomeScrollExperience';
-import { Newsletter } from './Newsletter';
 import { Villa } from '../../types';
+import { Loader2, Leaf } from 'lucide-react';
+
+const VillaShowcase = dynamic(() => import('./VillaShowcase').then(mod => mod.VillaShowcase));
+const LocationSection = dynamic(() => import('./LocationSection').then(mod => mod.LocationSection), { ssr: false });
+const OurServices = dynamic(() => import('./OurServices').then(mod => mod.OurServices));
+const RecentJournal = dynamic(() => import('./RecentJournal').then(mod => mod.RecentJournal));
+const VideoParallax = dynamic(() => import('./VideoParallax').then(mod => mod.VideoParallax), { ssr: false });
+const GuestDiaries = dynamic(() => import('./GuestDiaries').then(mod => mod.GuestDiaries));
+const SignatureDetails = dynamic(() => import('./SignatureDetails').then(mod => mod.SignatureDetails));
+const HomeScrollExperience = dynamic(() => import('./HomeScrollExperience').then(mod => mod.HomeScrollExperience), { ssr: false });
+const Newsletter = dynamic(() => import('./Newsletter').then(mod => mod.Newsletter));
 
 interface HomePageProps {
     villas: Villa[];

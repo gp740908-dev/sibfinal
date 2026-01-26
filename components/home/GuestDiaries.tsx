@@ -6,7 +6,9 @@ import { useGSAP } from '@gsap/react';
 import { Quote, Loader2 } from 'lucide-react';
 import { supabase, isMock } from '../../lib/supabase';
 
-gsap.registerPlugin(ScrollTrigger);
+if (typeof window !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 interface Review {
   id: string;
