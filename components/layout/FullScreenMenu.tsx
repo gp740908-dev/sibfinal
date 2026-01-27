@@ -58,27 +58,27 @@ export const FullScreenMenu: React.FC<FullScreenMenuProps> = ({ isOpen, onClose 
         {
           y: "0%",
           autoAlpha: 1,
-          duration: 1,
-          stagger: 0.1,
-          ease: "power3.out"
-        }, "-=0.4")
+          duration: 0.6,
+          stagger: 0.05,
+          ease: "expo.out"
+        }, "-=0.3")
       .fromTo('.secondary-link, .menu-info-item',
-        { y: 20, autoAlpha: 0 },
+        { y: 15, autoAlpha: 0 },
         {
           y: 0,
           autoAlpha: 1,
-          stagger: 0.05,
-          duration: 0.8,
+          stagger: 0.03,
+          duration: 0.4,
           ease: "power2.out"
-        }, "-=0.8")
+        }, "-=0.5")
       .fromTo('.close-button',
-        { scale: 0, autoAlpha: 0 },
+        { scale: 0.8, autoAlpha: 0 },
         {
           scale: 1,
           autoAlpha: 1,
-          duration: 0.5,
-          ease: "back.out(1.7)"
-        }, "-=1");
+          duration: 0.3,
+          ease: "back.out(1.5)"
+        }, "-=0.4");
 
   }, { scope: containerRef });
 
