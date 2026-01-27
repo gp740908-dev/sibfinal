@@ -41,7 +41,7 @@ export const Hero: React.FC = () => {
   };
 
   return (
-    <section className="relative w-full h-[100dvh] overflow-hidden bg-forest selection:bg-sand selection:text-forest">
+    <section className="relative w-full h-[100svh] overflow-hidden bg-forest selection:bg-sand selection:text-forest">
 
       {/* 1. Background Slideshow (CSS Transitions) */}
       <div className="absolute inset-0 w-full h-full z-0">
