@@ -142,7 +142,7 @@ export const FullScreenMenu: React.FC<FullScreenMenuProps> = ({ isOpen, onClose 
 
         {/* Top Header */}
         <div className="flex justify-between items-start">
-          <div className="menu-info-item font-sans text-xs uppercase tracking-widest opacity-60">
+          <div className="menu-info-item font-sans text-xs uppercase tracking-widest opacity-90">
             Menu
           </div>
 
@@ -203,7 +203,7 @@ export const FullScreenMenu: React.FC<FullScreenMenuProps> = ({ isOpen, onClose 
             {/* Contact & Socials */}
             <div className="flex flex-col gap-8 w-full">
               <div className="menu-info-item flex flex-col gap-1">
-                <span className="text-xs uppercase tracking-widest opacity-50 mb-2">Get in touch</span>
+                <span className="text-xs uppercase tracking-widest opacity-90 mb-2">Get in touch</span>
                 <a href="mailto:host@stayinubud.com" className="font-serif text-2xl hover:underline">host@stayinubud.com</a>
               </div>
 
@@ -227,7 +227,7 @@ export const FullScreenMenu: React.FC<FullScreenMenuProps> = ({ isOpen, onClose 
         </div>
 
         {/* Footer */}
-        <div className="menu-info-item w-full flex justify-between items-end text-[10px] md:text-xs uppercase tracking-widest opacity-40">
+        <div className="menu-info-item w-full flex justify-between items-end text-[10px] md:text-xs uppercase tracking-widest opacity-80">
           <span>© {new Date().getFullYear()} StayinUbud</span>
           <span>Bali, Indonesia</span>
         </div>

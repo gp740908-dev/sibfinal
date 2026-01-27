@@ -92,7 +92,7 @@ export const Hero: React.FC = () => {
         </h1>
 
         {/* Subtitle - Fade In */}
-        <p className="font-sans text-sand/90 text-sm md:text-xl font-light max-w-2xl mx-auto leading-relaxed mb-12 tracking-wide animate-fade-in opacity-0 [animation-delay:0.8s]">
+        <p className="font-sans text-sand text-sm md:text-xl font-light max-w-2xl mx-auto leading-relaxed mb-12 tracking-wide animate-fade-in opacity-0 [animation-delay:0.8s]">
           Curated sanctuaries in the heart of Bali&apos;s jungle.
         </p>
 
@@ -101,6 +101,7 @@ export const Hero: React.FC = () => {
           <Link
             href="/villas"
             className="group relative px-10 py-4 overflow-hidden border border-sand/40 hover:border-sand transition-all duration-500 inline-block backdrop-blur-sm bg-forest/10 hover:bg-forest/20 active:scale-95"
+            aria-label="Explore our luxury villas"
           >
             <span className="relative z-10 font-sans text-xs md:text-sm uppercase tracking-[0.25em] text-sand group-hover:text-forest transition-colors duration-500 font-bold">
               Explore Villas
@@ -127,6 +128,7 @@ export const Hero: React.FC = () => {
       <button
         onClick={scrollDown}
         className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-30 animate-bounce p-4 group opacity-60 hover:opacity-100 transition-opacity"
+        aria-label="Scroll down to content"
       >
         <div className="w-[1px] h-12 bg-gradient-to-b from-transparent via-sand to-transparent group-hover:h-16 transition-all duration-500" />
       </button>
