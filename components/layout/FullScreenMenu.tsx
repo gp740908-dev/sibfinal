@@ -39,7 +39,7 @@ export const FullScreenMenu: React.FC<FullScreenMenuProps> = ({ isOpen, onClose 
   // Initialize GSAP Timeline
   useGSAP(() => {
     gsap.set(containerRef.current, { autoAlpha: 0 }); // Ensure hidden initially
-    
+
     timeline.current = gsap.timeline({ paused: true })
       .to(containerRef.current, {
         autoAlpha: 1,
@@ -54,7 +54,8 @@ export const FullScreenMenu: React.FC<FullScreenMenuProps> = ({ isOpen, onClose 
         }
       )
       .from('.nav-item-text', {
-        y: "100%",
+        y: "110%",
+        autoAlpha: 0,
         duration: 1,
         stagger: 0.1,
         ease: "power3.out"
@@ -84,7 +85,7 @@ export const FullScreenMenu: React.FC<FullScreenMenuProps> = ({ isOpen, onClose 
       timeline.current?.reverse();
       document.body.style.overflow = '';
       // Small delay to clear image after menu is actually closed
-      setTimeout(() => setActiveImage(null), 800); 
+      setTimeout(() => setActiveImage(null), 800);
     }
   }, [isOpen]);
 
@@ -123,8 +124,8 @@ export const FullScreenMenu: React.FC<FullScreenMenuProps> = ({ isOpen, onClose 
           style={{ backgroundImage: activeImage ? `url(${activeImage})` : 'none' }}
         />
         {/* Grain/Texture Overlay (Optional for 'Organic' feel) */}
-        <div className="absolute inset-0 opacity-[0.03] pointer-events-none mix-blend-overlay" 
-             style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noiseFilter\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.65\' numOctaves=\'3\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noiseFilter)\'/%3E%3C/svg%3E")' }} 
+        <div className="absolute inset-0 opacity-[0.03] pointer-events-none mix-blend-overlay"
+          style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noiseFilter\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.65\' numOctaves=\'3\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noiseFilter)\'/%3E%3C/svg%3E")' }}
         />
         {/* Gradient for Text Readability */}
         <div className="absolute inset-0 bg-gradient-to-r from-forest/90 via-forest/80 to-forest/40" />
@@ -132,25 +133,25 @@ export const FullScreenMenu: React.FC<FullScreenMenuProps> = ({ isOpen, onClose 
 
       {/* 2. Content Layer */}
       <nav className="relative z-10 w-full h-full flex flex-col p-6 md:p-12 lg:p-16 text-sand">
-        
+
         {/* Top Header */}
         <div className="flex justify-between items-start">
-           <div className="menu-info-item font-sans text-xs uppercase tracking-widest opacity-60">
-             Menu
-           </div>
-           
-           <button
+          <div className="menu-info-item font-sans text-xs uppercase tracking-widest opacity-60">
+            Menu
+          </div>
+
+          <button
             onClick={onClose}
             className="close-button group flex items-center justify-center w-12 h-12 md:w-16 md:h-16 rounded-full border border-sand/20 hover:bg-sand hover:text-forest transition-all duration-300 backdrop-blur-sm"
             aria-label="Close Menu"
-           >
-             <X size={24} className="transition-transform duration-300 group-hover:rotate-90" />
-           </button>
+          >
+            <X size={24} className="transition-transform duration-300 group-hover:rotate-90" />
+          </button>
         </div>
 
         {/* Main Navigation Grid */}
         <div className="flex-1 grid grid-cols-1 lg:grid-cols-12 content-center items-center">
-          
+
           {/* Main Links */}
           <ul className="lg:col-span-8 flex flex-col gap-0 md:gap-2">
             {PRIMARY_LINKS.map((link, idx) => (
@@ -162,11 +163,11 @@ export const FullScreenMenu: React.FC<FullScreenMenuProps> = ({ isOpen, onClose 
                   onMouseLeave={() => setActiveImage(null)}
                   className="group block relative"
                 >
-                  <div className="nav-item-text text-[3.5rem] md:text-[5.5rem] lg:text-[7rem] leading-[0.9] font-serif font-medium tracking-tight transition-all duration-300 group-hover:translate-x-4 mix-blend-overlay group-hover:mix-blend-normal opacity-70 group-hover:opacity-100">
+                  <div className="nav-item-text text-[3.5rem] md:text-[5.5rem] lg:text-[7rem] leading-[0.9] font-serif font-medium tracking-tight transition-transform duration-300 group-hover:translate-x-4 text-sand/80 group-hover:text-sand">
                     {link.label}
                   </div>
                   <span className="opacity-0 absolute top-1/2 -translate-y-1/2 -left-8 group-hover:left-0 group-hover:opacity-100 transition-all duration-300 text-sm font-sans tracking-widest hidden lg:block">
-                     →
+                    →
                   </span>
                 </Link>
               </li>
@@ -175,20 +176,20 @@ export const FullScreenMenu: React.FC<FullScreenMenuProps> = ({ isOpen, onClose 
 
           {/* Secondary Info / Links */}
           <div className="lg:col-span-4 flex flex-col justify-end items-start lg:items-start h-full pt-12 lg:pt-0 gap-12 lg:pl-12">
-            
+
             {/* Pages */}
             <ul className="flex flex-col gap-4">
-               {SECONDARY_LINKS.map((link, idx) => (
-                 <li key={idx} className="overflow-hidden">
-                   <Link 
-                     href={link.href}
-                     onClick={onClose}
-                     className="secondary-link inline-block text-lg md:text-xl font-sans font-light tracking-wide hover:text-accent-light transition-colors"
-                   >
-                     {link.label}
-                   </Link>
-                 </li>
-               ))}
+              {SECONDARY_LINKS.map((link, idx) => (
+                <li key={idx} className="overflow-hidden">
+                  <Link
+                    href={link.href}
+                    onClick={onClose}
+                    className="secondary-link inline-block text-lg md:text-xl font-sans font-light tracking-wide hover:text-accent-light transition-colors"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
 
             <div className="w-full h-px bg-sand/20 secondary-link origin-left" />
@@ -202,8 +203,8 @@ export const FullScreenMenu: React.FC<FullScreenMenuProps> = ({ isOpen, onClose 
 
               <div className="menu-info-item flex gap-6">
                 {SOCIAL_LINKS.map((social, idx) => (
-                  <a 
-                    key={idx} 
+                  <a
+                    key={idx}
                     href={social.href}
                     target="_blank"
                     rel="noreferrer"
@@ -221,8 +222,8 @@ export const FullScreenMenu: React.FC<FullScreenMenuProps> = ({ isOpen, onClose 
 
         {/* Footer */}
         <div className="menu-info-item w-full flex justify-between items-end text-[10px] md:text-xs uppercase tracking-widest opacity-40">
-           <span>© {new Date().getFullYear()} StayinUbud</span>
-           <span>Bali, Indonesia</span>
+          <span>© {new Date().getFullYear()} StayinUbud</span>
+          <span>Bali, Indonesia</span>
         </div>
 
       </nav>
