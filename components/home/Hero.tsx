@@ -77,25 +77,27 @@ export const Hero: React.FC = () => {
       <div className="relative z-20 flex flex-col items-center justify-center h-full text-center px-4">
 
         {/* Main Title - CSS Staggered Reveal */}
-        <h1 className="text-5xl md:text-7xl lg:text-[9rem] font-serif text-sand mb-8 tracking-[0.1em] leading-none drop-shadow-2xl overflow-hidden flex flex-wrap justify-center gap-x-[0.2em] md:gap-x-[0.1em]">
-          {"STAYINUBUD".split('').map((char, i) => (
-            <span
-              key={i}
-              className="inline-block animate-slide-up opacity-0 [animation-fill-mode:active]"
-              style={{ animationDelay: `${0.2 + (i * 0.05)}s` }}
-            >
-              {char}
-            </span>
-          ))}
+        <h1 className="font-serif text-sand mb-8 leading-none drop-shadow-2xl overflow-hidden flex flex-wrap justify-center gap-x-[0.05em] w-full">
+          <span className="block whitespace-nowrap text-[12vw] md:text-[11vw] lg:text-[10vw] tracking-widest">
+            {"STAYINUBUD".split('').map((char, i) => (
+              <span
+                key={i}
+                className="inline-block animate-slide-up opacity-0"
+                style={{ animationDelay: `${0.2 + (i * 0.05)}s` }}
+              >
+                {char}
+              </span>
+            ))}
+          </span>
         </h1>
 
         {/* Subtitle - Fade In */}
-        <p className="font-sans text-sand/90 text-lg md:text-xl font-light max-w-2xl mx-auto leading-relaxed mb-12 tracking-wide animate-fade-in opacity-0 [animation-delay:0.8s] [animation-fill-mode:backwards]">
+        <p className="font-sans text-sand/90 text-sm md:text-xl font-light max-w-2xl mx-auto leading-relaxed mb-12 tracking-wide animate-fade-in opacity-0 [animation-delay:0.8s]">
           Curated sanctuaries in the heart of Bali&apos;s jungle.
         </p>
 
         {/* CTA Button - Square & Magnetic */}
-        <div className="animate-fade-in opacity-0 [animation-delay:1s] [animation-fill-mode:backwards]">
+        <div className="animate-fade-in opacity-0 [animation-delay:1s]">
           <Link
             href="/villas"
             className="group relative px-10 py-4 overflow-hidden border border-sand/40 hover:border-sand transition-all duration-500 inline-block backdrop-blur-sm bg-forest/10 hover:bg-forest/20 active:scale-95"
