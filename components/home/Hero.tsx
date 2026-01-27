@@ -81,7 +81,7 @@ export const Hero: React.FC = () => {
           {"STAYINUBUD".split('').map((char, i) => (
             <span
               key={i}
-              className="inline-block animate-slide-up bg-gradient-to-b from-sand via-sand to-sand/80 bg-clip-text text-transparent opacity-0 [animation-fill-mode:backwards]"
+              className="inline-block animate-slide-up opacity-0 [animation-fill-mode:active]"
               style={{ animationDelay: `${0.2 + (i * 0.05)}s` }}
             >
               {char}
@@ -94,11 +94,11 @@ export const Hero: React.FC = () => {
           Curated sanctuaries in the heart of Bali&apos;s jungle.
         </p>
 
-        {/* CTA Button - Magnetic Feel */}
+        {/* CTA Button - Square & Magnetic */}
         <div className="animate-fade-in opacity-0 [animation-delay:1s] [animation-fill-mode:backwards]">
           <Link
             href="/villas"
-            className="group relative px-10 py-4 overflow-hidden border border-sand/40 hover:border-sand transition-all duration-500 inline-block rounded-full backdrop-blur-sm bg-forest/10 hover:bg-forest/20 active:scale-95"
+            className="group relative px-10 py-4 overflow-hidden border border-sand/40 hover:border-sand transition-all duration-500 inline-block backdrop-blur-sm bg-forest/10 hover:bg-forest/20 active:scale-95"
           >
             <span className="relative z-10 font-sans text-xs md:text-sm uppercase tracking-[0.25em] text-sand group-hover:text-forest transition-colors duration-500 font-bold">
               Explore Villas
