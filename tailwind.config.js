@@ -23,6 +23,9 @@ module.exports = {
           light: '#9BB784',
           DEFAULT: '#719669',
         },
+        gold: {
+          DEFAULT: '#C4A35A',
+        },
         // Ensure all text colors meet WCAG AA
         'text-primary': '#1A1A1A',     // Near black for body text
         'text-secondary': '#4A4A4A',   // Dark gray (still 7:1 contrast)
