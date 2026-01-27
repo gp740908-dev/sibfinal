@@ -60,8 +60,8 @@ export const Concierge: React.FC = () => {
       {/* Toggle Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className={`fixed bottom-8 right-8 z-[60] w-14 h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center shadow-lg transition-all duration-500 border border-forest/20
-          ${isOpen ? 'bg-forest text-sand rotate-90' : 'bg-sand text-forest hover:scale-105'}
+        className={`fixed bottom-8 right-8 z-[60] w-14 h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center shadow-lg transition-all duration-500 border border-forest-dark/20
+          ${isOpen ? 'bg-forest text-sand-light rotate-90' : 'bg-sand text-forest-dark hover:scale-105'}
         `}
       >
         {isOpen ? (
@@ -76,12 +76,12 @@ export const Concierge: React.FC = () => {
       </button>
 
       {/* Chat Window */}
-      <div 
-        className={`fixed bottom-28 right-6 md:right-8 z-[60] w-[calc(100vw-3rem)] md:w-96 bg-[#EBECC9] rounded-2xl shadow-2xl overflow-hidden transition-all duration-500 origin-bottom-right border border-forest/10
+      <div
+        className={`fixed bottom-28 right-6 md:right-8 z-[60] w-[calc(100vw-3rem)] md:w-96 bg-[#EBECC9] rounded-2xl shadow-2xl overflow-hidden transition-all duration-500 origin-bottom-right border border-forest-dark/10
           ${isOpen ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-90 translate-y-10 pointer-events-none'}
         `}
       >
-        <div className="bg-forest text-sand p-4 flex items-center justify-between">
+        <div className="bg-forest text-sand-light p-4 flex items-center justify-between">
           <div>
             <h3 className="font-serif text-lg">Concierge AI</h3>
             <p className="text-xs opacity-80 font-sans tracking-wide">Always at your service</p>
@@ -91,11 +91,11 @@ export const Concierge: React.FC = () => {
         <div className="h-80 md:h-96 overflow-y-auto p-4 space-y-4 bg-[#EBECC9]">
           {messages.map((msg) => (
             <div key={msg.id} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-              <div 
+              <div
                 className={`max-w-[80%] p-3 rounded-2xl text-sm leading-relaxed
-                  ${msg.role === 'user' 
-                    ? 'bg-forest text-sand rounded-br-none' 
-                    : 'bg-sand text-forest rounded-bl-none shadow-sm'
+                  ${msg.role === 'user'
+                    ? 'bg-forest text-sand-light rounded-br-none'
+                    : 'bg-sand text-forest-dark rounded-bl-none shadow-sm'
                   }
                 `}
               >
@@ -115,20 +115,20 @@ export const Concierge: React.FC = () => {
           <div ref={messagesEndRef} />
         </div>
 
-        <div className="p-4 bg-sand/50 border-t border-forest/10">
-          <div className="flex items-center bg-white/40 rounded-full border border-forest/10 px-2 py-1">
+        <div className="p-4 bg-sand/50 border-t border-forest-dark/10">
+          <div className="flex items-center bg-white/40 rounded-full border border-forest-dark/10 px-2 py-1">
             <input
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleKeyPress}
               placeholder="Ask about villas, dining, or yoga..."
-              className="flex-1 bg-transparent border-none outline-none px-4 py-2 text-forest placeholder-forest/50 text-sm"
+              className="flex-1 bg-transparent border-none outline-none px-4 py-2 text-forest-dark placeholder-forest-dark/50 text-sm"
             />
-            <button 
+            <button
               onClick={handleSend}
               disabled={isLoading || !input.trim()}
-              className="p-2 bg-forest text-sand rounded-full hover:bg-accent transition-colors disabled:opacity-50"
+              className="p-2 bg-forest text-sand-light rounded-full hover:bg-accent transition-colors disabled:opacity-50"
             >
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4">
                 <path d="M3.478 2.405a.75.75 0 00-.926.94l2.432 7.905H13.5a.75.75 0 010 1.5H4.984l-2.432 7.905a.75.75 0 00.926.94 60.519 60.519 0 0018.445-8.986.75.75 0 000-1.218A60.517 60.517 0 003.478 2.405z" />

@@ -74,7 +74,7 @@ export const Preloader: React.FC = () => {
   return (
     <div
       ref={containerRef}
-      className="fixed inset-0 z-[9999] bg-forest flex flex-col items-center justify-center text-sand"
+      className="fixed inset-0 z-[9999] bg-forest-dark flex flex-col items-center justify-center text-sand-light"
     >
       {/* Counter */}
       <div

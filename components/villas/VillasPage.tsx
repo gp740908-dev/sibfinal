@@ -138,22 +138,22 @@ export const VillasPage: React.FC<VillasPageProps> = ({ villas }) => {
   };
 
   return (
-    <div ref={containerRef} className="pt-40 pb-32 min-h-screen bg-sand text-forest overflow-hidden">
+    <div ref={containerRef} className="pt-40 pb-32 min-h-screen bg-sand text-forest-dark overflow-hidden">
 
       {/* 1. Header Section - Editorial Style */}
       <div className="catalog-header px-6 md:px-12 mb-24 md:mb-32 max-w-[1600px] mx-auto relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end">
           <div className="lg:col-span-8">
-            <span className="block font-sans text-xs uppercase tracking-[0.4em] text-forest/60 mb-8 ml-1">
+            <span className="block font-sans text-xs uppercase tracking-[0.4em] text-forest-dark/60 mb-8 ml-1">
               Curated Collection
             </span>
-            <h1 className="text-[12vw] lg:text-[10vw] font-serif text-forest leading-[0.85] tracking-tight">
+            <h1 className="text-[12vw] lg:text-[10vw] font-serif text-forest-dark leading-[0.85] tracking-tight">
               PRIVATE <br />
               <span className="italic font-light ml-[10vw] lg:ml-[5vw] block">SANCTUARIES</span>
             </h1>
           </div>
           <div className="lg:col-span-4 lg:pb-6">
-            <p className="font-sans text-lg md:text-xl text-forest/80 leading-relaxed max-w-md ml-auto">
+            <p className="font-sans text-lg md:text-xl text-forest-dark/80 leading-relaxed max-w-md ml-auto">
               Selected for their silence, their spirit, and their profound connection to the Ubud jungle.
             </p>
           </div>
@@ -172,7 +172,7 @@ export const VillasPage: React.FC<VillasPageProps> = ({ villas }) => {
       <div className="filter-bar mb-32 px-6 md:px-12">
         <div className="flex flex-wrap gap-x-8 gap-y-4 border-b border-forest/20 pb-6 max-w-[1600px] mx-auto">
           {/* Label */}
-          <span className="font-sans text-xs uppercase tracking-widest text-forest/40 py-2 mr-4">Filter By</span>
+          <span className="font-sans text-xs uppercase tracking-widest text-forest-dark/40 py-2 mr-4">Filter By</span>
 
           {FILTERS.map(filter => (
             <button
@@ -180,13 +180,13 @@ export const VillasPage: React.FC<VillasPageProps> = ({ villas }) => {
               onClick={() => setActiveFilter(filter)}
               className={`font-sans text-xs uppercase tracking-[0.2em] transition-all duration-500 relative py-2 group
                 ${activeFilter === filter
-                  ? 'text-forest'
-                  : 'text-forest/40 hover:text-forest'
+                  ? 'text-forest-dark'
+                  : 'text-forest-dark/40 hover:text-forest-dark'
                 }
               `}
             >
               {filter}
-              <span className={`absolute bottom-0 left-0 h-[1px] bg-forest transition-all duration-500 ease-out
+              <span className={`absolute bottom-0 left-0 h-[1px] bg-forest-dark transition-all duration-500 ease-out
                   ${activeFilter === filter ? 'w-full' : 'w-0 group-hover:w-full'}
               `} />
             </button>
@@ -212,7 +212,7 @@ export const VillasPage: React.FC<VillasPageProps> = ({ villas }) => {
 
                   {/* Index Number (Decorative) */}
                   <div className="hidden md:block absolute -left-12 top-0 -translate-x-full villa-index opacity-0 pointer-events-none z-0">
-                    <span className="font-serif text-[12rem] leading-none text-forest opacity-5">
+                    <span className="font-serif text-[12rem] leading-none text-forest-dark opacity-5">
                       {String(index + 1).padStart(2, '0')}
                     </span>
                   </div>
@@ -235,42 +235,42 @@ export const VillasPage: React.FC<VillasPageProps> = ({ villas }) => {
 
                     {/* Floating 'View' Button visible on hover */}
                     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-sand rounded-full flex items-center justify-center opacity-0 scale-50 group-hover:opacity-100 group-hover:scale-100 transition-all duration-500 ease-out z-10 shadow-2xl">
-                      <span className="font-sans text-xs uppercase tracking-widest text-forest font-bold group-hover:tracking-[0.3em] transition-all">Explore</span>
+                      <span className="font-sans text-xs uppercase tracking-widest text-forest-dark font-bold group-hover:tracking-[0.3em] transition-all">Explore</span>
                     </div>
                   </div>
 
                   {/* Text Section */}
                   <div className="villa-text md:col-span-5 lg:col-span-4 relative z-10 px-4 md:px-0">
                     {/* Mobile Index */}
-                    <span className="md:hidden block font-sans text-xs font-bold text-forest/40 mb-4 tracking-widest">
+                    <span className="md:hidden block font-sans text-xs font-bold text-forest-dark/40 mb-4 tracking-widest">
                       NO. {String(index + 1).padStart(2, '0')}
                     </span>
 
                     <div className="mb-6 flex flex-wrap gap-2">
                       {(villa.features || []).slice(0, 2).map(f => ( // Only show 2 tags
-                        <span key={f} className="font-sans text-[10px] uppercase tracking-widest border border-forest/20 rounded-full px-3 py-1 text-forest/60">
+                        <span key={f} className="font-sans text-[10px] uppercase tracking-widest border border-forest/20 rounded-full px-3 py-1 text-forest-dark/60">
                           {f}
                         </span>
                       ))}
                     </div>
 
-                    <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif text-forest mb-6 leading-none">
+                    <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif text-forest-dark mb-6 leading-none">
                       {villa.name}
                     </h2>
 
-                    <p className="font-sans text-sm md:text-base text-forest/70 leading-relaxed mb-8 border-l border-forest/20 pl-6">
+                    <p className="font-sans text-sm md:text-base text-forest-dark/70 leading-relaxed mb-8 border-l border-forest/20 pl-6">
                       "{villa.description.split('.')[0]}."
                       <br />
-                      <span className="text-xs uppercase tracking-widest mt-2 block active:text-forest opacity-60">
+                      <span className="text-xs uppercase tracking-widest mt-2 block active:text-forest-dark opacity-60">
                         {villa.bedrooms} BD  •  {villa.guests} Guests
                       </span>
                     </p>
 
                     <div className="flex items-center gap-4 group/btn">
-                      <span className="font-sans text-xs uppercase tracking-widest text-forest font-bold">
+                      <span className="font-sans text-xs uppercase tracking-widest text-forest-dark font-bold">
                         From {formatPrice(villa.pricePerNight)}
                       </span>
-                      <div className="w-8 h-8 rounded-full border border-forest/20 flex items-center justify-center group-hover/btn:bg-forest group-hover/btn:text-sand transition-all">
+                      <div className="w-8 h-8 rounded-full border border-forest/20 flex items-center justify-center group-hover/btn:bg-forest group-hover/btn:text-sand-light transition-all">
                         <ArrowUpRight size={14} />
                       </div>
                     </div>

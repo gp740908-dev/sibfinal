@@ -12,19 +12,19 @@ export const Navigation: React.FC = () => {
   }, []);
 
   return (
-    <nav 
+    <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-in-out px-6 md:px-12 py-6 flex justify-between items-center
       ${scrolled ? 'bg-sand/90 backdrop-blur-md shadow-sm py-4' : 'bg-transparent'}`}
     >
-      <div className="text-forest font-serif text-2xl md:text-3xl font-bold tracking-tight cursor-pointer">
+      <div className="text-forest-dark font-serif text-2xl md:text-3xl font-bold tracking-tight cursor-pointer">
         Stayin<span className="italic font-light">UBUD</span>
       </div>
 
-      <div className="hidden md:flex space-x-8 items-center text-forest font-sans text-sm tracking-widest uppercase font-medium">
+      <div className="hidden md:flex space-x-8 items-center text-forest-dark font-sans text-sm tracking-widest uppercase font-medium">
         <a href="#villas" className="hover:text-accent-dark transition-colors duration-300">Villas</a>
         <a href="#experiences" className="hover:text-accent-dark transition-colors duration-300">Experiences</a>
         <a href="#about" className="hover:text-accent-dark transition-colors duration-300">Our Story</a>
-        <button className="border border-forest px-6 py-2 hover:bg-forest hover:text-sand transition-all duration-300 rounded-sm">
+        <button className="border border-forest-dark px-6 py-2 hover:bg-forest hover:text-sand-light transition-all duration-300 rounded-sm">
           Book Your Stay
         </button>
       </div>

@@ -32,7 +32,7 @@ export const Calendar: React.FC<CalendarProps> = ({
       <style>{`
         .rdp { 
           --rdp-cell-size: 44px;
-          --rdp-accent-color: #537F5D; 
+          --rdp-accent-color: #243326; 
           --rdp-background-color: #D3D49F;
           margin: 0;
         }
@@ -42,19 +42,19 @@ export const Calendar: React.FC<CalendarProps> = ({
         
         /* Selected Range */
         .rdp-day_selected:not([disabled]) { 
-          background-color: #537F5D; 
+          background-color: #243326;  
           color: white;
           font-weight: bold;
         }
         .rdp-day_selected:hover:not([disabled]) { 
-          background-color: #537F5D; 
+          background-color: #243326;  
           opacity: 0.9;
         }
         
         /* Range Middle Days */
         .rdp-day_range_middle:not([disabled]) {
-          background-color: rgba(83, 127, 93, 0.15);
-          color: #537F5D;
+          background-color: rgba(36, 51, 38, 0.15);
+          color: #243326;
         }
         
         /* Booked / Disabled State */
@@ -92,7 +92,7 @@ export const Calendar: React.FC<CalendarProps> = ({
           align-items: center;
           justify-content: center;
           background-color: #f3f4f6;
-          color: #537F5D;
+          color: #243326;
         }
         .rdp-nav_button:hover {
           background-color: #e5e7eb;
@@ -111,9 +111,9 @@ export const Calendar: React.FC<CalendarProps> = ({
           IconRight: () => <ChevronRight className="w-5 h-5" />
         }}
         classNames={{
-          caption_label: "font-serif text-xl text-forest font-medium",
-          head_cell: "text-forest/80 font-bold text-xs uppercase tracking-widest pb-4 pt-2",
-          day: "text-lg font-sans text-forest/90 data-[disabled]:text-gray-300 rounded-full hover:bg-sand/30 transition-colors",
+          caption_label: "font-serif text-xl text-forest-dark font-medium",
+          head_cell: "text-forest-dark/80 font-bold text-xs uppercase tracking-widest pb-4 pt-2",
+          day: "text-lg font-sans text-forest-dark/90 data-[disabled]:text-gray-300 rounded-full hover:bg-sand/30 transition-colors",
           table: "w-full border-collapse",
         }}
       />
@@ -124,7 +124,7 @@ export const Calendar: React.FC<CalendarProps> = ({
           <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 text-[10px] sm:text-xs">
             {/* Available */}
             <div className="flex items-center gap-2">
-              <div className="w-6 h-6 rounded-full border-2 border-forest/30 bg-white flex items-center justify-center text-[10px] text-forest/60">
+              <div className="w-6 h-6 rounded-full border-2 border-forest-dark/30 bg-white flex items-center justify-center text-[10px] text-forest-dark/60">
                 12
               </div>
               <span className="text-gray-500 uppercase tracking-wider">Available</span>
@@ -132,7 +132,7 @@ export const Calendar: React.FC<CalendarProps> = ({
 
             {/* Selected */}
             <div className="flex items-center gap-2">
-              <div className="w-6 h-6 rounded-full bg-forest flex items-center justify-center text-[10px] text-white font-bold">
+              <div className="w-6 h-6 rounded-full bg-forest-dark flex items-center justify-center text-[10px] text-white font-bold">
                 ✓
               </div>
               <span className="text-gray-500 uppercase tracking-wider">Selected</span>

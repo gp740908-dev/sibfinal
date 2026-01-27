@@ -130,7 +130,7 @@ export const SocialFab: React.FC = () => {
             aria-label={social.label}
           >
             {/* Tooltip Label */}
-            <span className="absolute right-full mr-3 px-3 py-1 bg-white text-forest text-xs font-bold uppercase tracking-wider rounded-md shadow-md opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 whitespace-nowrap">
+            <span className="absolute right-full mr-3 px-3 py-1 bg-white text-forest-dark text-xs font-bold uppercase tracking-wider rounded-md shadow-md opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 whitespace-nowrap">
               {social.label}
             </span>
 
@@ -144,7 +144,7 @@ export const SocialFab: React.FC = () => {
       <button
         ref={triggerRef}
         onClick={() => setIsOpen(!isOpen)}
-        className="relative w-16 h-16 bg-forest text-[#D3D49F] rounded-full shadow-xl flex items-center justify-center hover:bg-[#466a4e] transition-colors focus:outline-none focus:ring-4 focus:ring-[#D3D49F]/50"
+        className="relative w-16 h-16 bg-forest-dark text-[#D3D49F] rounded-full shadow-xl flex items-center justify-center hover:bg-[#466a4e] transition-colors focus:outline-none focus:ring-4 focus:ring-[#D3D49F]/50"
         aria-label="Open Social Menu"
       >
         <div ref={iconRef} className="relative w-8 h-8 flex items-center justify-center">

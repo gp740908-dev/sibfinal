@@ -24,13 +24,13 @@ interface JournalPostContentProps {
 
 export const JournalPostContent: React.FC<JournalPostContentProps> = ({ post, relatedPosts }) => {
     return (
-        <div className="bg-sand min-h-screen pt-32 pb-20">
+        <div className="bg-sand min-h-screen pt-32 pb-20 text-forest-dark">
 
             {/* Back Button */}
             <div className="px-6 md:px-12 max-w-4xl mx-auto mb-8">
                 <Link
                     href="/journal"
-                    className="flex items-center gap-2 text-forest/60 hover:text-forest text-xs uppercase tracking-widest transition-colors"
+                    className="flex items-center gap-2 text-forest-dark/60 hover:text-forest-dark text-xs uppercase tracking-widest transition-colors"
                 >
                     <ArrowLeft size={14} /> Back to Journal
                 </Link>
@@ -51,8 +51,8 @@ export const JournalPostContent: React.FC<JournalPostContentProps> = ({ post, re
             <article className="px-6 md:px-12 max-w-3xl mx-auto">
 
                 {/* Meta */}
-                <div className="flex items-center gap-4 text-xs uppercase tracking-widest text-neutral-600 mb-6">
-                    <span className="bg-forest/10 px-3 py-1 rounded-full text-forest">{post.category}</span>
+                <div className="flex items-center gap-4 text-xs uppercase tracking-widest text-forest-dark/60 mb-6">
+                    <span className="bg-forest/10 px-3 py-1 rounded-full text-forest-dark">{post.category}</span>
                     <div className="flex items-center gap-2">
                         <Calendar size={12} />
                         <span>{post.published_at}</span>
@@ -64,12 +64,12 @@ export const JournalPostContent: React.FC<JournalPostContentProps> = ({ post, re
                 </div>
 
                 {/* Title */}
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif text-forest leading-tight mb-8">
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif text-forest-dark leading-tight mb-8">
                     {post.title}
                 </h1>
 
                 {/* Excerpt */}
-                <p className="text-xl text-neutral-800 font-serif italic leading-relaxed mb-12 border-l-2 border-forest/20 pl-6">
+                <p className="text-xl text-forest-dark/80 font-serif italic leading-relaxed mb-12 border-l-2 border-forest/20 pl-6">
                     {post.excerpt}
                 </p>
 
@@ -87,14 +87,14 @@ export const JournalPostContent: React.FC<JournalPostContentProps> = ({ post, re
                 <div className="bg-white/40 border border-white/60 rounded-2xl p-8 mb-16">
                     <div className="flex items-center gap-4 mb-4">
                         <div className="w-16 h-16 rounded-full bg-forest/10 flex items-center justify-center">
-                            <User size={24} className="text-forest/60" />
+                            <User size={24} className="text-forest-dark/60" />
                         </div>
                         <div>
-                            <h3 className="font-serif text-xl text-forest">{post.author}</h3>
-                            <p className="text-sm text-neutral-600">Contributing Writer</p>
+                            <h3 className="font-serif text-xl text-forest-dark">{post.author}</h3>
+                            <p className="text-sm text-forest-dark/60">Contributing Writer</p>
                         </div>
                     </div>
-                    <p className="font-sans text-neutral-700 text-sm leading-relaxed">
+                    <p className="font-sans text-forest-dark/70 text-sm leading-relaxed">
                         {post.author} is a passionate storyteller exploring the intersection of culture,
                         wellness, and sustainable living in Bali.
                     </p>
@@ -105,7 +105,7 @@ export const JournalPostContent: React.FC<JournalPostContentProps> = ({ post, re
             {/* Related Posts */}
             {relatedPosts.length > 0 && (
                 <section className="px-6 md:px-12 max-w-7xl mx-auto mt-24 pt-12 border-t border-forest/10">
-                    <h2 className="text-3xl font-serif text-forest mb-12 text-center">
+                    <h2 className="text-3xl font-serif text-forest-dark mb-12 text-center">
                         More From <span className="italic">{post.category}</span>
                     </h2>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -122,10 +122,10 @@ export const JournalPostContent: React.FC<JournalPostContentProps> = ({ post, re
                                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                                     />
                                 </div>
-                                <h3 className="font-serif text-xl text-forest group-hover:underline">
+                                <h3 className="font-serif text-xl text-forest-dark group-hover:underline">
                                     {related.title}
                                 </h3>
-                                <p className="text-sm text-forest/60 mt-2">{related.published_at}</p>
+                                <p className="text-sm text-forest-dark/60 mt-2">{related.published_at}</p>
                             </Link>
                         ))}
                     </div>

@@ -66,15 +66,15 @@ export const VillaShowcase: React.FC<VillaShowcaseProps> = ({ villas }) => {
 
         {/* A. Section Header - Always visible to maintain layout */}
         <div className="text-center mb-10">
-          <h2 className="text-3xl md:text-5xl font-serif text-forest tracking-tight">FEATURED VILLAS</h2>
-          <div className="h-1 w-20 bg-forest mx-auto mt-4 opacity-20"></div>
+          <h2 className="text-3xl md:text-5xl font-serif text-forest-dark tracking-tight">FEATURED VILLAS</h2>
+          <div className="h-1 w-20 bg-forest-dark mx-auto mt-4 opacity-20"></div>
         </div>
 
         {/* Loading / Empty State */}
         {(!villas || villas.length === 0) ? (
           <div className="flex flex-col items-center justify-center py-20 opacity-50 space-y-4">
-            <Loader2 className="animate-spin text-forest" />
-            <span className="font-serif italic text-forest">Summoning sanctuaries...</span>
+            <Loader2 className="animate-spin text-forest-dark" />
+            <span className="font-serif italic text-forest-dark">Summoning sanctuaries...</span>
           </div>
         ) : (
           <>
@@ -88,8 +88,8 @@ export const VillaShowcase: React.FC<VillaShowcaseProps> = ({ villas }) => {
                     onClick={() => handleTabClick(villa.id)}
                     className={`py-4 px-2 text-center text-xs md:text-sm font-sans uppercase tracking-widest transition-all duration-300 h-full flex items-center justify-center
                       ${isActive
-                        ? 'bg-forest text-sand font-bold shadow-inner'
-                        : 'bg-[#D3D49F] text-forest hover:bg-forest/10'}
+                        ? 'bg-forest text-sand-light font-bold shadow-inner'
+                        : 'bg-[#D3D49F] text-forest-dark hover:bg-forest/10'}
                     `}
                   >
                     {villa.name}
@@ -117,13 +117,13 @@ export const VillaShowcase: React.FC<VillaShowcaseProps> = ({ villas }) => {
                       <>
                         <button
                           onClick={handlePrevImage}
-                          className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-sand/80 text-forest rounded-full flex items-center justify-center hover:bg-white transition-colors"
+                          className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-sand/80 text-forest-dark rounded-full flex items-center justify-center hover:bg-white transition-colors"
                         >
                           <ChevronLeft size={20} />
                         </button>
                         <button
                           onClick={handleNextImage}
-                          className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-sand/80 text-forest rounded-full flex items-center justify-center hover:bg-white transition-colors"
+                          className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-sand/80 text-forest-dark rounded-full flex items-center justify-center hover:bg-white transition-colors"
                         >
                           <ChevronRight size={20} />
                         </button>
@@ -150,16 +150,16 @@ export const VillaShowcase: React.FC<VillaShowcaseProps> = ({ villas }) => {
                   <>
                     {/* Main Info */}
                     <div className="mb-8 border-b border-forest/10 pb-6">
-                      <h3 className="text-4xl md:text-5xl font-serif text-forest mb-4 uppercase leading-none">
+                      <h3 className="text-4xl md:text-5xl font-serif text-forest-dark mb-4 uppercase leading-none">
                         {activeVilla.name}
                       </h3>
-                      <p className="text-forest/80 font-sans text-lg leading-relaxed mb-6">
+                      <p className="text-forest-dark/80 font-sans text-lg leading-relaxed mb-6">
                         {activeVilla.description}
                       </p>
 
                       <div className="flex items-end gap-2">
-                        <span className="text-forest/60 font-sans text-sm uppercase tracking-wider mb-2">Start From</span>
-                        <span className="text-3xl md:text-4xl font-serif text-forest font-bold">
+                        <span className="text-forest-dark/60 font-sans text-sm uppercase tracking-wider mb-2">Start From</span>
+                        <span className="text-3xl md:text-4xl font-serif text-forest-dark font-bold">
                           {formatPrice(activeVilla.pricePerNight)}
                         </span>
                       </div>
@@ -167,7 +167,7 @@ export const VillaShowcase: React.FC<VillaShowcaseProps> = ({ villas }) => {
 
                     {/* Specifications Grid */}
                     <div className="mb-8">
-                      <h4 className="text-forest font-sans text-xs tracking-[0.2em] uppercase font-bold mb-6 opacity-70">
+                      <h4 className="text-forest-dark font-sans text-xs tracking-[0.2em] uppercase font-bold mb-6 opacity-70">
                         Specifications
                       </h4>
                       <div className="grid grid-cols-2 md:grid-cols-4 gap-y-6 gap-x-4">
@@ -188,7 +188,7 @@ export const VillaShowcase: React.FC<VillaShowcaseProps> = ({ villas }) => {
                       {/* 1. Primary Action: View Details */}
                       <Link
                         href={`/villas/${activeVilla.id}`}
-                        className="bg-forest border border-forest text-sand px-8 py-3 uppercase tracking-widest text-sm font-bold hover:bg-forest/90 transition-all duration-300 w-full md:w-auto shadow-lg flex items-center justify-center gap-2"
+                        className="bg-forest border border-forest text-sand-light px-8 py-3 uppercase tracking-widest text-sm font-bold hover:bg-forest/90 transition-all duration-300 w-full md:w-auto shadow-lg flex items-center justify-center gap-2"
                       >
                         View Details <ArrowRight size={16} />
                       </Link>
@@ -197,14 +197,14 @@ export const VillaShowcase: React.FC<VillaShowcaseProps> = ({ villas }) => {
                         {/* 2. Secondary Action: Explore All */}
                         <Link
                           href="/villas"
-                          className="bg-transparent border border-forest text-forest px-8 py-3 uppercase tracking-widest text-sm font-bold hover:bg-forest hover:text-sand transition-colors duration-300 w-full md:w-auto text-center"
+                          className="bg-transparent border border-forest-dark text-forest-dark px-8 py-3 uppercase tracking-widest text-sm font-bold hover:bg-forest hover:text-sand-light transition-colors duration-300 w-full md:w-auto text-center"
                         >
                           Explore All Villas
                         </Link>
 
                         {/* 3. Contact Action */}
-                        <button className="flex items-center gap-2 text-forest font-sans text-sm uppercase tracking-wider hover:text-accent transition-colors py-2 md:py-0">
-                          <div className="w-10 h-10 rounded-full border border-forest flex items-center justify-center">
+                        <button className="flex items-center gap-2 text-forest-dark font-sans text-sm uppercase tracking-wider hover:text-accent transition-colors py-2 md:py-0">
+                          <div className="w-10 h-10 rounded-full border border-forest-dark flex items-center justify-center">
                             <Phone size={18} />
                           </div>
                           <span>Contact Agent</span>
@@ -236,9 +236,9 @@ export const VillaShowcase: React.FC<VillaShowcaseProps> = ({ villas }) => {
 // Helper Component for Specs
 const SpecItem: React.FC<{ icon: React.ReactNode; label: string; value: string }> = ({ icon, label, value }) => (
   <div className="flex flex-col gap-1 group">
-    <div className="text-forest/70 group-hover:text-forest transition-colors">{icon}</div>
-    <span className="text-[10px] uppercase tracking-widest text-forest/50">{label}</span>
-    <span className="text-forest font-serif text-lg leading-none">{value}</span>
+    <div className="text-forest-dark/70 group-hover:text-forest-dark transition-colors">{icon}</div>
+    <span className="text-[10px] uppercase tracking-widest text-forest-dark/50">{label}</span>
+    <span className="text-forest-dark font-serif text-lg leading-none">{value}</span>
   </div>
 );
 

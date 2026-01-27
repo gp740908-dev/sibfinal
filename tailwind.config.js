@@ -9,8 +9,14 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        sand: '#D3D49F',
-        forest: '#537F5D',
+        sand: {
+          DEFAULT: '#D3D49F',
+          light: '#F3F4D9', // High contrast for text on Forest
+        },
+        forest: {
+          DEFAULT: '#537F5D',
+          dark: '#243326', // High contrast for text on Sand
+        },
         accent: {
           light: '#9BB784',
           DEFAULT: '#719669',

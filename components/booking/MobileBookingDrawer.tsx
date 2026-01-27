@@ -43,8 +43,8 @@ export const MobileBookingDrawer: React.FC<MobileBookingDrawerProps> = ({
 
   if (!isVisible && !isOpen) return null;
 
-  const nightCount = dateRange?.from && dateRange?.to 
-    ? differenceInCalendarDays(dateRange.to, dateRange.from) 
+  const nightCount = dateRange?.from && dateRange?.to
+    ? differenceInCalendarDays(dateRange.to, dateRange.from)
     : 0;
 
   const formatPrice = (price: number) => {
@@ -54,13 +54,13 @@ export const MobileBookingDrawer: React.FC<MobileBookingDrawerProps> = ({
   return (
     <div className="fixed inset-0 z-[100] flex flex-col justify-end">
       {/* Backdrop */}
-      <div 
-        className={`absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0'}`} 
+      <div
+        className={`absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0'}`}
         onClick={onClose}
       />
 
       {/* Drawer */}
-      <div 
+      <div
         className={`relative w-full bg-white rounded-t-2xl shadow-2xl flex flex-col max-h-[90vh] transition-transform duration-300 ease-out ${isOpen ? 'translate-y-0' : 'translate-y-full'}`}
       >
         {/* Handle Bar */}
@@ -70,22 +70,22 @@ export const MobileBookingDrawer: React.FC<MobileBookingDrawerProps> = ({
 
         {/* Header */}
         <div className="px-6 pb-4 border-b border-gray-100 flex justify-between items-center">
-          <h3 className="font-serif text-xl text-forest">Your Stay</h3>
-          <button onClick={onClose} className="p-2 bg-gray-50 rounded-full hover:bg-gray-100 text-forest">
+          <h3 className="font-serif text-xl text-forest-dark">Your Stay</h3>
+          <button onClick={onClose} className="p-2 bg-gray-50 rounded-full hover:bg-gray-100 text-forest-dark">
             <X size={20} />
           </button>
         </div>
 
         {/* Scrollable Content */}
         <div className="flex-1 overflow-y-auto p-4 w-full">
-          
+
           {/* Calendar Section */}
           <div className="mb-6 w-full">
-            <h4 className="text-xs font-bold uppercase tracking-widest text-forest mb-3 ml-2">Select Dates</h4>
+            <h4 className="text-xs font-bold uppercase tracking-widest text-forest-dark mb-3 ml-2">Select Dates</h4>
             <div className="flex justify-center border border-gray-100 rounded-xl p-1 shadow-sm overflow-hidden bg-white">
-              <Calendar 
-                selected={dateRange} 
-                onSelect={setDateRange} 
+              <Calendar
+                selected={dateRange}
+                onSelect={setDateRange}
                 disabledDates={blockedDates}
                 numberOfMonths={1}
               />
@@ -94,30 +94,30 @@ export const MobileBookingDrawer: React.FC<MobileBookingDrawerProps> = ({
 
           {/* Guests Section */}
           <div className="mb-4">
-            <h4 className="text-xs font-bold uppercase tracking-widest text-forest mb-3 ml-2">Guests</h4>
+            <h4 className="text-xs font-bold uppercase tracking-widest text-forest-dark mb-3 ml-2">Guests</h4>
             <div className="flex items-center justify-between p-4 border border-gray-200 rounded-xl">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-forest/5 flex items-center justify-center text-forest">
+                <div className="w-10 h-10 rounded-full bg-forest-dark/5 flex items-center justify-center text-forest-dark">
                   <Users size={18} />
                 </div>
                 <div className="flex flex-col">
-                  <span className="font-medium text-forest">Adults</span>
+                  <span className="font-medium text-forest-dark">Adults</span>
                   <span className="text-xs text-gray-500">Age 13+</span>
                 </div>
               </div>
-              
+
               <div className="flex items-center gap-4">
-                <button 
+                <button
                   onClick={() => setGuests(Math.max(1, guests - 1))}
-                  className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center text-forest hover:bg-gray-50 disabled:opacity-50"
+                  className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center text-forest-dark hover:bg-gray-50 disabled:opacity-50"
                   disabled={guests <= 1}
                 >
                   <Minus size={14} />
                 </button>
                 <span className="font-serif text-lg w-4 text-center">{guests}</span>
-                <button 
+                <button
                   onClick={() => setGuests(Math.min(10, guests + 1))}
-                  className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center text-forest hover:bg-gray-50"
+                  className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center text-forest-dark hover:bg-gray-50"
                 >
                   <Plus size={14} />
                 </button>
@@ -130,33 +130,32 @@ export const MobileBookingDrawer: React.FC<MobileBookingDrawerProps> = ({
         {/* Footer Actions */}
         <div className="p-4 border-t border-gray-100 bg-white pb-8 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
           <div className="flex justify-between items-center mb-4">
-             <div className="text-sm text-forest/70">
-                {nightCount > 0 ? (
-                  <>
-                    <span className="font-bold">{nightCount} nights</span> · {formatPrice(pricePerNight * nightCount)}
-                  </>
-                ) : (
-                  "Add dates for prices"
-                )}
-             </div>
-             {dateRange?.from && (
-               <button 
-                 onClick={() => setDateRange(undefined)}
-                 className="text-xs text-forest underline"
-               >
-                 Clear Dates
-               </button>
-             )}
+            <div className="text-sm text-forest-dark/70">
+              {nightCount > 0 ? (
+                <>
+                  <span className="font-bold">{nightCount} nights</span> · {formatPrice(pricePerNight * nightCount)}
+                </>
+              ) : (
+                "Add dates for prices"
+              )}
+            </div>
+            {dateRange?.from && (
+              <button
+                onClick={() => setDateRange(undefined)}
+                className="text-xs text-forest-dark underline"
+              >
+                Clear Dates
+              </button>
+            )}
           </div>
-          
-          <button 
+
+          <button
             onClick={onBook}
             disabled={!nightCount}
-            className={`w-full py-4 rounded-xl font-bold uppercase tracking-widest transition-all ${
-              nightCount 
-                ? 'bg-forest text-white shadow-lg shadow-forest/20' 
-                : 'bg-gray-200 text-gray-400 cursor-not-allowed'
-            }`}
+            className={`w-full py-4 rounded-xl font-bold uppercase tracking-widest transition-all ${nightCount
+              ? 'bg-forest-dark text-white shadow-lg shadow-forest-dark/20'
+              : 'bg-gray-200 text-gray-400 cursor-not-allowed'
+              }`}
           >
             {nightCount ? 'Request to Book' : 'Check Availability'}
           </button>

@@ -128,14 +128,14 @@ export const Experiences: React.FC<ExperiencesProps> = ({ initialExperiences }) 
 
       {/* 1. HERO */}
       <section className="px-6 md:px-12 py-20 md:py-32 text-center max-w-5xl mx-auto">
-        <span className="exp-hero-text block font-sans text-xs md:text-sm uppercase tracking-[0.3em] text-forest/60 mb-6">
+        <span className="exp-hero-text block font-sans text-xs md:text-sm uppercase tracking-[0.3em] text-forest-dark/60 mb-6">
           Beyond Accommodation
         </span>
-        <h1 className="exp-hero-text text-5xl md:text-7xl lg:text-[8rem] font-serif text-forest leading-none tracking-tight mb-8">
+        <h1 className="exp-hero-text text-5xl md:text-7xl lg:text-[8rem] font-serif text-forest-dark leading-none tracking-tight mb-8">
           CURATED <span className="italic">MOMENTS</span>
         </h1>
-        <div className="exp-hero-text w-px h-20 bg-forest/20 mx-auto mb-8"></div>
-        <p className="exp-hero-text font-sans text-lg md:text-xl text-neutral-800 max-w-2xl mx-auto leading-relaxed">
+        <div className="exp-hero-text w-px h-20 bg-forest-dark/20 mx-auto mb-8"></div>
+        <p className="exp-hero-text font-sans text-lg md:text-xl text-forest-dark/80 max-w-2xl mx-auto leading-relaxed">
           We believe that a true luxury escape is defined not just by where you stay, but by how you feel. Our concierge team crafts bespoke itineraries to immerse you in the magic of Ubud.
         </p>
       </section>
@@ -154,22 +154,22 @@ export const Experiences: React.FC<ExperiencesProps> = ({ initialExperiences }) 
               <span className="font-sans text-xs font-bold uppercase tracking-widest text-accent mb-4">
                 0{index + 1} • {item.category}
               </span>
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif text-forest mb-8 leading-tight">
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif text-forest-dark mb-8 leading-tight">
                 {item.title}
               </h2>
-              <p className="font-sans text-neutral-800 text-lg leading-relaxed mb-8">
+              <p className="font-sans text-forest-dark/80 text-lg leading-relaxed mb-8">
                 {item.description}
               </p>
               <button
                 onClick={handleInquire}
-                className="group flex items-center gap-3 text-sm font-bold uppercase tracking-widest text-forest hover:text-accent transition-colors"
+                className="group flex items-center gap-3 text-sm font-bold uppercase tracking-widest text-forest-dark hover:text-accent transition-colors"
               >
                 {item.cta} <ArrowRight size={16} className="transform group-hover:translate-x-2 transition-transform" />
               </button>
             </div>
 
             {/* Image Side */}
-            <div className="w-full md:w-1/2 aspect-[3/4] md:aspect-[4/5] overflow-hidden relative shadow-2xl bg-forest/10">
+            <div className="w-full md:w-1/2 aspect-[3/4] md:aspect-[4/5] overflow-hidden relative shadow-2xl bg-forest-dark/10">
               <div className="w-full h-full overflow-hidden">
                 <img
                   src={item.image}
@@ -188,7 +188,7 @@ export const Experiences: React.FC<ExperiencesProps> = ({ initialExperiences }) 
       <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-40 animate-slide-up">
         <button
           onClick={handleInquire}
-          className="bg-forest text-sand pl-6 pr-8 py-4 rounded-full shadow-2xl hover:bg-forest/90 hover:scale-105 transition-all duration-300 flex items-center gap-3 group border border-sand/10"
+          className="bg-forest text-sand-light pl-6 pr-8 py-4 rounded-full shadow-2xl hover:bg-forest/90 hover:scale-105 transition-all duration-300 flex items-center gap-3 group border border-sand-light/10"
         >
           <div className="w-2 h-2 rounded-full bg-accent animate-pulse"></div>
           <span className="font-sans text-xs uppercase tracking-widest font-bold">Inquire Experience</span>

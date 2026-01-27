@@ -48,7 +48,7 @@ export const ThankYou: React.FC = () => {
 
       {/* Animated Icon */}
       <div className="w-24 h-24 md:w-32 md:h-32 mb-12 relative">
-        <svg viewBox="0 0 100 100" className="w-full h-full text-forest fill-none stroke-current stroke-[2px]">
+        <svg viewBox="0 0 100 100" className="w-full h-full text-forest-dark fill-none stroke-current stroke-[2px]">
           {/* Circle */}
           <circle
             ref={circleRef}
@@ -68,11 +68,11 @@ export const ThankYou: React.FC = () => {
 
       {/* Content */}
       <div className="max-w-xl mx-auto mb-16">
-        <h1 className="ty-text text-4xl md:text-6xl font-serif text-forest mb-6 tracking-tight">
+        <h1 className="ty-text text-4xl md:text-6xl font-serif text-forest-dark mb-6 tracking-tight">
           REQUEST <span className="italic">RECEIVED</span>
         </h1>
-        <div className="ty-text w-px h-12 bg-forest/20 mx-auto mb-8"></div>
-        <p className="ty-text font-sans text-forest/80 text-lg md:text-xl leading-relaxed font-light">
+        <div className="ty-text w-px h-12 bg-forest-dark/20 mx-auto mb-8"></div>
+        <p className="ty-text font-sans text-forest-dark/80 text-lg md:text-xl leading-relaxed font-light">
           Thank you. Our concierge team is reviewing your request and will contact you via WhatsApp shortly to finalize your sanctuary.
         </p>
       </div>
@@ -80,9 +80,9 @@ export const ThankYou: React.FC = () => {
       {/* Action */}
       <Link
         href="/"
-        className="ty-btn group relative px-10 py-4 overflow-hidden rounded-full border border-forest/20 hover:border-forest transition-colors duration-300 inline-block"
+        className="ty-btn group relative px-10 py-4 overflow-hidden rounded-full border border-forest-dark/20 hover:border-forest-dark transition-colors duration-300 inline-block"
       >
-        <span className="relative z-10 font-sans text-xs uppercase tracking-[0.2em] text-forest group-hover:text-sand transition-colors duration-300 font-bold">
+        <span className="relative z-10 font-sans text-xs uppercase tracking-[0.2em] text-forest-dark group-hover:text-sand-light transition-colors duration-300 font-bold">
           Back to Home
         </span>
         <div className="absolute inset-0 bg-forest transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left ease-out" />

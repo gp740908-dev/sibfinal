@@ -57,9 +57,9 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView = 'home' }) => {
   const isInnerPage = currentView !== 'home';
   const isDarkState = isScrolled || isInnerPage;
 
-  const textColor = isDarkState ? 'text-forest' : 'text-sand';
+  const textColor = isDarkState ? 'text-forest-dark' : 'text-sand-light';
   const borderColor = isDarkState ? 'border-forest/10' : 'border-transparent';
-  const iconColorClass = isDarkState ? 'text-forest' : 'text-sand';
+  const iconColorClass = isDarkState ? 'text-forest-dark' : 'text-sand-light';
 
   return (
     <>
@@ -167,13 +167,13 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView = 'home' }) => {
               </span>
               <div className="w-8 flex flex-col items-end gap-[5px]">
                 <span className={`block w-full h-[1.5px] transition-all duration-300 group-hover:w-2/3 
-                   ${isDarkState ? 'bg-forest' : 'bg-sand'}
+                   ${isDarkState ? 'bg-forest-dark' : 'bg-sand'}
                  `} />
                 <span className={`block w-2/3 h-[1.5px] transition-all duration-300 group-hover:w-full 
-                   ${isDarkState ? 'bg-forest' : 'bg-sand'}
+                   ${isDarkState ? 'bg-forest-dark' : 'bg-sand'}
                  `} />
                 <span className={`block w-full h-[1.5px] transition-all duration-300 group-hover:w-2/3 
-                   ${isDarkState ? 'bg-forest' : 'bg-sand'}
+                   ${isDarkState ? 'bg-forest-dark' : 'bg-sand'}
                  `} />
               </div>
             </button>

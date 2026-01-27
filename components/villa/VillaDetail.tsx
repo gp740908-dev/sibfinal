@@ -123,7 +123,7 @@ export const VillaDetail: React.FC<VillaDetailProps> = ({
   };
 
   return (
-    <div ref={containerRef} className="bg-sand min-h-screen pb-20 text-forest selection:bg-forest selection:text-sand">
+    <div ref={containerRef} className="bg-sand min-h-screen pb-20 text-forest-dark selection:bg-forest selection:text-sand-light">
 
       {/* 1. CINEMATIC HERO HEADER */}
       <header className="relative w-full h-[85vh] overflow-hidden">
@@ -151,7 +151,7 @@ export const VillaDetail: React.FC<VillaDetailProps> = ({
         <div className="hero-content absolute bottom-0 left-0 right-0 p-6 md:p-12 z-20 text-white pb-20 md:pb-24">
           <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-end justify-between gap-8">
             <div className="max-w-3xl">
-              <span className="block text-sand font-sans text-xs md:text-sm font-bold uppercase tracking-[0.2em] mb-4">
+              <span className="block text-sand-light font-sans text-xs md:text-sm font-bold uppercase tracking-[0.2em] mb-4">
                 Luxury Sanctuary in Ubud
               </span>
               <h1 className="text-5xl md:text-7xl lg:text-8xl font-serif mb-6 leading-[0.9]">
@@ -187,7 +187,7 @@ export const VillaDetail: React.FC<VillaDetailProps> = ({
               key={section.id}
               onClick={() => scrollToSection(section.id)}
               className={`py-6 text-xs font-bold uppercase tracking-widest whitespace-nowrap border-b-2 transition-all duration-300
-                 ${activeSection === section.id ? 'border-forest text-forest' : 'border-transparent text-forest/40 hover:text-forest'}
+                 ${activeSection === section.id ? 'border-forest-dark text-forest-dark' : 'border-transparent text-forest-dark/40 hover:text-forest-dark'}
                `}
             >
               {section.label}
@@ -204,7 +204,7 @@ export const VillaDetail: React.FC<VillaDetailProps> = ({
 
           {/* SECTION: OVERVIEW */}
           <div id="overview" className="scroll-mt-48">
-            <h2 className="text-3xl font-serif text-forest mb-8">The Experience</h2>
+            <h2 className="text-3xl font-serif text-forest-dark mb-8">The Experience</h2>
 
             {/* Highlights - Modern Style */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
@@ -224,8 +224,8 @@ export const VillaDetail: React.FC<VillaDetailProps> = ({
                 .slice(0, 4) // Limit to 4 items max for grid
                 .map((item, idx) => (
                   <div key={idx} className="flex flex-col items-center justify-center p-6 border border-forest/10 rounded-xl hover:bg-forest/5 transition-colors text-center">
-                    <item.icon size={24} className="text-forest mb-3" />
-                    <span className="text-xs uppercase tracking-wider font-bold text-forest/80">{item.label}</span>
+                    <item.icon size={24} className="text-forest-dark mb-3" />
+                    <span className="text-xs uppercase tracking-wider font-bold text-forest-dark/80">{item.label}</span>
                   </div>
                 ))}
             </div>
@@ -253,7 +253,7 @@ export const VillaDetail: React.FC<VillaDetailProps> = ({
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {sleepingArrangements.map((room, idx) => (
                   <div key={idx} className="flex gap-4 items-start p-4 bg-sand/30 rounded-xl border border-forest/5">
-                    <div className="bg-white p-2 rounded-full text-forest">
+                    <div className="bg-white p-2 rounded-full text-forest-dark">
                       <Bed size={20} />
                     </div>
                     <div>
@@ -273,7 +273,7 @@ export const VillaDetail: React.FC<VillaDetailProps> = ({
             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-12">
               {Object.entries(amenitiesDetail).map(([category, items]) => (
                 <div key={category}>
-                  <h3 className="text-xs font-black uppercase tracking-widest mb-6 flex items-center gap-3 text-forest/40">
+                  <h3 className="text-xs font-black uppercase tracking-widest mb-6 flex items-center gap-3 text-forest-dark/40">
                     {category === 'Bathroom' && <Waves size={14} />}
                     {category === 'Entertainment' && <Tv size={14} />}
                     {category === 'Kitchen' && <Utensils size={14} />}
@@ -284,7 +284,7 @@ export const VillaDetail: React.FC<VillaDetailProps> = ({
                   </h3>
                   <ul className="space-y-4">
                     {items.map((item, i) => (
-                      <li key={i} className="flex items-center gap-3 text-forest font-medium">
+                      <li key={i} className="flex items-center gap-3 text-forest-dark font-medium">
                         <div className="w-1.5 h-1.5 rounded-full bg-forest/30"></div>
                         {item}
                       </li>
@@ -307,13 +307,13 @@ export const VillaDetail: React.FC<VillaDetailProps> = ({
 
               {/* Proximity List */}
               <div className="w-full md:w-1/3 flex flex-col gap-2 justify-center">
-                <h3 className="text-xs font-bold uppercase tracking-widest flex items-center gap-2 mb-4 text-forest/50">
+                <h3 className="text-xs font-bold uppercase tracking-widest flex items-center gap-2 mb-4 text-forest-dark/50">
                   <MapPin size={14} /> Nearby
                 </h3>
                 <div className="space-y-2">
                   {proximity.map((place, idx) => (
                     <div key={idx} className="flex items-center justify-between group p-4 bg-white/40 rounded-xl border border-transparent hover:border-forest/10 transition-all">
-                      <span className="text-sm font-bold text-forest">{place.name}</span>
+                      <span className="text-sm font-bold text-forest-dark">{place.name}</span>
                       <span className="text-xs opacity-70 whitespace-nowrap bg-white px-2 py-1 rounded-md">{place.distance}</span>
                     </div>
                   ))}
@@ -326,7 +326,7 @@ export const VillaDetail: React.FC<VillaDetailProps> = ({
           {/* SECTION: HOUSE RULES */}
           <div id="rules" className="scroll-mt-48 border-t border-forest/10 pt-16 pb-12">
             <h2 className="text-3xl font-serif mb-8">Things to know</h2>
-            <div className="bg-forest text-sand p-8 md:p-12 rounded-2xl">
+            <div className="bg-forest text-sand-light p-8 md:p-12 rounded-2xl">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
 
                 {/* Logistics */}
@@ -392,7 +392,7 @@ export const VillaDetail: React.FC<VillaDetailProps> = ({
       {/* 3. SIMILAR VILLAS */}
       <section className="px-4 md:px-12 max-w-7xl mx-auto mt-24 pt-20 border-t border-forest/10">
         <div className="flex justify-between items-end mb-12">
-          <h2 className="text-3xl md:text-5xl font-serif text-forest">You may also like</h2>
+          <h2 className="text-3xl md:text-5xl font-serif text-forest-dark">You may also like</h2>
           <Link href="/villas" className="hidden md:flex items-center gap-2 text-xs font-bold uppercase tracking-widest hover:underline">
             View Collection <ArrowRight size={14} className="ArrowRight" />
           </Link>
@@ -408,8 +408,8 @@ export const VillaDetail: React.FC<VillaDetailProps> = ({
                 />
                 <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors" />
               </div>
-              <h3 className="font-serif text-2xl text-forest mb-2 group-hover:text-forest/70 transition-colors">{v.name}</h3>
-              <p className="font-sans text-xs uppercase tracking-widest text-forest/50">{v.bedrooms} Bedrooms • {v.guests} Guests</p>
+              <h3 className="font-serif text-2xl text-forest-dark mb-2 group-hover:text-forest-dark/70 transition-colors">{v.name}</h3>
+              <p className="font-sans text-xs uppercase tracking-widest text-forest-dark/50">{v.bedrooms} Bedrooms • {v.guests} Guests</p>
             </Link>
           ))}
         </div>
@@ -420,7 +420,7 @@ export const VillaDetail: React.FC<VillaDetailProps> = ({
         <div className="fixed inset-0 z-[100] bg-forest/95 backdrop-blur-xl flex items-center justify-center p-4 md:p-12 animate-fade-in">
           <button
             onClick={() => setLightboxOpen(false)}
-            className="absolute top-8 right-8 text-sand hover:text-white transition-colors"
+            className="absolute top-8 right-8 text-sand-light hover:text-white transition-colors"
           >
             <X size={40} />
           </button>

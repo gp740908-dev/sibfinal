@@ -13,23 +13,23 @@ export const PrivacyPolicy: React.FC = () => {
   ];
 
   return (
-    <LegalLayout 
-      title="Privacy Policy" 
+    <LegalLayout
+      title="Privacy Policy"
       subtitle="We value your privacy and are committed to protecting your personal data when you book your sanctuary with us."
       lastUpdated="March 15, 2024"
       toc={toc}
     >
       <section id="introduction">
-        <h2 className="text-2xl md:text-3xl font-serif text-forest mb-6">1. Introduction</h2>
+        <h2 className="text-2xl md:text-3xl font-serif text-forest-dark mb-6">1. Introduction</h2>
         <p>
-          Welcome to StayinUBUD. We respect your privacy and are committed to protecting your personal data. 
-          This privacy policy will inform you as to how we look after your personal data when you visit our website 
+          Welcome to StayinUBUD. We respect your privacy and are committed to protecting your personal data.
+          This privacy policy will inform you as to how we look after your personal data when you visit our website
           (regardless of where you visit it from) and tell you about your privacy rights and how the law protects you.
         </p>
       </section>
 
       <section id="info-collection">
-        <h2 className="text-2xl md:text-3xl font-serif text-forest mb-6">2. Information We Collect</h2>
+        <h2 className="text-2xl md:text-3xl font-serif text-forest-dark mb-6">2. Information We Collect</h2>
         <p className="mb-4">
           We may collect, use, store and transfer different kinds of personal data about you which we have grouped together follows:
         </p>
@@ -43,7 +43,7 @@ export const PrivacyPolicy: React.FC = () => {
       </section>
 
       <section id="usage">
-        <h2 className="text-2xl md:text-3xl font-serif text-forest mb-6">3. How We Use Your Data</h2>
+        <h2 className="text-2xl md:text-3xl font-serif text-forest-dark mb-6">3. How We Use Your Data</h2>
         <p>
           We will only use your personal data when the law allows us to. Most commonly, we will use your personal data in the following circumstances:
         </p>
@@ -55,7 +55,7 @@ export const PrivacyPolicy: React.FC = () => {
       </section>
 
       <section id="sharing">
-        <h2 className="text-2xl md:text-3xl font-serif text-forest mb-6">4. Data Sharing</h2>
+        <h2 className="text-2xl md:text-3xl font-serif text-forest-dark mb-6">4. Data Sharing</h2>
         <p>
           We may share your personal data with the parties set out below for the purposes set out in the table above.
         </p>
@@ -67,26 +67,26 @@ export const PrivacyPolicy: React.FC = () => {
       </section>
 
       <section id="cookies">
-        <h2 className="text-2xl md:text-3xl font-serif text-forest mb-6">5. Cookies & Tracking</h2>
+        <h2 className="text-2xl md:text-3xl font-serif text-forest-dark mb-6">5. Cookies & Tracking</h2>
         <p>
           You can set your browser to refuse all or some browser cookies, or to alert you when websites set or access cookies. If you disable or refuse cookies, please note that some parts of this website may become inaccessible or not function properly.
         </p>
       </section>
 
       <section id="rights">
-        <h2 className="text-2xl md:text-3xl font-serif text-forest mb-6">6. Your Rights</h2>
+        <h2 className="text-2xl md:text-3xl font-serif text-forest-dark mb-6">6. Your Rights</h2>
         <p>
           Under certain circumstances, you have rights under data protection laws in relation to your personal data, including the right to request access, correction, erasure, restriction, transfer, to object to processing, to portability of data and (where the lawful ground of processing is consent) to withdraw consent.
         </p>
       </section>
-      
-       <section id="contact">
-        <h2 className="text-2xl md:text-3xl font-serif text-forest mb-6">7. Contact Us</h2>
+
+      <section id="contact">
+        <h2 className="text-2xl md:text-3xl font-serif text-forest-dark mb-6">7. Contact Us</h2>
         <p>
           If you have any questions about this privacy policy or our privacy practices, please contact our Data Privacy Manager in the following ways:
         </p>
         <p className="mt-4">
-          Email address: privacy@stayinubud.com<br/>
+          Email address: privacy@stayinubud.com<br />
           Postal address: Jl. Raya Ubud No. 88, Gianyar, Bali, Indonesia 80571.
         </p>
       </section>

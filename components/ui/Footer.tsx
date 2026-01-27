@@ -6,7 +6,7 @@ import Link from 'next/link';
 export const Footer: React.FC = () => {
   return (
     <footer
-      className="fixed bottom-0 left-0 w-full z-0 bg-forest text-sand flex flex-col justify-between py-12 px-6 md:px-12 h-[450px] md:h-[500px]"
+      className="fixed bottom-0 left-0 w-full z-0 bg-forest text-sand-light flex flex-col justify-between py-12 px-6 md:px-12 h-[450px] md:h-[500px]"
     >
       {/* Top Section: CTA */}
       <div className="flex-1 flex flex-col justify-center items-center text-center">
@@ -21,7 +21,7 @@ export const Footer: React.FC = () => {
           href="/availability"
           className="group relative px-8 py-3 overflow-hidden rounded-full border border-sand/30 hover:border-sand transition-colors duration-300"
         >
-          <span className="relative z-10 font-sans text-xs md:text-sm tracking-widest uppercase group-hover:text-forest transition-colors duration-300">
+          <span className="relative z-10 font-sans text-xs md:text-sm tracking-widest uppercase group-hover:text-forest-dark transition-colors duration-300">
             Check Availability
           </span>
           <div className="absolute inset-0 bg-sand transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left ease-out" />

@@ -145,14 +145,14 @@ export const Journal: React.FC<JournalProps> = ({ initialPosts }) => {
   const gridPosts = filteredPosts.slice(1);
 
   return (
-    <div className="pt-24 pb-0 min-h-screen bg-sand">
+    <div className="pt-24 pb-0 min-h-screen bg-sand text-forest-dark">
 
       {/* 1. Page Header */}
       <div className="px-6 md:px-12 py-12 md:py-20 text-center max-w-4xl mx-auto">
-        <span className="block font-serif italic text-forest/70 text-lg md:text-xl mb-4">
+        <span className="block font-serif italic text-forest-dark/70 text-lg md:text-xl mb-4">
           Stories from the heart of the jungle.
         </span>
-        <h1 className="text-5xl md:text-7xl lg:text-8xl font-serif text-forest tracking-widest mb-12">
+        <h1 className="text-5xl md:text-7xl lg:text-8xl font-serif text-forest-dark tracking-widest mb-12">
           THE JOURNAL
         </h1>
 
@@ -163,12 +163,12 @@ export const Journal: React.FC<JournalProps> = ({ initialPosts }) => {
               key={cat}
               onClick={() => setActiveCategory(cat)}
               className={`font-sans text-xs uppercase tracking-[0.2em] transition-all duration-300 relative
-                ${activeCategory === cat ? 'text-forest font-bold' : 'text-forest/50 hover:text-forest'}
+                ${activeCategory === cat ? 'text-forest-dark font-bold' : 'text-forest-dark/50 hover:text-forest-dark'}
               `}
             >
               {cat}
               {activeCategory === cat && (
-                <span className="absolute -bottom-2 left-0 w-full h-px bg-forest animate-fade-in" />
+                <span className="absolute -bottom-2 left-0 w-full h-px bg-forest-dark animate-fade-in" />
               )}
             </button>
           ))}
@@ -194,21 +194,21 @@ export const Journal: React.FC<JournalProps> = ({ initialPosts }) => {
 
             {/* Right: Text (40%) */}
             <div className="lg:col-span-2 flex flex-col justify-center">
-              <div className="flex items-center gap-3 mb-4 text-xs font-sans uppercase tracking-widest text-forest/60">
+              <div className="flex items-center gap-3 mb-4 text-xs font-sans uppercase tracking-widest text-forest-dark/60">
                 <span>Featured Story</span>
-                <span className="w-8 h-px bg-forest/30"></span>
+                <span className="w-8 h-px bg-forest-dark/30"></span>
                 <span>{featuredPost.category}</span>
               </div>
 
-              <h2 className="text-4xl md:text-5xl font-serif text-forest leading-tight mb-6 group-hover:underline decoration-forest/30 underline-offset-8 transition-all">
+              <h2 className="text-4xl md:text-5xl font-serif text-forest-dark leading-tight mb-6 group-hover:underline decoration-forest-dark/30 underline-offset-8 transition-all">
                 {featuredPost.title}
               </h2>
 
-              <p className="text-forest/70 font-sans text-base md:text-lg leading-relaxed mb-8">
+              <p className="text-forest-dark/70 font-sans text-base md:text-lg leading-relaxed mb-8">
                 {featuredPost.excerpt}
               </p>
 
-              <div className="flex items-center gap-2 text-forest text-xs uppercase tracking-widest font-bold group-hover:gap-4 transition-all">
+              <div className="flex items-center gap-2 text-forest-dark text-xs uppercase tracking-widest font-bold group-hover:gap-4 transition-all">
                 Read Story <ArrowRight size={14} />
               </div>
             </div>
@@ -228,21 +228,21 @@ export const Journal: React.FC<JournalProps> = ({ initialPosts }) => {
         </div>
 
         {gridPosts.length === 0 && !featuredPost && (
-          <div className="text-center py-20 text-forest/50 font-serif italic">
+          <div className="text-center py-20 text-forest-dark/50 font-serif italic">
             No stories found in this category.
           </div>
         )}
       </section>
 
       {/* 4. Newsletter Signup */}
-      <section className="bg-forest text-sand py-24 px-6 md:px-12 relative overflow-hidden">
+      <section className="bg-forest text-sand-light py-24 px-6 md:px-12 relative overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-full opacity-5 pointer-events-none">
           <div className="w-full h-full" style={{ backgroundImage: 'radial-gradient(#D3D49F 1px, transparent 1px)', backgroundSize: '20px 20px' }}></div>
         </div>
 
         <div className="max-w-xl mx-auto text-center relative z-10">
           <h3 className="text-3xl md:text-4xl font-serif mb-4">Join the Inner Circle</h3>
-          <p className="font-sans text-sand/70 mb-10 text-sm md:text-base tracking-wide">
+          <p className="font-sans text-sand-light/70 mb-10 text-sm md:text-base tracking-wide">
             Receive curated travel guides, hidden gem alerts, and exclusive villa offers directly to your inbox.
           </p>
 
@@ -252,13 +252,13 @@ export const Journal: React.FC<JournalProps> = ({ initialPosts }) => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Your email address"
-              className="flex-1 bg-transparent border-b border-sand/30 py-3 px-2 text-sand placeholder-sand/30 focus:outline-none focus:border-sand transition-colors font-sans text-sm"
+              className="flex-1 bg-transparent border-b border-sand/30 py-3 px-2 text-sand-light placeholder-sand-light/30 focus:outline-none focus:border-sand transition-colors font-sans text-sm"
               disabled={subscribing || subscribeStatus === 'success'}
             />
             <button
               onClick={handleSubscribe}
               disabled={subscribing || subscribeStatus === 'success'}
-              className="bg-sand text-forest px-8 py-3 uppercase tracking-widest text-xs font-bold hover:bg-white transition-colors disabled:opacity-70"
+              className="bg-sand text-forest-dark px-8 py-3 uppercase tracking-widest text-xs font-bold hover:bg-white transition-colors disabled:opacity-70"
             >
               {subscribing ? 'Joining...' : subscribeStatus === 'success' ? 'Joined' : 'Subscribe'}
             </button>

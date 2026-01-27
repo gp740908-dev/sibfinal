@@ -7,7 +7,7 @@ interface NotFoundProps {
 
 export const NotFound: React.FC<NotFoundProps> = () => {
   return (
-    <div className="relative h-[100dvh] w-full flex flex-col items-center justify-center bg-forest overflow-hidden selection:bg-sand selection:text-forest">
+    <div className="relative h-[100dvh] w-full flex flex-col items-center justify-center bg-forest overflow-hidden selection:bg-sand selection:text-forest-dark">
 
       {/* 1. Background Layer */}
       <div className="absolute inset-0 z-0">
@@ -22,19 +22,19 @@ export const NotFound: React.FC<NotFoundProps> = () => {
       <div className="relative z-10 text-center px-6 flex flex-col items-center">
 
         {/* Giant 404 */}
-        <div className="font-serif text-[12rem] md:text-[20rem] leading-[0.8] text-sand opacity-10 tracking-tighter select-none animate-slide-up [animation-duration:1s] [animation-fill-mode:backwards]">
+        <div className="font-serif text-[12rem] md:text-[20rem] leading-[0.8] text-sand-light opacity-10 tracking-tighter select-none animate-slide-up [animation-duration:1s] [animation-fill-mode:backwards]">
           404
         </div>
 
         {/* Message */}
         <div className="mt-8 md:-mt-12 space-y-6 max-w-lg">
-          <h1 className="text-3xl md:text-5xl font-serif text-sand tracking-tight animate-fade-in [animation-delay:200ms] [animation-fill-mode:backwards]">
+          <h1 className="text-3xl md:text-5xl font-serif text-sand-light tracking-tight animate-fade-in [animation-delay:200ms] [animation-fill-mode:backwards]">
             Into the Void
           </h1>
 
           <div className="w-px h-12 bg-sand/30 mx-auto animate-scale-y [animation-delay:400ms] [animation-fill-mode:backwards] origin-top" />
 
-          <p className="font-sans text-sand/80 text-sm md:text-base leading-relaxed tracking-widest uppercase animate-fade-in [animation-delay:600ms] [animation-fill-mode:backwards]">
+          <p className="font-sans text-sand-light/80 text-sm md:text-base leading-relaxed tracking-widest uppercase animate-fade-in [animation-delay:600ms] [animation-fill-mode:backwards]">
             The page you seek has been <br className="hidden md:block" /> reclaimed by the jungle.
           </p>
         </div>
@@ -45,7 +45,7 @@ export const NotFound: React.FC<NotFoundProps> = () => {
             href="/"
             className="group relative inline-flex items-center justify-center px-10 py-4 overflow-hidden rounded-full border border-sand/30 hover:border-sand transition-all duration-300 active:scale-95"
           >
-            <span className="relative z-10 font-sans text-xs uppercase tracking-[0.25em] text-sand group-hover:text-forest transition-colors duration-300 font-medium">
+            <span className="relative z-10 font-sans text-xs uppercase tracking-[0.25em] text-sand-light group-hover:text-forest-dark transition-colors duration-300 font-medium">
               Return to Sanctuary
             </span>
             {/* Magnetic Fill Effect - Faster Ease */}
@@ -56,7 +56,7 @@ export const NotFound: React.FC<NotFoundProps> = () => {
       </div>
 
       {/* Footer / Copyright */}
-      <div className="absolute bottom-8 text-[10px] uppercase tracking-widest text-sand/40 font-sans animate-fade-in [animation-delay:1000ms] [animation-fill-mode:backwards]">
+      <div className="absolute bottom-8 text-[10px] uppercase tracking-widest text-sand-light/40 font-sans animate-fade-in [animation-delay:1000ms] [animation-fill-mode:backwards]">
         StayinUbud
       </div>
 

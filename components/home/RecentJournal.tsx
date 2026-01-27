@@ -121,7 +121,7 @@ export const RecentJournal: React.FC = () => {
   if (posts.length === 0) return null;
 
   return (
-    <section ref={sectionRef} className="py-24 md:py-32 px-6 md:px-12 bg-sand text-forest">
+    <section ref={sectionRef} className="py-24 md:py-32 px-6 md:px-12 bg-sand text-forest-dark">
       <div className="max-w-7xl mx-auto">
 
         {/* Header */}
@@ -160,16 +160,16 @@ export const RecentJournal: React.FC = () => {
 
               {/* Content */}
               <div className="flex flex-col gap-2">
-                <div className="flex justify-between items-center text-[10px] font-sans uppercase tracking-[0.2em] text-forest/60">
+                <div className="flex justify-between items-center text-[10px] font-sans uppercase tracking-[0.2em] text-forest-dark/60">
                   <span>{post.category}</span>
                   <span>{post.publishedAt}</span>
                 </div>
 
-                <h3 className="font-serif text-2xl md:text-3xl text-forest leading-tight group-hover:underline decoration-forest/30 underline-offset-4 transition-all">
+                <h3 className="font-serif text-2xl md:text-3xl text-forest-dark leading-tight group-hover:underline decoration-forest-dark/30 underline-offset-4 transition-all">
                   {post.title}
                 </h3>
 
-                <p className="font-sans text-forest/70 text-sm leading-relaxed line-clamp-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500 transform translate-y-2 group-hover:translate-y-0">
+                <p className="font-sans text-forest-dark/70 text-sm leading-relaxed line-clamp-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500 transform translate-y-2 group-hover:translate-y-0">
                   {post.excerpt}
                 </p>
               </div>

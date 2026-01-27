@@ -57,14 +57,14 @@ export const LocationSection: React.FC<LocationSectionProps> = ({ villas }) => {
       {/* LEFT: Content */}
       <div className="loc-content w-full lg:w-1/3 bg-sand px-6 md:px-12 py-12 md:py-24 flex flex-col justify-center relative z-20 shadow-2xl">
         <div className="mb-12">
-          <div className="flex items-center gap-2 text-forest/60 mb-4">
+          <div className="flex items-center gap-2 text-forest-dark/60 mb-4">
             <MapPin size={16} />
             <span className="font-sans text-xs uppercase tracking-[0.2em]">The Locations</span>
           </div>
-          <h2 className="text-5xl md:text-6xl font-serif text-forest leading-none mb-6">
+          <h2 className="text-5xl md:text-6xl font-serif text-forest-dark leading-none mb-6">
             ROOTED IN <br /> <span className="italic">UBUD</span>
           </h2>
-          <p className="text-forest/80 font-sans leading-relaxed">
+          <p className="text-forest-dark/80 font-sans leading-relaxed">
             Our sanctuaries are hidden within the rice terraces and ancient forests, far enough to hear the silence, close enough to touch the culture.
           </p>
         </div>
@@ -74,14 +74,14 @@ export const LocationSection: React.FC<LocationSectionProps> = ({ villas }) => {
           {villas.map((villa) => (
             <div
               key={villa.id}
-              className={`group cursor-pointer flex items-center justify-between border-b border-forest/10 pb-4 transition-all duration-300
-                ${activeVillaId === villa.id ? 'pl-4 border-forest/40' : 'hover:pl-2'}
+              className={`group cursor-pointer flex items-center justify-between border-b border-forest-dark/10 pb-4 transition-all duration-300
+                ${activeVillaId === villa.id ? 'pl-4 border-forest-dark/40' : 'hover:pl-2'}
               `}
               onMouseEnter={() => setActiveVillaId(villa.id)}
               onClick={() => setActiveVillaId(villa.id)}
             >
               <div>
-                <span className={`block font-serif text-xl transition-colors ${activeVillaId === villa.id ? 'text-forest' : 'text-forest/60'}`}>
+                <span className={`block font-serif text-xl transition-colors ${activeVillaId === villa.id ? 'text-forest-dark' : 'text-forest-dark/60'}`}>
                   {villa.name}
                 </span>
                 {activeVillaId === villa.id && (
@@ -90,7 +90,7 @@ export const LocationSection: React.FC<LocationSectionProps> = ({ villas }) => {
                   </span>
                 )}
               </div>
-              <div className={`w-2 h-2 rounded-full transition-all ${activeVillaId === villa.id ? 'bg-forest scale-150' : 'bg-forest/20'}`}></div>
+              <div className={`w-2 h-2 rounded-full transition-all ${activeVillaId === villa.id ? 'bg-forest-dark scale-150' : 'bg-forest-dark/20'}`}></div>
             </div>
           ))}
         </div>

@@ -126,12 +126,12 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
     <>
       {/* --- DESKTOP STICKY WIDGET --- */}
       <div id="booking-widget" className="hidden lg:block" ref={calendarRef}>
-        <div className="bg-white rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] border border-forest/10 p-6 overflow-visible relative">
+        <div className="bg-white rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] border border-forest-dark/10 p-6 overflow-visible relative">
 
           {/* Header */}
           <div className="flex justify-between items-end mb-6">
             <div>
-              <span className="font-serif text-2xl text-forest">{formatPrice(pricePerNight)}</span>
+              <span className="font-serif text-2xl text-forest-dark">{formatPrice(pricePerNight)}</span>
               <span className="text-sm text-gray-500 ml-1">/ night</span>
             </div>
           </div>
@@ -144,13 +144,13 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
               onClick={() => setIsCalendarOpen(!isCalendarOpen)}
             >
               <div className="p-3 border-r border-gray-300 hover:bg-gray-50 rounded-tl-xl transition-colors">
-                <div className="text-[10px] font-bold uppercase tracking-widest text-forest">Check-in</div>
+                <div className="text-[10px] font-bold uppercase tracking-widest text-forest-dark">Check-in</div>
                 <div className="text-sm text-gray-700 truncate">
                   {dateRange?.from ? format(dateRange.from, 'dd/MM/yyyy') : 'Add date'}
                 </div>
               </div>
               <div className="p-3 hover:bg-gray-50 rounded-tr-xl transition-colors">
-                <div className="text-[10px] font-bold uppercase tracking-widest text-forest">Check-out</div>
+                <div className="text-[10px] font-bold uppercase tracking-widest text-forest-dark">Check-out</div>
                 <div className="text-sm text-gray-700 truncate">
                   {dateRange?.to ? format(dateRange.to, 'dd/MM/yyyy') : 'Add date'}
                 </div>
@@ -161,10 +161,10 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
             <div className="p-3 hover:bg-gray-50 rounded-b-xl cursor-pointer transition-colors relative group">
               <div className="flex justify-between items-center">
                 <div>
-                  <div className="text-[10px] font-bold uppercase tracking-widest text-forest">Guests</div>
+                  <div className="text-[10px] font-bold uppercase tracking-widest text-forest-dark">Guests</div>
                   <div className="text-sm text-gray-700">{guests} guests</div>
                 </div>
-                <ChevronDown size={16} className="text-gray-400 group-hover:text-forest transition-colors" />
+                <ChevronDown size={16} className="text-gray-400 group-hover:text-forest-dark transition-colors" />
               </div>
 
               {/* Simple Guest Counter Popover */}
@@ -181,7 +181,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
 
             {/* Calendar Popup */}
             {isCalendarOpen && (
-              <div className="absolute top-[58px] right-0 z-50 bg-white rounded-xl shadow-2xl border border-forest/10 p-4 animate-in fade-in zoom-in-95 duration-200 origin-top-right min-w-[320px]">
+              <div className="absolute top-[58px] right-0 z-50 bg-white rounded-xl shadow-2xl border border-forest-dark/10 p-4 animate-in fade-in zoom-in-95 duration-200 origin-top-right min-w-[320px]">
                 <Calendar
                   selected={dateRange}
                   onSelect={setDateRange}
@@ -192,7 +192,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
                 {/* Legend */}
                 <div className="flex items-center justify-center gap-6 py-3 border-t border-gray-100">
                   <div className="flex items-center gap-2 text-[10px] uppercase tracking-widest text-gray-500">
-                    <div className="w-2 h-2 rounded-full bg-forest"></div> Selected
+                    <div className="w-2 h-2 rounded-full bg-forest-dark"></div> Selected
                   </div>
                   <div className="flex items-center gap-2 text-[10px] uppercase tracking-widest text-gray-400">
                     <span className="line-through decoration-gray-400">12</span> Occupied
@@ -202,7 +202,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
                 <div className="flex justify-end pt-2">
                   <button
                     onClick={() => setIsCalendarOpen(false)}
-                    className="text-xs font-bold uppercase text-forest hover:bg-forest/10 px-4 py-2 rounded-md transition-colors"
+                    className="text-xs font-bold uppercase text-forest-dark hover:bg-forest-dark/10 px-4 py-2 rounded-md transition-colors"
                   >
                     Close
                   </button>
@@ -214,7 +214,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
           {/* CTA Button */}
           <button
             onClick={handleRequestClick}
-            className="w-full bg-forest text-white py-3.5 rounded-lg font-bold uppercase tracking-widest text-sm hover:bg-forest/90 hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2"
+            className="w-full bg-forest-dark text-white py-3.5 rounded-lg font-bold uppercase tracking-widest text-sm hover:bg-forest-dark/90 hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2"
           >
             Request to Book
           </button>
@@ -230,7 +230,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
                 <span className="underline decoration-gray-300">Service Fee</span>
                 <span>{formatPrice(serviceFee)}</span>
               </div>
-              <div className="flex justify-between font-serif text-lg text-forest pt-3 border-t border-gray-200 mt-2">
+              <div className="flex justify-between font-serif text-lg text-forest-dark pt-3 border-t border-gray-200 mt-2">
                 <span>Total</span>
                 <span>{formatPrice(total)}</span>
               </div>
@@ -249,9 +249,9 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
         <div className="flex justify-between items-center gap-4">
           <div className="flex flex-col">
             {nightCount > 0 ? (
-              <span className="font-serif text-lg text-forest">{formatPrice(total)} <span className="text-xs font-sans text-gray-500">total</span></span>
+              <span className="font-serif text-lg text-forest-dark">{formatPrice(total)} <span className="text-xs font-sans text-gray-500">total</span></span>
             ) : (
-              <span className="font-serif text-lg text-forest">{formatPrice(pricePerNight)} <span className="text-xs font-sans text-gray-500">/ night</span></span>
+              <span className="font-serif text-lg text-forest-dark">{formatPrice(pricePerNight)} <span className="text-xs font-sans text-gray-500">/ night</span></span>
             )}
             <span className="text-xs text-gray-500 underline">
               {dateRange?.from && dateRange?.to ? `${format(dateRange.from, 'dd MMM')} - ${format(dateRange.to, 'dd MMM')}` : 'Select dates'}
@@ -260,7 +260,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
 
           <button
             onClick={handleRequestClick}
-            className="bg-forest text-white px-6 py-3 rounded-lg font-bold uppercase text-xs tracking-widest shadow-lg shadow-forest/20"
+            className="bg-forest-dark text-white px-6 py-3 rounded-lg font-bold uppercase text-xs tracking-widest shadow-lg shadow-forest-dark/20"
           >
             {nightCount > 0 ? 'Continue' : 'Check Dates'}
           </button>

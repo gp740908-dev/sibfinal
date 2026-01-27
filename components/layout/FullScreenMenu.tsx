@@ -138,7 +138,7 @@ export const FullScreenMenu: React.FC<FullScreenMenuProps> = ({ isOpen, onClose 
       </div>
 
       {/* 2. Content Layer */}
-      <nav className="relative z-10 w-full h-full flex flex-col p-6 md:p-12 lg:p-16 text-sand">
+      <nav className="relative z-10 w-full h-full flex flex-col p-6 md:p-12 lg:p-16 text-sand-light">
 
         {/* Top Header */}
         <div className="flex justify-between items-start">
@@ -148,7 +148,7 @@ export const FullScreenMenu: React.FC<FullScreenMenuProps> = ({ isOpen, onClose 
 
           <button
             onClick={onClose}
-            className="close-button group flex items-center justify-center w-12 h-12 md:w-16 md:h-16 rounded-full border border-sand/20 hover:bg-sand hover:text-forest transition-all duration-300 backdrop-blur-sm"
+            className="close-button group flex items-center justify-center w-12 h-12 md:w-16 md:h-16 rounded-full border border-sand/20 hover:bg-sand-light hover:text-forest-dark transition-all duration-300 backdrop-blur-sm"
             aria-label="Close Menu"
           >
             <X size={24} className="transition-transform duration-300 group-hover:rotate-90" />
@@ -169,7 +169,7 @@ export const FullScreenMenu: React.FC<FullScreenMenuProps> = ({ isOpen, onClose 
                   onMouseLeave={() => setActiveImage(null)}
                   className="group block relative"
                 >
-                  <div className="nav-item-text text-[3.5rem] md:text-[5.5rem] lg:text-[7rem] leading-[0.9] font-serif font-medium tracking-tight transition-transform duration-300 group-hover:translate-x-4 text-sand/80 group-hover:text-sand">
+                  <div className="nav-item-text text-[3.5rem] md:text-[5.5rem] lg:text-[7rem] leading-[0.9] font-serif font-medium tracking-tight transition-transform duration-300 group-hover:translate-x-4 text-sand-light/80 group-hover:text-sand-light">
                     {link.label}
                   </div>
                   <span className="opacity-0 absolute top-1/2 -translate-y-1/2 -left-8 group-hover:left-0 group-hover:opacity-100 transition-all duration-300 text-sm font-sans tracking-widest hidden lg:block">

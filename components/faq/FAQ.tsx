@@ -94,36 +94,36 @@ export const FAQ: React.FC = () => {
   };
 
   return (
-    <div ref={containerRef} className="min-h-screen bg-sand pt-32 pb-20 px-6 md:px-12 text-forest">
+    <div ref={containerRef} className="min-h-screen bg-sand pt-32 pb-20 px-6 md:px-12 text-forest-dark">
       <div className="max-w-3xl mx-auto">
 
         {/* Header */}
         <div className="faq-header text-center mb-16">
-          <span className="block font-sans text-xs uppercase tracking-[0.2em] opacity-60 mb-4">
+          <span className="block font-sans text-xs uppercase tracking-[0.2em] text-forest-dark/60 mb-4">
             Support
           </span>
           <h1 className="text-4xl md:text-6xl font-serif leading-none mb-6">
-            FREQUENTLY ASKED <br /> <span className="italic opacity-70">QUESTIONS</span>
+            FREQUENTLY ASKED <br /> <span className="italic text-forest-dark/70">QUESTIONS</span>
           </h1>
-          <p className="font-sans text-forest/70 max-w-lg mx-auto">
+          <p className="font-sans text-forest-dark/70 max-w-lg mx-auto">
             Everything you need to know about your upcoming escape to Ubud.
             If you can't find what you're looking for, our concierge is always available.
           </p>
         </div>
 
         {/* Tabs */}
-        <div className="faq-tabs flex flex-wrap justify-center gap-6 md:gap-10 border-b border-forest/10 pb-6 mb-12">
+        <div className="faq-tabs flex flex-wrap justify-center gap-6 md:gap-10 border-b border-forest-dark/10 pb-6 mb-12">
           {CATEGORIES.map(cat => (
             <button
               key={cat}
               onClick={() => { setActiveTab(cat); setOpenIndex(null); }}
               className={`font-sans text-xs md:text-sm uppercase tracking-widest transition-all duration-300 relative pb-2
-                ${activeTab === cat ? 'text-forest font-bold' : 'text-forest/40 hover:text-forest'}
+                ${activeTab === cat ? 'text-forest-dark font-bold' : 'text-forest-dark/40 hover:text-forest-dark'}
               `}
             >
               {cat}
               {activeTab === cat && (
-                <span className="absolute bottom-0 left-0 w-full h-px bg-forest animate-fade-in" />
+                <span className="absolute bottom-0 left-0 w-full h-px bg-forest-dark animate-fade-in" />
               )}
             </button>
           ))}
@@ -136,13 +136,13 @@ export const FAQ: React.FC = () => {
             return (
               <div
                 key={index}
-                className="border-b border-forest/10 last:border-none"
+                className="border-b border-forest-dark/10 last:border-none"
               >
                 <button
                   onClick={() => toggleAccordion(index)}
                   className="w-full flex justify-between items-center py-6 text-left group"
                 >
-                  <h3 className={`font-serif text-xl md:text-2xl transition-colors duration-300 ${isOpen ? 'text-forest' : 'text-forest/80 group-hover:text-forest'}`}>
+                  <h3 className={`font-serif text-xl md:text-2xl transition-colors duration-300 ${isOpen ? 'text-forest-dark' : 'text-forest-dark/80 group-hover:text-forest-dark'}`}>
                     {item.question}
                   </h3>
                   <div className={`flex-shrink-0 ml-4 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}>
@@ -154,7 +154,7 @@ export const FAQ: React.FC = () => {
                   className={`grid transition-[grid-template-rows] duration-500 ease-out ${isOpen ? 'grid-rows-[1fr] opacity-100 pb-8' : 'grid-rows-[0fr] opacity-0'}`}
                 >
                   <div className="overflow-hidden">
-                    <p className="font-sans text-forest/70 leading-relaxed text-sm md:text-base pr-8">
+                    <p className="font-sans text-forest-dark/70 leading-relaxed text-sm md:text-base pr-8">
                       {item.answer}
                     </p>
                   </div>
