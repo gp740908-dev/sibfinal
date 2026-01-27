@@ -25,7 +25,7 @@ interface HomePageProps {
 
 export const HomePage: React.FC<HomePageProps> = ({ villas }) => {
     return (
-        <div className="flex flex-col w-full">
+        <main id="main-content" role="main" className="flex flex-col w-full">
             {/* Hero Section */}
             <Hero />
 
@@ -93,6 +93,6 @@ export const HomePage: React.FC<HomePageProps> = ({ villas }) => {
 
             {/* Newsletter Section - Final CTA */}
             <Newsletter />
-        </div>
+        </main>
     );
 };

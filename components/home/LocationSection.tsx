@@ -52,7 +52,15 @@ export const LocationSection: React.FC<LocationSectionProps> = ({ villas }) => {
   }, { scope: containerRef });
 
   return (
-    <section ref={containerRef} className="flex flex-col lg:flex-row h-auto lg:h-[80vh] min-h-[600px] overflow-hidden">
+    <section
+      ref={containerRef}
+      className="flex flex-col lg:flex-row h-auto lg:h-[80vh] min-h-[600px] overflow-hidden"
+      aria-labelledby="location-heading"
+      role="region"
+    >
+      <h2 id="location-heading" className="sr-only">
+        Villa Locations in Ubud
+      </h2>
 
       {/* LEFT: Content */}
       <div className="loc-content w-full lg:w-1/3 bg-sand px-6 md:px-12 py-12 md:py-24 flex flex-col justify-center relative z-20 shadow-2xl">

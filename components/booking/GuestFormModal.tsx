@@ -92,67 +92,83 @@ export const GuestFormModal: React.FC<GuestFormModalProps> = ({
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="p-6 space-y-6">
+        <form onSubmit={handleSubmit} className="p-6 space-y-6" aria-label="Guest booking information form" noValidate>
 
           {/* Name */}
           <div className="space-y-1">
-            <label className="text-[10px] uppercase tracking-widest text-forest-dark/60 font-bold flex items-center gap-2">
-              <User size={12} /> Full Name
+            <label htmlFor="guest-name" className="text-[10px] uppercase tracking-widest text-forest-dark/60 font-bold flex items-center gap-2">
+              <User size={12} aria-hidden="true" /> Full Name <span className="text-red-500" aria-label="required">*</span>
             </label>
             <input
+              id="guest-name"
               type="text"
               value={formData.fullName}
               onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
               placeholder="e.g. Elena Rossi"
+              required
+              aria-required="true"
+              aria-invalid={!!errors.fullName}
+              aria-describedby={errors.fullName ? "name-error" : undefined}
               className={`w-full border-b py-2 bg-transparent outline-none transition-all placeholder:text-gray-300 font-serif text-lg
                 ${errors.fullName ? 'border-red-400' : 'border-gray-200 focus:border-forest-dark'}
               `}
             />
-            {errors.fullName && <span className="text-xs text-red-400">{errors.fullName}</span>}
+            {errors.fullName && <span id="name-error" role="alert" className="text-xs text-red-400">{errors.fullName}</span>}
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Email */}
             <div className="space-y-1">
-              <label className="text-[10px] uppercase tracking-widest text-forest-dark/60 font-bold flex items-center gap-2">
-                <Mail size={12} /> Email Address
+              <label htmlFor="guest-email" className="text-[10px] uppercase tracking-widest text-forest-dark/60 font-bold flex items-center gap-2">
+                <Mail size={12} aria-hidden="true" /> Email Address <span className="text-red-500" aria-label="required">*</span>
               </label>
               <input
+                id="guest-email"
                 type="email"
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 placeholder="elena@example.com"
+                required
+                aria-required="true"
+                aria-invalid={!!errors.email}
+                aria-describedby={errors.email ? "email-error" : undefined}
                 className={`w-full border-b py-2 bg-transparent outline-none transition-all placeholder:text-gray-300 font-sans text-sm
                   ${errors.email ? 'border-red-400' : 'border-gray-200 focus:border-forest-dark'}
                 `}
               />
-              {errors.email && <span className="text-xs text-red-400">{errors.email}</span>}
+              {errors.email && <span id="email-error" role="alert" className="text-xs text-red-400">{errors.email}</span>}
             </div>
 
             {/* WhatsApp */}
             <div className="space-y-1">
-              <label className="text-[10px] uppercase tracking-widest text-forest-dark/60 font-bold flex items-center gap-2">
-                <Phone size={12} /> WhatsApp / Phone
+              <label htmlFor="guest-whatsapp" className="text-[10px] uppercase tracking-widest text-forest-dark/60 font-bold flex items-center gap-2">
+                <Phone size={12} aria-hidden="true" /> WhatsApp / Phone <span className="text-red-500" aria-label="required">*</span>
               </label>
               <input
+                id="guest-whatsapp"
                 type="tel"
                 value={formData.whatsapp}
                 onChange={(e) => setFormData({ ...formData, whatsapp: e.target.value })}
                 placeholder="+62 ..."
+                required
+                aria-required="true"
+                aria-invalid={!!errors.whatsapp}
+                aria-describedby={errors.whatsapp ? "whatsapp-error" : undefined}
                 className={`w-full border-b py-2 bg-transparent outline-none transition-all placeholder:text-gray-300 font-sans text-sm
                   ${errors.whatsapp ? 'border-red-400' : 'border-gray-200 focus:border-forest-dark'}
                 `}
               />
-              {errors.whatsapp && <span className="text-xs text-red-400">{errors.whatsapp}</span>}
+              {errors.whatsapp && <span id="whatsapp-error" role="alert" className="text-xs text-red-400">{errors.whatsapp}</span>}
             </div>
           </div>
 
           {/* Special Request */}
           <div className="space-y-1 pt-2">
-            <label className="text-[10px] uppercase tracking-widest text-forest-dark/60 font-bold flex items-center gap-2">
-              <MessageSquare size={12} /> Special Requests (Optional)
+            <label htmlFor="guest-request" className="text-[10px] uppercase tracking-widest text-forest-dark/60 font-bold flex items-center gap-2">
+              <MessageSquare size={12} aria-hidden="true" /> Special Requests (Optional)
             </label>
             <textarea
+              id="guest-request"
               value={formData.specialRequest}
               onChange={(e) => setFormData({ ...formData, specialRequest: e.target.value })}
               placeholder="Late check-in, dietary restrictions, honeymoon arrangement..."
@@ -166,11 +182,11 @@ export const GuestFormModal: React.FC<GuestFormModalProps> = ({
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full bg-forest-dark text-sand-light py-4 rounded-xl font-bold uppercase tracking-widest text-xs hover:bg-forest-dark/90 shadow-lg hover:shadow-2xl hover:-translate-y-0.5 transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
+              className="w-full bg-forest-dark text-sand-light py-4 rounded-xl font-bold uppercase tracking-widest text-xs hover:bg-forest-dark/90 shadow-lg hover:shadow-2xl hover:-translate-y-0.5 transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed focus-ring"
             >
               {isSubmitting ? (
                 <>
-                  <Loader2 className="animate-spin" size={16} />
+                  <Loader2 className="animate-spin" size={16} aria-hidden="true" />
                   <span>Processing...</span>
                 </>
               ) : (

@@ -107,7 +107,7 @@ export const VillaShowcase: React.FC<VillaShowcaseProps> = ({ villas }) => {
                     <img
                       key={`${activeVilla.id}-${currentImageIndex}`}
                       src={carouselImages[currentImageIndex]}
-                      alt={activeVilla.name}
+                      alt={`${activeVilla.name} - ${activeVilla.bedrooms} bedroom luxury villa in Ubud with ${activeVilla.features?.slice(0, 2).join(' and ') || 'luxury amenities'}`}
                       className="w-full h-full object-cover transition-all duration-500 ease-out transform scale-100 group-hover:scale-105 animate-in fade-in zoom-in-105"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-forest/40 to-transparent opacity-60"></div>

@@ -127,15 +127,15 @@ export const SocialFab: React.FC = () => {
             target="_blank"
             rel="noopener noreferrer"
             className="group relative flex items-center justify-center w-14 h-14 bg-white rounded-full shadow-lg hover:scale-110 transition-transform duration-300 opacity-0 translate-y-5"
-            aria-label={social.label}
+            aria-label={`Visit StayinUBUD on ${social.label}`}
           >
             {/* Tooltip Label */}
-            <span className="absolute right-full mr-3 px-3 py-1 bg-white text-forest-dark text-xs font-bold uppercase tracking-wider rounded-md shadow-md opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 whitespace-nowrap">
+            <span className="absolute right-full mr-3 px-3 py-1 bg-white text-forest-dark text-xs font-bold uppercase tracking-wider rounded-md shadow-md opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 whitespace-nowrap" aria-hidden="true">
               {social.label}
             </span>
 
             {/* Icon */}
-            <social.icon size={28} className={social.colorClass} />
+            <social.icon size={28} className={social.colorClass} aria-hidden="true" />
           </a>
         ))}
       </div>
@@ -145,7 +145,9 @@ export const SocialFab: React.FC = () => {
         ref={triggerRef}
         onClick={() => setIsOpen(!isOpen)}
         className="relative w-16 h-16 bg-forest-dark text-[#D3D49F] rounded-full shadow-xl flex items-center justify-center hover:bg-[#466a4e] transition-colors focus:outline-none focus:ring-4 focus:ring-[#D3D49F]/50"
-        aria-label="Open Social Menu"
+        aria-label={isOpen ? "Close social menu" : "Open social menu"}
+        aria-expanded={isOpen}
+        aria-haspopup="true"
       >
         <div ref={iconRef} className="relative w-8 h-8 flex items-center justify-center">
           {/* We use the Plus icon because we rotate it 135deg to make an X, or 0 to be a Plus. 

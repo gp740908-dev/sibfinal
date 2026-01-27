@@ -150,6 +150,8 @@ export const FullScreenMenu: React.FC<FullScreenMenuProps> = ({ isOpen, onClose 
             onClick={onClose}
             className="close-button group flex items-center justify-center w-12 h-12 md:w-16 md:h-16 rounded-full border border-sand/20 hover:bg-sand-light hover:text-forest-dark transition-all duration-300 backdrop-blur-sm"
             aria-label="Close Menu"
+            aria-expanded={isOpen}
+            aria-controls="main-menu"
           >
             <X size={24} className="transition-transform duration-300 group-hover:rotate-90" />
           </button>

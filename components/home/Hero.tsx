@@ -55,9 +55,14 @@ export const Hero: React.FC = () => {
             <div className={`w-full h-full relative will-change-transform transform-gpu backface-hidden ${index === activeSlide ? 'animate-ken-burns' : ''}`}>
               <OptimizedImage
                 src={slide.src}
-                alt={slide.alt}
+                alt={index === 0
+                  ? "Luxury infinity pool villa overlooking Ubud jungle with traditional Balinese architecture"
+                  : `${slide.alt} - StayinUBUD luxury accommodation`
+                }
                 priority={index === 0}
                 fetchPriority={index === 0 ? "high" : "auto"}
+                role="img"
+                aria-label={`Slide ${index + 1} of ${HERO_SLIDES.length}: ${slide.alt}`}
                 className="object-cover"
                 sizes="100vw"
                 quality={90}

@@ -63,6 +63,13 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView = 'home' }) => {
 
   return (
     <>
+      {/* Skip to main content - for keyboard users */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[9999] focus:bg-forest focus:text-sand focus:px-6 focus:py-3 focus:rounded-md focus:shadow-xl"
+      >
+        Skip to main content
+      </a>
       <nav
         ref={navRef}
         className={`fixed top-0 left-0 right-0 z-[50] border-b transition-all duration-500 ease-in-out

@@ -11,16 +11,21 @@ module.exports = {
       colors: {
         sand: {
           DEFAULT: '#D3D49F',
-          light: '#F3F4D9', // High contrast for text on Forest
+          light: '#F4F1EA',      // HIGH CONTRAST - For text on dark
+          dark: '#B8BA7F',       // For backgrounds
         },
         forest: {
           DEFAULT: '#537F5D',
-          dark: '#243326', // High contrast for text on Sand
+          dark: '#243326',       // HIGH CONTRAST - For text on light
+          light: '#709977',      // For hover states
         },
         accent: {
           light: '#9BB784',
           DEFAULT: '#719669',
-        }
+        },
+        // Ensure all text colors meet WCAG AA
+        'text-primary': '#1A1A1A',     // Near black for body text
+        'text-secondary': '#4A4A4A',   // Dark gray (still 7:1 contrast)
       },
       fontFamily: {
         serif: ['var(--font-serif)', 'serif'],
@@ -62,6 +67,14 @@ module.exports = {
         '.backface-visible': {
           'backface-visibility': 'visible',
           '-webkit-backface-visibility': 'visible',
+        },
+      })
+      addUtilities({
+        '.focus-ring': {
+          '@apply focus:outline-none focus-visible:ring-4 focus-visible:ring-gold/50 focus-visible:ring-offset-2': {},
+        },
+        '.focus-ring-inset': {
+          '@apply focus:outline-none focus-visible:ring-4 focus-visible:ring-inset focus-visible:ring-gold/50': {},
         },
       })
     }

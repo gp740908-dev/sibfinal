@@ -106,9 +106,16 @@ export const Calendar: React.FC<CalendarProps> = ({
         disabled={disabledDates}
         numberOfMonths={numberOfMonths}
         showOutsideDays={false}
+        labels={{
+          labelMonthDropdown: () => 'Select month',
+          labelYearDropdown: () => 'Select year',
+          labelNext: () => 'Go to next month',
+          labelPrevious: () => 'Go to previous month',
+        }}
+        aria-label="Choose your check-in and check-out dates"
         components={{
-          IconLeft: () => <ChevronLeft className="w-5 h-5" />,
-          IconRight: () => <ChevronRight className="w-5 h-5" />
+          IconLeft: () => <ChevronLeft className="w-5 h-5" aria-hidden="true" />,
+          IconRight: () => <ChevronRight className="w-5 h-5" aria-hidden="true" />
         }}
         classNames={{
           caption_label: "font-serif text-xl text-forest-dark font-medium",
