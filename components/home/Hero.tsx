@@ -1,9 +1,7 @@
 'use client';
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { gsap } from 'gsap';
-import { useGSAP } from '@gsap/react';
 import { OptimizedImage } from '@/components/ui/OptimizedImage';
 
 const HERO_SLIDES = [
@@ -26,73 +24,14 @@ const HERO_SLIDES = [
 
 export const Hero: React.FC = () => {
   const [activeSlide, setActiveSlide] = useState(0);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const textTitleRef = useRef<HTMLHeadingElement>(null);
-  const slideRefs = useRef<(HTMLDivElement | null)[]>([]);
-
-  useGSAP(() => {
-    // Initial Text Reveal
-    const tl = gsap.timeline();
-
-    tl.from('.hero-char', {
-      y: 100,
-      opacity: 0,
-      duration: 1,
-      stagger: 0.05,
-      ease: 'power3.out',
-      delay: 0.5,
-    })
-      .from('.hero-sub', {
-        y: 20,
-        opacity: 0,
-        duration: 0.8,
-        ease: 'power2.out',
-      }, '-=0.5');
-
-  }, { scope: containerRef });
-
-  // Handle Slide Transitions & Ken Burns Effect
-  useGSAP(() => {
-    const currentSlide = slideRefs.current[activeSlide];
-
-    if (currentSlide) {
-      // Kil previous animations on all slides to be safe
-      slideRefs.current.forEach(slide => {
-        if (slide && slide !== currentSlide) {
-          gsap.killTweensOf(slide.querySelector('img'));
-          gsap.set(slide.querySelector('img'), { scale: 1 }); // Reset others
-        }
-      });
-
-      // Animate current slide image (Slow Zoom / Ken Burns)
-      // duration 6s (slightly longer than interval 5s to ensure continuous movement)
-      gsap.fromTo(currentSlide.querySelector('img'),
-        { scale: 1 },
-        { scale: 1.1, duration: 6, ease: "none" }
-      );
-    }
-  }, { scope: containerRef, dependencies: [activeSlide] });
 
   useEffect(() => {
-    // Preload images
-    HERO_SLIDES.forEach((slide) => {
-      const img = new Image();
-      img.src = slide.src;
-    });
-
+    // Simple interval for slide switching - lightweight
     const interval = setInterval(() => {
       setActiveSlide((prev) => (prev + 1) % HERO_SLIDES.length);
-    }, 5000);
+    }, 6000); // 6s per slide
     return () => clearInterval(interval);
   }, []);
-
-  const splitText = (text: string) => {
-    return text.split('').map((char, index) => (
-      <span key={index} className="hero-char inline-block">
-        {char === ' ' ? '\u00A0' : char}
-      </span>
-    ));
-  };
 
   const scrollDown = () => {
     const element = document.getElementById('about');
@@ -102,77 +41,95 @@ export const Hero: React.FC = () => {
   };
 
   return (
-    <section ref={containerRef} className="relative w-full h-screen overflow-hidden bg-forest">
-      {/* Background Slides */}
-      <div className="absolute inset-0 w-full h-full">
+    <section className="relative w-full h-[100dvh] overflow-hidden bg-forest selection:bg-sand selection:text-forest">
+
+      {/* 1. Background Slideshow (CSS Transitions) */}
+      <div className="absolute inset-0 w-full h-full z-0">
         {HERO_SLIDES.map((slide, index) => (
           <div
             key={slide.id}
-            ref={el => { slideRefs.current[index] = el; }}
-            className={`absolute inset-0 w-full h-full transition-opacity duration-1000 ease-in-out ${index === activeSlide ? 'opacity-100 z-10' : 'opacity-0 z-0'
+            className={`absolute inset-0 w-full h-full transition-opacity duration-[1500ms] ease-in-out ${index === activeSlide ? 'opacity-100 z-10' : 'opacity-0 z-0'
               }`}
           >
-            <OptimizedImage
-              src={slide.src}
-              alt={slide.alt}
-              priority={index === 0} // Critical for LCP
-              fetchPriority={index === 0 ? "high" : "auto"}
-              className="object-cover" // Let GSAP handle transform
-              sizes="100vw"
-              quality={90}
-              containerClassName="absolute inset-0 w-full h-full"
-              fill
-            />
-            {/* Gradients */}
-            <div className="absolute inset-0 bg-black/20 z-10" />
-            <div className="absolute inset-0 bg-gradient-to-b from-forest/30 via-transparent to-forest/80 z-20" />
+            {/* Ken Burns Effect via CSS */}
+            <div className={`w-full h-full relative ${index === activeSlide ? 'animate-ken-burns' : ''}`}>
+              <OptimizedImage
+                src={slide.src}
+                alt={slide.alt}
+                priority={index === 0}
+                fetchPriority={index === 0 ? "high" : "auto"}
+                className="object-cover"
+                sizes="100vw"
+                quality={90}
+                containerClassName="absolute inset-0 w-full h-full"
+                fill
+              />
+            </div>
+
+            {/* Cinematic Gradients */}
+            <div className="absolute inset-0 bg-black/20" />
+            <div className="absolute inset-0 bg-gradient-to-b from-forest/30 via-transparent to-forest/80" />
           </div>
         ))}
       </div>
 
-      {/* Content */}
-      <div className="relative z-30 flex flex-col items-center justify-center h-full text-center px-4">
-        <h1 ref={textTitleRef} className="text-5xl md:text-7xl lg:text-9xl font-serif text-sand mb-6 tracking-widest leading-none drop-shadow-2xl overflow-hidden">
-          {splitText('STAYINUBUD')}
+      {/* 2. Content Layer */}
+      <div className="relative z-20 flex flex-col items-center justify-center h-full text-center px-4">
+
+        {/* Main Title - CSS Staggered Reveal */}
+        <h1 className="text-5xl md:text-7xl lg:text-[9rem] font-serif text-sand mb-8 tracking-[0.1em] leading-none drop-shadow-2xl overflow-hidden flex flex-wrap justify-center gap-x-[0.2em] md:gap-x-[0.1em]">
+          {"STAYINUBUD".split('').map((char, i) => (
+            <span
+              key={i}
+              className="inline-block animate-slide-up bg-gradient-to-b from-sand via-sand to-sand/80 bg-clip-text text-transparent opacity-0 [animation-fill-mode:backwards]"
+              style={{ animationDelay: `${0.2 + (i * 0.05)}s` }}
+            >
+              {char}
+            </span>
+          ))}
         </h1>
 
-        <p className="hero-sub text-sand/90 font-sans text-lg md:text-xl font-medium max-w-2xl mx-auto leading-relaxed mb-12 drop-shadow-md tracking-wide">
+        {/* Subtitle - Fade In */}
+        <p className="font-sans text-sand/90 text-lg md:text-xl font-light max-w-2xl mx-auto leading-relaxed mb-12 tracking-wide animate-fade-in opacity-0 [animation-delay:0.8s] [animation-fill-mode:backwards]">
           Curated sanctuaries in the heart of Bali&apos;s jungle.
         </p>
 
-        <Link
-          href="/villas"
-          className="hero-sub group relative px-8 py-3 overflow-hidden border border-sand transition-all duration-300 inline-block"
-        >
-          <span className="relative z-10 font-sans text-xs md:text-sm uppercase tracking-[0.2em] text-sand group-hover:text-forest transition-colors duration-300 font-bold">
-            Explore Villas
-          </span>
-          <div className="absolute inset-0 bg-sand transform scale-y-0 group-hover:scale-y-100 transition-transform duration-500 origin-bottom ease-out" />
-        </Link>
+        {/* CTA Button - Magnetic Feel */}
+        <div className="animate-fade-in opacity-0 [animation-delay:1s] [animation-fill-mode:backwards]">
+          <Link
+            href="/villas"
+            className="group relative px-10 py-4 overflow-hidden border border-sand/40 hover:border-sand transition-all duration-500 inline-block rounded-full backdrop-blur-sm bg-forest/10 hover:bg-forest/20 active:scale-95"
+          >
+            <span className="relative z-10 font-sans text-xs md:text-sm uppercase tracking-[0.25em] text-sand group-hover:text-forest transition-colors duration-500 font-bold">
+              Explore Villas
+            </span>
+            <div className="absolute inset-0 bg-sand transform scale-y-0 group-hover:scale-y-100 transition-transform duration-500 origin-bottom ease-[cubic-bezier(0.23,1,0.32,1)]" />
+          </Link>
+        </div>
       </div>
 
-      {/* Slide Indicators */}
-      <div className="absolute bottom-12 left-1/2 transform -translate-x-1/2 z-30 flex gap-3">
+      {/* 3. Indicators */}
+      <div className="absolute bottom-12 left-1/2 transform -translate-x-1/2 z-30 flex gap-4">
         {HERO_SLIDES.map((_, idx) => (
           <button
             key={idx}
             onClick={() => setActiveSlide(idx)}
-            className={`h-[3px] rounded-full transition-all duration-500 ease-out ${idx === activeSlide ? 'w-12 bg-sand' : 'w-6 bg-sand/30 hover:bg-sand/60'
+            className={`h-[2px] transition-all duration-700 ease-out ${idx === activeSlide ? 'w-12 bg-sand' : 'w-4 bg-sand/30 hover:bg-sand/60'
               }`}
             aria-label={`Go to slide ${idx + 1}`}
           />
         ))}
       </div>
 
-      {/* Scroll Indicator */}
-      <div
+      {/* Scroll Down Hint */}
+      <button
         onClick={scrollDown}
-        className="absolute bottom-6 left-1/2 transform -translate-x-1/2 z-30 animate-bounce cursor-pointer p-2"
+        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-30 animate-bounce p-4 group opacity-60 hover:opacity-100 transition-opacity"
       >
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="#F4FFC3" className="w-6 h-6">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-        </svg>
-      </div>
+        <div className="w-[1px] h-12 bg-gradient-to-b from-transparent via-sand to-transparent group-hover:h-16 transition-all duration-500" />
+      </button>
+
     </section>
   );
 };
+
