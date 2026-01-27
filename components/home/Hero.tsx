@@ -51,8 +51,8 @@ export const Hero: React.FC = () => {
             className={`absolute inset-0 w-full h-full transition-opacity duration-[1500ms] ease-in-out ${index === activeSlide ? 'opacity-100 z-10' : 'opacity-0 z-0'
               }`}
           >
-            {/* Ken Burns Effect via CSS */}
-            <div className={`w-full h-full relative ${index === activeSlide ? 'animate-ken-burns' : ''}`}>
+            {/* Ken Burns Effect via CSS - GPU Optimized */}
+            <div className={`w-full h-full relative will-change-transform transform-gpu backface-hidden ${index === activeSlide ? 'animate-ken-burns' : ''}`}>
               <OptimizedImage
                 src={slide.src}
                 alt={slide.alt}
