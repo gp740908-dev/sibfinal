@@ -53,26 +53,32 @@ export const FullScreenMenu: React.FC<FullScreenMenuProps> = ({ isOpen, onClose 
           ease: "power4.inOut"
         }
       )
-      .from('.nav-item-text', {
-        y: "110%",
-        autoAlpha: 0,
-        duration: 1,
-        stagger: 0.1,
-        ease: "power3.out"
-      }, "-=0.4")
-      .from('.secondary-link, .menu-info-item', {
-        y: 20,
-        opacity: 0,
-        stagger: 0.05,
-        duration: 0.8,
-        ease: "power2.out"
-      }, "-=0.8")
-      .from('.close-button', {
-        scale: 0,
-        opacity: 0,
-        duration: 0.5,
-        ease: "back.out(1.7)"
-      }, "-=1");
+      .fromTo('.nav-item-text',
+        { y: "110%", autoAlpha: 0 },
+        {
+          y: "0%",
+          autoAlpha: 1,
+          duration: 1,
+          stagger: 0.1,
+          ease: "power3.out"
+        }, "-=0.4")
+      .fromTo('.secondary-link, .menu-info-item',
+        { y: 20, autoAlpha: 0 },
+        {
+          y: 0,
+          autoAlpha: 1,
+          stagger: 0.05,
+          duration: 0.8,
+          ease: "power2.out"
+        }, "-=0.8")
+      .fromTo('.close-button',
+        { scale: 0, autoAlpha: 0 },
+        {
+          scale: 1,
+          autoAlpha: 1,
+          duration: 0.5,
+          ease: "back.out(1.7)"
+        }, "-=1");
 
   }, { scope: containerRef });
 
