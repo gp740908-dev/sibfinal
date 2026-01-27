@@ -45,21 +45,20 @@ module.exports = {
         }
       }
     },
-  }
-},
   },
-plugins: [
-  function ({ addUtilities }) {
-    addUtilities({
-      '.backface-hidden': {
-        'backface-visibility': 'hidden',
-        '-webkit-backface-visibility': 'hidden',
-      },
-      '.backface-visible': {
-        'backface-visibility': 'visible',
-        '-webkit-backface-visibility': 'visible',
-      },
-    })
-  }
-],
+},
+  plugins: [
+    function ({ addUtilities }) {
+      addUtilities({
+        '.backface-hidden': {
+          'backface-visibility': 'hidden',
+          '-webkit-backface-visibility': 'hidden',
+        },
+        '.backface-visible': {
+          'backface-visibility': 'visible',
+          '-webkit-backface-visibility': 'visible',
+        },
+      })
+    }
+  ],
 }
