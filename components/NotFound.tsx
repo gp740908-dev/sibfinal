@@ -43,13 +43,13 @@ export const NotFound: React.FC<NotFoundProps> = () => {
         <div className="mt-12 animate-fade-in [animation-delay:800ms] [animation-fill-mode:backwards]">
           <Link
             href="/"
-            className="group relative inline-flex items-center justify-center px-10 py-4 overflow-hidden rounded-full border border-sand/30 hover:border-sand transition-all duration-500"
+            className="group relative inline-flex items-center justify-center px-10 py-4 overflow-hidden rounded-full border border-sand/30 hover:border-sand transition-all duration-300 active:scale-95"
           >
-            <span className="relative z-10 font-sans text-xs uppercase tracking-[0.25em] text-sand group-hover:text-forest transition-colors duration-500 font-medium">
+            <span className="relative z-10 font-sans text-xs uppercase tracking-[0.25em] text-sand group-hover:text-forest transition-colors duration-300 font-medium">
               Return to Sanctuary
             </span>
-            {/* Magnetic Fill Effect */}
-            <div className="absolute inset-0 bg-sand transform translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-[cubic-bezier(0.23,1,0.32,1)]" />
+            {/* Magnetic Fill Effect - Faster Ease */}
+            <div className="absolute inset-0 bg-sand transform translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-[cubic-bezier(0.23,1,0.32,1)]" />
           </Link>
         </div>
 
