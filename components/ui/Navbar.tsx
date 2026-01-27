@@ -57,9 +57,9 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView = 'home' }) => {
   const isInnerPage = currentView !== 'home';
   const isDarkState = isScrolled || isInnerPage;
 
-  const textColor = isDarkState ? 'text-forest-dark' : 'text-sand-light';
-  const borderColor = isDarkState ? 'border-forest/10' : 'border-transparent';
-  const iconColorClass = isDarkState ? 'text-forest-dark' : 'text-sand-light';
+  const textColor = isDarkState ? 'text-forest' : 'text-sand-light';
+  const borderColor = isDarkState ? 'border-forest/20' : 'border-transparent';
+  const iconColorClass = isDarkState ? 'text-forest' : 'text-sand-light';
 
   return (
     <>
@@ -109,11 +109,9 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView = 'home' }) => {
               {/* 1. Layout Spacer (Invisible) */}
               <img src="/rumah.png" alt="" className="h-full w-auto opacity-0 pointer-events-none select-none" />
 
-              {/* 2. Original Version (For Dark/Scrolled State) */}
-              <img
-                src="/rumah.png"
-                alt="StayinUBUD Icon"
-                className={`absolute inset-0 h-full w-auto object-contain transition-opacity duration-500 ${isDarkState ? 'opacity-100' : 'opacity-0'}`}
+              {/* 2. Forest Version (For Dark/Scrolled State) */}
+              <div
+                className={`absolute inset-0 h-full w-full bg-forest [mask-image:url(/rumah.png)] [mask-size:contain] [mask-repeat:no-repeat] [mask-position:center] transition-opacity duration-500 ${isDarkState ? 'opacity-100' : 'opacity-0'}`}
               />
 
               {/* 3. Sand Tint Version (Mask) */}
@@ -167,13 +165,13 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView = 'home' }) => {
               </span>
               <div className="w-8 flex flex-col items-end gap-[5px]">
                 <span className={`block w-full h-[1.5px] transition-all duration-300 group-hover:w-2/3 
-                   ${isDarkState ? 'bg-forest-dark' : 'bg-sand'}
+                   ${isDarkState ? 'bg-forest' : 'bg-sand'}
                  `} />
                 <span className={`block w-2/3 h-[1.5px] transition-all duration-300 group-hover:w-full 
-                   ${isDarkState ? 'bg-forest-dark' : 'bg-sand'}
+                   ${isDarkState ? 'bg-forest' : 'bg-sand'}
                  `} />
                 <span className={`block w-full h-[1.5px] transition-all duration-300 group-hover:w-2/3 
-                   ${isDarkState ? 'bg-forest-dark' : 'bg-sand'}
+                   ${isDarkState ? 'bg-forest' : 'bg-sand'}
                  `} />
               </div>
             </button>
