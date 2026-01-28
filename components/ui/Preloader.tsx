@@ -4,10 +4,33 @@ import React, { useRef, useState, useLayoutEffect } from 'react';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 
+// ========== CONFIG SECTION ==========
+const PRELOADER_CONFIG = {
+  enabled: false, // ← SET TO FALSE TO DISABLE COMPLETELY
+  skipInDevelopment: true, // Skip in dev mode
+  showOnlyOnce: true, // Use sessionStorage (already implemented)
+  animation: {
+    countDuration: 0.5,
+    exitDuration: 0.3,
+    curtainDuration: 0.5,
+  }
+};
+// ====================================
+
 export const Preloader: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const counterRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLDivElement>(null);
+
+  // Check if preloader should be disabled globally
+  if (!PRELOADER_CONFIG.enabled) {
+    return null;
+  }
+
+  // Skip in development if configured
+  if (PRELOADER_CONFIG.skipInDevelopment && process.env.NODE_ENV === 'development') {
+    return null;
+  }
 
   // Default to true so it blocks view initially if JS hasn't run, 
   // but we'll check session storage immediately.
@@ -17,7 +40,7 @@ export const Preloader: React.FC = () => {
     // Check if user has already seen the preloader in this session
     const hasLoaded = sessionStorage.getItem('hasLoaded');
 
-    if (hasLoaded) {
+    if (hasLoaded && PRELOADER_CONFIG.showOnlyOnce) {
       setIsVisible(false);
       document.body.style.overflow = ''; // Ensure scroll is unlocked
     } else {
@@ -33,7 +56,9 @@ export const Preloader: React.FC = () => {
       onComplete: () => {
         setIsVisible(false);
         document.body.style.overflow = ''; // Unlock scroll
-        sessionStorage.setItem('hasLoaded', 'true'); // Mark session
+        if (PRELOADER_CONFIG.showOnlyOnce) {
+          sessionStorage.setItem('hasLoaded', 'true'); // Mark session
+        }
       }
     });
 
@@ -42,7 +67,7 @@ export const Preloader: React.FC = () => {
 
     tl.to(counterProxy, {
       value: 100,
-      duration: 0.5, // Ultra-fast (was 0.8)
+      duration: PRELOADER_CONFIG.animation.countDuration,
       ease: "power2.out",
       onUpdate: () => {
         if (counterRef.current) {
@@ -55,14 +80,14 @@ export const Preloader: React.FC = () => {
     tl.to([counterRef.current, textRef.current], {
       y: -50,
       autoAlpha: 0,
-      duration: 0.3,
+      duration: PRELOADER_CONFIG.animation.exitDuration,
       ease: "power2.in"
     });
 
     // Phase 3: The Curtain Reveal (Background slides UP)
     tl.to(containerRef.current, {
       yPercent: -100,
-      duration: 0.5, // Ultra-fast (was 0.8)
+      duration: PRELOADER_CONFIG.animation.curtainDuration,
       ease: "power4.inOut"
     }, "-=0.2"); // Overlap slightly with content fade out
 
