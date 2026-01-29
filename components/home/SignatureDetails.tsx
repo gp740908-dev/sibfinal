@@ -1,15 +1,7 @@
-
 'use client';
 
-import React, { useRef, useState } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { useGSAP } from '@gsap/react';
+import React, { useRef, useState, useEffect } from 'react';
 import { Coffee, Sparkles, Sun } from 'lucide-react';
-
-if (typeof window !== 'undefined') {
-  gsap.registerPlugin(ScrollTrigger);
-}
 
 const MOMENTS = [
   {
@@ -17,131 +9,132 @@ const MOMENTS = [
     title: "Floating Breakfast",
     description: "Begin your day effortlessly. A curated selection of tropical fruits, artisanal pastries, and local coffee served on a floating tray in your private infinity pool.",
     icon: <Coffee size={24} />,
-    image: "https://images.unsplash.com/photo-1596436889106-be35e843f974?auto=format&fit=crop&q=80&w=1000" // Floating breakfast pool shot
+    image: "https://images.unsplash.com/photo-1596436889106-be35e843f974?auto=format&fit=crop&q=80&w=1000"
   },
   {
     id: 1,
     title: "Floral Bath Ritual",
     description: "A sensory journey using thousands of fresh marigold and frangipani petals. Prepared by our wellness therapists to soothe the body and calm the spirit.",
     icon: <Sparkles size={24} />,
-    image: "https://images.unsplash.com/photo-1676141570940-7f79ca4f070b?auto=format&fit=crop&q=80&w=1000" // Flower bath shot
+    image: "https://images.unsplash.com/photo-1676141570940-7f79ca4f070b?auto=format&fit=crop&q=80&w=1000"
   },
   {
     id: 2,
     title: "Sunrise Yoga Deck",
     description: "Greet the sun as it rises over the Ayung River valley. Our private wooden decks offer the perfect stillness for meditation and morning flow.",
     icon: <Sun size={24} />,
-    image: "https://images.unsplash.com/photo-1591228127791-8e2eaef098d3?auto=format&fit=crop&q=80&w=1000" // Yoga deck shot
+    image: "https://images.unsplash.com/photo-1591228127791-8e2eaef098d3?auto=format&fit=crop&q=80&w=1000"
   }
 ];
 
 export const SignatureDetails: React.FC = () => {
-  const containerRef = useRef<HTMLElement>(null);
-  const leftColRef = useRef<HTMLDivElement>(null);
-  const rightColRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
+  const sectionRefs = useRef<(HTMLDivElement | null)[]>([]);
 
-  useGSAP(() => {
-    // Only enable sticky animation on desktop (md and up)
-    const mm = gsap.matchMedia();
+  // Use Intersection Observer instead of GSAP ScrollTrigger for state changes
+  useEffect(() => {
+    const observers: IntersectionObserver[] = [];
 
-    mm.add("(min-width: 768px)", () => {
-      // 1. PINNING LOGIC
-      // We pin the Left Column for the duration of the Right Column's scroll height
-      const pinTrigger = ScrollTrigger.create({
-        trigger: containerRef.current,
-        start: "top top",
-        end: "bottom bottom",
-        pin: leftColRef.current,
-        pinSpacing: false, // CRITICAL: Don't add extra spacing that breaks layout
-      });
+    sectionRefs.current.forEach((section, index) => {
+      if (!section) return;
 
-      // 2. STATE CHANGE LOGIC
-      // As each image section enters the center of the viewport, update the active index
-      const imageSections = gsap.utils.toArray('.moment-image-section');
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              setActiveIndex(index);
+            }
+          });
+        },
+        {
+          threshold: 0.5, // Trigger when 50% of section is visible
+          rootMargin: '-20% 0px -20% 0px' // Adjust trigger point
+        }
+      );
 
-      imageSections.forEach((section: any, i) => {
-        ScrollTrigger.create({
-          trigger: section,
-          start: "top center",
-          end: "bottom center",
-          onEnter: () => setActiveIndex(i),
-          onEnterBack: () => setActiveIndex(i),
-        });
-      });
-
-      // Cleanup function
-      return () => {
-        pinTrigger.kill();
-        ScrollTrigger.getAll().forEach(st => st.kill());
-      };
+      observer.observe(section);
+      observers.push(observer);
     });
 
-  }, { scope: containerRef });
-
-  // Text Transition Effect (Desktop)
-  const textRef = useRef<HTMLDivElement>(null);
-  useGSAP(() => {
-    // Only run this animation on desktop to save resources on mobile where this part is hidden
-    if (textRef.current && window.innerWidth >= 768) {
-      gsap.fromTo(textRef.current,
-        { opacity: 0, y: 20, filter: "blur(5px)" },
-        { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.6, ease: "power2.out" }
-      );
-    }
-  }, [activeIndex]); // Re-run when index changes
+    return () => {
+      observers.forEach((observer) => observer.disconnect());
+    };
+  }, []);
 
   return (
-    <section ref={containerRef} className="relative flex flex-col md:flex-row w-full bg-forest">
+    <section className="relative bg-forest">
+      {/* Desktop Layout: Side by Side with CSS Sticky */}
+      <div className="hidden md:flex">
+        {/* LEFT COLUMN (CSS Sticky) */}
+        <div className="w-1/2 relative">
+          <div className="sticky top-0 h-screen flex flex-col justify-center px-8 lg:px-24 text-sand">
+            <div className="max-w-xl">
+              <span className="font-sans text-xs uppercase tracking-[0.3em] text-sand/60 mb-8 border-l border-sand/30 pl-4 h-12 flex items-center">
+                Curated Moments
+              </span>
 
-      {/* LEFT COLUMN (Sticky - Desktop Only) */}
-      <div
-        ref={leftColRef}
-        className="hidden md:flex w-1/2 h-screen flex-col justify-center px-8 lg:px-24 text-sand z-10"
-      >
-        <div className="max-w-xl">
-          <span className="font-sans text-xs uppercase tracking-[0.3em] text-sand/60 mb-8 border-l border-sand/30 pl-4 h-12 flex items-center">
-            Curated Moments
-          </span>
+              {/* Dynamic Text Content with Fade Transition */}
+              <div
+                key={activeIndex}
+                className="flex flex-col gap-6 animate-fade-in"
+              >
+                <div className="w-12 h-12 rounded-full border border-sand/30 flex items-center justify-center mb-2">
+                  {MOMENTS[activeIndex].icon}
+                </div>
 
-          {/* Dynamic Text Content */}
-          <div ref={textRef} className="flex flex-col gap-6">
-            <div className="w-12 h-12 rounded-full border border-sand/30 flex items-center justify-center mb-2">
-              {MOMENTS[activeIndex].icon}
+                <div className="flex items-baseline gap-4 opacity-50 font-serif text-lg">
+                  <span>0{activeIndex + 1}</span>
+                  <span className="h-px w-12 bg-sand"></span>
+                  <span>0{MOMENTS.length}</span>
+                </div>
+
+                <h2 className="text-4xl lg:text-6xl xl:text-7xl font-serif leading-none text-sand">
+                  {MOMENTS[activeIndex].title}
+                </h2>
+
+                <p className="font-sans text-base lg:text-lg text-sand/80 leading-relaxed max-w-md">
+                  {MOMENTS[activeIndex].description}
+                </p>
+              </div>
             </div>
-
-            <div className="flex items-baseline gap-4 opacity-50 font-serif text-lg">
-              <span>0{activeIndex + 1}</span>
-              <span className="h-px w-12 bg-sand"></span>
-              <span>0{MOMENTS.length}</span>
-            </div>
-
-            <h2 className="text-4xl lg:text-6xl xl:text-7xl font-serif leading-none text-sand">
-              {MOMENTS[activeIndex].title}
-            </h2>
-
-            <p className="font-sans text-base lg:text-lg text-sand/80 leading-relaxed max-w-md">
-              {MOMENTS[activeIndex].description}
-            </p>
           </div>
+        </div>
+
+        {/* RIGHT COLUMN (Scrolling Images) */}
+        <div className="w-1/2 flex flex-col">
+          {MOMENTS.map((moment, idx) => (
+            <div
+              key={moment.id}
+              ref={(el) => { sectionRefs.current[idx] = el; }}
+              className="h-screen w-full relative overflow-hidden border-l border-sand/10"
+            >
+              <img
+                src={moment.image}
+                alt={moment.title}
+                className="w-full h-full object-cover transition-transform duration-[2s] ease-in-out hover:scale-105"
+              />
+              {/* Overlay Gradient for visual separation */}
+              <div className="absolute inset-0 bg-gradient-to-r from-forest/50 to-transparent mix-blend-multiply pointer-events-none"></div>
+            </div>
+          ))}
         </div>
       </div>
 
-      {/* RIGHT COLUMN (Scrolling Images) */}
-      <div ref={rightColRef} className="w-full md:w-1/2 flex flex-col">
+      {/* Mobile Layout: Stacked Cards */}
+      <div className="md:hidden flex flex-col">
         {MOMENTS.map((moment, idx) => (
           <div
             key={moment.id}
-            className="moment-image-section h-[80vh] md:h-screen w-full relative overflow-hidden border-b border-sand/10 md:border-b-0 md:border-l"
+            className="h-[80vh] w-full relative overflow-hidden border-b border-sand/10"
           >
             <img
               src={moment.image}
               alt={moment.title}
-              className="w-full h-full object-cover transition-transform duration-[2s] ease-in-out hover:scale-105"
+              className="w-full h-full object-cover"
             />
 
-            {/* Mobile Overlay (Improved Responsiveness) */}
-            <div className="md:hidden absolute inset-0 bg-gradient-to-t from-forest/95 via-forest/60 to-transparent flex flex-col justify-end p-6 sm:p-8 text-sand">
+            {/* Mobile Overlay */}
+            <div className="absolute inset-0 bg-gradient-to-t from-forest/95 via-forest/60 to-transparent flex flex-col justify-end p-6 sm:p-8 text-sand">
               <div className="max-w-md mx-auto w-full mb-4">
                 <div className="mb-4 text-accent drop-shadow-md">{moment.icon}</div>
 
@@ -160,13 +153,9 @@ export const SignatureDetails: React.FC = () => {
                 </p>
               </div>
             </div>
-
-            {/* Overlay Gradient for Desktop visual separation */}
-            <div className="hidden md:block absolute inset-0 bg-gradient-to-r from-forest/50 to-transparent mix-blend-multiply pointer-events-none"></div>
           </div>
         ))}
       </div>
-
     </section>
   );
 };
