@@ -43,29 +43,29 @@ export const LocationSection: React.FC<LocationSectionProps> = ({ villas }) => {
           </p>
         </div>
 
-        {/* Interactive Villa List */}
         <div className="flex flex-col gap-4">
           {villas.map((villa) => (
-            <div
+            <button
               key={villa.id}
-              className={`group cursor-pointer flex items-center justify-between border-b border-forest-dark/10 pb-4 transition-all duration-300
-                ${activeVillaId === villa.id ? 'pl-4 border-forest-dark/40' : 'hover:pl-2'}
-              `}
-              onMouseEnter={() => setActiveVillaId(villa.id)}
+              className={`group cursor-pointer flex items-center justify-between border-b border-forest-dark/10 pb-4 transition-all duration-300 w-full text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forest focus-visible:ring-offset-2 focus-visible:rounded-sm
+                  ${activeVillaId === villa.id ? 'pl-4 border-forest-dark/40' : 'hover:pl-2'}
+                `}
               onClick={() => setActiveVillaId(villa.id)}
+              onMouseEnter={() => setActiveVillaId(villa.id)}
+              aria-pressed={activeVillaId === villa.id}
             >
               <div>
                 <span className={`block font-serif text-xl transition-colors ${activeVillaId === villa.id ? 'text-forest-dark' : 'text-forest-dark/60'}`}>
                   {villa.name}
                 </span>
                 {activeVillaId === villa.id && (
-                  <span className="text-[10px] uppercase tracking-widest text-accent animate-fade-in">
+                  <span className="text-[10px] uppercase tracking-widest text-accent animate-fade-in block mt-1">
                     Viewing Location
                   </span>
                 )}
               </div>
               <div className={`w-2 h-2 rounded-full transition-all ${activeVillaId === villa.id ? 'bg-forest-dark scale-150' : 'bg-forest-dark/20'}`}></div>
-            </div>
+            </button>
           ))}
         </div>
       </div>

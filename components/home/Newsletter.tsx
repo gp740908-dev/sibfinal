@@ -103,17 +103,20 @@ export const Newsletter: React.FC = () => {
           </button>
         </form>
 
-        {status === 'error' && (
-          <p className="mt-4 text-xs text-red-300 animate-fade-in">
-            Unable to connect. Please try again.
-          </p>
-        )}
+        {/* Status Messages - Announced to Screen Readers */}
+        <div aria-live="polite" className="min-h-[2rem]">
+          {status === 'error' && (
+            <p role="alert" className="mt-4 text-xs text-red-300 animate-fade-in">
+              Unable to connect. Please try again.
+            </p>
+          )}
 
-        {status === 'success' && (
-          <p className="mt-6 text-sm text-accent-light animate-fade-in font-serif italic">
-            Welcome to the sanctuary. Check your inbox.
-          </p>
-        )}
+          {status === 'success' && (
+            <p className="mt-6 text-sm text-accent-light animate-fade-in font-serif italic">
+              Welcome to the sanctuary. Check your inbox.
+            </p>
+          )}
+        </div>
       </div>
     </section>
   );

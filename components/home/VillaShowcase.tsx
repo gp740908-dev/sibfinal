@@ -80,14 +80,23 @@ export const VillaShowcase: React.FC<VillaShowcaseProps> = ({ villas }) => {
         ) : (
           <>
             {/* B. The Tabs */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-forest/20 border border-forest/20 mb-8 rounded-sm overflow-hidden">
+            <div
+              role="tablist"
+              aria-label="Villa Selection"
+              className="grid grid-cols-2 md:grid-cols-4 gap-px bg-forest/20 border border-forest/20 mb-8 rounded-sm overflow-hidden"
+            >
               {villas.map((villa) => {
                 const isActive = activeTabId === villa.id;
                 return (
                   <button
                     key={villa.id}
+                    role="tab"
+                    aria-selected={isActive}
+                    aria-controls={`panel-${villa.id}`}
+                    id={`tab-${villa.id}`}
+                    tabIndex={isActive ? 0 : -1}
                     onClick={() => handleTabClick(villa.id)}
-                    className={`py-4 px-2 text-center text-xs md:text-sm font-sans uppercase tracking-widest transition-all duration-300 h-full flex items-center justify-center
+                    className={`py-4 px-2 text-center text-xs md:text-sm font-sans uppercase tracking-widest transition-all duration-300 h-full flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-sand
                       ${isActive
                         ? 'bg-forest text-sand-light font-bold shadow-inner'
                         : 'bg-[#D3D49F] text-forest-dark hover:bg-forest/10'}
@@ -235,7 +244,7 @@ export const VillaShowcase: React.FC<VillaShowcaseProps> = ({ villas }) => {
 const SpecItem: React.FC<{ icon: React.ReactNode; label: string; value: string }> = ({ icon, label, value }) => (
   <div className="flex flex-col gap-1 group">
     <div className="text-text-muted group-hover:text-text transition-colors">{icon}</div>
-    <span className="text-[10px] uppercase tracking-widest text-text-subtle">{label}</span>
+    <span className="text-[10px] uppercase tracking-widest text-text-muted font-semibold">{label}</span>
     <span className="text-text font-serif text-lg leading-none">{value}</span>
   </div>
 );
