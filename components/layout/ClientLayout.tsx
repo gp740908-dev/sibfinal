@@ -6,6 +6,7 @@ import { Navbar } from '../ui/Navbar';
 import { Footer } from '../ui/Footer';
 import { Preloader } from '../ui/Preloader';
 import { SocialFab } from '../ui/SocialFab';
+import { FloatingCTA } from '../ui/FloatingCTA';
 import { SmoothScroll } from '../SmoothScroll';
 
 interface ClientLayoutProps {
@@ -50,6 +51,7 @@ export const ClientLayout: React.FC<ClientLayoutProps> = ({ children }) => {
 
             {!isTransientPage && <Footer />}
 
+            <FloatingCTA />
             <SocialFab />
         </SmoothScroll>
     );

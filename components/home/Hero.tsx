@@ -18,11 +18,11 @@ export const Hero: React.FC = () => {
     const interval = setInterval(() => {
       setIsAnimating(true);
       setActiveSlide((prev) => (prev + 1) % HERO_SLIDES.length);
-      
+
       // Reset animation flag after transition
       setTimeout(() => setIsAnimating(false), 1500);
     }, 6000);
-    
+
     return () => clearInterval(interval);
   }, []);
 
@@ -30,42 +30,45 @@ export const Hero: React.FC = () => {
     document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' });
   }, []);
 
-  // Only render current and next slide
+  // Only render current slide initially, preload next
   const visibleSlides = useMemo(() => {
+    // On first render, only show active slide for faster LCP
+    return [activeSlide];
+  }, [activeSlide]);
+
+  // Preload next slide image after initial render
+  useEffect(() => {
     const nextSlide = (activeSlide + 1) % HERO_SLIDES.length;
-    return [activeSlide, nextSlide];
+    const img = new Image();
+    img.src = HERO_SLIDES[nextSlide].src;
   }, [activeSlide]);
 
   return (
     <section className="relative w-full h-[100svh] overflow-hidden bg-forest">
 
-      {/* Background Slideshow - Only 2 slides max */}
+      {/* Background Slideshow - Only active slide rendered */}
       <div className="absolute inset-0 w-full h-full">
         {HERO_SLIDES.map((slide, index) => {
-          if (!visibleSlides.includes(index)) return null;
-          
-          const isActive = index === activeSlide;
-          
+          // Only render active slide to minimize DOM nodes
+          if (index !== activeSlide) return null;
+
           return (
             <div
               key={slide.id}
-              className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
-                isActive ? 'opacity-100 z-10' : 'opacity-0 z-0'
-              }`}
+              className="absolute inset-0 animate-fade-in"
             >
-              {/* REMOVED Ken Burns - gunakan static image */}
               <OptimizedImage
                 src={slide.src}
                 alt={slide.alt}
                 priority={index === 0}
                 fetchPriority={index === 0 ? "high" : "auto"}
-                className="object-cover scale-105" // Static subtle zoom
+                className="object-cover scale-105"
                 sizes="100vw"
-                quality={85} // Turunkan dari 90 ke 85
+                quality={85}
                 containerClassName="absolute inset-0"
                 fill
               />
-              
+
               {/* Single gradient overlay */}
               <div className="absolute inset-0 bg-gradient-to-b from-forest/40 via-transparent to-forest/70" />
             </div>
@@ -108,9 +111,8 @@ export const Hero: React.FC = () => {
           <button
             key={idx}
             onClick={() => setActiveSlide(idx)}
-            className={`h-[2px] transition-all duration-500 ${
-              idx === activeSlide ? 'w-12 bg-sand' : 'w-4 bg-sand/30'
-            }`}
+            className={`h-[2px] transition-all duration-500 ${idx === activeSlide ? 'w-12 bg-sand' : 'w-4 bg-sand/30'
+              }`}
             aria-label={`Go to slide ${idx + 1}`}
           />
         ))}
