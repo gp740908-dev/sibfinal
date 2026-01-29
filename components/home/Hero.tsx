@@ -30,26 +30,21 @@ export const Hero: React.FC = () => {
     document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' });
   }, []);
 
-  // Only render current and next slide
-  const visibleSlides = useMemo(() => {
-    const nextSlide = (activeSlide + 1) % HERO_SLIDES.length;
-    return [activeSlide, nextSlide];
-  }, [activeSlide]);
-
   return (
-    <section className="relative w-full h-[100svh] overflow-hidden bg-forest">
+    <section className="relative w-full h-[100svh] overflow-hidden bg-black">
 
-      {/* Background Slideshow - Only 2 slides max */}
+      {/* Background Slideshow - Render all to prevent unmount flashing */}
       <div className="absolute inset-0 w-full h-full">
         {HERO_SLIDES.map((slide, index) => {
-          if (!visibleSlides.includes(index)) return null;
-
           const isActive = index === activeSlide;
 
           return (
             <div
               key={slide.id}
-              className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${isActive ? 'opacity-100 z-10' : 'opacity-0 z-0'
+              className={`absolute inset-0 transition-opacity duration-1000 ease-in-out
+                ${isActive
+                  ? 'opacity-100 z-10'
+                  : 'opacity-0 z-0 delay-1000' // Keep old slide visible while new one fades in
                 }`}
             >
               {/* Static image with slow zoom animation */}
