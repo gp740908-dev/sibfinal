@@ -77,47 +77,68 @@ export const OurServices: React.FC = () => {
           </h2>
         </div>
 
-        <ul className="space-y-8 relative">
-          {services.map((service, index) => (
-            <li
-              key={service.id}
-              className="service-item group relative"
-              onMouseEnter={() => setActiveIndex(index)}
-              onClick={() => setActiveIndex(index)} // For mobile tap interaction
-            >
-              <div className="flex items-baseline gap-4 cursor-pointer">
-                <span className={`font-sans text-xs font-bold transition-opacity duration-300 ${activeIndex === index ? 'opacity-100 text-accent' : 'opacity-30'}`}>
-                  0{index + 1}
-                </span>
+        <ul className="space-y-8 relative" role="tablist">
+          {services.map((service, index) => {
+            const isActive = activeIndex === index;
+            const contentId = `service-content-${service.id}`;
+            const headerId = `service-header-${service.id}`;
 
-                <h3
-                  className={`text-4xl md:text-6xl font-serif transition-all duration-500 ease-out 
-                    ${activeIndex === index
-                      ? 'opacity-100 translate-x-4 md:translate-x-8 italic'
-                      : 'opacity-40 group-hover:opacity-60'
+            return (
+              <li
+                key={service.id}
+                className="service-item group relative focus-visible:outline-none"
+              >
+                <div
+                  role="tab"
+                  id={headerId}
+                  aria-selected={isActive}
+                  aria-controls={contentId}
+                  tabIndex={0}
+                  className="flex items-baseline gap-4 cursor-pointer focus-visible:ring-2 focus-visible:ring-forest focus-visible:ring-offset-2 focus-visible:rounded-lg p-2 -ml-2 transition-all"
+                  onClick={() => setActiveIndex(index)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      setActiveIndex(index);
                     }
+                  }}
+                >
+                  <span className={`font-sans text-xs font-bold transition-opacity duration-300 ${isActive ? 'opacity-100 text-accent' : 'opacity-30'}`}>
+                    0{index + 1}
+                  </span>
+
+                  <h3
+                    className={`text-4xl md:text-6xl font-serif transition-all duration-500 ease-out 
+                      ${isActive
+                        ? 'opacity-100 translate-x-4 md:translate-x-8 italic'
+                        : 'opacity-40 group-hover:opacity-60'
+                      }
+                    `}
+                  >
+                    {service.title}
+                  </h3>
+
+                  {isActive && (
+                    <ArrowUpRight className="opacity-0 md:opacity-100 animate-fade-in text-accent ml-4" size={24} aria-hidden="true" />
+                  )}
+                </div>
+
+                {/* Description Accordion (Visible only when active) */}
+                <div
+                  id={contentId}
+                  role="tabpanel"
+                  aria-labelledby={headerId}
+                  className={`overflow-hidden transition-all duration-500 ease-in-out pl-8 md:pl-16
+                    ${isActive ? 'max-h-40 opacity-100 mt-4' : 'max-h-0 opacity-0 mt-0'}
                   `}
                 >
-                  {service.title}
-                </h3>
-
-                {activeIndex === index && (
-                  <ArrowUpRight className="opacity-0 md:opacity-100 animate-fade-in text-accent ml-4" size={24} />
-                )}
-              </div>
-
-              {/* Description Accordion (Visible only when active) */}
-              <div
-                className={`overflow-hidden transition-all duration-500 ease-in-out pl-8 md:pl-16
-                  ${activeIndex === index ? 'max-h-40 opacity-100 mt-4' : 'max-h-0 opacity-0 mt-0'}
-                `}
-              >
-                <p className="font-sans text-text-body text-sm md:text-base leading-relaxed max-w-md">
-                  {service.description}
-                </p>
-              </div>
-            </li>
-          ))}
+                  <p className="font-sans text-text-body text-sm md:text-base leading-relaxed max-w-md">
+                    {service.description}
+                  </p>
+                </div>
+              </li>
+            );
+          })}
         </ul>
 
         {/* Decorative line */}

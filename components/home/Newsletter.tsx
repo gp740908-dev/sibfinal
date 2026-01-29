@@ -78,6 +78,7 @@ export const Newsletter: React.FC = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Your email address"
+              aria-label="Email address"
               className="w-full bg-transparent border-b border-sand/30 py-3 px-2 text-sand placeholder-sand/30 focus:outline-none focus:border-sand transition-colors font-sans text-center md:text-left"
               disabled={status === 'loading' || status === 'success'}
             />

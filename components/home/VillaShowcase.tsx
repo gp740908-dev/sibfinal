@@ -122,12 +122,14 @@ export const VillaShowcase: React.FC<VillaShowcaseProps> = ({ villas }) => {
                         <button
                           onClick={handlePrevImage}
                           className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-sand/80 text-forest-dark rounded-full flex items-center justify-center hover:bg-white transition-colors"
+                          aria-label="Previous image"
                         >
                           <ChevronLeft size={20} />
                         </button>
                         <button
                           onClick={handleNextImage}
                           className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-sand/80 text-forest-dark rounded-full flex items-center justify-center hover:bg-white transition-colors"
+                          aria-label="Next image"
                         >
                           <ChevronRight size={20} />
                         </button>
