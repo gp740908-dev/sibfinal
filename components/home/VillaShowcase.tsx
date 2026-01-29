@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Villa } from '../../types';
 import {
   Maximize,
@@ -104,11 +105,14 @@ export const VillaShowcase: React.FC<VillaShowcaseProps> = ({ villas }) => {
               <div className="lg:w-1/2 relative group">
                 {activeVilla && (
                   <div className="aspect-[4/3] w-full overflow-hidden rounded-sm shadow-2xl relative">
-                    <img
+                    <Image
                       key={`${activeVilla.id}-${currentImageIndex}`}
                       src={carouselImages[currentImageIndex]}
                       alt={`${activeVilla.name} - ${activeVilla.bedrooms} bedroom luxury villa in Ubud with ${activeVilla.features?.slice(0, 2).join(' and ') || 'luxury amenities'}`}
-                      className="w-full h-full object-cover transition-all duration-500 ease-out transform scale-100 group-hover:scale-105 animate-in fade-in zoom-in-105"
+                      fill
+                      sizes="(max-width: 1024px) 100vw, 50vw"
+                      className="object-cover transition-all duration-500 ease-out transform scale-100 group-hover:scale-105"
+                      loading="lazy"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-forest/40 to-transparent opacity-60"></div>
 
@@ -219,15 +223,7 @@ export const VillaShowcase: React.FC<VillaShowcaseProps> = ({ villas }) => {
           </>
         )}
 
-        {/* Hidden Preloader for Instant Switching */}
-        <div className="hidden h-0 w-0 overflow-hidden" aria-hidden="true">
-          {villas.map(v => (
-            <React.Fragment key={v.id}>
-              <img src={v.imageUrl} alt="" />
-              {v.images?.map((img, i) => <img key={`${v.id}-${i}`} src={img} alt="" />)}
-            </React.Fragment>
-          ))}
-        </div>
+        {/* Removed hidden image preloader - was causing LCP penalty by loading all images */}
       </div>
     </section>
   );

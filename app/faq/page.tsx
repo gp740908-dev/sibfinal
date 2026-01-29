@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import { FAQ } from '@/components/faq/FAQ';
 import { JsonLd } from '@/components/seo/JsonLd';
+import { BreadcrumbsSchema } from '@/components/seo/BreadcrumbsSchema';
 
 export const metadata: Metadata = {
     title: 'Frequently Asked Questions',
@@ -81,7 +82,14 @@ export default function FAQPage() {
     return (
         <>
             <JsonLd data={faqSchema} />
+            <BreadcrumbsSchema
+                items={[
+                    { name: 'Home', url: '/' },
+                    { name: 'FAQ', url: '/faq' }
+                ]}
+            />
             <FAQ />
         </>
     );
 }
+

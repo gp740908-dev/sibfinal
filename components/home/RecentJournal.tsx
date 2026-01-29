@@ -2,6 +2,7 @@
 
 import React, { useRef, useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
@@ -151,10 +152,13 @@ export const RecentJournal: React.FC = () => {
             >
               {/* Image */}
               <div className="overflow-hidden aspect-[4/5] relative bg-forest/5">
-                <img
+                <Image
                   src={post.imageUrl}
                   alt={post.title}
-                  className="w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-105 group-hover:brightness-95"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                  className="object-cover transition-transform duration-1000 ease-out group-hover:scale-105 group-hover:brightness-95"
+                  loading="lazy"
                 />
               </div>
 

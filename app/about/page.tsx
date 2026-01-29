@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import { About } from '@/components/about/About';
 import { JsonLd } from '@/components/seo/JsonLd';
+import { BreadcrumbsSchema } from '@/components/seo/BreadcrumbsSchema';
 
 export const metadata: Metadata = {
     title: 'Our Story | About StayinUBUD',
@@ -36,7 +37,14 @@ export default function AboutPage() {
     return (
         <>
             <JsonLd data={aboutSchema} />
+            <BreadcrumbsSchema
+                items={[
+                    { name: 'Home', url: '/' },
+                    { name: 'About', url: '/about' }
+                ]}
+            />
             <About />
         </>
     );
 }
+

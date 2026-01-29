@@ -2,6 +2,7 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
+import Image from 'next/image';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
@@ -214,10 +215,12 @@ export const OurServices: React.FC = () => {
               className="absolute inset-0 w-full h-full"
             >
               <div className="absolute inset-0 bg-forest/10 z-10 mix-blend-multiply"></div>
-              <img
+              <Image
                 src={service.imageUrl}
                 alt={service.title}
-                className="w-full h-full object-cover"
+                fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                className="object-cover"
                 loading="lazy"
               />
 

@@ -2,6 +2,7 @@
 'use client';
 
 import React, { useRef, useState, useEffect } from 'react';
+import Image from 'next/image';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
@@ -124,10 +125,13 @@ export const GuestDiaries: React.FC = () => {
           className="w-full md:w-5/12 aspect-[4/5] md:aspect-[3/4] relative z-0 shadow-2xl rounded-sm overflow-hidden"
         >
           <div className="w-full h-full overflow-hidden">
-            <img
+            <Image
               src={review.image_url}
               alt="Guest relaxing in villa sanctuary"
-              className="w-full h-full object-cover transition-transform duration-[2s] hover:scale-110"
+              fill
+              sizes="(max-width: 768px) 100vw, 40vw"
+              className="object-cover transition-transform duration-[2s] hover:scale-110"
+              loading="lazy"
             />
             {/* Subtle Overlay to blend */}
             <div className="absolute inset-0 bg-forest/10 mix-blend-multiply"></div>
