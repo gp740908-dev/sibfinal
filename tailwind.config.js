@@ -48,6 +48,9 @@ module.exports = {
         'scale-y': 'scaleY 0.5s ease-out forwards',
         'slow-zoom': 'slowZoom 20s linear forwards', // New slow zoom
         'reveal-up': 'revealUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards', // Smooth text reveal
+        'menu-reveal': 'menuReveal 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+        'menu-item-slide': 'menuItemSlide 0.5s ease-out forwards',
+        'menu-bg-reveal': 'menuBgReveal 0.6s cubic-bezier(0.87, 0, 0.13, 1) forwards',
       },
       keyframes: {
         fadeIn: {
@@ -69,6 +72,18 @@ module.exports = {
         scaleY: {
           '0%': { transform: 'scaleY(0)' },
           '100%': { transform: 'scaleY(1)' },
+        },
+        menuReveal: {
+          '0%': { transform: 'translateY(-100%)' },
+          '100%': { transform: 'translateY(0)' },
+        },
+        menuBgReveal: {
+          '0%': { clipPath: 'polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%)' },
+          '100%': { clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)' },
+        },
+        menuItemSlide: {
+          '0%': { transform: 'translateY(20px)', opacity: '0' },
+          '100%': { transform: 'translateY(0)', opacity: '1' },
         },
         // HAPUS kenBurns atau buat versi ringan
         // kenBurns: {

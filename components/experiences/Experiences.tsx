@@ -4,7 +4,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
-import { ArrowRight, MessageCircle } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
@@ -184,17 +184,7 @@ export const Experiences: React.FC<ExperiencesProps> = ({ initialExperiences }) 
         ))}
       </div>
 
-      {/* 3. FLOATING CTA */}
-      <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-40 animate-slide-up">
-        <button
-          onClick={handleInquire}
-          className="bg-forest text-sand-light pl-6 pr-8 py-4 rounded-full shadow-2xl hover:bg-forest/90 hover:scale-105 transition-all duration-300 flex items-center gap-3 group border border-sand-light/10"
-        >
-          <div className="w-2 h-2 rounded-full bg-accent animate-pulse"></div>
-          <span className="font-sans text-xs uppercase tracking-widest font-bold">Inquire Experience</span>
-          <MessageCircle size={18} className="text-sand/80 group-hover:rotate-12 transition-transform" />
-        </button>
-      </div>
+
 
     </div>
   );

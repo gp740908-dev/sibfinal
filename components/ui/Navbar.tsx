@@ -2,16 +2,12 @@
 
 import React, { useRef, useState, useEffect } from 'react';
 import Link from 'next/link';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { useGSAP } from '@gsap/react';
+
 import { Globe } from 'lucide-react';
 import { FaInstagram, FaWhatsapp } from 'react-icons/fa6';
 import { FullScreenMenu } from '../layout/FullScreenMenu';
 
-if (typeof window !== 'undefined') {
-  gsap.registerPlugin(ScrollTrigger);
-}
+
 
 interface NavbarProps {
   currentView?: string;
@@ -47,11 +43,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView = 'home' }) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  useGSAP(() => {
-    return () => {
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
-    };
-  }, { scope: navRef });
+
 
   // Determine Theme
   const isInnerPage = currentView !== 'home';

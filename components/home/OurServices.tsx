@@ -1,17 +1,10 @@
 
 'use client';
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { useGSAP } from '@gsap/react';
 import { ArrowUpRight } from 'lucide-react';
 import { supabase, isMock } from '../../lib/supabase';
-
-if (typeof window !== 'undefined') {
-  gsap.registerPlugin(ScrollTrigger);
-}
 
 interface ServiceItem {
   id: string;
@@ -30,8 +23,7 @@ const MOCK_SERVICES: ServiceItem[] = [
 export const OurServices: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [services, setServices] = useState<ServiceItem[]>([]);
-  const containerRef = useRef<HTMLElement>(null);
-  const imagesRef = useRef<HTMLDivElement>(null);
+
 
   useEffect(() => {
     async function fetchServices() {
@@ -65,43 +57,13 @@ export const OurServices: React.FC = () => {
   // REMOVED: Scroll reveal animation that caused intermittent visibility issues
   // Elements are now always visible, only image switching uses GSAP
 
-  useGSAP(() => {
-    if (services.length === 0) return;
 
-    // 2. Image Switching Animation
-    const images = imagesRef.current?.children;
-    if (images && images.length > 0 && images[activeIndex]) {
-      // Fade out all images not matching index
-      Array.from(images).forEach((img, idx) => {
-        if (idx !== activeIndex) {
-          gsap.to(img, {
-            opacity: 0,
-            scale: 1.05,
-            zIndex: 0,
-            duration: 0.6,
-            ease: "power2.inOut"
-          });
-        }
-      });
-
-      // Fade in active image
-      gsap.fromTo(images[activeIndex],
-        { opacity: 0, scale: 1.1, zIndex: 10 },
-        {
-          opacity: 1,
-          scale: 1,
-          zIndex: 10,
-          duration: 0.8,
-          ease: "power2.out"
-        }
-      );
-    }
-  }, [activeIndex, services]);
 
   if (services.length === 0) return null;
 
   return (
-    <section ref={containerRef} className="bg-sand text-forest min-h-[70vh] flex flex-col lg:flex-row overflow-hidden border-t border-forest/10">
+
+    <section className="bg-sand text-forest min-h-[70vh] flex flex-col lg:flex-row overflow-hidden border-t border-forest/10">
 
       {/* LEFT COLUMN: Content */}
       <div className="w-full lg:w-1/2 p-8 md:p-16 lg:p-24 flex flex-col justify-center relative z-20">
@@ -164,30 +126,35 @@ export const OurServices: React.FC = () => {
 
       {/* RIGHT COLUMN: Image Reveal Stage */}
       <div className="service-image-container w-full lg:w-1/2 min-h-[400px] lg:h-auto relative overflow-hidden bg-forest/5">
-        <div ref={imagesRef} className="w-full h-full relative">
-          {services.map((service, index) => (
-            <div
-              key={service.id}
-              className="absolute inset-0 w-full h-full"
-            >
-              <div className="absolute inset-0 bg-forest/10 z-10 mix-blend-multiply"></div>
-              <Image
-                src={service.imageUrl}
-                alt={service.title}
-                fill
-                sizes="(max-width: 1024px) 100vw, 50vw"
-                className="object-cover"
-                loading="lazy"
-              />
+        <div className="w-full h-full relative">
+          {services.map((service, index) => {
+            const isActive = activeIndex === index;
+            return (
+              <div
+                key={service.id}
+                className={`absolute inset-0 w-full h-full transition-all duration-700 ease-out
+                  ${isActive ? 'opacity-100 z-10 scale-100' : 'opacity-0 z-0 scale-105'}
+                `}
+              >
+                <div className="absolute inset-0 bg-forest/10 z-10 mix-blend-multiply"></div>
+                <Image
+                  src={service.imageUrl}
+                  alt={service.title}
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  className="object-cover"
+                  loading="lazy"
+                />
 
-              {/* Mobile overlay text (optional if list is scrolled out of view, but mostly purely aesthetic here) */}
-              <div className="absolute bottom-6 right-6 z-20 lg:hidden">
-                <span className="bg-sand/90 text-forest px-4 py-1 text-xs uppercase tracking-widest font-bold backdrop-blur-sm">
-                  {service.title}
-                </span>
+                {/* Mobile overlay text */}
+                <div className={`absolute bottom-6 right-6 z-20 lg:hidden transition-transform duration-500 delay-100 ${isActive ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}>
+                  <span className="bg-sand/90 text-forest px-4 py-1 text-xs uppercase tracking-widest font-bold backdrop-blur-sm shadow-lg">
+                    {service.title}
+                  </span>
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
 
