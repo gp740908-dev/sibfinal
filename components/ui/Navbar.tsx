@@ -57,9 +57,9 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView = 'home' }) => {
   const isInnerPage = currentView !== 'home';
   const isDarkState = isScrolled || isInnerPage;
 
-  const textColor = isDarkState ? 'text-forest' : 'text-sand-light';
+  const textColor = isDarkState ? 'text-forest' : 'text-sand';
   const borderColor = isDarkState ? 'border-forest/20' : 'border-transparent';
-  const iconColorClass = isDarkState ? 'text-forest' : 'text-sand-light';
+  const iconColorClass = isDarkState ? 'text-forest' : 'text-sand';
 
   return (
     <>
