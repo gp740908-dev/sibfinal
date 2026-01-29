@@ -20,7 +20,7 @@ export const LocationSection: React.FC<LocationSectionProps> = ({ villas }) => {
 
   return (
     <section
-      className="relative z-30 bg-sand flex flex-col lg:flex-row h-auto lg:h-[80vh] min-h-[600px] overflow-hidden"
+      className="relative z-40 bg-sand flex flex-col lg:flex-row h-auto lg:h-[80vh] min-h-[600px] overflow-hidden"
       aria-labelledby="location-heading"
       role="region"
     >
@@ -29,7 +29,7 @@ export const LocationSection: React.FC<LocationSectionProps> = ({ villas }) => {
       </h2>
 
       {/* LEFT: Content */}
-      <div className="loc-content w-full lg:w-1/3 bg-sand px-6 md:px-12 py-12 md:py-24 flex flex-col justify-center relative z-20 shadow-2xl">
+      <div className="loc-content w-full lg:w-1/3 bg-sand px-6 md:px-12 pt-32 md:pt-40 pb-12 md:pb-24 flex flex-col justify-center relative z-20 shadow-2xl">
         <div className="mb-12">
           <div className="flex items-center gap-2 text-forest-dark/60 mb-4">
             <MapPin size={16} />
