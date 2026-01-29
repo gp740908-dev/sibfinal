@@ -46,7 +46,8 @@ module.exports = {
         'fade-in': 'fadeIn 0.6s ease-out forwards', // Dikurangi dari 1s
         'slide-up': 'slideUp 0.5s ease-out forwards', // Dikurangi dari 0.8s
         'scale-y': 'scaleY 0.5s ease-out forwards',
-        // HAPUS 'ken-burns' atau ganti dengan static
+        'slow-zoom': 'slowZoom 20s linear forwards', // New slow zoom
+        'reveal-up': 'revealUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards', // Smooth text reveal
       },
       keyframes: {
         fadeIn: {
@@ -56,6 +57,14 @@ module.exports = {
         slideUp: {
           '0%': { opacity: '0', transform: 'translateY(15px)' }, // Reduced from 20px
           '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+        revealUp: {
+          '0%': { transform: 'translateY(100%)' },
+          '100%': { transform: 'translateY(0)' },
+        },
+        slowZoom: {
+          '0%': { transform: 'scale(1)' },
+          '100%': { transform: 'scale(1.15)' },
         },
         scaleY: {
           '0%': { transform: 'scaleY(0)' },

@@ -6,14 +6,14 @@ import Link from 'next/link';
 export const Footer: React.FC = () => {
   return (
     <footer
-      className="fixed bottom-0 left-0 w-full z-0 bg-forest text-sand-light flex flex-col justify-between py-12 px-6 md:px-12 h-[450px] md:h-[500px]"
+      className="fixed bottom-0 left-0 w-full z-0 bg-forest text-sand-light flex flex-col justify-between py-12 px-6 md:px-12 h-[450px] md:h-[600px]"
     >
       {/* Top Section: CTA */}
       <div className="flex-1 flex flex-col justify-center items-center text-center">
         <p className="font-sans text-xs md:text-sm tracking-[0.3em] uppercase opacity-70 mb-4">
           Your Sanctuary Awaits
         </p>
-        <h2 className="font-serif text-5xl md:text-8xl lg:text-9xl mb-8 leading-none opacity-90">
+        <h2 className="font-serif text-5xl md:text-7xl lg:text-8xl mb-8 leading-none opacity-90">
           Ready to <br />
           <span className="italic font-light text-accent-light">Escape?</span>
         </h2>

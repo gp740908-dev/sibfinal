@@ -52,15 +52,15 @@ export const Hero: React.FC = () => {
               className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${isActive ? 'opacity-100 z-10' : 'opacity-0 z-0'
                 }`}
             >
-              {/* REMOVED Ken Burns - gunakan static image */}
+              {/* Static image with slow zoom animation */}
               <OptimizedImage
                 src={slide.src}
                 alt={slide.alt}
                 priority={index === 0}
                 fetchPriority={index === 0 ? "high" : "auto"}
-                className="object-cover scale-105" // Static subtle zoom
+                className={`object-cover ${isActive ? 'animate-slow-zoom' : 'scale-100'}`}
                 sizes="100vw"
-                quality={85} // Turunkan dari 90 ke 85
+                quality={85}
                 containerClassName="absolute inset-0"
                 fill
               />
@@ -75,9 +75,9 @@ export const Hero: React.FC = () => {
       {/* Content Layer */}
       <div className="relative z-20 flex flex-col items-center justify-center h-full text-center px-4">
 
-        {/* Simplified Title - Word-based animation instead of letter */}
-        <h1 className="font-serif text-sand mb-8 leading-none drop-shadow-2xl animate-slide-up opacity-0 [animation-delay:0.2s]">
-          <span className="block text-[12vw] md:text-[11vw] lg:text-[10vw] tracking-widest">
+        {/* Text Reveal Animation: Overflow Hidden + Slide Up */}
+        <h1 className="font-serif text-sand mb-8 leading-none drop-shadow-2xl overflow-hidden py-2">
+          <span className="block text-[12vw] md:text-[11vw] lg:text-[10vw] tracking-widest animate-reveal-up [animation-delay:0.2s]">
             STAYINUBUD
           </span>
         </h1>
