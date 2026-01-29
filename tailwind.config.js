@@ -1,4 +1,3 @@
-
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
@@ -11,13 +10,13 @@ module.exports = {
       colors: {
         sand: {
           DEFAULT: '#D3D49F',
-          light: '#F4F1EA',      // HIGH CONTRAST - For text on dark
-          dark: '#B8BA7F',       // For backgrounds
+          light: '#F4F1EA',
+          dark: '#B8BA7F',
         },
         forest: {
           DEFAULT: '#537F5D',
-          dark: '#243326',       // HIGH CONTRAST - For text on light
-          light: '#709977',      // For hover states
+          dark: '#243326',
+          light: '#709977',
         },
         accent: {
           light: '#9BB784',
@@ -26,19 +25,18 @@ module.exports = {
         gold: {
           DEFAULT: '#C4A35A',
         },
-        // Ensure all text colors meet WCAG AA
-        'text-primary': '#1A1A1A',     // Near black for body text
-        'text-secondary': '#4A4A4A',   // Dark gray (still 7:1 contrast)
+        'text-primary': '#1A1A1A',
+        'text-secondary': '#4A4A4A',
       },
       fontFamily: {
         serif: ['var(--font-serif)', 'serif'],
         sans: ['var(--font-sans)', 'sans-serif'],
       },
       animation: {
-        'fade-in': 'fadeIn 1s ease-out forwards',
-        'slide-up': 'slideUp 0.8s ease-out forwards',
-        'scale-y': 'scaleY 0.8s ease-out forwards',
-        'ken-burns': 'kenBurns 6s linear forwards',
+        'fade-in': 'fadeIn 0.6s ease-out forwards', // Dikurangi dari 1s
+        'slide-up': 'slideUp 0.5s ease-out forwards', // Dikurangi dari 0.8s
+        'scale-y': 'scaleY 0.5s ease-out forwards',
+        // HAPUS 'ken-burns' atau ganti dengan static
       },
       keyframes: {
         fadeIn: {
@@ -46,17 +44,18 @@ module.exports = {
           '100%': { opacity: '1' },
         },
         slideUp: {
-          '0%': { opacity: '0', transform: 'translateY(20px)' },
+          '0%': { opacity: '0', transform: 'translateY(15px)' }, // Reduced from 20px
           '100%': { opacity: '1', transform: 'translateY(0)' },
         },
         scaleY: {
           '0%': { transform: 'scaleY(0)' },
           '100%': { transform: 'scaleY(1)' },
         },
-        kenBurns: {
-          '0%': { transform: 'scale(1)' },
-          '100%': { transform: 'scale(1.1)' },
-        }
+        // HAPUS kenBurns atau buat versi ringan
+        // kenBurns: {
+        //   '0%': { transform: 'scale(1.05)' }, // Start sudah zoomed
+        //   '100%': { transform: 'scale(1.05)' }, // Static, no animation
+        // }
       }
     },
   },
@@ -67,19 +66,19 @@ module.exports = {
           'backface-visibility': 'hidden',
           '-webkit-backface-visibility': 'hidden',
         },
-        '.backface-visible': {
-          'backface-visibility': 'visible',
-          '-webkit-backface-visibility': 'visible',
+        '.transform-gpu': {
+          'transform': 'translateZ(0)',
+          '-webkit-transform': 'translateZ(0)',
         },
       })
       addUtilities({
         '.focus-ring': {
-          '@apply focus:outline-none focus-visible:ring-4 focus-visible:ring-gold/50 focus-visible:ring-offset-2': {},
+          '@apply focus:outline-none focus-visible:ring-2 focus-visible:ring-gold/50 focus-visible:ring-offset-2': {},
         },
         '.focus-ring-inset': {
-          '@apply focus:outline-none focus-visible:ring-4 focus-visible:ring-inset focus-visible:ring-gold/50': {},
+          '@apply focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-gold/50': {},
         },
       })
     }
   ],
-}
+          }
