@@ -47,7 +47,7 @@ export default function ExperiencePage() {
                     <h2 className="text-4xl md:text-6xl font-serif mb-8">
                         Experience Reality
                     </h2>
-                    <p className="text-lg text-gray-600 mb-8 max-w-xl mx-auto">
+                    <p className="text-lg text-text-muted mb-8 max-w-xl mx-auto">
                         This is just a digital glimpse. The scent of frangipani and the sound of the river await you.
                     </p>
                     <a href="/villas" className="inline-block bg-forest text-white px-8 py-4 rounded-full text-sm font-bold uppercase tracking-widest hover:bg-forest/90 transition-colors">
