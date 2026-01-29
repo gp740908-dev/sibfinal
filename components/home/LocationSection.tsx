@@ -20,7 +20,7 @@ export const LocationSection: React.FC<LocationSectionProps> = ({ villas }) => {
 
   return (
     <section
-      className="flex flex-col lg:flex-row h-auto lg:h-[80vh] min-h-[600px] overflow-hidden"
+      className="relative z-30 bg-sand flex flex-col lg:flex-row h-auto lg:h-[80vh] min-h-[600px] overflow-hidden"
       aria-labelledby="location-heading"
       role="region"
     >
