@@ -63,11 +63,11 @@ export const Newsletter: React.FC = () => {
           <Mail size={32} strokeWidth={1} />
         </div>
 
-        <h2 className="text-4xl md:text-6xl font-serif mb-6 leading-tight">
+        <h2 className="text-4xl md:text-6xl font-serif mb-6 leading-tight text-forest">
           THE INNER <span className="italic text-accent-light">CIRCLE</span>
         </h2>
 
-        <p className="font-sans text-lg opacity-70 mb-10 max-w-xl mx-auto leading-relaxed font-light">
+        <p className="font-sans text-lg text-text-body mb-10 max-w-xl mx-auto leading-relaxed font-light">
           Join our private guest list for curated Ubud itineraries, secret villa openings, and stories from the jungle.
         </p>
 

@@ -94,7 +94,7 @@ export const SignatureDetails: React.FC = () => {
         className="hidden md:flex w-1/2 h-screen flex-col justify-center px-8 lg:px-24 text-sand z-10"
       >
         <div className="max-w-xl">
-          <span className="font-sans text-xs uppercase tracking-[0.3em] opacity-60 mb-8 border-l border-sand/30 pl-4 h-12 flex items-center">
+          <span className="font-sans text-xs uppercase tracking-[0.3em] text-text-muted mb-8 border-l border-sand/30 pl-4 h-12 flex items-center">
             Curated Moments
           </span>
 
@@ -110,11 +110,11 @@ export const SignatureDetails: React.FC = () => {
               <span>0{MOMENTS.length}</span>
             </div>
 
-            <h2 className="text-4xl lg:text-6xl xl:text-7xl font-serif leading-none">
+            <h2 className="text-4xl lg:text-6xl xl:text-7xl font-serif leading-none text-forest">
               {MOMENTS[activeIndex].title}
             </h2>
 
-            <p className="font-sans text-base lg:text-lg opacity-80 leading-relaxed max-w-md">
+            <p className="font-sans text-base lg:text-lg text-text-body leading-relaxed max-w-md">
               {MOMENTS[activeIndex].description}
             </p>
           </div>

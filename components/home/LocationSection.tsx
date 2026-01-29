@@ -67,12 +67,12 @@ export const LocationSection: React.FC<LocationSectionProps> = ({ villas }) => {
         <div className="mb-12">
           <div className="flex items-center gap-2 text-forest-dark/60 mb-4">
             <MapPin size={16} />
-            <span className="font-sans text-xs uppercase tracking-[0.2em]">The Locations</span>
+            <span className="font-sans text-xs uppercase tracking-[0.2em] text-text-muted">The Locations</span>
           </div>
-          <h2 className="text-5xl md:text-6xl font-serif text-forest-dark leading-none mb-6">
+          <h2 className="text-5xl md:text-6xl font-serif text-forest leading-none mb-6">
             ROOTED IN <br /> <span className="italic">UBUD</span>
           </h2>
-          <p className="text-forest-dark/80 font-sans leading-relaxed">
+          <p className="text-text-body font-sans leading-relaxed">
             Our sanctuaries are hidden within the rice terraces and ancient forests, far enough to hear the silence, close enough to touch the culture.
           </p>
         </div>

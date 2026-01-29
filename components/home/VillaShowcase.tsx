@@ -67,7 +67,7 @@ export const VillaShowcase: React.FC<VillaShowcaseProps> = ({ villas }) => {
 
         {/* A. Section Header - Always visible to maintain layout */}
         <div className="text-center mb-10">
-          <h2 className="text-3xl md:text-5xl font-serif text-forest-dark tracking-tight">FEATURED VILLAS</h2>
+          <h2 className="text-3xl md:text-5xl font-serif text-forest tracking-tight">FEATURED VILLAS</h2>
           <div className="h-1 w-20 bg-forest-dark mx-auto mt-4 opacity-20"></div>
         </div>
 
@@ -157,7 +157,7 @@ export const VillaShowcase: React.FC<VillaShowcaseProps> = ({ villas }) => {
                       <h3 className="text-4xl md:text-5xl font-serif text-forest-dark mb-4 uppercase leading-none">
                         {activeVilla.name}
                       </h3>
-                      <p className="text-forest-dark/80 font-sans text-lg leading-relaxed mb-6">
+                      <p className="text-text-body font-sans text-lg leading-relaxed mb-6">
                         {activeVilla.description}
                       </p>
 
@@ -171,7 +171,7 @@ export const VillaShowcase: React.FC<VillaShowcaseProps> = ({ villas }) => {
 
                     {/* Specifications Grid */}
                     <div className="mb-8">
-                      <h4 className="text-forest-dark font-sans text-xs tracking-[0.2em] uppercase font-bold mb-6 opacity-70">
+                      <h4 className="text-text font-sans text-xs tracking-[0.2em] uppercase font-bold mb-6 opacity-70">
                         Specifications
                       </h4>
                       <div className="grid grid-cols-2 md:grid-cols-4 gap-y-6 gap-x-4">
@@ -232,9 +232,9 @@ export const VillaShowcase: React.FC<VillaShowcaseProps> = ({ villas }) => {
 // Helper Component for Specs
 const SpecItem: React.FC<{ icon: React.ReactNode; label: string; value: string }> = ({ icon, label, value }) => (
   <div className="flex flex-col gap-1 group">
-    <div className="text-forest-dark/70 group-hover:text-forest-dark transition-colors">{icon}</div>
-    <span className="text-[10px] uppercase tracking-widest text-forest-dark/50">{label}</span>
-    <span className="text-forest-dark font-serif text-lg leading-none">{value}</span>
+    <div className="text-text-muted group-hover:text-text transition-colors">{icon}</div>
+    <span className="text-[10px] uppercase tracking-widest text-text-subtle">{label}</span>
+    <span className="text-text font-serif text-lg leading-none">{value}</span>
   </div>
 );
 

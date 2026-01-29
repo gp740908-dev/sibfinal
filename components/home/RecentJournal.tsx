@@ -128,8 +128,8 @@ export const RecentJournal: React.FC = () => {
         {/* Header */}
         <div className="journal-header flex flex-col md:flex-row justify-between items-end mb-16 border-b border-forest/10 pb-6">
           <div>
-            <span className="block font-sans text-xs uppercase tracking-[0.2em] opacity-60 mb-2">The Magazine</span>
-            <h2 className="text-4xl md:text-5xl font-serif tracking-tight leading-none">
+            <span className="block font-sans text-xs uppercase tracking-[0.2em] text-text-muted mb-2">The Magazine</span>
+            <h2 className="text-4xl md:text-5xl font-serif tracking-tight leading-none text-forest">
               STORIES FROM UBUD
             </h2>
           </div>
@@ -173,7 +173,7 @@ export const RecentJournal: React.FC = () => {
                   {post.title}
                 </h3>
 
-                <p className="font-sans text-forest-dark/70 text-sm leading-relaxed line-clamp-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500 transform translate-y-2 group-hover:translate-y-0">
+                <p className="font-sans text-text-muted text-sm leading-relaxed line-clamp-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500 transform translate-y-2 group-hover:translate-y-0">
                   {post.excerpt}
                 </p>
               </div>

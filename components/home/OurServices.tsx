@@ -151,10 +151,10 @@ export const OurServices: React.FC = () => {
       <div className="w-full lg:w-1/2 p-8 md:p-16 lg:p-24 flex flex-col justify-center relative z-20">
 
         <div className="service-header mb-12 md:mb-20">
-          <span className="block font-sans text-xs uppercase tracking-[0.2em] opacity-60 mb-4">
+          <span className="block font-sans text-xs uppercase tracking-[0.2em] text-text-muted mb-4">
             Curated For You
           </span>
-          <h2 className="text-3xl md:text-5xl font-serif tracking-tight leading-none">
+          <h2 className="text-3xl md:text-5xl font-serif tracking-tight leading-none text-forest">
             BESPOKE EXPERIENCES
           </h2>
         </div>
@@ -194,7 +194,7 @@ export const OurServices: React.FC = () => {
                   ${activeIndex === index ? 'max-h-40 opacity-100 mt-4' : 'max-h-0 opacity-0 mt-0'}
                 `}
               >
-                <p className="font-sans text-forest/70 text-sm md:text-base leading-relaxed max-w-md">
+                <p className="font-sans text-text-body text-sm md:text-base leading-relaxed max-w-md">
                   {service.description}
                 </p>
               </div>
