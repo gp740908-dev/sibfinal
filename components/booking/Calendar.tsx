@@ -120,21 +120,21 @@ export const Calendar: React.FC<CalendarProps> = ({
         classNames={{
           caption_label: "font-serif text-xl text-forest-dark font-medium",
           head_cell: "text-forest-dark/80 font-bold text-xs uppercase tracking-widest pb-4 pt-2",
-          day: "text-lg font-sans text-forest-dark/90 data-[disabled]:text-gray-300 rounded-full hover:bg-sand/30 transition-colors",
+          day: "text-lg font-sans text-forest-dark/90 data-[disabled]:text-text-subtle rounded-full hover:bg-sand/30 transition-colors",
           table: "w-full border-collapse",
         }}
       />
 
       {/* Legend */}
       {showLegend && (
-        <div className="w-full mt-4 pt-4 border-t border-gray-100">
+        <div className="w-full mt-4 pt-4 border-t border-text-subtle/30">
           <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 text-[10px] sm:text-xs">
             {/* Available */}
             <div className="flex items-center gap-2">
               <div className="w-6 h-6 rounded-full border-2 border-forest-dark/30 bg-white flex items-center justify-center text-[10px] text-forest-dark/60">
                 12
               </div>
-              <span className="text-gray-500 uppercase tracking-wider">Available</span>
+              <span className="text-text-muted uppercase tracking-wider">Available</span>
             </div>
 
             {/* Selected */}
@@ -142,7 +142,7 @@ export const Calendar: React.FC<CalendarProps> = ({
               <div className="w-6 h-6 rounded-full bg-forest-dark flex items-center justify-center text-[10px] text-white font-bold">
                 ✓
               </div>
-              <span className="text-gray-500 uppercase tracking-wider">Selected</span>
+              <span className="text-text-muted uppercase tracking-wider">Selected</span>
             </div>
 
             {/* Booked */}
@@ -151,7 +151,7 @@ export const Calendar: React.FC<CalendarProps> = ({
                 <span className="text-[10px] text-red-400">12</span>
                 <div className="absolute w-full h-0.5 bg-red-400 rotate-[-45deg]"></div>
               </div>
-              <span className="text-gray-500 uppercase tracking-wider">Booked</span>
+              <span className="text-text-muted uppercase tracking-wider">Booked</span>
             </div>
 
             {/* Today */}
@@ -159,13 +159,13 @@ export const Calendar: React.FC<CalendarProps> = ({
               <div className="w-6 h-6 rounded-full bg-amber-100 border border-amber-300 flex items-center justify-center text-[10px] text-amber-700 font-bold">
                 T
               </div>
-              <span className="text-gray-500 uppercase tracking-wider">Today</span>
+              <span className="text-text-muted uppercase tracking-wider">Today</span>
             </div>
           </div>
 
           {/* Booking Status Info */}
           {bookedCount > 0 && (
-            <p className="text-center text-xs text-gray-400 mt-3">
+            <p className="text-center text-xs text-text-subtle mt-3">
               <span className="text-red-500 font-semibold">{bookedCount}</span> dates unavailable this month
             </p>
           )}

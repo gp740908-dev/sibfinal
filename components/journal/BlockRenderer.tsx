@@ -32,7 +32,7 @@ export const BlockRenderer: React.FC<BlockRendererProps> = ({ content }) => {
     if (isLegacyHTML) {
         return (
             <div
-                className="font-sans text-neutral-900 leading-relaxed space-y-6"
+                className="font-sans text-text leading-relaxed space-y-6"
                 dangerouslySetInnerHTML={{ __html: content || '' }}
             />
         );

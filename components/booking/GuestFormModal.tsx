@@ -109,8 +109,8 @@ export const GuestFormModal: React.FC<GuestFormModalProps> = ({
               aria-required="true"
               aria-invalid={!!errors.fullName}
               aria-describedby={errors.fullName ? "name-error" : undefined}
-              className={`w-full border-b py-2 bg-transparent outline-none transition-all placeholder:text-gray-300 font-serif text-lg
-                ${errors.fullName ? 'border-red-400' : 'border-gray-200 focus:border-forest-dark'}
+              className={`w-full border-b py-2 bg-transparent outline-none transition-all placeholder:text-text-subtle font-serif text-lg
+                ${errors.fullName ? 'border-red-400' : 'border-text-subtle focus:border-forest-dark'}
               `}
             />
             {errors.fullName && <span id="name-error" role="alert" className="text-xs text-red-400">{errors.fullName}</span>}
@@ -132,8 +132,8 @@ export const GuestFormModal: React.FC<GuestFormModalProps> = ({
                 aria-required="true"
                 aria-invalid={!!errors.email}
                 aria-describedby={errors.email ? "email-error" : undefined}
-                className={`w-full border-b py-2 bg-transparent outline-none transition-all placeholder:text-gray-300 font-sans text-sm
-                  ${errors.email ? 'border-red-400' : 'border-gray-200 focus:border-forest-dark'}
+                className={`w-full border-b py-2 bg-transparent outline-none transition-all placeholder:text-text-subtle font-sans text-sm
+                  ${errors.email ? 'border-red-400' : 'border-text-subtle focus:border-forest-dark'}
                 `}
               />
               {errors.email && <span id="email-error" role="alert" className="text-xs text-red-400">{errors.email}</span>}
@@ -154,8 +154,8 @@ export const GuestFormModal: React.FC<GuestFormModalProps> = ({
                 aria-required="true"
                 aria-invalid={!!errors.whatsapp}
                 aria-describedby={errors.whatsapp ? "whatsapp-error" : undefined}
-                className={`w-full border-b py-2 bg-transparent outline-none transition-all placeholder:text-gray-300 font-sans text-sm
-                  ${errors.whatsapp ? 'border-red-400' : 'border-gray-200 focus:border-forest-dark'}
+                className={`w-full border-b py-2 bg-transparent outline-none transition-all placeholder:text-text-subtle font-sans text-sm
+                  ${errors.whatsapp ? 'border-red-400' : 'border-text-subtle focus:border-forest-dark'}
                 `}
               />
               {errors.whatsapp && <span id="whatsapp-error" role="alert" className="text-xs text-red-400">{errors.whatsapp}</span>}
@@ -173,7 +173,7 @@ export const GuestFormModal: React.FC<GuestFormModalProps> = ({
               onChange={(e) => setFormData({ ...formData, specialRequest: e.target.value })}
               placeholder="Late check-in, dietary restrictions, honeymoon arrangement..."
               rows={2}
-              className="w-full border-b border-gray-200 focus:border-forest-dark py-2 bg-transparent outline-none transition-all placeholder:text-gray-300 font-sans text-sm resize-none"
+              className="w-full border-b border-text-subtle focus:border-forest-dark py-2 bg-transparent outline-none transition-all placeholder:text-text-subtle font-sans text-sm resize-none"
             />
           </div>
 
@@ -193,7 +193,7 @@ export const GuestFormModal: React.FC<GuestFormModalProps> = ({
                 'Continue to WhatsApp'
               )}
             </button>
-            <p className="text-center text-[10px] text-gray-400 mt-3">
+            <p className="text-center text-[10px] text-text-subtle mt-3">
               We'll redirect you to WhatsApp to confirm details with our concierge.
             </p>
           </div>

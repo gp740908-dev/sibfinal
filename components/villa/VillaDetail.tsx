@@ -232,7 +232,7 @@ export const VillaDetail: React.FC<VillaDetailProps> = ({
 
             {/* Narrative Description */}
             <div className="mb-10">
-              <p className={`font-sans text-neutral-800 text-lg leading-relaxed ${!isDescExpanded && 'line-clamp-4'}`}>
+              <p className={`font-sans text-text-body text-lg leading-relaxed ${!isDescExpanded && 'line-clamp-4'}`}>
                 {villa.description} Experience the true essence of Ubud in this curated sanctuary.
                 Designed to blend traditional Balinese architecture with modern luxury, every corner tells a story.
                 Wake up to the symphony of the jungle, enjoy a floating breakfast in your private infinity pool,

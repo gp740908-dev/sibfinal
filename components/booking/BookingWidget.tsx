@@ -132,39 +132,39 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
           <div className="flex justify-between items-end mb-6">
             <div>
               <span className="font-serif text-2xl text-forest-dark">{formatPrice(pricePerNight)}</span>
-              <span className="text-sm text-gray-500 ml-1">/ night</span>
+              <span className="text-sm text-text-muted ml-1">/ night</span>
             </div>
           </div>
 
           {/* Input Interface */}
-          <div className="border border-gray-300 rounded-xl mb-4 relative">
+          <div className="border border-text-subtle rounded-xl mb-4 relative">
             {/* Dates Trigger */}
             <div
-              className="grid grid-cols-2 border-b border-gray-300 cursor-pointer"
+              className="grid grid-cols-2 border-b border-text-subtle cursor-pointer"
               onClick={() => setIsCalendarOpen(!isCalendarOpen)}
             >
-              <div className="p-3 border-r border-gray-300 hover:bg-gray-50 rounded-tl-xl transition-colors">
+              <div className="p-3 border-r border-text-subtle hover:bg-sand-light/50 rounded-tl-xl transition-colors">
                 <div className="text-[10px] font-bold uppercase tracking-widest text-forest-dark">Check-in</div>
-                <div className="text-sm text-gray-700 truncate">
+                <div className="text-sm text-text-body truncate">
                   {dateRange?.from ? format(dateRange.from, 'dd/MM/yyyy') : 'Add date'}
                 </div>
               </div>
-              <div className="p-3 hover:bg-gray-50 rounded-tr-xl transition-colors">
+              <div className="p-3 hover:bg-sand-light/50 rounded-tr-xl transition-colors">
                 <div className="text-[10px] font-bold uppercase tracking-widest text-forest-dark">Check-out</div>
-                <div className="text-sm text-gray-700 truncate">
+                <div className="text-sm text-text-body truncate">
                   {dateRange?.to ? format(dateRange.to, 'dd/MM/yyyy') : 'Add date'}
                 </div>
               </div>
             </div>
 
             {/* Guests Trigger */}
-            <div className="p-3 hover:bg-gray-50 rounded-b-xl cursor-pointer transition-colors relative group">
+            <div className="p-3 hover:bg-sand-light/50 rounded-b-xl cursor-pointer transition-colors relative group">
               <div className="flex justify-between items-center">
                 <div>
                   <div className="text-[10px] font-bold uppercase tracking-widest text-forest-dark">Guests</div>
-                  <div className="text-sm text-gray-700">{guests} guests</div>
+                  <div className="text-sm text-text-body">{guests} guests</div>
                 </div>
-                <ChevronDown size={16} className="text-gray-400 group-hover:text-forest-dark transition-colors" />
+                <ChevronDown size={16} className="text-text-subtle group-hover:text-forest-dark transition-colors" />
               </div>
 
               {/* Simple Guest Counter Popover */}
@@ -190,12 +190,12 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
                 />
 
                 {/* Legend */}
-                <div className="flex items-center justify-center gap-6 py-3 border-t border-gray-100">
-                  <div className="flex items-center gap-2 text-[10px] uppercase tracking-widest text-gray-500">
+                <div className="flex items-center justify-center gap-6 py-3 border-t border-text-subtle/30">
+                  <div className="flex items-center gap-2 text-[10px] uppercase tracking-widest text-text-muted">
                     <div className="w-2 h-2 rounded-full bg-forest-dark"></div> Selected
                   </div>
-                  <div className="flex items-center gap-2 text-[10px] uppercase tracking-widest text-gray-400">
-                    <span className="line-through decoration-gray-400">12</span> Occupied
+                  <div className="flex items-center gap-2 text-[10px] uppercase tracking-widest text-text-subtle">
+                    <span className="line-through decoration-text-subtle">12</span> Occupied
                   </div>
                 </div>
 
@@ -221,16 +221,16 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
 
           {/* Price Breakdown */}
           {nightCount > 0 && (
-            <div className="mt-6 space-y-3 pt-6 border-t border-dashed border-gray-200 text-sm animate-in slide-in-from-top-2">
-              <div className="flex justify-between text-gray-600">
-                <span className="underline decoration-gray-300">{formatPrice(pricePerNight)} x {nightCount} nights</span>
+            <div className="mt-6 space-y-3 pt-6 border-t border-dashed border-text-subtle text-sm animate-in slide-in-from-top-2">
+              <div className="flex justify-between text-text-muted">
+                <span className="underline decoration-text-subtle">{formatPrice(pricePerNight)} x {nightCount} nights</span>
                 <span>{formatPrice(subTotal)}</span>
               </div>
-              <div className="flex justify-between text-gray-600">
-                <span className="underline decoration-gray-300">Service Fee</span>
+              <div className="flex justify-between text-text-muted">
+                <span className="underline decoration-text-subtle">Service Fee</span>
                 <span>{formatPrice(serviceFee)}</span>
               </div>
-              <div className="flex justify-between font-serif text-lg text-forest-dark pt-3 border-t border-gray-200 mt-2">
+              <div className="flex justify-between font-serif text-lg text-forest-dark pt-3 border-t border-text-subtle mt-2">
                 <span>Total</span>
                 <span>{formatPrice(total)}</span>
               </div>
@@ -238,22 +238,22 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
           )}
         </div>
 
-        <div className="mt-4 flex items-center justify-center gap-2 text-xs text-gray-400">
+        <div className="mt-4 flex items-center justify-center gap-2 text-xs text-text-subtle">
           <Info size={14} />
           <span>Prices in IDR. Free cancel within 48h.</span>
         </div>
       </div>
 
       {/* --- MOBILE FIXED BOTTOM BAR --- */}
-      <div className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white border-t border-gray-200 p-4 pb-6 shadow-[0_-4px_20px_rgb(0,0,0,0.05)]">
+      <div className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white border-t border-text-subtle p-4 pb-6 shadow-[0_-4px_20px_rgb(0,0,0,0.05)]">
         <div className="flex justify-between items-center gap-4">
           <div className="flex flex-col">
             {nightCount > 0 ? (
-              <span className="font-serif text-lg text-forest-dark">{formatPrice(total)} <span className="text-xs font-sans text-gray-500">total</span></span>
+              <span className="font-serif text-lg text-forest-dark">{formatPrice(total)} <span className="text-xs font-sans text-text-muted">total</span></span>
             ) : (
-              <span className="font-serif text-lg text-forest-dark">{formatPrice(pricePerNight)} <span className="text-xs font-sans text-gray-500">/ night</span></span>
+              <span className="font-serif text-lg text-forest-dark">{formatPrice(pricePerNight)} <span className="text-xs font-sans text-text-muted">/ night</span></span>
             )}
-            <span className="text-xs text-gray-500 underline">
+            <span className="text-xs text-text-muted underline">
               {dateRange?.from && dateRange?.to ? `${format(dateRange.from, 'dd MMM')} - ${format(dateRange.to, 'dd MMM')}` : 'Select dates'}
             </span>
           </div>

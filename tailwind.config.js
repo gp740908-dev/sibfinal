@@ -25,8 +25,18 @@ module.exports = {
         gold: {
           DEFAULT: '#C4A35A',
         },
-        'text-primary': '#1A1A1A',
-        'text-secondary': '#4A4A4A',
+        // NEW: Semantic Text Color System
+        text: {
+          DEFAULT: '#243326',           // forest-dark - headings, primary text
+          body: 'rgba(36, 51, 38, 0.8)', // forest-dark/80 - body paragraphs
+          muted: 'rgba(36, 51, 38, 0.6)', // forest-dark/60 - secondary info
+          subtle: 'rgba(36, 51, 38, 0.4)', // forest-dark/40 - captions, placeholders
+          inverse: '#F4F1EA',            // sand-light - on dark backgrounds
+          'inverse-muted': 'rgba(244, 241, 234, 0.8)', // sand-light/80
+          accent: '#9BB784',             // accent-light - links, emphasis
+          error: '#DC2626',              // error states
+          success: '#537F5D',            // forest - success states
+        },
       },
       fontFamily: {
         serif: ['var(--font-serif)', 'serif'],
@@ -81,4 +91,4 @@ module.exports = {
       })
     }
   ],
-          }
+}

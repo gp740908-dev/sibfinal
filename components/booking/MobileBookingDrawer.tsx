@@ -65,13 +65,13 @@ export const MobileBookingDrawer: React.FC<MobileBookingDrawerProps> = ({
       >
         {/* Handle Bar */}
         <div className="w-full flex justify-center pt-3 pb-1" onClick={onClose}>
-          <div className="w-12 h-1.5 bg-gray-200 rounded-full" />
+          <div className="w-12 h-1.5 bg-text-subtle rounded-full" />
         </div>
 
         {/* Header */}
-        <div className="px-6 pb-4 border-b border-gray-100 flex justify-between items-center">
+        <div className="px-6 pb-4 border-b border-text-subtle/30 flex justify-between items-center">
           <h3 className="font-serif text-xl text-forest-dark">Your Stay</h3>
-          <button onClick={onClose} className="p-2 bg-gray-50 rounded-full hover:bg-gray-100 text-forest-dark">
+          <button onClick={onClose} className="p-2 bg-sand-light/50 rounded-full hover:bg-sand-light text-forest-dark">
             <X size={20} />
           </button>
         </div>
@@ -82,7 +82,7 @@ export const MobileBookingDrawer: React.FC<MobileBookingDrawerProps> = ({
           {/* Calendar Section */}
           <div className="mb-6 w-full">
             <h4 className="text-xs font-bold uppercase tracking-widest text-forest-dark mb-3 ml-2">Select Dates</h4>
-            <div className="flex justify-center border border-gray-100 rounded-xl p-1 shadow-sm overflow-hidden bg-white">
+            <div className="flex justify-center border border-text-subtle/30 rounded-xl p-1 shadow-sm overflow-hidden bg-white">
               <Calendar
                 selected={dateRange}
                 onSelect={setDateRange}
@@ -95,21 +95,21 @@ export const MobileBookingDrawer: React.FC<MobileBookingDrawerProps> = ({
           {/* Guests Section */}
           <div className="mb-4">
             <h4 className="text-xs font-bold uppercase tracking-widest text-forest-dark mb-3 ml-2">Guests</h4>
-            <div className="flex items-center justify-between p-4 border border-gray-200 rounded-xl">
+            <div className="flex items-center justify-between p-4 border border-text-subtle rounded-xl">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-full bg-forest-dark/5 flex items-center justify-center text-forest-dark">
                   <Users size={18} />
                 </div>
                 <div className="flex flex-col">
                   <span className="font-medium text-forest-dark">Adults</span>
-                  <span className="text-xs text-gray-500">Age 13+</span>
+                  <span className="text-xs text-text-muted">Age 13+</span>
                 </div>
               </div>
 
               <div className="flex items-center gap-4">
                 <button
                   onClick={() => setGuests(Math.max(1, guests - 1))}
-                  className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center text-forest-dark hover:bg-gray-50 disabled:opacity-50"
+                  className="w-8 h-8 rounded-full border border-text-subtle flex items-center justify-center text-forest-dark hover:bg-sand-light/50 disabled:opacity-50"
                   disabled={guests <= 1}
                 >
                   <Minus size={14} />
@@ -128,7 +128,7 @@ export const MobileBookingDrawer: React.FC<MobileBookingDrawerProps> = ({
         </div>
 
         {/* Footer Actions */}
-        <div className="p-4 border-t border-gray-100 bg-white pb-8 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
+        <div className="p-4 border-t border-text-subtle/30 bg-white pb-8 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
           <div className="flex justify-between items-center mb-4">
             <div className="text-sm text-forest-dark/70">
               {nightCount > 0 ? (
@@ -154,7 +154,7 @@ export const MobileBookingDrawer: React.FC<MobileBookingDrawerProps> = ({
             disabled={!nightCount}
             className={`w-full py-4 rounded-xl font-bold uppercase tracking-widest transition-all ${nightCount
               ? 'bg-forest-dark text-white shadow-lg shadow-forest-dark/20'
-              : 'bg-gray-200 text-gray-400 cursor-not-allowed'
+              : 'bg-text-subtle text-text-inverse cursor-not-allowed'
               }`}
           >
             {nightCount ? 'Request to Book' : 'Check Availability'}

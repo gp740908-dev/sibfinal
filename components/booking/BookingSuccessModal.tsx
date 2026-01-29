@@ -41,7 +41,7 @@ export const BookingSuccessModal: React.FC<BookingSuccessModalProps> = ({
                 {/* Close Button */}
                 <button
                     onClick={onClose}
-                    className="absolute top-2 right-2 sm:top-4 sm:right-4 p-2 text-gray-400 hover:text-gray-600 transition-colors z-10 focus-ring rounded-lg"
+                    className="absolute top-2 right-2 sm:top-4 sm:right-4 p-2 text-text-subtle hover:text-text-muted transition-colors z-10 focus-ring rounded-lg"
                     aria-label="Close confirmation modal"
                 >
                     <X size={20} aria-hidden="true" />
@@ -50,8 +50,8 @@ export const BookingSuccessModal: React.FC<BookingSuccessModalProps> = ({
                 {/* Success Icon - Responsive sizing */}
                 <div className="flex justify-center mb-4 sm:mb-6" aria-hidden="true">
                     <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center shadow-lg shadow-green-500/30">
-                        <CheckCircle size={32} className="sm:hidden text-white" />
-                        <CheckCircle size={40} className="hidden sm:block text-white" />
+                        <CheckCircle size={32} className="sm:hidden text-text-inverse" />
+                        <CheckCircle size={40} className="hidden sm:block text-text-inverse" />
                     </div>
                 </div>
 
@@ -59,7 +59,7 @@ export const BookingSuccessModal: React.FC<BookingSuccessModalProps> = ({
                 <h2 id="success-modal-title" className="font-serif text-2xl sm:text-3xl text-center text-forest-dark mb-1 sm:mb-2">
                     Thank You!
                 </h2>
-                <p id="success-modal-description" className="text-center text-gray-500 text-sm sm:text-base mb-4 sm:mb-6">
+                <p id="success-modal-description" className="text-center text-text-muted text-sm sm:text-base mb-4 sm:mb-6">
                     Your booking request has been submitted
                 </p>
 
@@ -72,17 +72,17 @@ export const BookingSuccessModal: React.FC<BookingSuccessModalProps> = ({
 
                     <div className="grid grid-cols-2 gap-2 sm:gap-4 text-xs sm:text-sm">
                         <div>
-                            <p className="text-gray-400 text-[10px] sm:text-xs uppercase tracking-wide">Check-in</p>
+                            <p className="text-text-subtle text-[10px] sm:text-xs uppercase tracking-wide">Check-in</p>
                             <p className="text-forest-dark font-medium truncate">{bookingDetails.checkIn}</p>
                         </div>
                         <div>
-                            <p className="text-gray-400 text-[10px] sm:text-xs uppercase tracking-wide">Check-out</p>
+                            <p className="text-text-subtle text-[10px] sm:text-xs uppercase tracking-wide">Check-out</p>
                             <p className="text-forest-dark font-medium truncate">{bookingDetails.checkOut}</p>
                         </div>
                     </div>
 
                     <div className="mt-3 sm:mt-4 pt-3 sm:pt-4 border-t border-forest/10 flex justify-between items-center">
-                        <span className="text-gray-500 text-sm">Total</span>
+                        <span className="text-text-muted text-sm">Total</span>
                         <span className="font-serif text-lg sm:text-xl text-forest-dark">{bookingDetails.totalPrice}</span>
                     </div>
                 </div>
@@ -90,11 +90,11 @@ export const BookingSuccessModal: React.FC<BookingSuccessModalProps> = ({
                 {/* What's Next - Responsive text */}
                 <div className="space-y-2 sm:space-y-3 mb-4 sm:mb-6">
                     <p className="text-xs sm:text-sm font-semibold text-forest-dark">What happens next?</p>
-                    <div className="flex items-start gap-2 sm:gap-3 text-xs sm:text-sm text-gray-600">
+                    <div className="flex items-start gap-2 sm:gap-3 text-xs sm:text-sm text-text-muted">
                         <MessageCircle size={16} className="sm:w-[18px] sm:h-[18px] text-green-500 mt-0.5 shrink-0" aria-hidden="true" />
                         <p>Our team will contact you via WhatsApp within 24 hours.</p>
                     </div>
-                    <div className="flex items-start gap-2 sm:gap-3 text-xs sm:text-sm text-gray-600">
+                    <div className="flex items-start gap-2 sm:gap-3 text-xs sm:text-sm text-text-muted">
                         <Mail size={16} className="sm:w-[18px] sm:h-[18px] text-blue-500 mt-0.5 shrink-0" aria-hidden="true" />
                         <p>A confirmation email has been sent to your inbox.</p>
                     </div>
@@ -110,7 +110,7 @@ export const BookingSuccessModal: React.FC<BookingSuccessModalProps> = ({
                 </button>
 
                 {/* Brand */}
-                <p className="text-center text-[10px] sm:text-xs text-gray-400 mt-3 sm:mt-4">
+                <p className="text-center text-[10px] sm:text-xs text-text-subtle mt-3 sm:mt-4">
                     Stayin<span className="italic text-gold">UBUD</span> · Bali Luxury Villas
                 </p>
             </div>
