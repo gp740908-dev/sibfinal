@@ -1,18 +1,12 @@
 'use client';
 
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { useGSAP } from '@gsap/react';
 import { ArrowRight } from 'lucide-react';
 import { BlogPost } from '../../types';
 import { supabase, isMock } from '../../lib/supabase';
 
-if (typeof window !== 'undefined') {
-  gsap.registerPlugin(ScrollTrigger);
-}
 
 // Fallback data to ensure section visibility
 const MOCK_POSTS: BlogPost[] = [
@@ -49,7 +43,6 @@ const MOCK_POSTS: BlogPost[] = [
 ];
 
 export const RecentJournal: React.FC = () => {
-  const sectionRef = useRef<HTMLElement>(null);
   const [posts, setPosts] = useState<BlogPost[]>([]);
 
   useEffect(() => {
@@ -91,48 +84,13 @@ export const RecentJournal: React.FC = () => {
     fetchRecent();
   }, []);
 
-  useGSAP(() => {
-    if (posts.length === 0) return;
-
-    const mm = gsap.matchMedia();
-
-    // Desktop: Animate on scroll
-    mm.add("(min-width: 768px)", () => {
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top 75%",
-          toggleActions: "play none none reverse"
-        }
-      });
-
-      tl.from('.journal-header', {
-        y: 30,
-        opacity: 0,
-        duration: 0.8,
-        ease: "power3.out"
-      });
-
-      tl.from('.journal-card', {
-        y: 50,
-        opacity: 0,
-        stagger: 0.2,
-        duration: 1,
-        ease: "power3.out"
-      }, "-=0.4");
-    });
-
-    // Mobile: Ensure visibility without animation
-    mm.add("(max-width: 767px)", () => {
-      gsap.set(['.journal-header', '.journal-card'], { opacity: 1, y: 0 });
-    });
-
-  }, { scope: sectionRef, dependencies: [posts] });
+  // REMOVED: GSAP scroll reveal animation that caused intermittent visibility
+  // Elements are now always visible - using CSS animations instead if needed
 
   if (posts.length === 0) return null;
 
   return (
-    <section ref={sectionRef} className="py-24 md:py-32 px-6 md:px-12 bg-sand text-forest-dark">
+    <section className="py-24 md:py-32 px-6 md:px-12 bg-sand text-forest-dark">
       <div className="max-w-7xl mx-auto">
 
         {/* Header */}
