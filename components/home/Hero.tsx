@@ -37,6 +37,8 @@ export const Hero: React.FC = () => {
       <div className="absolute inset-0 w-full h-full">
         {HERO_SLIDES.map((slide, index) => {
           const isActive = index === activeSlide;
+          const isPrev = index === (activeSlide - 1 + HERO_SLIDES.length) % HERO_SLIDES.length;
+          const shouldAnimate = isActive || isPrev;
 
           return (
             <div
@@ -53,7 +55,7 @@ export const Hero: React.FC = () => {
                 alt={slide.alt}
                 priority={index === 0}
                 fetchPriority={index === 0 ? "high" : "auto"}
-                className={`object-cover ${isActive ? 'animate-slow-zoom' : 'scale-100'}`}
+                className={`object-cover will-change-transform ${shouldAnimate ? 'animate-slow-zoom' : 'scale-100'}`}
                 sizes="100vw"
                 quality={85}
                 containerClassName="absolute inset-0"
