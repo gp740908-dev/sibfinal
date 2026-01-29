@@ -112,13 +112,8 @@ export const JournalPostContent: React.FC<JournalPostContentProps> = ({ post, re
                         {post.excerpt}
                     </p>
 
-                    {/* Content with Drop Cap */}
-                    <div className="prose prose-lg prose-forest max-w-none 
-                        prose-p:text-lg prose-p:leading-loose prose-p:text-forest-dark/90
-                        prose-headings:font-serif prose-headings:text-forest-dark 
-                        prose-blockquote:border-l-4 prose-blockquote:border-forest prose-blockquote:pl-6 prose-blockquote:italic
-                        first-letter:text-7xl first-letter:font-serif first-letter:text-forest first-letter:float-left first-letter:mr-4 first-letter:leading-none
-                        ">
+                    {/* Content */}
+                    <div className="mt-8">
                         <BlockRenderer content={post.content || ''} />
                     </div>
 
