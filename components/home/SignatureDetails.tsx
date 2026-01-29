@@ -48,12 +48,12 @@ export const SignatureDetails: React.FC = () => {
     mm.add("(min-width: 768px)", () => {
       // 1. PINNING LOGIC
       // We pin the Left Column for the duration of the Right Column's scroll height
-      ScrollTrigger.create({
+      const pinTrigger = ScrollTrigger.create({
         trigger: containerRef.current,
         start: "top top",
         end: "bottom bottom",
         pin: leftColRef.current,
-        scrub: true,
+        pinSpacing: false, // CRITICAL: Don't add extra spacing that breaks layout
       });
 
       // 2. STATE CHANGE LOGIC
@@ -69,6 +69,12 @@ export const SignatureDetails: React.FC = () => {
           onEnterBack: () => setActiveIndex(i),
         });
       });
+
+      // Cleanup function
+      return () => {
+        pinTrigger.kill();
+        ScrollTrigger.getAll().forEach(st => st.kill());
+      };
     });
 
   }, { scope: containerRef });
@@ -94,7 +100,7 @@ export const SignatureDetails: React.FC = () => {
         className="hidden md:flex w-1/2 h-screen flex-col justify-center px-8 lg:px-24 text-sand z-10"
       >
         <div className="max-w-xl">
-          <span className="font-sans text-xs uppercase tracking-[0.3em] text-text-muted mb-8 border-l border-sand/30 pl-4 h-12 flex items-center">
+          <span className="font-sans text-xs uppercase tracking-[0.3em] text-sand/60 mb-8 border-l border-sand/30 pl-4 h-12 flex items-center">
             Curated Moments
           </span>
 
@@ -110,11 +116,11 @@ export const SignatureDetails: React.FC = () => {
               <span>0{MOMENTS.length}</span>
             </div>
 
-            <h2 className="text-4xl lg:text-6xl xl:text-7xl font-serif leading-none text-forest">
+            <h2 className="text-4xl lg:text-6xl xl:text-7xl font-serif leading-none text-sand">
               {MOMENTS[activeIndex].title}
             </h2>
 
-            <p className="font-sans text-base lg:text-lg text-text-body leading-relaxed max-w-md">
+            <p className="font-sans text-base lg:text-lg text-sand/80 leading-relaxed max-w-md">
               {MOMENTS[activeIndex].description}
             </p>
           </div>

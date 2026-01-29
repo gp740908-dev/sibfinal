@@ -27,27 +27,37 @@ export const LocationSection: React.FC<LocationSectionProps> = ({ villas }) => {
   const containerRef = useRef<HTMLElement>(null);
 
   useGSAP(() => {
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: containerRef.current,
-        start: "top 70%",
-        end: "bottom bottom",
-        toggleActions: "play none none reverse"
-      }
-    });
+    const mm = gsap.matchMedia();
 
-    tl.from('.loc-content', {
-      x: -50,
-      opacity: 0,
-      duration: 1,
-      ease: "power3.out"
-    })
-      .from('.loc-map', {
-        x: 50,
+    // Desktop: Animate on scroll
+    mm.add("(min-width: 1024px)", () => {
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top 70%",
+          end: "bottom bottom",
+          toggleActions: "play none none reverse"
+        }
+      });
+
+      tl.from('.loc-content', {
+        x: -50,
         opacity: 0,
         duration: 1,
         ease: "power3.out"
-      }, "-=0.8");
+      })
+        .from('.loc-map', {
+          x: 50,
+          opacity: 0,
+          duration: 1,
+          ease: "power3.out"
+        }, "-=0.8");
+    });
+
+    // Mobile/Tablet: Ensure visibility (no animation)
+    mm.add("(max-width: 1023px)", () => {
+      gsap.set(['.loc-content', '.loc-map'], { opacity: 1, x: 0 });
+    });
 
   }, { scope: containerRef });
 

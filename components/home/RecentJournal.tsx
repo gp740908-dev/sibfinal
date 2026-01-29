@@ -94,28 +94,38 @@ export const RecentJournal: React.FC = () => {
   useGSAP(() => {
     if (posts.length === 0) return;
 
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: sectionRef.current,
-        start: "top 75%",
-        toggleActions: "play none none reverse"
-      }
+    const mm = gsap.matchMedia();
+
+    // Desktop: Animate on scroll
+    mm.add("(min-width: 768px)", () => {
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top 75%",
+          toggleActions: "play none none reverse"
+        }
+      });
+
+      tl.from('.journal-header', {
+        y: 30,
+        opacity: 0,
+        duration: 0.8,
+        ease: "power3.out"
+      });
+
+      tl.from('.journal-card', {
+        y: 50,
+        opacity: 0,
+        stagger: 0.2,
+        duration: 1,
+        ease: "power3.out"
+      }, "-=0.4");
     });
 
-    tl.from('.journal-header', {
-      y: 30,
-      opacity: 0,
-      duration: 0.8,
-      ease: "power3.out"
+    // Mobile: Ensure visibility without animation
+    mm.add("(max-width: 767px)", () => {
+      gsap.set(['.journal-header', '.journal-card'], { opacity: 1, y: 0 });
     });
-
-    tl.from('.journal-card', {
-      y: 50,
-      opacity: 0,
-      stagger: 0.2,
-      duration: 1,
-      ease: "power3.out"
-    }, "-=0.4");
 
   }, { scope: sectionRef, dependencies: [posts] });
 
