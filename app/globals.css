@@ -1,100 +1,74 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 193;
-  --background-end-rgb: 255, 255, 255;
-}
-
-/* Custom Scrollbar for Webkit */
+/* Custom Scrollbar - Simplified */
 ::-webkit-scrollbar {
   width: 8px;
 }
-/* Track changed to Forest to blend with body/footer */
 ::-webkit-scrollbar-track {
-  background: #243326; /* Darker forest */
+  background: #243326;
 }
-/* Thumb changed to Sand for visibility */
 ::-webkit-scrollbar-thumb {
-  background: #F4F1EA; /* Lighter sand */
+  background: #F4F1EA;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #FFFFFF; /* Pure white for hover */
+  background: #FFFFFF;
 }
 
 /* Hide Scrollbar on Mobile */
 @media (max-width: 768px) {
   ::-webkit-scrollbar {
-    width: 0px;
-    background: transparent;
     display: none;
   }
   html, body {
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 }
 
-/* Hide Scrollbar Utility */
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-.no-scrollbar {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+/* Base styles - OPTIMIZED */
+html {
+  scroll-behavior: smooth;
 }
 
-/* Base styles */
 html, body {
   min-height: 100%;
   width: 100%;
   margin: 0;
   padding: 0;
 }
+
 body {
   background-color: #537F5D;
   color: #537F5D;
-  /* Font families are handled via Tailwind config mapped to Next.js font variables */
   overflow-x: hidden;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  /* HAPUS font-smoothing untuk performa lebih baik */
 }
 
-/* Add global focus styles */
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-serif);
+}
+
+/* Focus Styles - Simplified */
 *:focus-visible {
-  outline: 3px solid #C4A35A; /* Gold accent */
+  outline: 2px solid #C4A35A;
   outline-offset: 2px;
-  border-radius: 2px;
 }
 
-/* Remove default outline for mouse users */
 *:focus:not(:focus-visible) {
   outline: none;
 }
 
-/* Button focus states */
 button:focus-visible,
 a:focus-visible {
-  outline: 3px solid #C4A35A;
-  outline-offset: 3px;
-  box-shadow: 0 0 0 6px rgba(196, 163, 90, 0.2);
-}
-
-/* Interactive elements should have visible focus */
-[role="button"]:focus-visible,
-[role="link"]:focus-visible,
-input:focus-visible,
-textarea:focus-visible,
-select:focus-visible {
-  outline: 3px solid #C4A35A;
+  outline: 2px solid #C4A35A;
   outline-offset: 2px;
 }
 
-/* Add to globals.css */
+/* Screen Reader Only */
 .sr-only {
   position: absolute;
   width: 1px;
@@ -107,24 +81,39 @@ select:focus-visible {
   border-width: 0;
 }
 
-.sr-only-focusable:focus,
-.sr-only-focusable:active {
-  position: static;
-  width: auto;
-  height: auto;
-  overflow: visible;
-  clip: auto;
-  white-space: normal;
-}
-
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-serif);
-}
-
-/* Map Tile Filter to match theme */
+/* Map Styles - SIMPLIFIED FILTER */
 .leaflet-layer,
 .leaflet-control-zoom-in,
 .leaflet-control-zoom-out,
 .leaflet-control-attribution {
-  filter: invert(100%) hue-rotate(180deg) brightness(95%) contrast(90%);
+  /* HANYA gunakan 1-2 filter maksimal */
+  filter: invert(100%) brightness(90%);
+  /* HAPUS hue-rotate dan contrast yang berat */
+}
+
+/* Performance Optimization */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* GPU Acceleration for animations */
+.will-change-transform {
+  will-change: transform;
+}
+
+.will-change-opacity {
+  will-change: opacity;
+}
+
+/* Remove will-change after animation */
+@media (hover: hover) {
+  *:not(:hover):not(:focus) {
+    will-change: auto;
+  }
 }
