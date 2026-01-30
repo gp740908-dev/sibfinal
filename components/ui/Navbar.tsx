@@ -3,9 +3,10 @@
 import React, { useRef, useState, useEffect } from 'react';
 import Link from 'next/link';
 
-import { Globe } from 'lucide-react';
+import { Globe, Search } from 'lucide-react';
 import { FaInstagram, FaWhatsapp } from 'react-icons/fa6';
 import { FullScreenMenu } from '../layout/FullScreenMenu';
+import { SearchModal } from '../search/SearchModal';
 
 
 
@@ -16,6 +17,7 @@ interface NavbarProps {
 export const Navbar: React.FC<NavbarProps> = ({ currentView = 'home' }) => {
   const navRef = useRef<HTMLElement>(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const lastScrollY = useRef(0);
@@ -140,6 +142,15 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView = 'home' }) => {
           {/* RIGHT: Utilities */}
           <div className="flex items-center gap-6 justify-end">
 
+            {/* Search Trigger */}
+            <button
+              onClick={() => setIsSearchOpen(true)}
+              className={`hidden md:flex items-center justify-center w-10 h-10 rounded-full hover:bg-forest/5 transition-colors ${iconColorClass}`}
+              aria-label="Search"
+            >
+              <Search size={20} strokeWidth={1.5} />
+            </button>
+
             {/* Language */}
             <button
               className={`hidden md:flex items-center gap-2 group transition-colors duration-300 ${iconColorClass}`}
@@ -183,6 +194,11 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView = 'home' }) => {
       <FullScreenMenu
         isOpen={isMenuOpen}
         onClose={() => setIsMenuOpen(false)}
+      />
+
+      <SearchModal
+        isOpen={isSearchOpen}
+        onClose={() => setIsSearchOpen(false)}
       />
     </>
   );

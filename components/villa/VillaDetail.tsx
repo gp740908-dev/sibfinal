@@ -5,7 +5,9 @@ import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import Link from 'next/link';
 import { Villa } from '../../types';
-import { BookingWidget } from '../booking/BookingWidget';
+import { BookingWizard } from '../booking/BookingWizard';
+import { Breadcrumb } from '../ui/Breadcrumb';
+import { WishlistButton } from '../ui/WishlistButton';
 import MapComponent from '../home/MapComponent';
 import {
   ArrowLeft, ArrowRight, Wifi, Wind, Waves, Coffee, Shield, X, Maximize2,
@@ -139,6 +141,7 @@ export const VillaDetail: React.FC<VillaDetailProps> = ({
           >
             <ArrowLeft size={14} /> Back to Collection
           </Link>
+          <WishlistButton villaId={villa.id} className="bg-white/10 backdrop-blur-md hover:bg-white/20 text-white" />
         </div>
 
         {/* Hero Content */}
@@ -195,6 +198,13 @@ export const VillaDetail: React.FC<VillaDetailProps> = ({
 
         {/* LEFT COLUMN: Content */}
         <div className="lg:col-span-2 space-y-20">
+
+          {/* Breadcrumb */}
+          <Breadcrumb items={[
+            { label: 'Home', href: '/' },
+            { label: 'Villas', href: '/villas' },
+            { label: villa.name, href: `/villas/${villa.id}` }
+          ]} className="mb-4" />
 
           {/* SECTION: OVERVIEW */}
           <div id="overview" className="scroll-mt-48">
@@ -372,7 +382,7 @@ export const VillaDetail: React.FC<VillaDetailProps> = ({
         {/* RIGHT COLUMN: Sticky Booking Widget (Desktop) */}
         <div className="lg:col-span-1 h-full">
           <div className="sticky top-32 z-30 w-full">
-            <BookingWidget
+            <BookingWizard
               pricePerNight={villa.pricePerNight}
               villaName={villa.name}
               villaId={villa.id}

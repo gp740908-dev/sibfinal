@@ -1,5 +1,6 @@
 import React from 'react';
 import { Villa } from '../types';
+import { WishlistButton } from './ui/WishlistButton';
 
 interface VillaCardProps {
   villa: Villa;
@@ -20,6 +21,9 @@ export const VillaCard: React.FC<VillaCardProps> = ({ villa }) => {
           loading="lazy"
         />
         <div className="absolute inset-0 bg-forest-dark/0 group-hover:bg-forest-dark/10 transition-colors duration-500" />
+        <div className="absolute top-4 right-4 z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <WishlistButton villaId={villa.id} />
+        </div>
       </div>
 
       <div className="mt-6 flex justify-between items-start">

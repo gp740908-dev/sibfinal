@@ -7,6 +7,7 @@ import { Footer } from '../ui/Footer';
 import { Preloader } from '../ui/Preloader';
 import { SocialFab } from '../ui/SocialFab';
 import { SmoothScroll } from '../SmoothScroll';
+import { WishlistProvider } from '../../context/WishlistContext';
 
 interface ClientLayoutProps {
     children: React.ReactNode;
@@ -33,24 +34,26 @@ export const ClientLayout: React.FC<ClientLayoutProps> = ({ children }) => {
 
     return (
         <SmoothScroll>
-            <Preloader />
+            <WishlistProvider>
+                <Preloader />
 
-            {!isTransientPage && (
-                <Navbar currentView={getCurrentView()} />
-            )}
+                {!isTransientPage && (
+                    <Navbar currentView={getCurrentView()} />
+                )}
 
-            <div
-                className={`relative z-10 w-full bg-sand flex flex-col ${isTransientPage
-                    ? 'mb-0'
-                    : 'mb-[450px] md:mb-[600px] shadow-[0_25px_50px_-12px_rgba(83,127,93,0.5)] rounded-b-[2rem] md:rounded-b-[3rem]'
-                    } min-h-screen origin-top`}
-            >
-                {children}
-            </div>
+                <div
+                    className={`relative z-10 w-full bg-sand flex flex-col ${isTransientPage
+                        ? 'mb-0'
+                        : 'mb-[450px] md:mb-[600px] shadow-[0_25px_50px_-12px_rgba(83,127,93,0.5)] rounded-b-[2rem] md:rounded-b-[3rem]'
+                        } min-h-screen origin-top`}
+                >
+                    {children}
+                </div>
 
-            {!isTransientPage && <Footer />}
+                {!isTransientPage && <Footer />}
 
-            <SocialFab />
+                <SocialFab />
+            </WishlistProvider>
         </SmoothScroll >
     );
 };
