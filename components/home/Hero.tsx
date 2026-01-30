@@ -47,17 +47,17 @@ export const Hero: React.FC = () => {
     <section className="relative w-full min-h-screen flex flex-col lg:grid lg:grid-cols-2 bg-sand">
 
       {/* --- LEFT COLUMN: CONTENT --- */}
-      <div className="relative z-10 flex flex-col justify-center px-6 md:px-16 lg:px-24 py-32 lg:py-0 order-2 lg:order-1 lg:h-screen">
+      <div className="relative z-10 flex flex-col justify-center px-6 md:px-16 lg:px-24 py-24 lg:py-0 order-2 lg:order-1 lg:h-screen">
 
         {/* Top Tagline */}
-        <div className="absolute top-32 lg:top-40 left-6 md:left-16 lg:left-24 flex items-center gap-3 animate-fade-in">
+        <div className="relative mb-8 lg:absolute lg:top-40 lg:mb-0 left-0 md:left-16 lg:left-24 flex items-center gap-3 animate-fade-in">
           <div className="w-8 h-[1px] bg-forest/30"></div>
           <span className="text-xs font-bold uppercase tracking-[0.2em] text-forest/60">Bali, Indonesia</span>
         </div>
 
         {/* Main Title */}
         <div className="mb-8 relative">
-          <h1 className="font-serif text-5xl md:text-7xl lg:text-8xl leading-[0.95] text-forest-dark">
+          <h1 className="font-serif text-4xl md:text-7xl lg:text-8xl leading-[0.95] text-forest-dark">
             <span className="block animate-slide-up [animation-delay:100ms]">A</span>
             <span className="block animate-slide-up [animation-delay:200ms]">Sanctuary</span>
             <span className="block font-light italic text-forest/80 animate-slide-up [animation-delay:300ms]">for the Soul</span>
@@ -92,7 +92,7 @@ export const Hero: React.FC = () => {
         </div>
 
         {/* Bottom Elements */}
-        <div className="absolute bottom-12 left-6 md:left-16 lg:left-24 right-6 lg:right-12 flex items-end justify-between animate-fade-in opacity-0 [animation-delay:1000ms]">
+        <div className="relative mt-16 w-full lg:absolute lg:bottom-12 lg:mt-0 lg:w-auto left-0 md:left-16 lg:left-24 right-6 lg:right-12 flex items-end justify-between animate-fade-in opacity-0 [animation-delay:1000ms]">
 
           {/* Weather / Temperature */}
           <div className="flex flex-col gap-1">
