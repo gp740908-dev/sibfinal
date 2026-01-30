@@ -122,17 +122,7 @@ export const Hero: React.FC = () => {
         ))}
       </div>
 
-      {/* Scroll Hint - Mouse Animation */}
-      <button
-        onClick={scrollDown}
-        className="absolute bottom-12 right-12 z-30 hidden md:flex flex-col items-center gap-2 group opacity-60 hover:opacity-100 transition-opacity duration-300"
-        aria-label="Scroll down"
-      >
-        <span className="text-[10px] uppercase tracking-[0.2em] text-sand writing-vertical-lr rotate-180 hidden group-hover:block transition-all duration-300 animate-fade-in">Scroll</span>
-        <div className="w-[30px] h-[50px] border border-sand/50 rounded-full flex justify-center p-2">
-          <div className="w-1 h-2 bg-sand rounded-full animate-scroll"></div>
-        </div>
-      </button>
+
 
     </section>
   );
