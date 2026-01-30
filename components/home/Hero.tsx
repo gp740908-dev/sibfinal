@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import Link from 'next/link';
-import { OptimizedImage } from '@/components/ui/OptimizedImage';
+import Image from 'next/image';
 
 const HERO_SLIDES = [
   { id: 1, src: '/herohomapage/1.webp', alt: 'Luxury Pool Villa in Ubud' },
@@ -50,15 +50,13 @@ export const Hero: React.FC = () => {
                 }`}
             >
               {/* Static image with slow zoom animation */}
-              <OptimizedImage
+              <Image
                 src={slide.src}
                 alt={slide.alt}
                 priority={index === 0}
-                fetchPriority={index === 0 ? "high" : "auto"}
-                className={`object-cover will-change-transform ${shouldAnimate ? 'animate-slow-zoom' : 'scale-100'}`}
+                className={`object-cover will-change-transform ${shouldAnimate ? 'animate-slow-zoom' : ''}`}
                 sizes="100vw"
                 quality={85}
-                containerClassName="absolute inset-0"
                 fill
               />
 

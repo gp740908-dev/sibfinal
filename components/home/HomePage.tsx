@@ -12,7 +12,6 @@ const RecentJournal = dynamic(() => import('./RecentJournal'), {
 });
 const Newsletter = dynamic(() => import('./Newsletter'));
 const TrustBar = dynamic(() => import('./TrustBar'), { ssr: false });
-const BookingNotification = dynamic(() => import('../ui/BookingNotification'), { ssr: false });
 
 // Heavy components - Lazy loaded with Default Exports for stability
 const LocationSection = dynamic(() => import('./LocationSection'), { ssr: false });
@@ -98,9 +97,6 @@ export const HomePage: React.FC<HomePageProps> = ({ villas }) => {
 
             {/* Newsletter Section - Final CTA */}
             <Newsletter />
-
-            {/* Social Proof Popup */}
-            <BookingNotification />
         </main>
     );
 };

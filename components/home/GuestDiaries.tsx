@@ -1,8 +1,8 @@
 'use client';
 
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { Quote, Loader2, Star } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Quote, Star } from 'lucide-react';
 import { supabase, isMock } from '../../lib/supabase';
 
 interface Review {
@@ -17,21 +17,21 @@ const MOCK_REVIEWS: Review[] = [
   {
     id: '1',
     guest_name: 'Elena S.',
-    quote: 'I have never slept so deeply. The sounds of the river and the privacy of the villa created a sanctuary I didn\'t know I needed.',
+    quote: 'The silence here is different. It’s heavy with peace. I haven’t slept this well in a decade.',
     source: 'Sydney, Australia',
     image_url: '/reviews/1.jpg'
   },
   {
     id: '2',
     guest_name: 'Marcus & Sarah',
-    quote: 'The concierge service was impeccable. They arranged a private yoga session at sunrise that we will remember forever.',
+    quote: 'A masterpiece of bamboo and light. The private jungle pool felt like our own secret world.',
     source: 'London, UK',
     image_url: '/reviews/2.jpg'
   },
   {
     id: '3',
     guest_name: 'David Chen',
-    quote: 'Architecture that blends perfectly with nature. A true masterpiece in the middle of the jungle.',
+    quote: 'Impeccable concierge service. They anticipated needs we didn’t even know we had.',
     source: 'Singapore',
     image_url: '/reviews/3.jpg'
   }
@@ -39,119 +39,149 @@ const MOCK_REVIEWS: Review[] = [
 
 export const GuestDiaries: React.FC = () => {
   const [reviews, setReviews] = useState<Review[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
 
+  // Fetch Data
   useEffect(() => {
     async function fetchReviews() {
       if (isMock) {
         setReviews(MOCK_REVIEWS);
-        setLoading(false);
         return;
       }
-
       try {
         const { data, error } = await supabase
           .from('reviews')
           .select('*')
-          .limit(3)
-          .order('created_at', { ascending: false });
-
-        if (error) throw error;
+          .limit(5)
+          .order('is_featured', { ascending: false });
 
         if (data && data.length > 0) {
-          const combined = [...data, ...MOCK_REVIEWS.slice(data.length, 3)];
-          setReviews(combined);
+          const formatted = data.length < 3 ? [...data, ...MOCK_REVIEWS.slice(data.length)] : data;
+          setReviews(formatted);
         } else {
           setReviews(MOCK_REVIEWS);
         }
       } catch (e) {
-        console.warn('GuestDiaries: Fetch failed, utilizing mock data.', e);
         setReviews(MOCK_REVIEWS);
-      } finally {
-        setLoading(false);
       }
     }
     fetchReviews();
   }, []);
 
-  if (loading) {
-    return (
-      <section className="py-24 flex justify-center bg-sand/20">
-        <Loader2 className="animate-spin text-forest" />
-      </section>
-    );
-  }
+  const handleSlide = (direction: 'next' | 'prev') => {
+    if (isTransitioning || reviews.length === 0) return;
+
+    setIsTransitioning(true);
+
+    // Wait for fade out
+    setTimeout(() => {
+      setActiveIndex(prev => {
+        const next = direction === 'next'
+          ? (prev + 1) % reviews.length
+          : (prev - 1 + reviews.length) % reviews.length;
+        return next;
+      });
+      // Trigger fade in
+      setTimeout(() => setIsTransitioning(false), 50);
+    }, 500); // Duration matches CSS transition
+  };
+
+  if (reviews.length === 0) return null;
+
+  const activeReview = reviews[activeIndex];
 
   return (
-    <section className="py-20 md:py-32 px-6 md:px-12 bg-sand/20 relative overflow-hidden">
-      <div className="absolute top-0 left-0 w-full h-20 bg-gradient-to-b from-white to-transparent opacity-50"></div>
-      <div className="absolute top-1/2 left-1/4 w-96 h-96 bg-forest/5 rounded-full blur-[100px] pointer-events-none"></div>
+    <section className="py-24 md:py-32 bg-[#F4F1EA] relative overflow-hidden">
+      <div className="max-w-7xl mx-auto px-6 md:px-12">
 
-      <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-16 md:mb-24">
-          <div className="flex items-center justify-center gap-3 mb-4 opacity-60">
-            <span className="w-8 h-px bg-forest"></span>
-            <span className="text-xs uppercase tracking-[0.3em] text-forest font-semibold">Guest Stories</span>
-            <span className="w-8 h-px bg-forest"></span>
+        {/* Header */}
+        <div className="flex items-center justify-between mb-16 md:mb-24 border-b border-forest/10 pb-6">
+          <span className="text-xs font-sans uppercase tracking-[0.25em] text-forest/60">
+            Guest Diaries
+          </span>
+          <div className="flex gap-2">
+            <Star className="w-4 h-4 text-forest fill-forest" />
+            <span className="text-xs font-sans font-medium text-forest">4.96 Average Rating</span>
           </div>
-          <h2 className="text-4xl md:text-6xl font-serif text-forest-dark mb-6">
-            Diaries from the <span className="italic text-accent">Jungle</span>
-          </h2>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8 relative z-10">
-          {reviews.map((review, idx) => (
-            <div
-              key={review.id}
-              className="group relative bg-[#F4F1EA] p-8 md:p-10 rounded-sm shadow-sm hover:shadow-xl transition-all duration-500 hover:-translate-y-2 border border-transparent hover:border-forest/10"
-            >
-              <Quote className="text-forest/10 w-12 h-12 mb-6 group-hover:text-forest/20 transition-colors" fill="currentColor" />
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center min-h-[500px]">
 
-              <blockquote className="font-serif text-lg md:text-xl text-forest-dark leading-relaxed mb-8 min-h-[120px]">
-                "{review.quote}"
-              </blockquote>
+          {/* LEFT CONTENT */}
+          <div className={`lg:col-span-5 relative z-10 transition-all duration-500 ease-in-out transform ${isTransitioning ? 'opacity-0 translate-y-4' : 'opacity-100 translate-y-0'
+            }`}>
 
-              <div className="flex items-center gap-4 border-t border-forest/10 pt-6">
-                <div className="w-12 h-12 relative rounded-full overflow-hidden bg-forest/10 shrink-0">
-                  <Image
-                    src={review.image_url}
-                    alt={review.guest_name}
-                    fill
-                    className="object-cover"
-                    onError={(e) => {
-                      (e.target as HTMLImageElement).src = `https://ui-avatars.com/api/?name=${review.guest_name}&background=537F5D&color=fff`;
-                    }}
-                  />
-                </div>
-                <div>
-                  <p className="font-sans text-sm font-bold uppercase tracking-wider text-forest-dark">
-                    {review.guest_name}
-                  </p>
-                  <p className="font-serif text-sm text-forest/60 italic">
-                    {review.source}
-                  </p>
-                </div>
-              </div>
+            {/* Index Number */}
+            <div className="overflow-hidden mb-8">
+              <span className="block font-sans text-xs font-bold text-accent tracking-widest">
+                0{activeIndex + 1} / 0{reviews.length}
+              </span>
             </div>
-          ))}
-        </div>
 
-        <div className="mt-20 pt-12 border-t border-forest/10 flex flex-wrap justify-center md:justify-around gap-12 text-center">
-          <TrustMetric value="4.9/5" label="Average Rating" icon={<Star className="w-5 h-5 fill-forest text-forest" />} />
-          <TrustMetric value="127+" label="Happy Guests" />
-          <TrustMetric value="98%" label="5-Star Reviews" />
+            {/* Quote */}
+            <div className="relative">
+              <Quote className="absolute -top-8 -left-8 w-16 h-16 text-forest/5 pointer-events-none" />
+              <blockquote className="font-serif text-3xl md:text-5xl leading-[1.15] text-forest-dark mb-10">
+                {activeReview?.quote}
+              </blockquote>
+            </div>
+
+            {/* Author */}
+            <div className="flex flex-col gap-1 mb-12">
+              <span className="font-sans text-sm font-bold uppercase tracking-wider text-forest">
+                {activeReview?.guest_name}
+              </span>
+              <span className="font-serif text-forest/60 italic">
+                {activeReview?.source}
+              </span>
+            </div>
+
+            {/* Navigation Controls - Always Visible/Interactive */}
+            <div className="flex gap-4">
+              <button
+                onClick={() => handleSlide('prev')}
+                disabled={isTransitioning}
+                className="w-12 h-12 rounded-full border border-forest/20 flex items-center justify-center text-forest hover:bg-forest hover:text-sand transition-all duration-300 group disabled:opacity-50"
+                aria-label="Previous review"
+              >
+                <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
+              </button>
+              <button
+                onClick={() => handleSlide('next')}
+                disabled={isTransitioning}
+                className="w-12 h-12 rounded-full border border-forest/20 flex items-center justify-center text-forest hover:bg-forest hover:text-sand transition-all duration-300 group disabled:opacity-50"
+                aria-label="Next review"
+              >
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </button>
+            </div>
+          </div>
+
+          {/* RIGHT IMAGE */}
+          <div className="lg:col-span-1 lg:col-start-7 lg:col-end-13 relative h-[400px] md:h-[600px] w-full">
+            <div className={`relative w-full h-full rounded-sm overflow-hidden shadow-2xl transition-all duration-700 ease-in-out transform ${isTransitioning ? 'scale-95 opacity-50 blur-sm' : 'scale-100 opacity-100 blur-0'
+              }`}>
+              <Image
+                src={activeReview?.image_url}
+                alt={`StayinUBUD Guest - ${activeReview?.guest_name}`}
+                fill
+                sizes="(max-width: 768px) 100vw, 50vw"
+                className="object-cover"
+                priority
+              />
+              {/* Subtle tint */}
+              <div className="absolute inset-0 bg-forest/10 mix-blend-multiply" />
+            </div>
+
+            {/* Decorative Circle */}
+            <div className="absolute -bottom-12 -left-12 w-24 h-24 border border-forest/20 rounded-full animate-[spin_10s_linear_infinite] hidden md:block opacity-50" />
+          </div>
+
         </div>
       </div>
     </section>
   );
 };
-
-const TrustMetric: React.FC<{ value: string; label: string; icon?: React.ReactNode }> = ({ value, label, icon }) => (
-  <div className="flex flex-col items-center gap-2">
-    {icon && <div className="mb-1">{icon}</div>}
-    <span className="text-3xl md:text-4xl font-serif text-forest-dark font-medium">{value}</span>
-    <span className="text-xs uppercase tracking-widest text-forest/60">{label}</span>
-  </div>
-);
 
 export default GuestDiaries;
