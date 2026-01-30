@@ -36,6 +36,9 @@ export const HomePage: React.FC<HomePageProps> = ({ villas }) => {
             {/* Intro Text */}
             <section id="about" className="py-24 md:py-32 px-6 md:px-12 max-w-7xl mx-auto flex flex-col md:flex-row gap-16 items-center">
                 <div className="md:w-1/2">
+                    <span className="text-xs uppercase tracking-[0.3em] text-forest/50 mb-4 block font-sans">
+                        Our Philosophy
+                    </span>
                     <h2 className="text-4xl md:text-6xl font-serif text-forest leading-tight mb-8">
                         Where luxury meets <br /> <span className="italic text-accent">serenity.</span>
                     </h2>

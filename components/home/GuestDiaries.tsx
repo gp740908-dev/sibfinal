@@ -19,21 +19,21 @@ const MOCK_REVIEWS: Review[] = [
     guest_name: 'Elena S.',
     quote: 'The silence here is different. It’s heavy with peace. I haven’t slept this well in a decade.',
     source: 'Sydney, Australia',
-    image_url: '/reviews/1.jpg'
+    image_url: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=800&h=1000&fit=crop'
   },
   {
     id: '2',
     guest_name: 'Marcus & Sarah',
     quote: 'A masterpiece of bamboo and light. The private jungle pool felt like our own secret world.',
     source: 'London, UK',
-    image_url: '/reviews/2.jpg'
+    image_url: 'https://images.unsplash.com/photo-1522529599102-193c0d76b5b6?w=800&h=1000&fit=crop'
   },
   {
     id: '3',
     guest_name: 'David Chen',
     quote: 'Impeccable concierge service. They anticipated needs we didn’t even know we had.',
     source: 'Singapore',
-    image_url: '/reviews/3.jpg'
+    image_url: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=1000&fit=crop'
   }
 ];
 
