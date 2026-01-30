@@ -57,9 +57,9 @@ export const Hero: React.FC = () => {
 
         {/* Main Title */}
         <div className="mb-8 relative">
-          <h1 className="font-serif text-4xl md:text-7xl lg:text-8xl leading-[0.95] text-forest-dark">
-            <span className="block animate-slide-up [animation-delay:100ms]">A</span>
-            <span className="block animate-slide-up [animation-delay:200ms]">Sanctuary</span>
+          <h1 className="font-serif text-4xl md:text-7xl lg:text-8xl leading-tight text-forest-dark">
+            <span className="block animate-slide-up [animation-delay:100ms] mb-2 md:mb-4">A</span>
+            <span className="block animate-slide-up [animation-delay:200ms] mb-2 md:mb-4">Sanctuary</span>
             <span className="block font-light italic text-forest/80 animate-slide-up [animation-delay:300ms]">for the Soul</span>
           </h1>
         </div>
