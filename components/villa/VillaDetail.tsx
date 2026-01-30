@@ -4,19 +4,13 @@ import React, { useState, useRef } from 'react';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import Link from 'next/link';
-import dynamic from 'next/dynamic';
 import { Villa } from '../../types';
 import { BookingWidget } from '../booking/BookingWidget';
+import MapComponent from '../home/MapComponent';
 import {
   ArrowLeft, ArrowRight, Wifi, Wind, Waves, Coffee, Shield, X, Maximize2,
   MapPin, Clock, Ban, Cigarette, Dog, CheckCircle2, Bed, Tv, Utensils
 } from 'lucide-react';
-
-// Lazy load map with no SSR to prevent Leaflet window errors
-const MapComponent = dynamic(() => import('../home/MapComponent'), {
-  ssr: false,
-  loading: () => <div className="bg-forest/5 w-full h-full flex items-center justify-center">Loading Map...</div>
-});
 
 interface VillaDetailProps {
   villa: Villa;

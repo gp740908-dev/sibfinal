@@ -1,15 +1,9 @@
 'use client';
 
 import React, { useState } from 'react';
-import dynamic from 'next/dynamic';
 import { Villa } from '../../types';
 import { MapPin } from 'lucide-react';
-
-// Use next/dynamic with ssr: false to prevent Leaflet window errors
-const MapComponent = dynamic(() => import('./MapComponent'), {
-  ssr: false,
-  loading: () => <div className="h-full w-full flex items-center justify-center bg-sand/50 text-forest animate-pulse">Loading Map...</div>
-});
+import MapComponent from './MapComponent';
 
 interface LocationSectionProps {
   villas: Villa[];

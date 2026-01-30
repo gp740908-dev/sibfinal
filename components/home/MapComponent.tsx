@@ -1,10 +1,8 @@
 'use client';
 
-import React, { useEffect, useMemo } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
-import L from 'leaflet';
-import 'leaflet/dist/leaflet.css';
+import React, { useMemo } from 'react';
 import { Villa } from '../../types';
+import { ExternalLink, MapPin } from 'lucide-react';
 
 interface MapComponentProps {
   villas: Villa[];
@@ -13,135 +11,75 @@ interface MapComponentProps {
 
 // Helper to check for valid coordinates
 const isValidLatLng = (lat: any, lng: any): boolean => {
-  const isValid = typeof lat === 'number' && typeof lng === 'number' && !isNaN(lat) && !isNaN(lng);
-  return isValid;
-};
-
-// 1. Controller Component to handle "Fly To" animation
-const MapController: React.FC<{ center: [number, number], zoom: number }> = ({ center, zoom }) => {
-  const map = useMap();
-  useEffect(() => {
-    // Only fly if coordinates are valid numbers
-    if (map && isValidLatLng(center[0], center[1])) {
-      try {
-        map.flyTo(center, zoom, {
-          duration: 2, // Slow, cinematic pan
-          easeLinearity: 0.25
-        });
-      } catch (e) {
-        console.warn("Map flyTo error:", e);
-      }
-    }
-  }, [center, zoom, map]);
-  return null;
-};
-
-// 2. Custom Marker Icon
-const createCustomIcon = (isActive: boolean) => {
-  return L.divIcon({
-    className: 'custom-icon',
-    html: `
-      <div class="w-8 h-8 rounded-full border-2 border-[#D3D49F] flex items-center justify-center shadow-lg transition-all duration-500 ${isActive ? 'bg-[#537F5D] scale-125' : 'bg-[#537F5D]/80'}">
-        <div class="w-2 h-2 rounded-full bg-[#D3D49F]"></div>
-      </div>
-    `,
-    iconSize: [32, 32],
-    iconAnchor: [16, 16], // Center point
-    popupAnchor: [0, -20]
-  });
+  return typeof lat === 'number' && typeof lng === 'number' && !isNaN(lat) && !isNaN(lng);
 };
 
 const MapComponent: React.FC<MapComponentProps> = ({ villas, activeVillaId }) => {
   // Default to Ubud Center
   const DEFAULT_CENTER: [number, number] = [-8.5069, 115.2625];
 
-  // Filter valid villas first
-  const validVillas = useMemo(() => {
-    return (villas || []).filter(v => isValidLatLng(v.latitude, v.longitude));
-  }, [villas]);
+  // Find active villa or first valid one
+  const activeVilla = useMemo(() => {
+    const validVillas = (villas || []).filter(v => isValidLatLng(v.latitude, v.longitude));
+    return validVillas.find(v => v.id === activeVillaId) || validVillas[0];
+  }, [villas, activeVillaId]);
 
-  // Determine center position safely
-  const centerPosition = useMemo((): [number, number] => {
-    const activeVilla = validVillas.find(v => v.id === activeVillaId) || validVillas[0];
+  // Get coordinates
+  const lat = activeVilla?.latitude ?? DEFAULT_CENTER[0];
+  const lng = activeVilla?.longitude ?? DEFAULT_CENTER[1];
+  const villaName = activeVilla?.name || 'Villa Location';
 
-    if (activeVilla && isValidLatLng(activeVilla.latitude, activeVilla.longitude)) {
-      return [activeVilla.latitude, activeVilla.longitude];
-    }
+  // Google Maps Embed URL (free, no API key needed)
+  const embedUrl = `https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3000!2d${lng}!3d${lat}!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zM!5e0!3m2!1sen!2sid!4v1700000000000!5m2!1sen!2sid`;
 
-    return DEFAULT_CENTER;
-  }, [validVillas, activeVillaId]);
+  // Direct link to Google Maps
+  const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`;
 
   return (
-    <div className="h-full w-full relative isolation-auto">
-      {/* CSS to tint the map tiles to match the Sand/Forest theme */}
-      <style>{`
-        .leaflet-tile-pane {
-          filter: sepia(0.6) hue-rotate(40deg) contrast(0.9) brightness(0.95);
-        }
-        .leaflet-popup-content-wrapper {
-          background: #D3D49F;
-          color: #537F5D;
-          border-radius: 0px;
-          border: 1px solid #537F5D;
-          font-family: 'Manrope', sans-serif;
-        }
-        .leaflet-popup-tip {
-          background: #537F5D;
-        }
-        .leaflet-container a.leaflet-popup-close-button {
-          color: #537F5D;
-        }
-        .leaflet-div-icon {
-          background: transparent;
-          border: none;
-        }
-      `}</style>
+    <div className="h-full w-full relative bg-sand/50 rounded-xl overflow-hidden">
+      {/* Google Maps Embed */}
+      <iframe
+        src={embedUrl}
+        width="100%"
+        height="100%"
+        style={{ border: 0, minHeight: '400px' }}
+        allowFullScreen
+        loading="lazy"
+        referrerPolicy="no-referrer-when-downgrade"
+        title={`Map showing ${villaName}`}
+        className="w-full h-full"
+      />
 
-      {/* 
-        Key prop forces re-render if center changes significantly if needed, 
-        but MapController handles smooth panning.
-        We ensure centerPosition is never NaN here.
-      */}
-      <MapContainer
-        center={centerPosition}
-        zoom={13}
-        scrollWheelZoom={false}
-        className="h-full w-full z-10 bg-[#e3e4b6]" // Set background color to match tiles
-        zoomControl={false} // Minimalist look
-      >
-        <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
-          url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
-        />
-
-        <MapController center={centerPosition} zoom={13} />
-
-        {validVillas.map((villa) => (
-          <Marker
-            key={villa.id}
-            position={[villa.latitude, villa.longitude]}
-            icon={createCustomIcon(villa.id === activeVillaId)}
+      {/* Villa Info Overlay */}
+      <div className="absolute bottom-4 left-4 right-4 md:left-auto md:right-4 md:w-auto">
+        <div className="bg-white/95 backdrop-blur-sm rounded-xl p-4 shadow-lg border border-forest/10">
+          <div className="flex items-start gap-3">
+            <div className="p-2 bg-forest/10 rounded-lg">
+              <MapPin size={18} className="text-forest" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <h4 className="font-serif text-lg text-forest-dark font-bold truncate">
+                {villaName}
+              </h4>
+              <p className="text-xs text-forest-dark/60 mt-0.5">
+                Ubud, Bali
+              </p>
+            </div>
+          </div>
+          <a
+            href={googleMapsUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-3 flex items-center justify-center gap-2 w-full py-2.5 px-4 bg-forest text-sand-light text-xs font-bold uppercase tracking-widest rounded-lg hover:bg-forest-dark transition-colors"
           >
-            <Popup>
-              <div className="flex flex-col gap-2 min-w-[150px]">
-                <img src={villa.imageUrl} alt={villa.name} className="w-full h-24 object-cover" />
-                <h4 className="font-serif text-lg font-bold leading-none">{villa.name}</h4>
-                <a
-                  href={`https://www.google.com/maps/search/?api=1&query=${villa.latitude},${villa.longitude}`}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="text-[10px] uppercase tracking-widest underline hover:text-white transition-colors"
-                >
-                  Get Directions
-                </a>
-              </div>
-            </Popup>
-          </Marker>
-        ))}
-      </MapContainer>
+            <ExternalLink size={14} />
+            Open in Google Maps
+          </a>
+        </div>
+      </div>
 
-      {/* Decorative Overlay to blend map edges into the page background if needed */}
-      <div className="absolute inset-0 pointer-events-none border-[20px] border-[#D3D49F]/20 z-20 hidden md:block"></div>
+      {/* Decorative overlay */}
+      <div className="absolute inset-0 pointer-events-none border-[1px] border-forest/10 rounded-xl" />
     </div>
   );
 };
