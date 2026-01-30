@@ -11,6 +11,8 @@ const RecentJournal = dynamic(() => import('./RecentJournal'), {
     loading: () => <div className="h-96 w-full animate-pulse bg-neutral-100" />,
 });
 const Newsletter = dynamic(() => import('./Newsletter'));
+const TrustBar = dynamic(() => import('./TrustBar'), { ssr: false });
+const BookingNotification = dynamic(() => import('../ui/BookingNotification'), { ssr: false });
 
 // Heavy components - Lazy loaded with Default Exports for stability
 const LocationSection = dynamic(() => import('./LocationSection'), { ssr: false });
@@ -28,6 +30,9 @@ export const HomePage: React.FC<HomePageProps> = ({ villas }) => {
         <main id="main-content" role="main" className="flex flex-col w-full">
             {/* Hero Section */}
             <Hero />
+
+            {/* Trust Bar - Immediate Reassurance */}
+            <TrustBar />
 
             {/* Intro Text */}
             <section id="about" className="py-24 md:py-32 px-6 md:px-12 max-w-7xl mx-auto flex flex-col md:flex-row gap-16 items-center">
@@ -93,6 +98,9 @@ export const HomePage: React.FC<HomePageProps> = ({ villas }) => {
 
             {/* Newsletter Section - Final CTA */}
             <Newsletter />
+
+            {/* Social Proof Popup */}
+            <BookingNotification />
         </main>
     );
 };

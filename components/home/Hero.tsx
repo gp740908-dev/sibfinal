@@ -84,11 +84,24 @@ export const Hero: React.FC = () => {
           Curated sanctuaries in the heart of Bali&apos;s jungle.
         </p>
 
+        {/* NEW: Trust Badge & Price Anchor - Phase 1 Confidence Booster */}
+        <div className="flex items-center gap-4 mb-10 animate-fade-in opacity-0 [animation-delay:0.6s]">
+          <div className="flex items-center gap-3 px-5 py-2 bg-sand/10 backdrop-blur-md rounded-full border border-sand/20 shadow-lg">
+            <div className="flex items-center gap-1.5 border-r border-sand/30 pr-3">
+              <svg className="w-4 h-4 text-gold fill-gold" viewBox="0 0 24 24">
+                <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+              </svg>
+              <span className="text-sand text-xs md:text-sm font-medium">4.9/5</span>
+            </div>
+            <span className="text-sand/90 text-xs md:text-sm font-serif italic">From IDR 2.0M/night</span>
+          </div>
+        </div>
+
         {/* CTA Button */}
         <div className="animate-fade-in opacity-0 [animation-delay:0.7s]">
           <Link
             href="/villas"
-            className="group relative px-10 py-4 border border-sand/40 hover:border-sand transition-all duration-300 inline-block backdrop-blur-sm bg-forest/10 hover:bg-sand active:scale-95"
+            className="group relative px-10 py-4 border-2 border-sand/70 hover:border-sand transition-all duration-300 inline-block backdrop-blur-sm bg-forest/10 hover:bg-sand active:scale-95"
             aria-label="Explore our luxury villas"
           >
             <span className="relative z-10 font-sans text-xs md:text-sm uppercase tracking-[0.25em] text-sand group-hover:text-forest transition-colors duration-300 font-bold">
