@@ -103,16 +103,30 @@ export const BookingWizard: React.FC<BookingWizardProps> = ({
 
     // --- RENDER STEPS ---
 
-    return (
-        <div className="bg-white rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] border border-forest-dark/10 overflow-hidden relative">
+    // --- RENDER CONTENT (Shared between Desktop & Mobile) ---
+    const WizardContent = ({ isMobile = false, onClose }: { isMobile?: boolean, onClose?: () => void }) => (
+        <div className={`bg-white ${isMobile ? 'h-full flex flex-col' : 'rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] border border-forest-dark/10 overflow-hidden relative'}`}>
+
+            {/* Mobile Header with Close Button */}
+            {isMobile && (
+                <div className="flex justify-between items-center p-4 border-b border-forest/10 bg-sand/20">
+                    <h3 className="font-serif text-lg text-forest-dark">Booking Request</h3>
+                    <button onClick={onClose} className="p-2 hover:bg-forest/10 rounded-full transition-colors">
+                        <Loader2 className="w-5 h-5 opacity-0 absolute" /> {/* Dummy impl for X icon usage if not imported, picking X from imports or using generic svg */}
+                        <svg className="w-6 h-6 text-forest" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+            )}
 
             {/* Progress Bar */}
-            <div className="bg-sand-light/30 h-1 w-full flex">
+            <div className="bg-sand-light/30 h-1 w-full flex shrink-0">
                 <div className={`h-full bg-forest transition-all duration-500 ease-out ${step === 'dates' ? 'w-1/3' : step === 'guests' ? 'w-2/3' : 'w-full'}`} />
             </div>
 
-            {/* Header */}
-            <div className="p-6 border-b border-forest/5 flex justify-between items-center bg-sand/10">
+            {/* Wizard Header (Price & Back) */}
+            <div className="p-6 border-b border-forest/5 flex justify-between items-center bg-sand/10 shrink-0">
                 <div>
                     <span className="font-serif text-2xl text-forest-dark">{formatPrice(pricePerNight)}</span>
                     <span className="text-xs text-text-muted ml-1">/ night</span>
@@ -124,7 +138,8 @@ export const BookingWizard: React.FC<BookingWizardProps> = ({
                 )}
             </div>
 
-            <div className="p-6 min-h-[400px]">
+            {/* Scrollable Content Area */}
+            <div className={`p-6 ${isMobile ? 'flex-1 overflow-y-auto' : 'min-h-[400px]'}`}>
 
                 {/* STEP 1: DATES */}
                 {step === 'dates' && (
@@ -315,13 +330,55 @@ export const BookingWizard: React.FC<BookingWizardProps> = ({
 
             </div>
 
-            {/* Footer info */}
-            {!bookingResult && (
+            {/* Footer info (Desktop Only) */}
+            {!bookingResult && !isMobile && (
                 <div className="bg-sand/30 p-4 text-center text-[10px] text-forest/40 uppercase tracking-wider font-bold">
                     Secure Booking • No Credit Card Required
                 </div>
             )}
-
         </div>
+    );
+
+    const [isMobileOpen, setIsMobileOpen] = useState(false);
+
+    return (
+        <>
+            {/* DESKTOP VIEW */}
+            <div className="hidden lg:block">
+                <WizardContent />
+            </div>
+
+            {/* MOBILE VIEW */}
+            <div className="lg:hidden">
+                {/* Fixed Bottom Bar */}
+                <div className="fixed bottom-0 left-0 right-0 z-40 bg-white border-t border-forest/10 p-4 pb-6 flex items-center justify-between shadow-[0_-5px_20px_rgba(0,0,0,0.05)]">
+                    <div>
+                        <span className="text-xs text-text-muted">Start from</span>
+                        <div className="font-serif text-xl text-forest-dark leading-none">{formatPrice(pricePerNight)}</div>
+                        <span className="text-[10px] text-text-muted">/ night</span>
+                    </div>
+                    <button
+                        onClick={() => setIsMobileOpen(true)}
+                        className="bg-forest text-sand px-6 py-3 rounded-full font-bold uppercase tracking-widest text-sm shadow-lg hover:bg-forest-dark transition-colors"
+                    >
+                        Check Availability
+                    </button>
+                </div>
+
+                {/* Mobile Full Screen Modal */}
+                {isMobileOpen && (
+                    <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm animate-in fade-in flex items-end md:items-center justify-center">
+                        <div
+                            className="bg-white w-full h-[90vh] md:h-auto md:max-w-md rounded-t-2xl md:rounded-2xl shadow-2xl relative overflow-hidden animate-in slide-in-from-bottom"
+                            onClick={(e) => e.stopPropagation()}
+                        >
+                            <WizardContent isMobile={true} onClose={() => setIsMobileOpen(false)} />
+                        </div>
+                        {/* Close on backdrop click */}
+                        <div className="absolute inset-0 -z-10" onClick={() => setIsMobileOpen(false)} />
+                    </div>
+                )}
+            </div>
+        </>
     );
 };
