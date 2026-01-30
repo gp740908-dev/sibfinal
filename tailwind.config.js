@@ -51,6 +51,7 @@ module.exports = {
         'menu-reveal': 'menuReveal 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards',
         'menu-item-slide': 'menuItemSlide 0.5s ease-out forwards',
         'menu-bg-reveal': 'menuBgReveal 0.6s cubic-bezier(0.87, 0, 0.13, 1) forwards',
+        'scroll': 'scroll 2s ease-in-out infinite', // New scroll animation
       },
       keyframes: {
         fadeIn: {
@@ -84,6 +85,10 @@ module.exports = {
         menuItemSlide: {
           '0%': { transform: 'translateY(20px)', opacity: '0' },
           '100%': { transform: 'translateY(0)', opacity: '1' },
+        },
+        scroll: {
+          '0%': { transform: 'translateY(4px)', opacity: '1' },
+          '100%': { transform: 'translateY(14px)', opacity: '0' },
         },
         // HAPUS kenBurns atau buat versi ringan
         // kenBurns: {

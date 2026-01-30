@@ -60,8 +60,8 @@ export const Hero: React.FC = () => {
                 fill
               />
 
-              {/* Single gradient overlay */}
-              <div className="absolute inset-0 bg-gradient-to-b from-forest/40 via-transparent to-forest/70" />
+              {/* Single gradient overlay - Neutral Black for True Color Fidelity */}
+              <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/70" />
             </div>
           );
         })}
@@ -84,7 +84,7 @@ export const Hero: React.FC = () => {
 
         {/* NEW: Trust Badge & Price Anchor - Phase 1 Confidence Booster */}
         <div className="flex items-center gap-4 mb-10 animate-fade-in opacity-0 [animation-delay:0.6s]">
-          <div className="flex items-center gap-3 px-5 py-2 bg-sand/10 backdrop-blur-md rounded-full border border-sand/20 shadow-lg">
+          <div className="flex items-center gap-3 px-5 py-2 bg-sand/5 backdrop-blur-md rounded-full border border-sand/10 shadow-sm">
             <div className="flex items-center gap-1.5 border-r border-sand/30 pr-3">
               <svg className="w-4 h-4 text-gold fill-gold" viewBox="0 0 24 24">
                 <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
@@ -99,10 +99,10 @@ export const Hero: React.FC = () => {
         <div className="animate-fade-in opacity-0 [animation-delay:0.7s]">
           <Link
             href="/villas"
-            className="group relative px-10 py-4 border-2 border-sand/70 hover:border-sand transition-all duration-300 inline-block backdrop-blur-sm bg-forest/10 hover:bg-sand active:scale-95"
+            className="group relative px-10 py-5 border border-sand/70 hover:border-sand/100 transition-all duration-500 inline-block bg-transparent hover:bg-sand/10 active:scale-95"
             aria-label="Explore our luxury villas"
           >
-            <span className="relative z-10 font-sans text-xs md:text-sm uppercase tracking-[0.25em] text-sand group-hover:text-forest transition-colors duration-300 font-bold">
+            <span className="relative z-10 font-sans text-xs uppercase tracking-[0.35em] text-sand group-hover:text-white transition-colors duration-500 font-medium">
               Explore Villas
             </span>
           </Link>
@@ -115,22 +115,23 @@ export const Hero: React.FC = () => {
           <button
             key={idx}
             onClick={() => setActiveSlide(idx)}
-            className={`h-[2px] transition-all duration-500 ${idx === activeSlide ? 'w-12 bg-sand' : 'w-4 bg-sand/30'
+            className={`h-[1px] transition-all duration-700 ${idx === activeSlide ? 'w-12 bg-sand opacity-100' : 'w-4 bg-sand opacity-30 hover:opacity-100 hover:w-8'
               }`}
             aria-label={`Go to slide ${idx + 1}`}
           />
         ))}
       </div>
 
-      {/* Scroll Hint */}
+      {/* Scroll Hint - Mouse Animation */}
       <button
         onClick={scrollDown}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-30 animate-bounce opacity-60 hover:opacity-100 transition-opacity"
+        className="absolute bottom-12 right-12 z-30 hidden md:flex flex-col items-center gap-2 group opacity-60 hover:opacity-100 transition-opacity duration-300"
         aria-label="Scroll down"
       >
-        <svg className="w-6 h-6 text-sand" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-        </svg>
+        <span className="text-[10px] uppercase tracking-[0.2em] text-sand writing-vertical-lr rotate-180 hidden group-hover:block transition-all duration-300 animate-fade-in">Scroll</span>
+        <div className="w-[30px] h-[50px] border border-sand/50 rounded-full flex justify-center p-2">
+          <div className="w-1 h-2 bg-sand rounded-full animate-scroll"></div>
+        </div>
       </button>
 
     </section>

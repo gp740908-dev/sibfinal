@@ -92,17 +92,17 @@ export const GuestDiaries: React.FC = () => {
   const activeReview = reviews[activeIndex];
 
   return (
-    <section className="py-24 md:py-32 bg-[#F4F1EA] relative overflow-hidden">
+    <section className="py-24 md:py-32 bg-forest relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
 
         {/* Header */}
-        <div className="flex items-center justify-between mb-16 md:mb-24 border-b border-forest/10 pb-6">
-          <span className="text-xs font-sans uppercase tracking-[0.25em] text-forest/60">
+        <div className="flex items-center justify-between mb-16 md:mb-24 border-b border-sand/10 pb-6">
+          <span className="text-xs font-sans uppercase tracking-[0.25em] text-sand/60">
             Guest Diaries
           </span>
           <div className="flex gap-2">
-            <Star className="w-4 h-4 text-forest fill-forest" />
-            <span className="text-xs font-sans font-medium text-forest">4.96 Average Rating</span>
+            <Star className="w-4 h-4 text-gold fill-gold" />
+            <span className="text-xs font-sans font-medium text-sand">4.96 Average Rating</span>
           </div>
         </div>
 
@@ -121,18 +121,18 @@ export const GuestDiaries: React.FC = () => {
 
             {/* Quote */}
             <div className="relative">
-              <Quote className="absolute -top-8 -left-8 w-16 h-16 text-forest/5 pointer-events-none" />
-              <blockquote className="font-serif text-3xl md:text-5xl leading-[1.15] text-forest-dark mb-10">
+              <Quote className="absolute -top-8 -left-8 w-16 h-16 text-sand/5 pointer-events-none" />
+              <blockquote className="font-serif text-3xl md:text-5xl leading-[1.15] text-sand mb-10">
                 {activeReview?.quote}
               </blockquote>
             </div>
 
             {/* Author */}
             <div className="flex flex-col gap-1 mb-12">
-              <span className="font-sans text-sm font-bold uppercase tracking-wider text-forest">
+              <span className="font-sans text-sm font-bold uppercase tracking-wider text-accent">
                 {activeReview?.guest_name}
               </span>
-              <span className="font-serif text-forest/60 italic">
+              <span className="font-serif text-sand/60 italic">
                 {activeReview?.source}
               </span>
             </div>
@@ -142,7 +142,7 @@ export const GuestDiaries: React.FC = () => {
               <button
                 onClick={() => handleSlide('prev')}
                 disabled={isTransitioning}
-                className="w-12 h-12 rounded-full border border-forest/20 flex items-center justify-center text-forest hover:bg-forest hover:text-sand transition-all duration-300 group disabled:opacity-50"
+                className="w-12 h-12 rounded-full border border-sand/20 flex items-center justify-center text-sand hover:bg-sand hover:text-forest transition-all duration-300 group disabled:opacity-50"
                 aria-label="Previous review"
               >
                 <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
@@ -150,7 +150,7 @@ export const GuestDiaries: React.FC = () => {
               <button
                 onClick={() => handleSlide('next')}
                 disabled={isTransitioning}
-                className="w-12 h-12 rounded-full border border-forest/20 flex items-center justify-center text-forest hover:bg-forest hover:text-sand transition-all duration-300 group disabled:opacity-50"
+                className="w-12 h-12 rounded-full border border-sand/20 flex items-center justify-center text-sand hover:bg-sand hover:text-forest transition-all duration-300 group disabled:opacity-50"
                 aria-label="Next review"
               >
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -175,7 +175,8 @@ export const GuestDiaries: React.FC = () => {
             </div>
 
             {/* Decorative Circle */}
-            <div className="absolute -bottom-12 -left-12 w-24 h-24 border border-forest/20 rounded-full animate-[spin_10s_linear_infinite] hidden md:block opacity-50" />
+            {/* Decorative Circle */}
+            <div className="absolute -bottom-12 -left-12 w-24 h-24 border border-sand/20 rounded-full animate-[spin_10s_linear_infinite] hidden md:block opacity-50" />
           </div>
 
         </div>
