@@ -24,7 +24,7 @@ export const FullScreenMenu: React.FC<FullScreenMenuProps> = ({ isOpen, onClose 
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
-      // Small delay for mount animation
+      // Small delay to ensure render before animation starts
       requestAnimationFrame(() => setMounted(true));
     } else {
       document.body.style.overflow = '';
@@ -35,91 +35,105 @@ export const FullScreenMenu: React.FC<FullScreenMenuProps> = ({ isOpen, onClose 
     };
   }, [isOpen]);
 
-  if (!isOpen) return null;
+  // If completely closed and unmounted animation state, we can return null (or keep it for exit ani)
+  // For exit animations to work, we need to keep it rendered until transition finishes.
+  // Ideally we should use a AnimatePresence-like logic, but CSS transitions work if we delay unmount.
+  // For simplicity with this current structure, we rely on `isOpen` for visibility control 
+  // and `mounted` for animation triggering. 
+  // However, to keep it simple and effective as per previous working versions:
+  if (!isOpen && !mounted) return null;
+  // Wait, if !isOpen we usually want to show the exit animation.
+  // But standard React conditional rendering unmounts immediately. 
+  // Let's stick to the previous pattern: Render always if isOpen, or use a delay unmount.
+  // The user wants "Overlay Fullscreen", so we can use a fixed div that is 'pointer-events-none' when closed.
+
+  const showMenu = isOpen || mounted;
+
+  // Custom Ease: cubic-bezier(0.4, 0.0, 0.2, 1) - "Standard Easing" / Material Design / iOS
+  // It starts quickly and decelerates slowly.
+  const LUXURY_EASE = "cubic-bezier(0.4, 0.0, 0.2, 1)";
 
   return (
-    <div className="fixed inset-0 z-[100]">
-      {/* Background */}
+    <div
+      className={`fixed inset-0 z-[100] transition-visibility duration-1000 ${isOpen ? 'visible' : 'invisible delay-1000'}`}
+    >
+      {/* 1. Background Overlay 
+          - Appears first
+          - Opacity 0 -> 1
+          - Static (No parallax/noise)
+      */}
       <div
-        className={`absolute inset-0 bg-forest-dark transition-opacity duration-500 ease-out
-          ${mounted ? 'opacity-100' : 'opacity-0'}`}
+        className={`absolute inset-0 bg-forest-dark transition-opacity duration-[1000ms] ease-[cubic-bezier(0.4,0,0.2,1)]
+          ${isOpen ? 'opacity-100' : 'opacity-0'}`}
       />
 
-      {/* Content */}
-      <nav className="relative z-10 h-full w-full flex flex-col">
+      {/* 2. Content Container */}
+      <nav className="relative z-10 h-full w-full flex flex-col justify-center px-8 md:px-16 lg:px-24">
 
-        {/* Header */}
-        <header className="flex justify-between items-center p-6 md:p-10 lg:p-12">
+        {/* Header (Menu Label & Close) */}
+        <div className="absolute top-0 left-0 w-full flex justify-between items-center p-8 md:p-12 lg:p-16">
           <span
-            className={`text-sand/60 text-xs uppercase tracking-[0.3em] font-sans transition-all duration-500 delay-100
-              ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'}`}
+            className={`text-sand/50 text-[10px] uppercase tracking-[0.25em] font-sans transition-all duration-[800ms] ease-[cubic-bezier(0.4,0,0.2,1)]
+              ${isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2'}`}
+            style={{ transitionDelay: isOpen ? '100ms' : '0ms' }}
           >
-            Menu
+            Navigation
           </span>
 
           <button
             onClick={onClose}
-            className={`w-12 h-12 flex items-center justify-center rounded-full border border-sand/20 text-sand hover:bg-sand hover:text-forest-dark transition-all duration-300
-              ${mounted ? 'opacity-100 scale-100' : 'opacity-0 scale-90'}`}
-            aria-label="Close menu"
+            className={`group flex items-center gap-2 text-sand/50 hover:text-sand transition-all duration-[800ms] ease-[cubic-bezier(0.4,0,0.2,1)]
+              ${isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2'}`}
+            style={{ transitionDelay: isOpen ? '100ms' : '0ms' }}
           >
-            <X size={20} strokeWidth={1.5} />
+            <span className="text-[10px] uppercase tracking-[0.2em] hidden md:block opacity-0 group-hover:opacity-100 transition-opacity duration-300">Close</span>
+            <X size={24} strokeWidth={1} className="transition-transform duration-500 group-hover:rotate-90" />
           </button>
-        </header>
-
-        {/* Main Navigation */}
-        <div className="flex-1 flex items-center px-6 md:px-10 lg:px-20">
-          <ul className="w-full max-w-4xl">
-            {NAV_LINKS.map((link, idx) => (
-              <li
-                key={link.href}
-                className="border-b border-sand/10 first:border-t"
-              >
-                <Link
-                  href={link.href}
-                  onClick={onClose}
-                  className={`group flex items-center justify-between py-5 md:py-6 transition-all duration-500 ease-out
-                    ${mounted ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'}`}
-                  style={{ transitionDelay: mounted ? `${150 + idx * 50}ms` : '0ms' }}
-                >
-                  <div className="flex items-baseline gap-4 md:gap-6">
-                    <span className="text-sand/30 text-xs md:text-sm font-sans tabular-nums">
-                      {String(idx + 1).padStart(2, '0')}
-                    </span>
-                    <span className="text-sand text-3xl md:text-5xl lg:text-6xl font-serif tracking-tight group-hover:text-sand/70 transition-colors duration-300">
-                      {link.label}
-                    </span>
-                  </div>
-
-                  <span className="text-sand/0 group-hover:text-sand/60 text-sm font-sans uppercase tracking-widest transition-all duration-300 group-hover:translate-x-0 translate-x-4">
-                    View →
-                  </span>
-                </Link>
-              </li>
-            ))}
-          </ul>
         </div>
 
-        {/* Footer */}
-        <footer
-          className={`p-6 md:p-10 lg:p-12 flex flex-col md:flex-row justify-between items-start md:items-end gap-6 transition-all duration-500 delay-500
-            ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
+        {/* Main Links - Staggered Reveal */}
+        <ul className="flex flex-col gap-2 md:gap-4">
+          {NAV_LINKS.map((link, idx) => (
+            <li key={link.href} className="overflow-hidden">
+              <Link
+                href={link.href}
+                onClick={onClose}
+                className={`block py-2 md:py-3 transition-opacity duration-300 hover:opacity-50`}
+              >
+                <div
+                  className={`flex items-start gap-4 md:gap-8 transition-all duration-[1000ms] ease-[cubic-bezier(0.4,0,0.2,1)]
+                      ${isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}
+                    `}
+                  style={{ transitionDelay: isOpen ? `${200 + (idx * 100)}ms` : '0ms' }}
+                >
+                  <span className="text-sand/30 text-xs md:text-sm font-sans pt-2 md:pt-4 tabular-nums">
+                    {String(idx + 1).padStart(2, '0')}
+                  </span>
+                  <span className="text-sand text-5xl md:text-7xl lg:text-8xl font-serif tracking-tight leading-[0.9]">
+                    {link.label}
+                  </span>
+                </div>
+              </Link>
+            </li>
+          ))}
+        </ul>
+
+        {/* Footer Info - Lowest priority */}
+        <div
+          className={`absolute bottom-0 left-0 w-full p-8 md:p-16 flex justify-between items-end transition-all duration-[1000ms] ease-[cubic-bezier(0.4,0,0.2,1)]
+            ${isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}
+          `}
+          style={{ transitionDelay: isOpen ? '600ms' : '0ms' }}
         >
-          <div className="flex flex-col gap-1">
-            <span className="text-sand/40 text-xs uppercase tracking-widest">Enquiries</span>
-            <a
-              href="mailto:book@stayinubud.com"
-              className="text-sand text-lg md:text-xl font-serif hover:text-sand/70 transition-colors"
-            >
-              book@stayinubud.com
-            </a>
+          <div className="flex flex-col gap-2">
+            <span className="text-sand/30 text-[10px] uppercase tracking-widest">Enquiries</span>
+            <a href="mailto:book@stayinubud.com" className="text-sand/80 font-serif text-xl hover:text-sand transition-colors">book@stayinubud.com</a>
           </div>
 
-          <div className="flex gap-8 text-sand/50 text-xs uppercase tracking-widest">
-            <a href="https://instagram.com/stayinubud" target="_blank" className="hover:text-sand transition-colors">Instagram</a>
-            <a href="https://tiktok.com/@stayinubud" target="_blank" className="hover:text-sand transition-colors">TikTok</a>
+          <div className="flex gap-8">
+            <span className="text-sand/30 text-[10px] uppercase tracking-widest">© 2024</span>
           </div>
-        </footer>
+        </div>
 
       </nav>
     </div>
