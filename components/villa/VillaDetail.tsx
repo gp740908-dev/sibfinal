@@ -211,9 +211,9 @@ export const VillaDetail: React.FC<VillaDetailProps> = ({
               <span className="bg-white text-black text-[10px] w-6 h-6 flex items-center justify-center rounded-full ml-2">
                 {galleryImages.length}
               </span>
-            </button>
+            </motion.button>
           </div>
-        </div>
+        </motion.div>
       </header>
 
       {/* STICKY SUB-NAV */}
