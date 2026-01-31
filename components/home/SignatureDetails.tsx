@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { Coffee, Sparkles, Sun } from 'lucide-react';
 
@@ -33,44 +33,57 @@ const MOMENTS = [
 
 export const SignatureDetails: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState(0);
-  const sectionRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const lastChangeRef = useRef<number>(0);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const isScrollingRef = useRef(false);
+  const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Debounced IntersectionObserver to prevent rapid flickering
+  // Scroll-based detection using scroll position calculation
+  const handleScroll = useCallback(() => {
+    if (!containerRef.current) return;
+
+    const container = containerRef.current;
+    const rect = container.getBoundingClientRect();
+    const screenHeight = window.innerHeight;
+
+    // Calculate how far we've scrolled through the section
+    // Container starts: rect.top = screenHeight (just entered)
+    // Container ends: rect.bottom = 0 (just left)
+    const totalScrollDistance = container.offsetHeight - screenHeight;
+    const scrolledDistance = -rect.top;
+    const scrollProgress = Math.max(0, Math.min(1, scrolledDistance / totalScrollDistance));
+
+    // Map scroll progress to index (3 sections = divide by 3)
+    const sectionProgress = scrollProgress * MOMENTS.length;
+    const newIndex = Math.min(Math.floor(sectionProgress), MOMENTS.length - 1);
+
+    // Only update if actually changed and not rapidly scrolling
+    if (newIndex !== activeIndex && newIndex >= 0) {
+      // Clear any pending timeout
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current);
+      }
+
+      // Debounce the state update
+      scrollTimeoutRef.current = setTimeout(() => {
+        setActiveIndex(newIndex);
+      }, 50); // Small delay for smoothness
+    }
+  }, [activeIndex]);
+
   useEffect(() => {
-    const observers: IntersectionObserver[] = [];
-
-    sectionRefs.current.forEach((section, index) => {
-      if (!section) return;
-
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            // Debounce: only change if 200ms has passed since last change
-            const now = Date.now();
-            if (entry.isIntersecting && now - lastChangeRef.current > 200) {
-              lastChangeRef.current = now;
-              setActiveIndex(index);
-            }
-          });
-        },
-        {
-          threshold: 0.6, // Higher threshold for more stability
-          rootMargin: '-20% 0px -20% 0px'
-        }
-      );
-
-      observer.observe(section);
-      observers.push(observer);
-    });
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll(); // Initial check
 
     return () => {
-      observers.forEach((observer) => observer.disconnect());
+      window.removeEventListener('scroll', handleScroll);
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current);
+      }
     };
-  }, []);
+  }, [handleScroll]);
 
   return (
-    <section className="relative bg-forest">
+    <section ref={containerRef} className="relative bg-forest">
       {/* Desktop Layout: Side by Side with CSS Sticky */}
       <div className="hidden md:flex">
         {/* LEFT COLUMN (CSS Sticky) */}
@@ -83,40 +96,47 @@ export const SignatureDetails: React.FC = () => {
 
               {/* All content items - crossfade with opacity (NO UNMOUNTING) */}
               <div className="relative min-h-[400px]">
-                {MOMENTS.map((moment, idx) => (
-                  <motion.div
-                    key={moment.id}
-                    className="absolute top-0 left-0 w-full flex flex-col gap-6"
-                    initial={false}
-                    animate={{
-                      opacity: activeIndex === idx ? 1 : 0,
-                      y: activeIndex === idx ? 0 : 20,
-                      pointerEvents: activeIndex === idx ? 'auto' : 'none'
-                    }}
-                    transition={{
-                      duration: 0.6,
-                      ease: LUXURY_EASE
-                    }}
-                  >
-                    <div className="w-12 h-12 rounded-full border border-sand/30 flex items-center justify-center mb-2">
-                      {moment.icon}
-                    </div>
+                {MOMENTS.map((moment, idx) => {
+                  const isActive = activeIndex === idx;
+                  return (
+                    <motion.div
+                      key={moment.id}
+                      className="absolute top-0 left-0 w-full flex flex-col gap-6"
+                      initial={false}
+                      animate={{
+                        opacity: isActive ? 1 : 0,
+                        y: isActive ? 0 : 15,
+                        scale: isActive ? 1 : 0.98,
+                      }}
+                      transition={{
+                        duration: 0.5,
+                        ease: LUXURY_EASE,
+                      }}
+                      style={{
+                        pointerEvents: isActive ? 'auto' : 'none',
+                        zIndex: isActive ? 1 : 0,
+                      }}
+                    >
+                      <div className="w-12 h-12 rounded-full border border-sand/30 flex items-center justify-center mb-2">
+                        {moment.icon}
+                      </div>
 
-                    <div className="flex items-baseline gap-4 opacity-50 font-serif text-lg">
-                      <span>0{idx + 1}</span>
-                      <span className="h-px w-12 bg-sand"></span>
-                      <span>0{MOMENTS.length}</span>
-                    </div>
+                      <div className="flex items-baseline gap-4 opacity-50 font-serif text-lg">
+                        <span>0{idx + 1}</span>
+                        <span className="h-px w-12 bg-sand"></span>
+                        <span>0{MOMENTS.length}</span>
+                      </div>
 
-                    <h2 className="text-4xl lg:text-6xl xl:text-7xl font-serif leading-none text-sand">
-                      {moment.title}
-                    </h2>
+                      <h2 className="text-4xl lg:text-6xl xl:text-7xl font-serif leading-none text-sand">
+                        {moment.title}
+                      </h2>
 
-                    <p className="font-sans text-base lg:text-lg text-sand/80 leading-relaxed max-w-md">
-                      {moment.description}
-                    </p>
-                  </motion.div>
-                ))}
+                      <p className="font-sans text-base lg:text-lg text-sand/80 leading-relaxed max-w-md">
+                        {moment.description}
+                      </p>
+                    </motion.div>
+                  );
+                })}
               </div>
 
               {/* Navigation Dots */}
@@ -146,7 +166,6 @@ export const SignatureDetails: React.FC = () => {
           {MOMENTS.map((moment, idx) => (
             <div
               key={moment.id}
-              ref={(el) => { sectionRefs.current[idx] = el; }}
               className="h-screen w-full relative overflow-hidden border-l border-sand/10"
             >
               <motion.img
@@ -162,15 +181,9 @@ export const SignatureDetails: React.FC = () => {
               <div className="absolute inset-0 bg-gradient-to-r from-forest/50 to-transparent mix-blend-multiply pointer-events-none"></div>
 
               {/* Section Number Badge */}
-              <motion.div
-                className="absolute bottom-8 right-8 font-serif text-8xl text-sand/10 select-none"
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: false }}
-                transition={{ duration: 0.5 }}
-              >
+              <div className="absolute bottom-8 right-8 font-serif text-8xl text-sand/10 select-none">
                 0{idx + 1}
-              </motion.div>
+              </div>
             </div>
           ))}
         </div>
