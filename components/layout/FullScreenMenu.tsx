@@ -1,7 +1,8 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Link from 'next/link';
+import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
 
 interface FullScreenMenuProps {
@@ -18,126 +19,224 @@ const NAV_LINKS = [
   { label: 'Contact', href: '/contact' },
 ];
 
-export const FullScreenMenu: React.FC<FullScreenMenuProps> = ({ isOpen, onClose }) => {
-  const [mounted, setMounted] = useState(false);
+// Luxury Easing - slow deceleration for premium feel
+const LUXURY_EASE = [0.16, 1, 0.3, 1];
 
-  useEffect(() => {
+// Animation Variants
+const overlayVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { duration: 0.8, ease: LUXURY_EASE }
+  },
+  exit: {
+    opacity: 0,
+    transition: { duration: 0.6, ease: LUXURY_EASE, delay: 0.4 }
+  }
+};
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      duration: 0.5,
+      staggerChildren: 0.1,
+      delayChildren: 0.3
+    }
+  },
+  exit: {
+    opacity: 0,
+    transition: {
+      duration: 0.3,
+      staggerChildren: 0.05,
+      staggerDirection: -1
+    }
+  }
+};
+
+const itemVariants = {
+  hidden: {
+    y: 80,
+    opacity: 0,
+    skewY: 2
+  },
+  visible: {
+    y: 0,
+    opacity: 1,
+    skewY: 0,
+    transition: {
+      duration: 1.2,
+      ease: LUXURY_EASE
+    }
+  },
+  exit: {
+    y: -40,
+    opacity: 0,
+    transition: {
+      duration: 0.4,
+      ease: [0.4, 0, 1, 1]
+    }
+  }
+};
+
+const headerVariants = {
+  hidden: { opacity: 0, y: -20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.8, ease: LUXURY_EASE, delay: 0.2 }
+  },
+  exit: {
+    opacity: 0,
+    y: -10,
+    transition: { duration: 0.3 }
+  }
+};
+
+const footerVariants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 1, ease: LUXURY_EASE, delay: 0.6 }
+  },
+  exit: {
+    opacity: 0,
+    transition: { duration: 0.2 }
+  }
+};
+
+export const FullScreenMenu: React.FC<FullScreenMenuProps> = ({ isOpen, onClose }) => {
+
+  // Lock body scroll when menu is open
+  React.useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
-      // Small delay to ensure render before animation starts
-      requestAnimationFrame(() => setMounted(true));
     } else {
       document.body.style.overflow = '';
-      setMounted(false);
     }
     return () => {
       document.body.style.overflow = '';
     };
   }, [isOpen]);
 
-  // If completely closed and unmounted animation state, we can return null (or keep it for exit ani)
-  // For exit animations to work, we need to keep it rendered until transition finishes.
-  // Ideally we should use a AnimatePresence-like logic, but CSS transitions work if we delay unmount.
-  // For simplicity with this current structure, we rely on `isOpen` for visibility control 
-  // and `mounted` for animation triggering. 
-  // However, to keep it simple and effective as per previous working versions:
-  if (!isOpen && !mounted) return null;
-  // Wait, if !isOpen we usually want to show the exit animation.
-  // But standard React conditional rendering unmounts immediately. 
-  // Let's stick to the previous pattern: Render always if isOpen, or use a delay unmount.
-  // The user wants "Overlay Fullscreen", so we can use a fixed div that is 'pointer-events-none' when closed.
-
-  const showMenu = isOpen || mounted;
-
-  // Custom Ease: cubic-bezier(0.4, 0.0, 0.2, 1) - "Standard Easing" / Material Design / iOS
-  // It starts quickly and decelerates slowly.
-  const LUXURY_EASE = "cubic-bezier(0.4, 0.0, 0.2, 1)";
-
   return (
-    <div
-      className={`fixed inset-0 z-[100] transition-visibility duration-1000 ${isOpen ? 'visible' : 'invisible delay-1000'}`}
-    >
-      {/* 1. Background Overlay 
-          - Appears first
-          - Opacity 0 -> 1
-          - Static (No parallax/noise)
-      */}
-      <div
-        className={`absolute inset-0 bg-forest-dark transition-opacity duration-[1000ms] ease-[cubic-bezier(0.4,0,0.2,1)]
-          ${isOpen ? 'opacity-100' : 'opacity-0'}`}
-      />
-
-      {/* 2. Content Container */}
-      <nav className="relative z-10 h-full w-full flex flex-col justify-between px-6 md:px-16 lg:px-24 py-8 md:py-12">
-
-        {/* Header (Menu Label & Close) */}
-        <div className="w-full flex justify-between items-center shrink-0">
-          <span
-            className={`text-sand/50 text-[10px] uppercase tracking-[0.25em] font-sans transition-all duration-[800ms] ease-[cubic-bezier(0.4,0,0.2,1)]
-              ${isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2'}`}
-            style={{ transitionDelay: isOpen ? '100ms' : '0ms' }}
-          >
-            Navigation
-          </span>
-
-          <button
-            onClick={onClose}
-            className={`group flex items-center gap-2 text-sand/50 hover:text-sand transition-all duration-[800ms] ease-[cubic-bezier(0.4,0,0.2,1)]
-              ${isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2'}`}
-            style={{ transitionDelay: isOpen ? '100ms' : '0ms' }}
-          >
-            <span className="text-[10px] uppercase tracking-[0.2em] hidden md:block opacity-0 group-hover:opacity-100 transition-opacity duration-300">Close</span>
-            <X size={24} strokeWidth={1} className="transition-transform duration-500 group-hover:rotate-90" />
-          </button>
-        </div>
-
-        {/* Main Links - Staggered Reveal */}
-        <div className="flex-1 flex flex-col justify-center py-4 min-h-0 shrink-1">
-          <ul className="flex flex-col gap-1 md:gap-4 overflow-y-auto max-h-full scrollbar-thin scrollbar-thumb-sand/30 scrollbar-track-transparent">
-            {NAV_LINKS.map((link, idx) => (
-              <li key={link.href} className="shrink-0 overflow-hidden">
-                <Link
-                  href={link.href}
-                  onClick={onClose}
-                  className={`block py-1 md:py-3 transition-opacity duration-300 hover:opacity-50`}
-                >
-                  <div
-                    className={`flex items-baseline md:items-start gap-3 md:gap-8 transition-all duration-[1000ms] ease-[cubic-bezier(0.4,0,0.2,1)]
-                        ${isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}
-                      `}
-                    style={{ transitionDelay: isOpen ? `${200 + (idx * 100)}ms` : '0ms' }}
-                  >
-                    <span className="text-sand/30 text-[10px] md:text-sm font-sans tabular-nums w-4 md:w-auto">
-                      {String(idx + 1).padStart(2, '0')}
-                    </span>
-                    <span className="text-sand text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-serif tracking-tight leading-[0.9] sm:leading-[0.9]">
-                      {link.label}
-                    </span>
-                  </div>
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {/* Footer Info - Lowest priority */}
-        <div
-          className={`w-full flex justify-between items-end shrink-0 transition-all duration-[1000ms] ease-[cubic-bezier(0.4,0,0.2,1)]
-            ${isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}
-          `}
-          style={{ transitionDelay: isOpen ? '600ms' : '0ms' }}
+    <AnimatePresence mode="wait">
+      {isOpen && (
+        <motion.div
+          key="fullscreen-menu"
+          className="fixed inset-0 z-[100] flex flex-col"
+          initial="hidden"
+          animate="visible"
+          exit="exit"
         >
-          <div className="flex flex-col gap-1 md:gap-2">
-            <span className="text-sand/30 text-[10px] uppercase tracking-widest">Enquiries</span>
-            <a href="mailto:book@stayinubud.com" className="text-sand/80 font-serif text-lg md:text-xl hover:text-sand transition-colors">book@stayinubud.com</a>
-          </div>
+          {/* Background Overlay */}
+          <motion.div
+            className="absolute inset-0 bg-forest-dark"
+            variants={overlayVariants}
+          />
 
-          <div className="flex gap-8">
-            <span className="text-sand/30 text-[10px] uppercase tracking-widest">© 2024</span>
-          </div>
-        </div>
+          {/* Content */}
+          <motion.nav
+            className="relative z-10 h-full w-full flex flex-col justify-between px-6 md:px-16 lg:px-24 py-8 md:py-12"
+            variants={containerVariants}
+          >
 
-      </nav>
-    </div>
+            {/* Header */}
+            <motion.div
+              className="w-full flex justify-between items-center"
+              variants={headerVariants}
+            >
+              <span className="text-sand/50 text-[10px] uppercase tracking-[0.3em] font-sans">
+                Navigation
+              </span>
+
+              <button
+                onClick={onClose}
+                className="group flex items-center gap-3 text-sand/60 hover:text-sand transition-colors duration-300"
+              >
+                <span className="text-[10px] uppercase tracking-[0.2em] hidden md:block opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  Close
+                </span>
+                <motion.div
+                  whileHover={{ rotate: 90 }}
+                  transition={{ duration: 0.4, ease: LUXURY_EASE }}
+                >
+                  <X size={28} strokeWidth={1} />
+                </motion.div>
+              </button>
+            </motion.div>
+
+            {/* Main Links */}
+            <motion.div
+              className="flex-1 flex flex-col justify-center py-8 overflow-y-auto"
+              variants={containerVariants}
+            >
+              <ul className="flex flex-col gap-0 md:gap-2">
+                {NAV_LINKS.map((link, idx) => (
+                  <motion.li
+                    key={link.href}
+                    className="overflow-hidden"
+                    variants={itemVariants}
+                  >
+                    <Link
+                      href={link.href}
+                      onClick={onClose}
+                      className="group flex items-baseline gap-4 md:gap-8 py-3 md:py-4"
+                    >
+                      <span className="text-sand/20 text-xs md:text-sm font-sans tabular-nums w-6 md:w-8">
+                        {String(idx + 1).padStart(2, '0')}
+                      </span>
+
+                      <motion.span
+                        className="text-sand text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-serif tracking-tight leading-[0.9]"
+                        whileHover={{
+                          x: 20,
+                          color: 'rgba(241, 235, 225, 0.6)',
+                          transition: { duration: 0.4, ease: LUXURY_EASE }
+                        }}
+                      >
+                        {link.label}
+                      </motion.span>
+                    </Link>
+                  </motion.li>
+                ))}
+              </ul>
+            </motion.div>
+
+            {/* Footer */}
+            <motion.div
+              className="w-full flex flex-col md:flex-row justify-between items-start md:items-end gap-6"
+              variants={footerVariants}
+            >
+              <div className="flex flex-col gap-1">
+                <span className="text-sand/30 text-[10px] uppercase tracking-widest">Enquiries</span>
+                <a
+                  href="mailto:book@stayinubud.com"
+                  className="text-sand/80 font-serif text-lg md:text-xl hover:text-sand transition-colors duration-300"
+                >
+                  book@stayinubud.com
+                </a>
+              </div>
+
+              <div className="flex gap-8">
+                <a
+                  href="https://instagram.com"
+                  target="_blank"
+                  className="text-sand/40 text-[10px] uppercase tracking-widest hover:text-sand transition-colors duration-300"
+                >
+                  Instagram
+                </a>
+                <span className="text-sand/30 text-[10px] uppercase tracking-widest">
+                  © 2024
+                </span>
+              </div>
+            </motion.div>
+
+          </motion.nav>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 };
