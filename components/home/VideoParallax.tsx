@@ -4,8 +4,8 @@ import React, { useRef } from 'react';
 import Image from 'next/image';
 import { motion, useScroll, useTransform } from 'framer-motion';
 
-// Luxury Easing
-const LUXURY_EASE = [0.16, 1, 0.3, 1];
+// Luxury Easing - typed as tuple for Framer Motion
+const LUXURY_EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 export const VideoParallax: React.FC = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -70,7 +70,7 @@ export const VideoParallax: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.8, ease: LUXURY_EASE, delay: 0 }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] as const, delay: 0 }}
           >
             Time stands still
           </motion.span>
@@ -79,7 +79,7 @@ export const VideoParallax: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.8, ease: LUXURY_EASE, delay: 0.1 }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] as const, delay: 0.1 }}
           >
             in the heart
           </motion.span>
@@ -88,7 +88,7 @@ export const VideoParallax: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.8, ease: LUXURY_EASE, delay: 0.2 }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] as const, delay: 0.2 }}
           >
             of the jungle.
           </motion.span>

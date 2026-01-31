@@ -26,12 +26,18 @@ const staggerContainer = {
 };
 
 const scaleIn = {
-  hidden: { opacity: 0, scale: 0.9 },
+  hidden: { opacity: 0, scale: 0.95 },
   visible: {
     opacity: 1,
     scale: 1,
-    transition: { duration: 1, ease: LUXURY_EASE }
+    transition: { duration: 0.8, ease: LUXURY_EASE }
   }
+};
+
+// Button fill animation variant
+const buttonFill = {
+  rest: { y: '100%' },
+  hover: { y: 0 }
 };
 
 const lineReveal = {
@@ -145,8 +151,8 @@ export const SignatureDetails: React.FC = () => {
 
               {/* Gradient Overlay */}
               <div className={`absolute inset-0 pointer-events-none ${moment.layout === 'right'
-                  ? 'bg-gradient-to-l from-forest/60 to-transparent'
-                  : 'bg-gradient-to-r from-forest/60 to-transparent'
+                ? 'bg-gradient-to-l from-forest/60 to-transparent'
+                : 'bg-gradient-to-r from-forest/60 to-transparent'
                 }`} />
             </motion.div>
 
@@ -222,18 +228,31 @@ export const SignatureDetails: React.FC = () => {
         </motion.p>
 
         <motion.div variants={fadeInUp}>
-          <Link
-            href="/experiences"
-            className="group inline-flex items-center gap-4 px-10 py-5 border border-sand/30 rounded-full hover:bg-sand hover:text-forest transition-all duration-500"
-          >
-            <span className="font-sans text-xs uppercase tracking-[0.2em] font-medium">
-              Explore All Experiences
-            </span>
+          <Link href="/experiences">
             <motion.div
-              animate={{ x: [0, 5, 0] }}
-              transition={{ duration: 2, repeat: Infinity }}
+              className="group relative inline-flex items-center justify-center gap-4 px-12 py-6 border border-sand/40 overflow-hidden cursor-pointer"
+              initial="rest"
+              whileHover="hover"
+              whileTap={{ scale: 0.98 }}
             >
-              <ArrowRight size={16} />
+              {/* Background Fill */}
+              <motion.div
+                className="absolute inset-0 bg-sand"
+                variants={buttonFill}
+                transition={{ duration: 0.4, ease: LUXURY_EASE }}
+              />
+
+              {/* Content */}
+              <span className="relative z-10 font-sans text-xs uppercase tracking-[0.2em] font-medium group-hover:text-forest transition-colors duration-300">
+                Explore All Experiences
+              </span>
+              <motion.div
+                className="relative z-10 group-hover:text-forest transition-colors duration-300"
+                animate={{ x: [0, 4, 0] }}
+                transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
+              >
+                <ArrowRight size={16} />
+              </motion.div>
             </motion.div>
           </Link>
         </motion.div>
