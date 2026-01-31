@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { Coffee, Sparkles, Sun } from 'lucide-react';
 
 // Luxury Easing
@@ -31,44 +31,12 @@ const MOMENTS = [
   }
 ];
 
-// Animation Variants
-const fadeInUp = {
-  hidden: { opacity: 0, y: 30 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.8, ease: LUXURY_EASE }
-  }
-};
-
-const contentReveal = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.6, ease: LUXURY_EASE }
-  },
-  exit: {
-    opacity: 0,
-    y: -20,
-    transition: { duration: 0.3, ease: LUXURY_EASE }
-  }
-};
-
-const imageReveal = {
-  hidden: { opacity: 0, scale: 1.1 },
-  visible: {
-    opacity: 1,
-    scale: 1,
-    transition: { duration: 1.2, ease: LUXURY_EASE }
-  }
-};
-
 export const SignatureDetails: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const sectionRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const lastChangeRef = useRef<number>(0);
 
-  // Use IntersectionObserver for reliable scroll detection
+  // Debounced IntersectionObserver to prevent rapid flickering
   useEffect(() => {
     const observers: IntersectionObserver[] = [];
 
@@ -78,14 +46,17 @@ export const SignatureDetails: React.FC = () => {
       const observer = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
-            if (entry.isIntersecting) {
+            // Debounce: only change if 200ms has passed since last change
+            const now = Date.now();
+            if (entry.isIntersecting && now - lastChangeRef.current > 200) {
+              lastChangeRef.current = now;
               setActiveIndex(index);
             }
           });
         },
         {
-          threshold: 0.5,
-          rootMargin: '-10% 0px -10% 0px'
+          threshold: 0.6, // Higher threshold for more stability
+          rootMargin: '-20% 0px -20% 0px'
         }
       );
 
@@ -106,67 +77,47 @@ export const SignatureDetails: React.FC = () => {
         <div className="w-1/2 relative">
           <div className="sticky top-0 h-screen flex flex-col justify-center px-8 lg:px-24 text-sand">
             <div className="max-w-xl">
-              <motion.span
-                className="font-sans text-xs uppercase tracking-[0.3em] text-sand/60 mb-8 border-l border-sand/30 pl-4 h-12 flex items-center"
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                variants={fadeInUp}
-              >
+              <span className="font-sans text-xs uppercase tracking-[0.3em] text-sand/60 mb-8 border-l border-sand/30 pl-4 h-12 flex items-center">
                 Curated Moments
-              </motion.span>
+              </span>
 
-              {/* Dynamic Text Content with AnimatePresence */}
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={activeIndex}
-                  className="flex flex-col gap-6"
-                  variants={contentReveal}
-                  initial="hidden"
-                  animate="visible"
-                  exit="exit"
-                >
+              {/* All content items - crossfade with opacity (NO UNMOUNTING) */}
+              <div className="relative min-h-[400px]">
+                {MOMENTS.map((moment, idx) => (
                   <motion.div
-                    className="w-12 h-12 rounded-full border border-sand/30 flex items-center justify-center mb-2"
-                    initial={{ scale: 0.8, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    transition={{ duration: 0.4, ease: LUXURY_EASE }}
+                    key={moment.id}
+                    className="absolute top-0 left-0 w-full flex flex-col gap-6"
+                    initial={false}
+                    animate={{
+                      opacity: activeIndex === idx ? 1 : 0,
+                      y: activeIndex === idx ? 0 : 20,
+                      pointerEvents: activeIndex === idx ? 'auto' : 'none'
+                    }}
+                    transition={{
+                      duration: 0.6,
+                      ease: LUXURY_EASE
+                    }}
                   >
-                    {MOMENTS[activeIndex].icon}
+                    <div className="w-12 h-12 rounded-full border border-sand/30 flex items-center justify-center mb-2">
+                      {moment.icon}
+                    </div>
+
+                    <div className="flex items-baseline gap-4 opacity-50 font-serif text-lg">
+                      <span>0{idx + 1}</span>
+                      <span className="h-px w-12 bg-sand"></span>
+                      <span>0{MOMENTS.length}</span>
+                    </div>
+
+                    <h2 className="text-4xl lg:text-6xl xl:text-7xl font-serif leading-none text-sand">
+                      {moment.title}
+                    </h2>
+
+                    <p className="font-sans text-base lg:text-lg text-sand/80 leading-relaxed max-w-md">
+                      {moment.description}
+                    </p>
                   </motion.div>
-
-                  <div className="flex items-baseline gap-4 opacity-50 font-serif text-lg">
-                    <motion.span
-                      key={`num-${activeIndex}`}
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      0{activeIndex + 1}
-                    </motion.span>
-                    <span className="h-px w-12 bg-sand"></span>
-                    <span>0{MOMENTS.length}</span>
-                  </div>
-
-                  <motion.h2
-                    className="text-4xl lg:text-6xl xl:text-7xl font-serif leading-none text-sand"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, ease: LUXURY_EASE, delay: 0.1 }}
-                  >
-                    {MOMENTS[activeIndex].title}
-                  </motion.h2>
-
-                  <motion.p
-                    className="font-sans text-base lg:text-lg text-sand/80 leading-relaxed max-w-md"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, ease: LUXURY_EASE, delay: 0.2 }}
-                  >
-                    {MOMENTS[activeIndex].description}
-                  </motion.p>
-                </motion.div>
-              </AnimatePresence>
+                ))}
+              </div>
 
               {/* Navigation Dots */}
               <div className="flex gap-3 mt-12">
@@ -174,12 +125,12 @@ export const SignatureDetails: React.FC = () => {
                   <motion.button
                     key={idx}
                     onClick={() => setActiveIndex(idx)}
-                    className="h-2 rounded-full transition-all"
+                    className="h-2 rounded-full"
                     animate={{
                       width: activeIndex === idx ? 32 : 8,
                       backgroundColor: activeIndex === idx ? '#F4F1EA' : 'rgba(244,241,234,0.3)'
                     }}
-                    transition={{ duration: 0.3, ease: LUXURY_EASE }}
+                    transition={{ duration: 0.4, ease: LUXURY_EASE }}
                     whileHover={{ scale: 1.2 }}
                     whileTap={{ scale: 0.9 }}
                     aria-label={`View ${MOMENTS[idx].title}`}
@@ -210,15 +161,13 @@ export const SignatureDetails: React.FC = () => {
               {/* Overlay Gradient */}
               <div className="absolute inset-0 bg-gradient-to-r from-forest/50 to-transparent mix-blend-multiply pointer-events-none"></div>
 
-              {/* Active Indicator */}
+              {/* Section Number Badge */}
               <motion.div
-                className="absolute bottom-8 right-8 bg-sand/90 text-forest px-4 py-2 text-xs uppercase tracking-widest font-bold"
-                initial={{ opacity: 0, x: 20 }}
-                animate={{
-                  opacity: activeIndex === idx ? 1 : 0,
-                  x: activeIndex === idx ? 0 : 20
-                }}
-                transition={{ duration: 0.3 }}
+                className="absolute bottom-8 right-8 font-serif text-8xl text-sand/10 select-none"
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: false }}
+                transition={{ duration: 0.5 }}
               >
                 0{idx + 1}
               </motion.div>
@@ -233,10 +182,10 @@ export const SignatureDetails: React.FC = () => {
           <motion.div
             key={moment.id}
             className="h-[80vh] w-full relative overflow-hidden border-b border-sand/10"
-            initial="hidden"
-            whileInView="visible"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
             viewport={{ once: true, amount: 0.3 }}
-            variants={imageReveal}
+            transition={{ duration: 0.8 }}
           >
             <img
               src={moment.image}
@@ -245,13 +194,7 @@ export const SignatureDetails: React.FC = () => {
             />
 
             {/* Mobile Overlay */}
-            <motion.div
-              className="absolute inset-0 bg-gradient-to-t from-forest/95 via-forest/60 to-transparent flex flex-col justify-end p-6 sm:p-8 text-sand"
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.3, duration: 0.6 }}
-            >
+            <div className="absolute inset-0 bg-gradient-to-t from-forest/95 via-forest/60 to-transparent flex flex-col justify-end p-6 sm:p-8 text-sand">
               <div className="max-w-md mx-auto w-full mb-4">
                 <div className="mb-4 text-accent drop-shadow-md">{moment.icon}</div>
 
@@ -269,7 +212,7 @@ export const SignatureDetails: React.FC = () => {
                   {moment.description}
                 </p>
               </div>
-            </motion.div>
+            </div>
           </motion.div>
         ))}
       </div>
