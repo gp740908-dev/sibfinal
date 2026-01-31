@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Coffee, Sparkles, Sun } from 'lucide-react';
 
@@ -51,7 +51,7 @@ const contentReveal = {
   exit: {
     opacity: 0,
     y: -20,
-    transition: { duration: 0.4, ease: LUXURY_EASE }
+    transition: { duration: 0.3, ease: LUXURY_EASE }
   }
 };
 
@@ -61,16 +61,42 @@ const imageReveal = {
     opacity: 1,
     scale: 1,
     transition: { duration: 1.2, ease: LUXURY_EASE }
-  },
-  exit: {
-    opacity: 0,
-    scale: 1.05,
-    transition: { duration: 0.6, ease: LUXURY_EASE }
   }
 };
 
 export const SignatureDetails: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState(0);
+  const sectionRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  // Use IntersectionObserver for reliable scroll detection
+  useEffect(() => {
+    const observers: IntersectionObserver[] = [];
+
+    sectionRefs.current.forEach((section, index) => {
+      if (!section) return;
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              setActiveIndex(index);
+            }
+          });
+        },
+        {
+          threshold: 0.5,
+          rootMargin: '-10% 0px -10% 0px'
+        }
+      );
+
+      observer.observe(section);
+      observers.push(observer);
+    });
+
+    return () => {
+      observers.forEach((observer) => observer.disconnect());
+    };
+  }, []);
 
   return (
     <section className="relative bg-forest">
@@ -100,23 +126,45 @@ export const SignatureDetails: React.FC = () => {
                   animate="visible"
                   exit="exit"
                 >
-                  <div className="w-12 h-12 rounded-full border border-sand/30 flex items-center justify-center mb-2">
+                  <motion.div
+                    className="w-12 h-12 rounded-full border border-sand/30 flex items-center justify-center mb-2"
+                    initial={{ scale: 0.8, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    transition={{ duration: 0.4, ease: LUXURY_EASE }}
+                  >
                     {MOMENTS[activeIndex].icon}
-                  </div>
+                  </motion.div>
 
                   <div className="flex items-baseline gap-4 opacity-50 font-serif text-lg">
-                    <span>0{activeIndex + 1}</span>
+                    <motion.span
+                      key={`num-${activeIndex}`}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      0{activeIndex + 1}
+                    </motion.span>
                     <span className="h-px w-12 bg-sand"></span>
                     <span>0{MOMENTS.length}</span>
                   </div>
 
-                  <h2 className="text-4xl lg:text-6xl xl:text-7xl font-serif leading-none text-sand">
+                  <motion.h2
+                    className="text-4xl lg:text-6xl xl:text-7xl font-serif leading-none text-sand"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, ease: LUXURY_EASE, delay: 0.1 }}
+                  >
                     {MOMENTS[activeIndex].title}
-                  </h2>
+                  </motion.h2>
 
-                  <p className="font-sans text-base lg:text-lg text-sand/80 leading-relaxed max-w-md">
+                  <motion.p
+                    className="font-sans text-base lg:text-lg text-sand/80 leading-relaxed max-w-md"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, ease: LUXURY_EASE, delay: 0.2 }}
+                  >
                     {MOMENTS[activeIndex].description}
-                  </p>
+                  </motion.p>
                 </motion.div>
               </AnimatePresence>
 
@@ -126,8 +174,12 @@ export const SignatureDetails: React.FC = () => {
                   <motion.button
                     key={idx}
                     onClick={() => setActiveIndex(idx)}
-                    className={`w-2 h-2 rounded-full transition-all ${activeIndex === idx ? 'bg-sand w-8' : 'bg-sand/30 hover:bg-sand/60'
-                      }`}
+                    className="h-2 rounded-full transition-all"
+                    animate={{
+                      width: activeIndex === idx ? 32 : 8,
+                      backgroundColor: activeIndex === idx ? '#F4F1EA' : 'rgba(244,241,234,0.3)'
+                    }}
+                    transition={{ duration: 0.3, ease: LUXURY_EASE }}
                     whileHover={{ scale: 1.2 }}
                     whileTap={{ scale: 0.9 }}
                     aria-label={`View ${MOMENTS[idx].title}`}
@@ -141,25 +193,36 @@ export const SignatureDetails: React.FC = () => {
         {/* RIGHT COLUMN (Scrolling Images) */}
         <div className="w-1/2 flex flex-col">
           {MOMENTS.map((moment, idx) => (
-            <motion.div
+            <div
               key={moment.id}
+              ref={(el) => { sectionRefs.current[idx] = el; }}
               className="h-screen w-full relative overflow-hidden border-l border-sand/10"
-              onViewportEnter={() => setActiveIndex(idx)}
-              viewport={{ amount: 0.5 }}
             >
               <motion.img
                 src={moment.image}
                 alt={moment.title}
                 className="w-full h-full object-cover"
-                initial={{ scale: 1.1 }}
+                initial={{ scale: 1.15 }}
                 whileInView={{ scale: 1 }}
-                viewport={{ once: false }}
+                viewport={{ once: false, amount: 0.3 }}
                 transition={{ duration: 1.5, ease: LUXURY_EASE }}
-                whileHover={{ scale: 1.05 }}
               />
               {/* Overlay Gradient */}
               <div className="absolute inset-0 bg-gradient-to-r from-forest/50 to-transparent mix-blend-multiply pointer-events-none"></div>
-            </motion.div>
+
+              {/* Active Indicator */}
+              <motion.div
+                className="absolute bottom-8 right-8 bg-sand/90 text-forest px-4 py-2 text-xs uppercase tracking-widest font-bold"
+                initial={{ opacity: 0, x: 20 }}
+                animate={{
+                  opacity: activeIndex === idx ? 1 : 0,
+                  x: activeIndex === idx ? 0 : 20
+                }}
+                transition={{ duration: 0.3 }}
+              >
+                0{idx + 1}
+              </motion.div>
+            </div>
           ))}
         </div>
       </div>
