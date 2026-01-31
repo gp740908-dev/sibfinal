@@ -1,8 +1,7 @@
 'use client';
 
 import React, { useState, useRef } from 'react';
-import gsap from 'gsap';
-import { useGSAP } from '@gsap/react';
+import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { Villa } from '../../types';
 import { BookingWizard } from '../booking/BookingWizard';
@@ -13,6 +12,34 @@ import {
   ArrowLeft, ArrowRight, Wifi, Wind, Waves, Coffee, Shield, X, Maximize2,
   MapPin, Clock, Ban, Cigarette, Dog, CheckCircle2, Bed, Tv, Utensils
 } from 'lucide-react';
+
+// Luxury Easing
+const LUXURY_EASE = [0.16, 1, 0.3, 1];
+
+// Animation Variants
+const fadeInUp = {
+  hidden: { opacity: 0, y: 30 },
+  visible: (delay: number = 0) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.8, ease: LUXURY_EASE, delay }
+  })
+};
+
+const staggerContainer = {
+  hidden: {},
+  visible: {
+    transition: { staggerChildren: 0.1, delayChildren: 0.2 }
+  }
+};
+
+const scaleIn = {
+  hidden: { scale: 1.1 },
+  visible: {
+    scale: 1,
+    transition: { duration: 1.5, ease: LUXURY_EASE }
+  }
+};
 
 interface VillaDetailProps {
   villa: Villa;
@@ -37,24 +64,6 @@ export const VillaDetail: React.FC<VillaDetailProps> = ({
   const [activeSection, setActiveSection] = useState('overview');
   const [isDescExpanded, setIsDescExpanded] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
-
-  useGSAP(() => {
-    const tl = gsap.timeline();
-
-    // Cinematic Hero Entrance
-    tl.from('.hero-bg', {
-      scale: 1.1,
-      duration: 2,
-      ease: 'power2.out'
-    })
-      .from('.hero-content > *', {
-        y: 30,
-        opacity: 0,
-        duration: 1,
-        stagger: 0.1,
-        ease: 'power3.out'
-      }, "-=1.5");
-  }, { scope: containerRef });
 
   // Fallback Data if DB is empty or missing JSON fields
   const amenitiesDetail: Record<string, string[]> = villa.amenities_detail || {
@@ -123,18 +132,28 @@ export const VillaDetail: React.FC<VillaDetailProps> = ({
 
       {/* 1. CINEMATIC HERO HEADER */}
       <header className="relative w-full h-[85vh] overflow-hidden">
-        {/* Background Image with Parallax Scale Init */}
-        <div className="hero-bg absolute inset-0 w-full h-full">
+        {/* Background Image with Scale Animation */}
+        <motion.div
+          className="absolute inset-0 w-full h-full"
+          variants={scaleIn}
+          initial="hidden"
+          animate="visible"
+        >
           <img
             src={galleryImages[0]}
             alt={villa.name}
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
-        </div>
+        </motion.div>
 
         {/* Top Nav Overlay */}
-        <div className="absolute top-0 left-0 right-0 p-6 md:p-12 z-20 flex justify-between items-start">
+        <motion.div
+          className="absolute top-0 left-0 right-0 p-6 md:p-12 z-20 flex justify-between items-start"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: LUXURY_EASE, delay: 0.5 }}
+        >
           <Link
             href="/villas"
             className="flex items-center gap-2 text-white/80 hover:text-white text-xs uppercase tracking-[0.2em] transition-colors border border-white/20 px-4 py-2 rounded-full backdrop-blur-sm hover:bg-white/10"
@@ -142,29 +161,50 @@ export const VillaDetail: React.FC<VillaDetailProps> = ({
             <ArrowLeft size={14} /> Back to Collection
           </Link>
           <WishlistButton villaId={villa.id} className="bg-white/10 backdrop-blur-md hover:bg-white/20 text-white" />
-        </div>
+        </motion.div>
 
         {/* Hero Content */}
-        <div className="hero-content absolute bottom-0 left-0 right-0 p-6 md:p-12 z-20 text-white pb-20 md:pb-24">
+        <motion.div
+          className="absolute bottom-0 left-0 right-0 p-6 md:p-12 z-20 text-white pb-20 md:pb-24"
+          variants={staggerContainer}
+          initial="hidden"
+          animate="visible"
+        >
           <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-end justify-between gap-8">
             <div className="max-w-3xl">
-              <span className="block text-sand-light font-sans text-xs md:text-sm font-bold uppercase tracking-[0.2em] mb-4">
+              <motion.span
+                className="block text-sand-light font-sans text-xs md:text-sm font-bold uppercase tracking-[0.2em] mb-4"
+                variants={fadeInUp}
+                custom={0.3}
+              >
                 Luxury Sanctuary in Ubud
-              </span>
-              <h1 className="text-5xl md:text-7xl lg:text-8xl font-serif mb-6 leading-[0.9]">
+              </motion.span>
+              <motion.h1
+                className="text-5xl md:text-7xl lg:text-8xl font-serif mb-6 leading-[0.9]"
+                variants={fadeInUp}
+                custom={0.4}
+              >
                 {villa.name}
-              </h1>
-              <div className="flex flex-wrap gap-6 text-sm md:text-base font-medium opacity-90">
+              </motion.h1>
+              <motion.div
+                className="flex flex-wrap gap-6 text-sm md:text-base font-medium opacity-90"
+                variants={fadeInUp}
+                custom={0.5}
+              >
                 <span className="flex items-center gap-2"><MapPin size={18} /> Ubud, Bali</span>
                 <span className="flex items-center gap-2">{villa.guests} Guests</span>
                 <span className="flex items-center gap-2">{villa.bedrooms} Bedrooms</span>
                 <span className="flex items-center gap-2">{villa.building_area} m²</span>
-              </div>
+              </motion.div>
             </div>
 
-            <button
+            <motion.button
               onClick={() => setLightboxOpen(true)}
               className="flex items-center gap-3 bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/30 text-white px-6 py-4 rounded-lg uppercase tracking-widest text-xs font-bold transition-all group"
+              variants={fadeInUp}
+              custom={0.6}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
             >
               <Maximize2 size={16} />
               View All Photos

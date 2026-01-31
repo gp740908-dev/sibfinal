@@ -1,9 +1,11 @@
 'use client';
 
-import React, { useState, useRef } from 'react';
-import gsap from 'gsap';
-import { useGSAP } from '@gsap/react';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, Minus } from 'lucide-react';
+
+// Luxury Easing
+const LUXURY_EASE = [0.16, 1, 0.3, 1];
 
 type Category = 'General' | 'Villa Amenities' | 'Booking & Payment';
 
@@ -59,110 +61,172 @@ const FAQ_DATA: Record<Category, FAQItem[]> = {
 
 const CATEGORIES: Category[] = ['General', 'Villa Amenities', 'Booking & Payment'];
 
+// Animation Variants
+const fadeInUp = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.8, ease: LUXURY_EASE }
+  }
+};
+
+const staggerContainer = {
+  hidden: {},
+  visible: {
+    transition: { staggerChildren: 0.1, delayChildren: 0.2 }
+  }
+};
+
+const accordionContent = {
+  hidden: {
+    height: 0,
+    opacity: 0,
+    transition: { duration: 0.4, ease: LUXURY_EASE }
+  },
+  visible: {
+    height: 'auto',
+    opacity: 1,
+    transition: { duration: 0.5, ease: LUXURY_EASE }
+  }
+};
+
 export const FAQ: React.FC = () => {
   const [activeTab, setActiveTab] = useState<Category>('General');
-  const [openIndex, setOpenIndex] = useState<number | null>(0); // Default first open
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  useGSAP(() => {
-    gsap.from('.faq-header', {
-      y: 30,
-      opacity: 0,
-      duration: 1,
-      ease: "power3.out"
-    });
-
-    gsap.from('.faq-tabs', {
-      y: 20,
-      opacity: 0,
-      duration: 0.8,
-      delay: 0.3,
-      ease: "power2.out"
-    });
-
-    gsap.from('.faq-list', {
-      y: 20,
-      opacity: 0,
-      duration: 0.8,
-      delay: 0.5,
-      ease: "power2.out"
-    });
-  }, { scope: containerRef });
+  const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   const toggleAccordion = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);
   };
 
   return (
-    <div ref={containerRef} className="min-h-screen bg-sand pt-32 pb-20 px-6 md:px-12 text-forest-dark">
+    <div className="min-h-screen bg-sand pt-32 pb-20 px-6 md:px-12 text-forest-dark">
       <div className="max-w-3xl mx-auto">
 
         {/* Header */}
-        <div className="faq-header text-center mb-16">
-          <span className="block font-sans text-xs uppercase tracking-[0.2em] text-forest-dark/60 mb-4">
+        <motion.div
+          className="text-center mb-16"
+          initial="hidden"
+          animate="visible"
+          variants={staggerContainer}
+        >
+          <motion.span
+            className="block font-sans text-xs uppercase tracking-[0.2em] text-forest-dark/60 mb-4"
+            variants={fadeInUp}
+          >
             Support
-          </span>
-          <h1 className="text-4xl md:text-6xl font-serif leading-none mb-6">
+          </motion.span>
+          <motion.h1
+            className="text-4xl md:text-6xl font-serif leading-none mb-6"
+            variants={fadeInUp}
+          >
             FREQUENTLY ASKED <br /> <span className="italic text-forest-dark/70">QUESTIONS</span>
-          </h1>
-          <p className="font-sans text-forest-dark/70 max-w-lg mx-auto">
+          </motion.h1>
+          <motion.p
+            className="font-sans text-forest-dark/70 max-w-lg mx-auto"
+            variants={fadeInUp}
+          >
             Everything you need to know about your upcoming escape to Ubud.
             If you can't find what you're looking for, our concierge is always available.
-          </p>
-        </div>
+          </motion.p>
+        </motion.div>
 
         {/* Tabs */}
-        <div className="faq-tabs flex flex-wrap justify-center gap-6 md:gap-10 border-b border-forest-dark/10 pb-6 mb-12">
+        <motion.div
+          className="flex flex-wrap justify-center gap-6 md:gap-10 border-b border-forest-dark/10 pb-6 mb-12"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: LUXURY_EASE, delay: 0.4 }}
+        >
           {CATEGORIES.map(cat => (
-            <button
+            <motion.button
               key={cat}
               onClick={() => { setActiveTab(cat); setOpenIndex(null); }}
               className={`font-sans text-xs md:text-sm uppercase tracking-widest transition-all duration-300 relative pb-2
                 ${activeTab === cat ? 'text-forest-dark font-bold' : 'text-forest-dark/40 hover:text-forest-dark'}
               `}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
             >
               {cat}
-              {activeTab === cat && (
-                <span className="absolute bottom-0 left-0 w-full h-px bg-forest-dark animate-fade-in" />
-              )}
-            </button>
+              {/* Animated Underline */}
+              <motion.span
+                className="absolute bottom-0 left-0 w-full h-px bg-forest-dark"
+                initial={{ scaleX: 0 }}
+                animate={{ scaleX: activeTab === cat ? 1 : 0 }}
+                transition={{ duration: 0.3, ease: LUXURY_EASE }}
+              />
+            </motion.button>
           ))}
-        </div>
+        </motion.div>
 
         {/* Accordion List */}
-        <div className="faq-list space-y-4">
-          {FAQ_DATA[activeTab].map((item, index) => {
-            const isOpen = openIndex === index;
-            return (
-              <div
-                key={index}
-                className="border-b border-forest-dark/10 last:border-none"
-              >
-                <button
-                  onClick={() => toggleAccordion(index)}
-                  className="w-full flex justify-between items-center py-6 text-left group"
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeTab}
+            className="space-y-0"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.4, ease: LUXURY_EASE }}
+          >
+            {FAQ_DATA[activeTab].map((item, index) => {
+              const isOpen = openIndex === index;
+              return (
+                <motion.div
+                  key={index}
+                  className="border-b border-forest-dark/10 last:border-none overflow-hidden"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: index * 0.1 }}
                 >
-                  <h3 className={`font-serif text-xl md:text-2xl transition-colors duration-300 ${isOpen ? 'text-forest-dark' : 'text-forest-dark/80 group-hover:text-forest-dark'}`}>
-                    {item.question}
-                  </h3>
-                  <div className={`flex-shrink-0 ml-4 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}>
-                    {isOpen ? <Minus size={20} /> : <Plus size={20} />}
-                  </div>
-                </button>
+                  {/* Question Button */}
+                  <motion.button
+                    onClick={() => toggleAccordion(index)}
+                    className="w-full flex justify-between items-center py-6 text-left group"
+                    whileHover={{ x: 4 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <h3 className={`font-serif text-xl md:text-2xl transition-colors duration-300 ${isOpen ? 'text-forest-dark' : 'text-forest-dark/80 group-hover:text-forest-dark'}`}>
+                      {item.question}
+                    </h3>
+                    <motion.div
+                      className="flex-shrink-0 ml-4"
+                      animate={{ rotate: isOpen ? 180 : 0 }}
+                      transition={{ duration: 0.3, ease: LUXURY_EASE }}
+                    >
+                      {isOpen ? <Minus size={20} /> : <Plus size={20} />}
+                    </motion.div>
+                  </motion.button>
 
-                <div
-                  className={`grid transition-[grid-template-rows] duration-500 ease-out ${isOpen ? 'grid-rows-[1fr] opacity-100 pb-8' : 'grid-rows-[0fr] opacity-0'}`}
-                >
-                  <div className="overflow-hidden">
-                    <p className="font-sans text-forest-dark/70 leading-relaxed text-sm md:text-base pr-8">
-                      {item.answer}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
+                  {/* Answer Content with AnimatePresence */}
+                  <AnimatePresence initial={false}>
+                    {isOpen && (
+                      <motion.div
+                        key="content"
+                        initial="hidden"
+                        animate="visible"
+                        exit="hidden"
+                        variants={accordionContent}
+                        className="overflow-hidden"
+                      >
+                        <motion.p
+                          className="font-sans text-forest-dark/70 leading-relaxed text-sm md:text-base pr-8 pb-8"
+                          initial={{ opacity: 0, y: -10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -10 }}
+                          transition={{ duration: 0.3, delay: 0.1 }}
+                        >
+                          {item.answer}
+                        </motion.p>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </motion.div>
+              );
+            })}
+          </motion.div>
+        </AnimatePresence>
 
       </div>
     </div>
