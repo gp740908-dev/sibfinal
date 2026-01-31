@@ -71,34 +71,34 @@ export const Hero: React.FC = () => {
       </div>
 
       {/* --- LAYER 2: CONTENT --- */}
-      <div className="relative z-20 h-full flex flex-col justify-center px-6 md:px-16 lg:px-24">
+      <div className="relative z-20 h-full flex flex-col justify-center px-6 md:px-16 lg:px-24 pb-32">
 
         <div className="max-w-4xl">
           {/* Accent Line */}
           <div className="w-16 h-[2px] bg-sand mb-8 animate-fade-in"></div>
 
           {/* Title */}
-          <h1 className="font-serif text-6xl md:text-8xl lg:text-9xl text-sand leading-[0.9] mb-8 tracking-tight">
+          <h1 className="font-serif text-5xl sm:text-6xl md:text-8xl lg:text-9xl text-sand leading-[0.9] mb-6 md:mb-8 tracking-tight">
             <span className="block animate-slide-up [animation-delay:100ms]">UBUD</span>
             <span className="block animate-slide-up [animation-delay:200ms] text-sand-light">
               UNFILTERED
-              <span className="text-sand inline-block ml-2 w-3 h-3 md:w-4 md:h-4 bg-sand mb-2 md:mb-4 rounded-sm"></span>
+              <span className="text-sand inline-block ml-2 w-2 h-2 sm:w-3 sm:h-3 md:w-4 md:h-4 bg-sand mb-1 sm:mb-2 md:mb-4 rounded-sm"></span>
             </span>
           </h1>
 
           {/* Description */}
-          <p className="font-sans text-sand/80 text-sm md:text-lg leading-relaxed max-w-lg mb-12 animate-fade-in opacity-0 [animation-delay:400ms] border-l border-sand/30 pl-6">
+          <p className="font-sans text-sand/80 text-xs sm:text-sm md:text-lg leading-relaxed max-w-md md:max-w-lg mb-8 md:mb-12 animate-fade-in opacity-0 [animation-delay:400ms] border-l border-sand/30 pl-4 md:pl-6">
             A raw exploration of monolithic luxury. Where concrete meets the jungle canopy in a brutalist symphony of silence.
           </p>
 
           {/* Action Buttons */}
-          <div className="flex items-center gap-6 animate-fade-in opacity-0 [animation-delay:600ms] ml-6">
+          <div className="flex items-center gap-4 md:gap-6 animate-fade-in opacity-0 [animation-delay:600ms]">
             <Link
               href="/villas"
-              className="group flex items-center gap-4 px-8 py-4 border border-sand/30 hover:border-sand hover:bg-sand/10 transition-all duration-500 rounded-sm"
+              className="group flex items-center gap-3 md:gap-4 px-5 py-3 md:px-8 md:py-4 border border-sand/30 hover:border-sand hover:bg-sand/10 transition-all duration-500 rounded-sm"
             >
-              <Compass size={18} className="text-sand group-hover:rotate-45 transition-transform duration-500" />
-              <span className="font-sans text-xs font-bold uppercase tracking-[0.2em] text-sand">Explore The Space</span>
+              <Compass size={16} className="text-sand group-hover:rotate-45 transition-transform duration-500 md:w-[18px] md:h-[18px]" />
+              <span className="font-sans text-[10px] md:text-xs font-bold uppercase tracking-[0.15em] md:tracking-[0.2em] text-sand">Explore The Space</span>
             </Link>
           </div>
         </div>
