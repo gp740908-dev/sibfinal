@@ -1,131 +1,46 @@
 'use client';
 
-import React, { useState, useRef, useMemo } from 'react';
+import React, { useState, useMemo, useRef } from 'react';
 import Link from 'next/link';
-import gsap from 'gsap';
-import { useGSAP } from '@gsap/react';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import Image from 'next/image';
+import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import { Villa } from '../../types';
-import { Loader2, ArrowUpRight } from 'lucide-react';
-
-if (typeof window !== 'undefined') {
-  gsap.registerPlugin(ScrollTrigger);
-}
+import { ArrowUpRight, Search, SlidersHorizontal } from 'lucide-react';
 
 interface VillasPageProps {
   villas: Villa[];
 }
 
-type FilterCategory = 'All' | '1-2 Bedrooms' | 'Large Groups' | 'Jungle View' | 'Rice Field';
-
-const FILTERS: FilterCategory[] = ['All', '1-2 Bedrooms', 'Large Groups', 'Jungle View', 'Rice Field'];
+const FILTERS = ['All', '1-2 Bedrooms', 'Large Groups', 'Jungle View', 'Rice Field'];
 
 export const VillasPage: React.FC<VillasPageProps> = ({ villas }) => {
-  const [activeFilter, setActiveFilter] = useState<FilterCategory>('All');
+  const [activeFilter, setActiveFilter] = useState('All');
+  const [searchQuery, setSearchQuery] = useState('');
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // Scroll to top on mount
-  React.useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+  // Parallax for Hero
+  const { scrollY } = useScroll();
+  const yHero = useTransform(scrollY, [0, 1000], [0, 400]);
+  const opacityHero = useTransform(scrollY, [0, 600], [1, 0]);
 
   // Filter Logic
   const filteredVillas = useMemo(() => {
-    if (activeFilter === 'All') return villas;
-
     return villas.filter(villa => {
+      // 1. Text Search
+      const matchesSearch = villa.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        villa.location?.toLowerCase().includes(searchQuery.toLowerCase());
+      if (!matchesSearch) return false;
+
+      // 2. Category Filter
+      if (activeFilter === 'All') return true;
       if (activeFilter === '1-2 Bedrooms') return villa.bedrooms <= 2;
       if (activeFilter === 'Large Groups') return villa.bedrooms >= 3;
       if (activeFilter === 'Jungle View') return villa.features.some(f => f.toLowerCase().includes('jungle'));
       if (activeFilter === 'Rice Field') return villa.features.some(f => f.toLowerCase().includes('rice'));
+
       return true;
     });
-  }, [villas, activeFilter]);
-
-  // GSAP Animations
-  useGSAP(() => {
-    // Header Reveal
-    const tl = gsap.timeline();
-    tl.from('.catalog-header > *', {
-      y: 100,
-      opacity: 0,
-      stagger: 0.15,
-      duration: 1.2,
-      ease: "power4.out",
-      delay: 0.2
-    });
-
-    tl.from('.filter-bar', {
-      opacity: 0,
-      y: 20,
-      duration: 1,
-      ease: "power2.out"
-    }, "-=0.8");
-
-  }, { scope: containerRef });
-
-  // Scroll Animations for Villa Items
-  useGSAP(() => {
-    const items = gsap.utils.toArray<HTMLElement>('.villa-item');
-
-    items.forEach((item, i) => {
-      const image = item.querySelector('.villa-image');
-      const text = item.querySelector('.villa-text');
-      const index = item.querySelector('.villa-index');
-
-      // Parallax Image
-      gsap.fromTo(image,
-        { y: -50, scale: 1.1 },
-        {
-          y: 50,
-          scale: 1,
-          ease: "none",
-          scrollTrigger: {
-            trigger: item,
-            start: "top bottom",
-            end: "bottom top",
-            scrub: 1 // Smooth scrub
-          }
-        }
-      );
-
-      // Text Reveal
-      gsap.fromTo(text?.children || [],
-        { y: 50, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 1,
-          stagger: 0.1,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: item,
-            start: "top 75%", // Triggers when top of item hits 75% of viewport height
-          }
-        }
-      );
-
-      // Index Number Reveal
-      gsap.fromTo(index,
-        { x: -50, opacity: 0 },
-        {
-          x: 0,
-          opacity: 0.2, // Keep subtle
-          duration: 1.5,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: item,
-            start: "top 80%",
-          }
-        }
-      );
-
-    });
-
-    // Refresh ScrollTrigger after filter change likely changes DOM height
-    ScrollTrigger.refresh();
-
-  }, { scope: containerRef, dependencies: [filteredVillas] });
+  }, [villas, activeFilter, searchQuery]);
 
   // Format price
   const formatPrice = (price: number) => {
@@ -138,153 +53,182 @@ export const VillasPage: React.FC<VillasPageProps> = ({ villas }) => {
   };
 
   return (
-    <div ref={containerRef} className="pt-40 pb-32 min-h-screen bg-sand text-forest-dark overflow-hidden">
+    <div ref={containerRef} className="min-h-screen bg-sand text-forest-dark overflow-x-hidden">
 
-      {/* 1. Header Section - Editorial Style */}
-      {/* 1. Header Section - Editorial Style */}
-      <div className="catalog-header px-6 md:px-12 mb-20 md:mb-32 max-w-[1600px] mx-auto relative z-10 pt-12 md:pt-24">
-        <div className="flex flex-col gap-8 md:gap-12">
-          <span className="block font-sans text-xs uppercase tracking-[0.4em] text-forest-dark/60 ml-1">
-            Curated Collection
-          </span>
+      {/* --- HERO SECTION --- */}
+      <section className="relative h-[85vh] w-full overflow-hidden flex items-center justify-center">
+        {/* Background Image Parallax */}
+        <motion.div
+          style={{ y: yHero, opacity: opacityHero }}
+          className="absolute inset-0 z-0"
+        >
+          <Image
+            src="/herohomapage/1.webp" // Using a high-quality hero asset
+            alt="Ubud Villas Collection"
+            fill
+            className="object-cover"
+            priority
+          />
+          <div className="absolute inset-0 bg-forest-dark/30 mix-blend-multiply" />
+          <div className="absolute inset-0 bg-gradient-to-t from-sand via-transparent to-transparent" />
+        </motion.div>
 
-          <h1 className="font-serif text-forest-dark leading-[0.9] tracking-tight">
-            <span className="block text-6xl md:text-8xl lg:text-[9rem]">PRIVATE</span>
-            <span className="block text-6xl md:text-8xl lg:text-[9rem] italic font-light text-forest-dark/80 ml-12 md:ml-32 lg:ml-48">
-              SANCTUARIES
+        {/* Hero Content */}
+        <div className="relative z-10 text-center px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }} // Heavy ease
+          >
+            <span className="block font-sans text-xs md:text-sm uppercase tracking-[0.3em] text-sand/90 mb-6 backdrop-blur-sm py-2 px-4 rounded-full border border-sand/20 inline-block">
+              The Collection
             </span>
-          </h1>
-
-          <div className="max-w-xl ml-auto border-l border-forest/20 pl-8 mt-8 md:mt-0">
-            <p className="font-sans text-sm md:text-lg text-forest-dark/70 leading-relaxed">
-              Selected for their silence, their spirit, and their profound connection to the Ubud jungle.
-              Each residence is a masterpiece of sustainable luxury.
-            </p>
-          </div>
+            <h1 className="font-serif text-6xl md:text-8xl lg:text-9xl text-sand leading-[0.85] tracking-tight drop-shadow-lg">
+              CURATED<br />
+              <span className="italic font-light text-sand/80">SANCTUARIES</span>
+            </h1>
+          </motion.div>
         </div>
-      </div>
+      </section>
 
 
+      {/* --- FILTER & SEARCH BAR --- */}
+      <section className="sticky top-0 z-40 bg-sand/95 backdrop-blur-md border-b border-forest/5 py-6 px-6 md:px-12 transition-all">
+        <div className="max-w-[1600px] mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
 
-      {/* Re-inserting the static filter bar from previous step but better positioned */}
-      <div className="filter-bar mb-32 px-6 md:px-12">
-        <div className="flex flex-wrap gap-x-8 gap-y-4 border-b border-forest/20 pb-6 max-w-[1600px] mx-auto">
-          {/* Label */}
-          <span className="font-sans text-xs uppercase tracking-widest text-forest-dark/40 py-2 mr-4">Filter By</span>
-
-          {FILTERS.map(filter => (
-            <button
-              key={filter}
-              onClick={() => setActiveFilter(filter)}
-              className={`font-sans text-xs uppercase tracking-[0.2em] transition-all duration-500 relative py-2 group
-                ${activeFilter === filter
-                  ? 'text-forest-dark'
-                  : 'text-forest-dark/40 hover:text-forest-dark'
-                }
-              `}
-            >
-              {filter}
-              <span className={`absolute bottom-0 left-0 h-[1px] bg-forest-dark transition-all duration-500 ease-out
-                  ${activeFilter === filter ? 'w-full' : 'w-0 group-hover:w-full'}
-              `} />
-            </button>
-          ))}
-        </div>
-      </div>
-
-
-      {/* 3. The List - Staggered/Editorial */}
-      <div className="px-6 md:px-12 max-w-[1600px] mx-auto">
-        {filteredVillas.length > 0 ? (
-          <div className="flex flex-col gap-32 md:gap-48">
-            {filteredVillas.map((villa, index) => (
-              <Link
-                key={villa.id}
-                href={`/villas/${villa.id}`}
-                className={`villa-item group relative block w-full
-                   ${index % 2 === 0 ? 'md:mr-auto' : 'md:ml-auto'} 
-                   md:w-[85%] lg:w-[75%]
+          {/* Categories */}
+          <div className="flex items-center gap-6 overflow-x-auto no-scrollbar w-full md:w-auto pb-2 md:pb-0">
+            {FILTERS.map((filter) => (
+              <button
+                key={filter}
+                onClick={() => setActiveFilter(filter)}
+                className={`relative font-sans text-xs uppercase tracking-[0.15em] py-2 transition-colors duration-300 whitespace-nowrap
+                  ${activeFilter === filter ? 'text-forest-dark font-bold' : 'text-forest-dark/40 hover:text-forest-dark'}
                 `}
               >
-                <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16 items-center">
+                {filter}
+                {activeFilter === filter && (
+                  <motion.div
+                    layoutId="activeFilterLine"
+                    className="absolute bottom-0 left-0 right-0 h-[1px] bg-forest-dark"
+                    transition={{ duration: 0.3 }}
+                  />
+                )}
+              </button>
+            ))}
+          </div>
 
-                  {/* Index Number (Decorative) */}
-                  <div className="hidden md:block absolute -left-12 top-0 -translate-x-full villa-index opacity-0 pointer-events-none z-0">
-                    <span className="font-serif text-[12rem] leading-none text-forest-dark opacity-5">
-                      {String(index + 1).padStart(2, '0')}
-                    </span>
+          {/* Search Input */}
+          <div className="relative w-full md:w-64 group">
+            <Search className="absolute left-0 top-1/2 -translate-y-1/2 text-forest-dark/30 w-4 h-4 group-focus-within:text-forest-dark transition-colors" />
+            <input
+              type="text"
+              placeholder="Search villas..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full bg-transparent border-b border-forest/20 py-2 pl-8 focus:outline-none focus:border-forest-dark font-sans text-sm text-forest-dark placeholder-forest-dark/30 transition-all"
+            />
+          </div>
+
+        </div>
+      </section>
+
+
+      {/* --- VILLA GRID --- */}
+      <section className="px-6 md:px-12 py-24 md:py-32 max-w-[1600px] mx-auto min-h-screen">
+        <div className="flex flex-col gap-32 md:gap-40">
+          <AnimatePresence mode="popLayout">
+            {filteredVillas.length > 0 ? (
+              filteredVillas.map((villa, index) => (
+                <motion.div
+                  key={villa.id}
+                  layout
+                  initial={{ opacity: 0, y: 100 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-10%" }}
+                  transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                  className={`group relative flex flex-col md:flex-row gap-8 md:gap-16 items-center
+                    ${index % 2 === 1 ? 'md:flex-row-reverse' : ''}
+                  `}
+                >
+
+                  {/* Image Block */}
+                  <div className="w-full md:w-7/12 lg:w-3/5 overflow-hidden">
+                    <Link href={`/villas/${villa.id}`} className="block relative aspect-[4/5] md:aspect-[4/3] w-full overflow-hidden bg-forest/5">
+                      <motion.div
+                        whileHover={{ scale: 1.05 }}
+                        transition={{ duration: 0.7, ease: "easeOut" }}
+                        className="w-full h-full relative"
+                      >
+                        <Image
+                          src={villa.imageUrl}
+                          alt={villa.name}
+                          fill
+                          className="object-cover"
+                          sizes="(max-width: 768px) 100vw, 60vw"
+                        />
+                        {/* Overlay */}
+                        <div className="absolute inset-0 bg-black/10 group-hover:bg-black/20 transition-colors duration-500" />
+
+                        {/* Centered Explore Button */}
+                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 w-24 h-24 rounded-full bg-sand/10 backdrop-blur-md border border-sand/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 scale-90 group-hover:scale-100">
+                          <div className="w-20 h-20 rounded-full bg-sand text-forest-dark flex items-center justify-center">
+                            <ArrowUpRight size={24} />
+                          </div>
+                        </div>
+                      </motion.div>
+                    </Link>
                   </div>
 
-                  {/* Image Section */}
-                  <div className={`
-                        relative overflow-hidden aspect-[3/4] md:aspect-[4/3] w-full
-                        md:col-span-7 lg:col-span-8
-                        ${index % 2 === 1 ? 'md:order-last' : ''}
-                    `}>
-                    <div className="villa-image w-full h-[120%] relative -top-[10%] bg-forest/10">
-                      <img
-                        src={villa.imageUrl}
-                        alt={villa.name}
-                        className="w-full h-full object-cover"
-                      />
+                  {/* Text Block */}
+                  <div className="w-full md:w-5/12 lg:w-2/5 flex flex-col items-start">
+
+                    {/* Index & Decor */}
+                    <div className="flex items-center gap-4 mb-6 opacity-40">
+                      <span className="font-serif text-3xl italic">{String(index + 1).padStart(2, '0')}</span>
+                      <div className="h-[1px] w-12 bg-forest-dark" />
                     </div>
-                    {/* Hover Overlay */}
-                    <div className="absolute inset-0 bg-forest/20 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
 
-                    {/* Floating 'View' Button visible on hover */}
-                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-sand rounded-full flex items-center justify-center opacity-0 scale-50 group-hover:opacity-100 group-hover:scale-100 transition-all duration-500 ease-out z-10 shadow-2xl">
-                      <span className="font-sans text-xs uppercase tracking-widest text-forest-dark font-bold group-hover:tracking-[0.3em] transition-all">Explore</span>
-                    </div>
-                  </div>
+                    <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif text-forest-dark mb-6 leading-[0.9]">
+                      <Link href={`/villas/${villa.id}`} className="hover:opacity-60 transition-opacity">
+                        {villa.name}
+                      </Link>
+                    </h2>
 
-                  {/* Text Section */}
-                  <div className="villa-text md:col-span-5 lg:col-span-4 relative z-10 px-4 md:px-0">
-                    {/* Mobile Index */}
-                    <span className="md:hidden block font-sans text-xs font-bold text-forest-dark/40 mb-4 tracking-widest">
-                      NO. {String(index + 1).padStart(2, '0')}
-                    </span>
-
-                    <div className="mb-6 flex flex-wrap gap-2">
-                      {(villa.features || []).slice(0, 2).map(f => ( // Only show 2 tags
-                        <span key={f} className="font-sans text-[10px] uppercase tracking-widest border border-forest/20 rounded-full px-3 py-1 text-forest-dark/60">
-                          {f}
+                    <div className="flex flex-wrap gap-2 mb-8">
+                      {villa.features?.slice(0, 3).map(feature => (
+                        <span key={feature} className="text-[10px] uppercase tracking-widest border border-forest/20 px-3 py-1 rounded-full text-forest-dark/60">
+                          {feature}
                         </span>
                       ))}
                     </div>
 
-                    <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif text-forest-dark mb-6 leading-none">
-                      {villa.name}
-                    </h2>
-
-                    <p className="font-sans text-sm md:text-base text-forest-dark/70 leading-relaxed mb-8 border-l border-forest/20 pl-6">
-                      "{villa.description.split('.')[0]}."
-                      <br />
-                      <span className="text-xs uppercase tracking-widest mt-2 block active:text-forest-dark opacity-60">
-                        {villa.bedrooms} BD  •  {villa.guests} Guests
-                      </span>
+                    <p className="font-sans text-forest-dark/70 text-sm leading-relaxed mb-8 max-w-sm">
+                      {villa.description?.split('.').slice(0, 1).join('.')}...
                     </p>
 
-                    <div className="flex items-center gap-4 group/btn">
-                      <span className="font-sans text-xs uppercase tracking-widest text-forest-dark font-bold">
-                        From {formatPrice(villa.pricePerNight)}
-                      </span>
-                      <div className="w-8 h-8 rounded-full border border-forest/20 flex items-center justify-center group-hover/btn:bg-forest group-hover/btn:text-sand-light transition-all">
-                        <ArrowUpRight size={14} />
-                      </div>
+                    <div className="flex items-baseline gap-2">
+                      <span className="font-sans text-xs uppercase tracking-widest text-forest-dark/50">Starts from</span>
+                      <span className="font-serif text-2xl text-forest-dark">{formatPrice(villa.pricePerNight)}</span>
                     </div>
+
                   </div>
-                </div>
-              </Link>
-            ))}
-          </div>
-        ) : (
-          /* Empty State */
-          <div className="flex flex-col items-center justify-center py-32 opacity-60">
-            <Loader2 className="animate-spin mb-4" />
-            <p className="font-serif italic text-lg">Curating the collection...</p>
-          </div>
-        )}
-      </div>
+
+                </motion.div>
+              ))
+            ) : (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="col-span-full py-32 text-center"
+              >
+                <h3 className="font-serif text-3xl text-forest-dark/40 italic">No sanctuaries found matching your criteria.</h3>
+                <button onClick={() => { setActiveFilter('All'); setSearchQuery(''); }} className="mt-4 text-xs uppercase tracking-widest border-b border-forest-dark">Clear Filters</button>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+      </section>
 
     </div>
   );
