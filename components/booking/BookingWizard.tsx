@@ -105,7 +105,7 @@ export const BookingWizard: React.FC<BookingWizardProps> = ({
 
     // --- RENDER CONTENT (Shared between Desktop & Mobile) ---
     const WizardContent = ({ isMobile = false, onClose }: { isMobile?: boolean, onClose?: () => void }) => (
-        <div className={`bg-white ${isMobile ? 'h-full flex flex-col' : 'rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] border border-forest-dark/10 overflow-hidden relative'}`}>
+        <div className={`bg-white ${isMobile ? 'h-full flex flex-col' : 'rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] border border-forest-dark/10 overflow-hidden relative max-h-[calc(100vh-10rem)] flex flex-col'}`}>
 
             {/* Mobile Header with Close Button */}
             {isMobile && (
@@ -139,7 +139,7 @@ export const BookingWizard: React.FC<BookingWizardProps> = ({
             </div>
 
             {/* Scrollable Content Area */}
-            <div className={`p-6 ${isMobile ? 'flex-1 overflow-y-auto' : 'min-h-[400px]'}`}>
+            <div className="p-6 flex-1 overflow-y-auto">
 
                 {/* STEP 1: DATES */}
                 {step === 'dates' && (
