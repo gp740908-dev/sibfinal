@@ -160,13 +160,7 @@ export const VillasPage: React.FC<VillasPageProps> = ({ villas }) => {
         </div>
       </div>
 
-      {/* 2. Filter Bar - Minimalist Line */}
-      <div className="filter-bar mb-32 px-6 sticky top-20 z-40 mix-blend-multiply pointer-events-none">
-        {/* Note: pointer-events-none on wrapper, auto on children to allow click through fixed/sticky layers if needed, 
-             but here we just want it to scroll away or stay? User said remove sticky before, but for 'Awwwards' usually it's sticky but subtle.
-             Let's keep it static per previous request but styled nicely.
-         */}
-      </div>
+
 
       {/* Re-inserting the static filter bar from previous step but better positioned */}
       <div className="filter-bar mb-32 px-6 md:px-12">
