@@ -49,8 +49,8 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView = 'home' }) => {
 
   // Determine Theme
   const isInnerPage = currentView !== 'home';
-  // Updated: Always use Dark Text (Forest) because Hero is now bg-sand (Light)
-  const isDarkState = true;
+  // Hero is now Full Screen Dark Image, so Navbar should be Light at top
+  const isDarkState = isScrolled || isInnerPage;
 
   const textColor = isDarkState ? 'text-forest' : 'text-sand';
   const borderColor = isDarkState ? 'border-forest/20' : 'border-transparent';
