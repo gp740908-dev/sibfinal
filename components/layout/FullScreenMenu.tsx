@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { X, ArrowUpRight } from 'lucide-react';
 
@@ -37,37 +37,29 @@ export const FullScreenMenu: React.FC<FullScreenMenuProps> = ({ isOpen, onClose 
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = '';
-      // Clear image after close transition
-      setTimeout(() => setActiveImage(null), 800);
+      setActiveImage(null);
     }
   }, [isOpen]);
 
-  const navItemClass = (delay: number) => `nav-item-text text-[2.5rem] md:text-[4.5rem] lg:text-[5.5rem] xl:text-[7rem] leading-[0.9] font-serif font-medium tracking-tight transition-all duration-300 group-hover:translate-x-4 text-sand-light/80 group-hover:text-sand-light
-    transform transition-transform duration-700 ease-out
-    ${isOpen ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0'}
-  `;
+  // Helper: Only apply stagger delay on OPEN, instant on CLOSE
+  const getDelay = (openDelayMs: number) => isOpen ? `${openDelayMs}ms` : '0ms';
 
   return (
     <div
-      className={`fixed inset-0 z-[100] w-full h-[100dvh] transition-visibility duration-700
-      ${isOpen ? 'visible' : 'invisible delay-700'}`}
+      className={`fixed inset-0 z-[100] w-full h-[100dvh] pointer-events-none
+      ${isOpen ? 'visible pointer-events-auto' : 'invisible'}`}
+      style={{ transitionDelay: isOpen ? '0ms' : '500ms' }}
     >
-      {/* 1. Background Layer - Clip Path Reveal */}
+      {/* 1. Background Layer - Opacity Reveal (Simpler than clip-path) */}
       <div
-        className={`menu-bg absolute inset-0 bg-forest w-full h-full overflow-hidden transition-all duration-700 ease-[cubic-bezier(0.87,0,0.13,1)]
-        ${isOpen ? '[clip-path:polygon(0%_0%,100%_0%,100%_100%,0%_100%)]' : '[clip-path:polygon(0%_0%,100%_0%,100%_0%,0%_0%)]'}
-        `}
+        className={`absolute inset-0 bg-forest w-full h-full transform-gpu transition-all ease-out
+        ${isOpen ? 'opacity-100 duration-500' : 'opacity-0 duration-300'}`}
       >
         {/* Dynamic Image Layer */}
         <div
-          className={`absolute inset-0 bg-cover bg-center transition-all duration-700 ease-out will-change-transform
-          ${activeImage ? 'opacity-40 scale-105' : 'opacity-0 scale-100'}
-          `}
+          className={`absolute inset-0 bg-cover bg-center transition-opacity duration-500 ease-out
+          ${activeImage ? 'opacity-30' : 'opacity-0'}`}
           style={{ backgroundImage: activeImage ? `url(${activeImage})` : 'none' }}
-        />
-        {/* Grain/Texture Overlay */}
-        <div className="absolute inset-0 opacity-[0.03] pointer-events-none mix-blend-overlay"
-          style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noiseFilter\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.65\' numOctaves=\'3\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noiseFilter)\'/%3E%3C/svg%3E")' }}
         />
         {/* Gradient for Text Readability */}
         <div className="absolute inset-0 bg-gradient-to-r from-forest/90 via-forest/80 to-forest/40" />
@@ -78,15 +70,19 @@ export const FullScreenMenu: React.FC<FullScreenMenuProps> = ({ isOpen, onClose 
 
         {/* Top Header */}
         <div className="flex justify-between items-start">
-          <div className={`menu-info-item font-sans text-xs uppercase tracking-widest opacity-90 transition-all duration-500 delay-300 ${isOpen ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}>
+          <div
+            className={`font-sans text-xs uppercase tracking-widest transform-gpu transition-all duration-300 ease-out
+            ${isOpen ? 'translate-y-0 opacity-100' : '-translate-y-4 opacity-0'}`}
+            style={{ transitionDelay: getDelay(100) }}
+          >
             Menu
           </div>
 
           <button
             onClick={onClose}
-            className={`close-button group flex items-center justify-center w-12 h-12 md:w-16 md:h-16 rounded-full border border-sand/20 hover:bg-sand-light hover:text-forest-dark transition-all duration-500 backdrop-blur-sm
-             ${isOpen ? 'scale-100 opacity-100 delay-300' : 'scale-75 opacity-0'}
-            `}
+            className={`group flex items-center justify-center w-12 h-12 md:w-16 md:h-16 rounded-full border border-sand/20 hover:bg-sand-light hover:text-forest-dark transform-gpu transition-all duration-300 ease-out
+             ${isOpen ? 'scale-100 opacity-100' : 'scale-75 opacity-0'}`}
+            style={{ transitionDelay: getDelay(100) }}
             aria-label="Close Menu"
           >
             <X size={24} className="transition-transform duration-300 group-hover:rotate-90" />
@@ -108,8 +104,10 @@ export const FullScreenMenu: React.FC<FullScreenMenuProps> = ({ isOpen, onClose 
                   className="group block relative py-1"
                 >
                   <div
-                    className={navItemClass(idx * 100)}
-                    style={{ transitionDelay: `${200 + (idx * 100)}ms` }}
+                    className={`text-[2.5rem] md:text-[4.5rem] lg:text-[5.5rem] xl:text-[7rem] leading-[0.9] font-serif font-medium tracking-tight transform-gpu transition-all duration-500 ease-out
+                      text-sand-light/80 group-hover:text-sand-light group-hover:translate-x-4
+                      ${isOpen ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0'}`}
+                    style={{ transitionDelay: getDelay(150 + (idx * 50)) }}
                   >
                     {link.label}
                   </div>
@@ -131,10 +129,9 @@ export const FullScreenMenu: React.FC<FullScreenMenuProps> = ({ isOpen, onClose 
                   <Link
                     href={link.href}
                     onClick={onClose}
-                    className={`secondary-link inline-block text-lg md:text-xl font-sans font-light tracking-wide hover:text-accent-light transition-all duration-500
-                      ${isOpen ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}
-                    `}
-                    style={{ transitionDelay: `${500 + (idx * 50)}ms` }}
+                    className={`inline-block text-lg md:text-xl font-sans font-light tracking-wide hover:text-accent-light transform-gpu transition-all duration-400 ease-out
+                      ${isOpen ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}
+                    style={{ transitionDelay: getDelay(350 + (idx * 30)) }}
                   >
                     {link.label}
                   </Link>
@@ -142,10 +139,18 @@ export const FullScreenMenu: React.FC<FullScreenMenuProps> = ({ isOpen, onClose 
               ))}
             </ul>
 
-            <div className={`w-full h-px bg-sand/20 origin-left transition-all duration-700 delay-500 ${isOpen ? 'scale-x-100 opacity-100' : 'scale-x-0 opacity-0'}`} />
+            <div
+              className={`w-full h-px bg-sand/20 origin-left transform-gpu transition-all duration-500 ease-out
+              ${isOpen ? 'scale-x-100 opacity-100' : 'scale-x-0 opacity-0'}`}
+              style={{ transitionDelay: getDelay(400) }}
+            />
 
             {/* Contact & Socials */}
-            <div className={`flex flex-col gap-8 w-full transition-all duration-500 delay-700 ${isOpen ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}>
+            <div
+              className={`flex flex-col gap-8 w-full transform-gpu transition-all duration-400 ease-out
+              ${isOpen ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}
+              style={{ transitionDelay: getDelay(450) }}
+            >
               <div className="flex flex-col gap-1">
                 <span className="text-xs uppercase tracking-widest opacity-90 mb-2">Get in touch</span>
                 <a href="mailto:host@stayinubud.com" className="font-serif text-2xl hover:underline">host@stayinubud.com</a>
@@ -171,7 +176,11 @@ export const FullScreenMenu: React.FC<FullScreenMenuProps> = ({ isOpen, onClose 
         </div>
 
         {/* Footer */}
-        <div className={`menu-info-item w-full flex justify-between items-end text-[10px] md:text-xs uppercase tracking-widest opacity-80 transition-all duration-500 delay-[800ms] ${isOpen ? 'opacity-80' : 'opacity-0'}`}>
+        <div
+          className={`w-full flex justify-between items-end text-[10px] md:text-xs uppercase tracking-widest transform-gpu transition-all duration-300 ease-out
+          ${isOpen ? 'opacity-80' : 'opacity-0'}`}
+          style={{ transitionDelay: getDelay(500) }}
+        >
           <span>© {new Date().getFullYear()} StayinUbud</span>
           <span>Bali, Indonesia</span>
         </div>

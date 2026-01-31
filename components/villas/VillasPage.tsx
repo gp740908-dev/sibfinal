@@ -141,20 +141,24 @@ export const VillasPage: React.FC<VillasPageProps> = ({ villas }) => {
     <div ref={containerRef} className="pt-40 pb-32 min-h-screen bg-sand text-forest-dark overflow-hidden">
 
       {/* 1. Header Section - Editorial Style */}
-      <div className="catalog-header px-6 md:px-12 mb-24 md:mb-32 max-w-[1600px] mx-auto relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end">
-          <div className="lg:col-span-8">
-            <span className="block font-sans text-xs uppercase tracking-[0.4em] text-forest-dark/60 mb-8 ml-1">
-              Curated Collection
+      {/* 1. Header Section - Editorial Style */}
+      <div className="catalog-header px-6 md:px-12 mb-20 md:mb-32 max-w-[1600px] mx-auto relative z-10 pt-12 md:pt-24">
+        <div className="flex flex-col gap-8 md:gap-12">
+          <span className="block font-sans text-xs uppercase tracking-[0.4em] text-forest-dark/60 ml-1">
+            Curated Collection
+          </span>
+
+          <h1 className="font-serif text-forest-dark leading-[0.9] tracking-tight">
+            <span className="block text-6xl md:text-8xl lg:text-[9rem]">PRIVATE</span>
+            <span className="block text-6xl md:text-8xl lg:text-[9rem] italic font-light text-forest-dark/80 ml-12 md:ml-32 lg:ml-48">
+              SANCTUARIES
             </span>
-            <h1 className="text-[12vw] lg:text-[10vw] font-serif text-forest-dark leading-[0.85] tracking-tight">
-              PRIVATE <br />
-              <span className="italic font-light ml-[10vw] lg:ml-[5vw] block">SANCTUARIES</span>
-            </h1>
-          </div>
-          <div className="lg:col-span-4 lg:pb-6">
-            <p className="font-sans text-lg md:text-xl text-forest-dark/80 leading-relaxed max-w-md ml-auto">
+          </h1>
+
+          <div className="max-w-xl ml-auto border-l border-forest/20 pl-8 mt-8 md:mt-0">
+            <p className="font-sans text-sm md:text-lg text-forest-dark/70 leading-relaxed">
               Selected for their silence, their spirit, and their profound connection to the Ubud jungle.
+              Each residence is a masterpiece of sustainable luxury.
             </p>
           </div>
         </div>

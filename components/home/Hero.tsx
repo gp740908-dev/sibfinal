@@ -92,7 +92,7 @@ export const Hero: React.FC = () => {
           </p>
 
           {/* Action Buttons */}
-          <div className="flex items-center gap-6 animate-fade-in opacity-0 [animation-delay:600ms]">
+          <div className="flex items-center gap-6 animate-fade-in opacity-0 [animation-delay:600ms] ml-6">
             <Link
               href="/villas"
               className="group flex items-center gap-4 px-8 py-4 border border-sand/30 hover:border-sand hover:bg-sand/10 transition-all duration-500 rounded-sm"

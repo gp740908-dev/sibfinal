@@ -14,10 +14,10 @@ interface ServiceItem {
 }
 
 const MOCK_SERVICES: ServiceItem[] = [
-  { id: '1', title: 'Private Dining', description: 'Our culinary team brings the restaurant to your sanctuary. From floating breakfasts in your infinity pool to 7-course degustation dinners.', imageUrl: 'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&q=80&w=1200' },
-  { id: '2', title: 'Holistic Healing', description: 'Ancient Balinese healing traditions delivered to your doorstep. Experience a traditional Boreh scrub, a flower bath ritual, or sound healing.', imageUrl: 'https://images.unsplash.com/photo-1600334089648-b0d9d3028eb2?auto=format&fit=crop&q=80&w=1200' },
-  { id: '3', title: 'Sacred Tours', description: 'Gain exclusive access to water temples for a purification ceremony (Melukat), trek through private rice terraces at sunrise.', imageUrl: 'https://images.unsplash.com/photo-1537953773345-d172ccf13cf1?auto=format&fit=crop&q=80&w=1200' },
-  { id: '4', title: 'Vintage Land Rover', description: 'Navigate the island in timeless style. Our fleet of restored vintage Land Rovers and premium SUVs are available.', imageUrl: 'https://images.unsplash.com/photo-1562967204-c3dd30472cb3?auto=format&fit=crop&q=80&w=1200' }
+  { id: '1', title: 'Private Dining', description: 'Our culinary team brings the restaurant to your sanctuary. From floating breakfasts in your infinity pool to 7-course degustation dinners.', imageUrl: '/ourservices/eskelapa.webp' },
+  { id: '2', title: 'Holistic Healing', description: 'Ancient Balinese healing traditions delivered to your doorstep. Experience a traditional Boreh scrub, a flower bath ritual, or sound healing.', imageUrl: '/ourservices/flowerbath.webp' },
+  { id: '3', title: 'Sacred Tours', description: 'Gain exclusive access to water temples for a purification ceremony (Melukat), trek through private rice terraces at sunrise.', imageUrl: '/ourservices/tmple.webp' },
+  { id: '4', title: 'Island Exploration', description: 'Navigate the island in timeless style. Discover hidden gems, pristine beaches, and the raw beauty of Bali beyond the villa.', imageUrl: '/ourservices/baliisland.webp' }
 ];
 
 export const OurServices: React.FC = () => {
