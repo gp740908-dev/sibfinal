@@ -93,7 +93,7 @@ export const FullScreenMenu: React.FC<FullScreenMenuProps> = ({ isOpen, onClose 
 
         {/* Main Links - Staggered Reveal */}
         <div className="flex-1 flex flex-col justify-center py-4 min-h-0 shrink-1">
-          <ul className="flex flex-col gap-1 md:gap-4 overflow-y-auto no-scrollbar max-h-full">
+          <ul className="flex flex-col gap-1 md:gap-4 overflow-y-auto max-h-full scrollbar-thin scrollbar-thumb-sand/30 scrollbar-track-transparent">
             {NAV_LINKS.map((link, idx) => (
               <li key={link.href} className="shrink-0 overflow-hidden">
                 <Link
