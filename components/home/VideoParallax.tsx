@@ -1,62 +1,44 @@
 'use client';
 
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef } from 'react';
 import Image from 'next/image';
+import { motion, useScroll, useTransform } from 'framer-motion';
+
+// Luxury Easing
+const LUXURY_EASE = [0.16, 1, 0.3, 1];
 
 export const VideoParallax: React.FC = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const imageRef = useRef<HTMLDivElement>(null);
-  const [textVisible, setTextVisible] = useState(false);
 
-  // Text Reveal Trigger
-  useEffect(() => {
-    const textObserver = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setTextVisible(true);
-        }
-      },
-      { threshold: 0.5 }
-    );
+  // Framer Motion scroll-linked parallax
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"]
+  });
 
-    if (sectionRef.current) {
-      textObserver.observe(sectionRef.current);
-    }
+  // Image parallax: moves slower than scroll
+  const imageY = useTransform(scrollYProgress, [0, 1], ["-10%", "10%"]);
+  const imageScale = useTransform(scrollYProgress, [0, 0.5, 1], [1.1, 1.05, 1.1]);
 
-    return () => textObserver.disconnect();
-  }, []);
-
-  // Simple Scroll Parallax Logic (Vanilla JS - lighter than GSAP)
-  useEffect(() => {
-    const handleScroll = () => {
-      if (!sectionRef.current || !imageRef.current) return;
-
-      const rect = sectionRef.current.getBoundingClientRect();
-      const height = window.innerHeight;
-
-      // Calculate percentage of section in view
-      if (rect.top < height && rect.bottom > 0) {
-        const progress = (height - rect.top) / (height + rect.height);
-        // Move image slightly opposite to scroll
-        // Range: -10% to +10%
-        const moveY = (progress - 0.5) * 20;
-        imageRef.current.style.transform = `translateY(${moveY}%) scale(1.1)`;
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  // Text reveal based on scroll
+  const textOpacity = useTransform(scrollYProgress, [0.2, 0.4, 0.6, 0.8], [0, 1, 1, 0]);
+  const textY = useTransform(scrollYProgress, [0.2, 0.4, 0.6, 0.8], [30, 0, 0, -30]);
+  const textBlur = useTransform(scrollYProgress, [0.2, 0.35, 0.65, 0.8], [8, 0, 0, 8]);
+  const textScale = useTransform(scrollYProgress, [0.2, 0.4, 0.6, 0.8], [0.95, 1, 1, 0.95]);
 
   return (
-    <section ref={sectionRef} className="relative h-[80vh] w-full overflow-hidden bg-forest flex items-center justify-center">
-
-      {/* Image Background Layer - CSS Parallax Container */}
+    <section
+      ref={sectionRef}
+      className="relative h-[80vh] w-full overflow-hidden bg-forest flex items-center justify-center"
+    >
+      {/* Image Background Layer - Framer Motion Parallax */}
       <div className="absolute inset-0 z-0 w-full h-full overflow-hidden">
-        <div
-          ref={imageRef}
-          className="relative w-full h-[120%] -top-[10%] transition-transform duration-100 ease-linear lg:will-change-transform"
-          style={{ transform: 'scale(1.1)' }}
+        <motion.div
+          className="relative w-full h-[120%] -top-[10%]"
+          style={{
+            y: imageY,
+            scale: imageScale
+          }}
         >
           <Image
             src="/imagehomepage/imagelaut.webp"
@@ -66,24 +48,52 @@ export const VideoParallax: React.FC = () => {
             sizes="100vw"
             priority
           />
-        </div>
+        </motion.div>
 
         {/* Dark Overlay */}
         <div className="absolute inset-0 bg-forest/40 mix-blend-multiply"></div>
       </div>
 
-      {/* Centered Text Content */}
-      <div
-        className={`relative z-10 text-center px-6 mix-blend-screen transition-all duration-1000 ease-out transform
-            ${textVisible ? 'opacity-100 blur-0 scale-100' : 'opacity-0 blur-lg scale-95'}
-        `}
+      {/* Centered Text Content - Scroll-linked animation */}
+      <motion.div
+        className="relative z-10 text-center px-6 mix-blend-screen"
+        style={{
+          opacity: textOpacity,
+          y: textY,
+          scale: textScale,
+          filter: useTransform(textBlur, (v) => `blur(${v}px)`)
+        }}
       >
         <h2 className="font-serif italic text-5xl md:text-7xl lg:text-9xl text-sand leading-[1.1] tracking-tight text-shadow-lg">
-          <span className="block">Time stands still</span>
-          <span className="block">in the heart</span>
-          <span className="block">of the jungle.</span>
+          <motion.span
+            className="block"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, ease: LUXURY_EASE, delay: 0 }}
+          >
+            Time stands still
+          </motion.span>
+          <motion.span
+            className="block"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, ease: LUXURY_EASE, delay: 0.1 }}
+          >
+            in the heart
+          </motion.span>
+          <motion.span
+            className="block"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, ease: LUXURY_EASE, delay: 0.2 }}
+          >
+            of the jungle.
+          </motion.span>
         </h2>
-      </div>
+      </motion.div>
 
     </section>
   );

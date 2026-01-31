@@ -1,10 +1,60 @@
-
 'use client';
 
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
+import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowUpRight } from 'lucide-react';
 import { supabase, isMock } from '../../lib/supabase';
+
+// Luxury Easing
+const LUXURY_EASE = [0.16, 1, 0.3, 1];
+
+// Animation Variants
+const fadeInUp = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.8, ease: LUXURY_EASE }
+  }
+};
+
+const staggerContainer = {
+  hidden: {},
+  visible: {
+    transition: { staggerChildren: 0.1, delayChildren: 0.2 }
+  }
+};
+
+const imageReveal = {
+  hidden: { opacity: 0, scale: 1.1 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: { duration: 0.8, ease: LUXURY_EASE }
+  },
+  exit: {
+    opacity: 0,
+    scale: 1.05,
+    transition: { duration: 0.4, ease: LUXURY_EASE }
+  }
+};
+
+const descriptionReveal = {
+  hidden: { opacity: 0, height: 0, marginTop: 0 },
+  visible: {
+    opacity: 1,
+    height: 'auto',
+    marginTop: 16,
+    transition: { duration: 0.5, ease: LUXURY_EASE }
+  },
+  exit: {
+    opacity: 0,
+    height: 0,
+    marginTop: 0,
+    transition: { duration: 0.3, ease: LUXURY_EASE }
+  }
+};
 
 interface ServiceItem {
   id: string;
@@ -24,7 +74,6 @@ export const OurServices: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [services, setServices] = useState<ServiceItem[]>([]);
 
-
   useEffect(() => {
     async function fetchServices() {
       if (isMock) {
@@ -33,7 +82,6 @@ export const OurServices: React.FC = () => {
       }
 
       try {
-        // Re-use experiences data for the home page services section
         const { data, error } = await supabase.from('experiences').select('*').limit(4).order('created_at', { ascending: true });
 
         if (error || !data || data.length === 0) {
@@ -54,28 +102,27 @@ export const OurServices: React.FC = () => {
     fetchServices();
   }, []);
 
-  // REMOVED: Scroll reveal animation that caused intermittent visibility issues
-  // Elements are now always visible, only image switching uses GSAP
-
-
-
   if (services.length === 0) return null;
 
   return (
-
     <section className="bg-sand text-forest min-h-[70vh] flex flex-col lg:flex-row overflow-hidden border-t border-forest/10">
 
       {/* LEFT COLUMN: Content */}
-      <div className="w-full lg:w-1/2 p-8 md:p-16 lg:p-24 flex flex-col justify-center relative z-20">
-
-        <div className="service-header mb-12 md:mb-20">
+      <motion.div
+        className="w-full lg:w-1/2 p-8 md:p-16 lg:p-24 flex flex-col justify-center relative z-20"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-100px" }}
+        variants={staggerContainer}
+      >
+        <motion.div className="mb-12 md:mb-20" variants={fadeInUp}>
           <span className="block font-sans text-xs uppercase tracking-[0.2em] text-text-muted mb-4">
             Curated For You
           </span>
           <h2 className="text-3xl md:text-5xl font-serif tracking-tight leading-none text-forest">
             BESPOKE EXPERIENCES
           </h2>
-        </div>
+        </motion.div>
 
         <ul className="space-y-8 relative" role="tablist">
           {services.map((service, index) => {
@@ -84,11 +131,12 @@ export const OurServices: React.FC = () => {
             const headerId = `service-header-${service.id}`;
 
             return (
-              <li
+              <motion.li
                 key={service.id}
-                className="service-item group relative focus-visible:outline-none"
+                className="group relative focus-visible:outline-none"
+                variants={fadeInUp}
               >
-                <div
+                <motion.div
                   role="tab"
                   id={headerId}
                   aria-selected={isActive}
@@ -102,80 +150,109 @@ export const OurServices: React.FC = () => {
                       setActiveIndex(index);
                     }
                   }}
+                  whileHover={{ x: isActive ? 0 : 8 }}
+                  transition={{ duration: 0.3, ease: LUXURY_EASE }}
                 >
-                  <span className={`font-sans text-xs font-bold transition-opacity duration-300 ${isActive ? 'opacity-100 text-accent' : 'opacity-30'}`}>
+                  <motion.span
+                    className="font-sans text-xs font-bold"
+                    animate={{
+                      opacity: isActive ? 1 : 0.3,
+                      color: isActive ? '#9BB784' : '#243326'
+                    }}
+                    transition={{ duration: 0.3 }}
+                  >
                     0{index + 1}
-                  </span>
+                  </motion.span>
 
-                  <h3
-                    className={`text-4xl md:text-6xl font-serif transition-all duration-500 ease-out 
-                      ${isActive
-                        ? 'opacity-100 translate-x-4 md:translate-x-8 italic'
-                        : 'opacity-40 group-hover:opacity-60'
-                      }
-                    `}
+                  <motion.h3
+                    className="text-4xl md:text-6xl font-serif"
+                    animate={{
+                      opacity: isActive ? 1 : 0.4,
+                      x: isActive ? 16 : 0,
+                      fontStyle: isActive ? 'italic' : 'normal'
+                    }}
+                    transition={{ duration: 0.5, ease: LUXURY_EASE }}
                   >
                     {service.title}
-                  </h3>
+                  </motion.h3>
 
+                  <AnimatePresence>
+                    {isActive && (
+                      <motion.div
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.8 }}
+                        transition={{ duration: 0.3 }}
+                      >
+                        <ArrowUpRight className="text-accent ml-4" size={24} aria-hidden="true" />
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </motion.div>
+
+                {/* Description Accordion */}
+                <AnimatePresence>
                   {isActive && (
-                    <ArrowUpRight className="opacity-0 md:opacity-100 animate-fade-in text-accent ml-4" size={24} aria-hidden="true" />
+                    <motion.div
+                      id={contentId}
+                      role="tabpanel"
+                      aria-labelledby={headerId}
+                      className="overflow-hidden pl-8 md:pl-16"
+                      initial="hidden"
+                      animate="visible"
+                      exit="exit"
+                      variants={descriptionReveal}
+                    >
+                      <p className="font-sans text-text-body text-sm md:text-base leading-relaxed max-w-md">
+                        {service.description}
+                      </p>
+                    </motion.div>
                   )}
-                </div>
-
-                {/* Description Accordion (Visible only when active) */}
-                <div
-                  id={contentId}
-                  role="tabpanel"
-                  aria-labelledby={headerId}
-                  className={`overflow-hidden transition-all duration-500 ease-in-out pl-8 md:pl-16
-                    ${isActive ? 'max-h-40 opacity-100 mt-4' : 'max-h-0 opacity-0 mt-0'}
-                  `}
-                >
-                  <p className="font-sans text-text-body text-sm md:text-base leading-relaxed max-w-md">
-                    {service.description}
-                  </p>
-                </div>
-              </li>
+                </AnimatePresence>
+              </motion.li>
             );
           })}
         </ul>
 
         {/* Decorative line */}
         <div className="absolute left-8 md:left-24 bottom-0 w-px h-24 bg-forest/20"></div>
-      </div>
+      </motion.div>
 
       {/* RIGHT COLUMN: Image Reveal Stage */}
-      <div className="service-image-container w-full lg:w-1/2 min-h-[400px] lg:h-auto relative overflow-hidden bg-forest/5">
+      <div className="w-full lg:w-1/2 min-h-[400px] lg:h-auto relative overflow-hidden bg-forest/5">
         <div className="w-full h-full relative">
-          {services.map((service, index) => {
-            const isActive = activeIndex === index;
-            return (
-              <div
-                key={service.id}
-                className={`absolute inset-0 w-full h-full transition-all duration-700 ease-out
-                  ${isActive ? 'opacity-100 z-10 scale-100' : 'opacity-0 z-0 scale-105'}
-                `}
-              >
-                <div className="absolute inset-0 bg-forest/10 z-10 mix-blend-multiply"></div>
-                <Image
-                  src={service.imageUrl}
-                  alt={service.title}
-                  fill
-                  sizes="(max-width: 1024px) 100vw, 50vw"
-                  className="object-cover"
-                  loading="lazy"
-                />
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={services[activeIndex]?.id}
+              className="absolute inset-0 w-full h-full"
+              variants={imageReveal}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+            >
+              <div className="absolute inset-0 bg-forest/10 z-10 mix-blend-multiply"></div>
+              <Image
+                src={services[activeIndex]?.imageUrl || ''}
+                alt={services[activeIndex]?.title || ''}
+                fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                className="object-cover"
+                loading="lazy"
+              />
 
-                {/* Mobile overlay text */}
-                <div className={`absolute bottom-6 right-6 z-20 lg:hidden transition-transform duration-500 delay-100 ${isActive ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}>
-                  <span className="bg-sand/90 text-forest px-4 py-1 text-xs uppercase tracking-widest font-bold backdrop-blur-sm shadow-lg">
-                    {service.title}
-                  </span>
-                </div>
-              </div>
-            );
-          })}
+              {/* Mobile overlay text */}
+              <motion.div
+                className="absolute bottom-6 right-6 z-20 lg:hidden"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3, duration: 0.5 }}
+              >
+                <span className="bg-sand/90 text-forest px-4 py-1 text-xs uppercase tracking-widest font-bold backdrop-blur-sm shadow-lg">
+                  {services[activeIndex]?.title}
+                </span>
+              </motion.div>
+            </motion.div>
+          </AnimatePresence>
         </div>
       </div>
 

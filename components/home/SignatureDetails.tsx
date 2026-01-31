@@ -1,7 +1,11 @@
 'use client';
 
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Coffee, Sparkles, Sun } from 'lucide-react';
+
+// Luxury Easing
+const LUXURY_EASE = [0.16, 1, 0.3, 1];
 
 const MOMENTS = [
   {
@@ -27,39 +31,46 @@ const MOMENTS = [
   }
 ];
 
+// Animation Variants
+const fadeInUp = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.8, ease: LUXURY_EASE }
+  }
+};
+
+const contentReveal = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: LUXURY_EASE }
+  },
+  exit: {
+    opacity: 0,
+    y: -20,
+    transition: { duration: 0.4, ease: LUXURY_EASE }
+  }
+};
+
+const imageReveal = {
+  hidden: { opacity: 0, scale: 1.1 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: { duration: 1.2, ease: LUXURY_EASE }
+  },
+  exit: {
+    opacity: 0,
+    scale: 1.05,
+    transition: { duration: 0.6, ease: LUXURY_EASE }
+  }
+};
+
 export const SignatureDetails: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState(0);
-  const sectionRefs = useRef<(HTMLDivElement | null)[]>([]);
-
-  // Use Intersection Observer instead of GSAP ScrollTrigger for state changes
-  useEffect(() => {
-    const observers: IntersectionObserver[] = [];
-
-    sectionRefs.current.forEach((section, index) => {
-      if (!section) return;
-
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              setActiveIndex(index);
-            }
-          });
-        },
-        {
-          threshold: 0.5, // Trigger when 50% of section is visible
-          rootMargin: '-20% 0px -20% 0px' // Adjust trigger point
-        }
-      );
-
-      observer.observe(section);
-      observers.push(observer);
-    });
-
-    return () => {
-      observers.forEach((observer) => observer.disconnect());
-    };
-  }, []);
 
   return (
     <section className="relative bg-forest">
@@ -69,32 +80,59 @@ export const SignatureDetails: React.FC = () => {
         <div className="w-1/2 relative">
           <div className="sticky top-0 h-screen flex flex-col justify-center px-8 lg:px-24 text-sand">
             <div className="max-w-xl">
-              <span className="font-sans text-xs uppercase tracking-[0.3em] text-sand/60 mb-8 border-l border-sand/30 pl-4 h-12 flex items-center">
-                Curated Moments
-              </span>
-
-              {/* Dynamic Text Content with Fade Transition */}
-              <div
-                key={activeIndex}
-                className="flex flex-col gap-6 animate-fade-in"
+              <motion.span
+                className="font-sans text-xs uppercase tracking-[0.3em] text-sand/60 mb-8 border-l border-sand/30 pl-4 h-12 flex items-center"
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                variants={fadeInUp}
               >
-                <div className="w-12 h-12 rounded-full border border-sand/30 flex items-center justify-center mb-2">
-                  {MOMENTS[activeIndex].icon}
-                </div>
+                Curated Moments
+              </motion.span>
 
-                <div className="flex items-baseline gap-4 opacity-50 font-serif text-lg">
-                  <span>0{activeIndex + 1}</span>
-                  <span className="h-px w-12 bg-sand"></span>
-                  <span>0{MOMENTS.length}</span>
-                </div>
+              {/* Dynamic Text Content with AnimatePresence */}
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeIndex}
+                  className="flex flex-col gap-6"
+                  variants={contentReveal}
+                  initial="hidden"
+                  animate="visible"
+                  exit="exit"
+                >
+                  <div className="w-12 h-12 rounded-full border border-sand/30 flex items-center justify-center mb-2">
+                    {MOMENTS[activeIndex].icon}
+                  </div>
 
-                <h2 className="text-4xl lg:text-6xl xl:text-7xl font-serif leading-none text-sand">
-                  {MOMENTS[activeIndex].title}
-                </h2>
+                  <div className="flex items-baseline gap-4 opacity-50 font-serif text-lg">
+                    <span>0{activeIndex + 1}</span>
+                    <span className="h-px w-12 bg-sand"></span>
+                    <span>0{MOMENTS.length}</span>
+                  </div>
 
-                <p className="font-sans text-base lg:text-lg text-sand/80 leading-relaxed max-w-md">
-                  {MOMENTS[activeIndex].description}
-                </p>
+                  <h2 className="text-4xl lg:text-6xl xl:text-7xl font-serif leading-none text-sand">
+                    {MOMENTS[activeIndex].title}
+                  </h2>
+
+                  <p className="font-sans text-base lg:text-lg text-sand/80 leading-relaxed max-w-md">
+                    {MOMENTS[activeIndex].description}
+                  </p>
+                </motion.div>
+              </AnimatePresence>
+
+              {/* Navigation Dots */}
+              <div className="flex gap-3 mt-12">
+                {MOMENTS.map((_, idx) => (
+                  <motion.button
+                    key={idx}
+                    onClick={() => setActiveIndex(idx)}
+                    className={`w-2 h-2 rounded-full transition-all ${activeIndex === idx ? 'bg-sand w-8' : 'bg-sand/30 hover:bg-sand/60'
+                      }`}
+                    whileHover={{ scale: 1.2 }}
+                    whileTap={{ scale: 0.9 }}
+                    aria-label={`View ${MOMENTS[idx].title}`}
+                  />
+                ))}
               </div>
             </div>
           </div>
@@ -103,19 +141,25 @@ export const SignatureDetails: React.FC = () => {
         {/* RIGHT COLUMN (Scrolling Images) */}
         <div className="w-1/2 flex flex-col">
           {MOMENTS.map((moment, idx) => (
-            <div
+            <motion.div
               key={moment.id}
-              ref={(el) => { sectionRefs.current[idx] = el; }}
               className="h-screen w-full relative overflow-hidden border-l border-sand/10"
+              onViewportEnter={() => setActiveIndex(idx)}
+              viewport={{ amount: 0.5 }}
             >
-              <img
+              <motion.img
                 src={moment.image}
                 alt={moment.title}
-                className="w-full h-full object-cover transition-transform duration-[2s] ease-in-out hover:scale-105"
+                className="w-full h-full object-cover"
+                initial={{ scale: 1.1 }}
+                whileInView={{ scale: 1 }}
+                viewport={{ once: false }}
+                transition={{ duration: 1.5, ease: LUXURY_EASE }}
+                whileHover={{ scale: 1.05 }}
               />
-              {/* Overlay Gradient for visual separation */}
+              {/* Overlay Gradient */}
               <div className="absolute inset-0 bg-gradient-to-r from-forest/50 to-transparent mix-blend-multiply pointer-events-none"></div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>
@@ -123,9 +167,13 @@ export const SignatureDetails: React.FC = () => {
       {/* Mobile Layout: Stacked Cards */}
       <div className="md:hidden flex flex-col">
         {MOMENTS.map((moment, idx) => (
-          <div
+          <motion.div
             key={moment.id}
             className="h-[80vh] w-full relative overflow-hidden border-b border-sand/10"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.3 }}
+            variants={imageReveal}
           >
             <img
               src={moment.image}
@@ -134,7 +182,13 @@ export const SignatureDetails: React.FC = () => {
             />
 
             {/* Mobile Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t from-forest/95 via-forest/60 to-transparent flex flex-col justify-end p-6 sm:p-8 text-sand">
+            <motion.div
+              className="absolute inset-0 bg-gradient-to-t from-forest/95 via-forest/60 to-transparent flex flex-col justify-end p-6 sm:p-8 text-sand"
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.3, duration: 0.6 }}
+            >
               <div className="max-w-md mx-auto w-full mb-4">
                 <div className="mb-4 text-accent drop-shadow-md">{moment.icon}</div>
 
@@ -152,8 +206,8 @@ export const SignatureDetails: React.FC = () => {
                   {moment.description}
                 </p>
               </div>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         ))}
       </div>
     </section>
