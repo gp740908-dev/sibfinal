@@ -1,234 +1,244 @@
 'use client';
 
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
-import { Coffee, Sparkles, Sun } from 'lucide-react';
+import { Coffee, Sparkles, Sun, ArrowRight } from 'lucide-react';
+import Link from 'next/link';
 
 // Luxury Easing
 const LUXURY_EASE = [0.16, 1, 0.3, 1];
 
+// Animation Variants
+const fadeInUp = {
+  hidden: { opacity: 0, y: 40 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.8, ease: LUXURY_EASE }
+  }
+};
+
+const staggerContainer = {
+  hidden: {},
+  visible: {
+    transition: { staggerChildren: 0.15, delayChildren: 0.2 }
+  }
+};
+
+const scaleIn = {
+  hidden: { opacity: 0, scale: 0.9 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: { duration: 1, ease: LUXURY_EASE }
+  }
+};
+
+const lineReveal = {
+  hidden: { scaleX: 0 },
+  visible: {
+    scaleX: 1,
+    transition: { duration: 1.2, ease: LUXURY_EASE }
+  }
+};
+
 const MOMENTS = [
   {
-    id: 0,
-    title: "Floating Breakfast",
-    description: "Begin your day effortlessly. A curated selection of tropical fruits, artisanal pastries, and local coffee served on a floating tray in your private infinity pool.",
-    icon: <Coffee size={24} />,
-    image: "https://images.unsplash.com/photo-1596436889106-be35e843f974?auto=format&fit=crop&q=80&w=1000"
-  },
-  {
     id: 1,
-    title: "Floral Bath Ritual",
-    description: "A sensory journey using thousands of fresh marigold and frangipani petals. Prepared by our wellness therapists to soothe the body and calm the spirit.",
-    icon: <Sparkles size={24} />,
-    image: "https://images.unsplash.com/photo-1676141570940-7f79ca4f070b?auto=format&fit=crop&q=80&w=1000"
+    number: "01",
+    title: "Floating Breakfast",
+    subtitle: "A Morning Ritual",
+    description: "Begin your day effortlessly. A curated selection of tropical fruits, artisanal pastries, and locally-sourced coffee served on a floating tray in your private infinity pool.",
+    icon: <Coffee size={20} />,
+    image: "https://images.unsplash.com/photo-1596436889106-be35e843f974?auto=format&fit=crop&q=80&w=1200",
+    layout: "left" // Image on left
   },
   {
     id: 2,
+    number: "02",
+    title: "Floral Bath Ritual",
+    subtitle: "Ancient Healing",
+    description: "A sensory journey using thousands of fresh marigold and frangipani petals. Prepared by our wellness therapists to soothe the body and calm the spirit.",
+    icon: <Sparkles size={20} />,
+    image: "https://images.unsplash.com/photo-1676141570940-7f79ca4f070b?auto=format&fit=crop&q=80&w=1200",
+    layout: "right" // Image on right
+  },
+  {
+    id: 3,
+    number: "03",
     title: "Sunrise Yoga Deck",
+    subtitle: "Movement & Stillness",
     description: "Greet the sun as it rises over the Ayung River valley. Our private wooden decks offer the perfect stillness for meditation and morning flow.",
-    icon: <Sun size={24} />,
-    image: "https://images.unsplash.com/photo-1591228127791-8e2eaef098d3?auto=format&fit=crop&q=80&w=1000"
+    icon: <Sun size={20} />,
+    image: "https://images.unsplash.com/photo-1591228127791-8e2eaef098d3?auto=format&fit=crop&q=80&w=1200",
+    layout: "left"
   }
 ];
 
 export const SignatureDetails: React.FC = () => {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const isScrollingRef = useRef(false);
-  const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-
-  // Scroll-based detection using scroll position calculation
-  const handleScroll = useCallback(() => {
-    if (!containerRef.current) return;
-
-    const container = containerRef.current;
-    const rect = container.getBoundingClientRect();
-    const screenHeight = window.innerHeight;
-
-    // Calculate how far we've scrolled through the section
-    // Container starts: rect.top = screenHeight (just entered)
-    // Container ends: rect.bottom = 0 (just left)
-    const totalScrollDistance = container.offsetHeight - screenHeight;
-    const scrolledDistance = -rect.top;
-    const scrollProgress = Math.max(0, Math.min(1, scrolledDistance / totalScrollDistance));
-
-    // Map scroll progress to index (3 sections = divide by 3)
-    const sectionProgress = scrollProgress * MOMENTS.length;
-    const newIndex = Math.min(Math.floor(sectionProgress), MOMENTS.length - 1);
-
-    // Only update if actually changed and not rapidly scrolling
-    if (newIndex !== activeIndex && newIndex >= 0) {
-      // Clear any pending timeout
-      if (scrollTimeoutRef.current) {
-        clearTimeout(scrollTimeoutRef.current);
-      }
-
-      // Debounce the state update
-      scrollTimeoutRef.current = setTimeout(() => {
-        setActiveIndex(newIndex);
-      }, 50); // Small delay for smoothness
-    }
-  }, [activeIndex]);
-
-  useEffect(() => {
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll(); // Initial check
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      if (scrollTimeoutRef.current) {
-        clearTimeout(scrollTimeoutRef.current);
-      }
-    };
-  }, [handleScroll]);
-
   return (
-    <section ref={containerRef} className="relative bg-forest">
-      {/* Desktop Layout: Side by Side with CSS Sticky */}
-      <div className="hidden md:flex">
-        {/* LEFT COLUMN (CSS Sticky) */}
-        <div className="w-1/2 relative">
-          <div className="sticky top-0 h-screen flex flex-col justify-center px-8 lg:px-24 text-sand">
-            <div className="max-w-xl">
-              <span className="font-sans text-xs uppercase tracking-[0.3em] text-sand/60 mb-8 border-l border-sand/30 pl-4 h-12 flex items-center">
-                Curated Moments
-              </span>
+    <section className="bg-forest text-sand overflow-hidden">
 
-              {/* All content items - crossfade with opacity (NO UNMOUNTING) */}
-              <div className="relative min-h-[400px]">
-                {MOMENTS.map((moment, idx) => {
-                  const isActive = activeIndex === idx;
-                  return (
-                    <motion.div
-                      key={moment.id}
-                      className="absolute top-0 left-0 w-full flex flex-col gap-6"
-                      initial={false}
-                      animate={{
-                        opacity: isActive ? 1 : 0,
-                        y: isActive ? 0 : 15,
-                        scale: isActive ? 1 : 0.98,
-                      }}
-                      transition={{
-                        duration: 0.5,
-                        ease: LUXURY_EASE,
-                      }}
-                      style={{
-                        pointerEvents: isActive ? 'auto' : 'none',
-                        zIndex: isActive ? 1 : 0,
-                      }}
-                    >
-                      <div className="w-12 h-12 rounded-full border border-sand/30 flex items-center justify-center mb-2">
-                        {moment.icon}
-                      </div>
+      {/* Section Header */}
+      <motion.div
+        className="py-24 md:py-32 px-6 md:px-12 lg:px-24 text-center"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-100px" }}
+        variants={staggerContainer}
+      >
+        <motion.span
+          className="block font-sans text-xs uppercase tracking-[0.3em] text-sand/50 mb-6"
+          variants={fadeInUp}
+        >
+          Curated Moments
+        </motion.span>
 
-                      <div className="flex items-baseline gap-4 opacity-50 font-serif text-lg">
-                        <span>0{idx + 1}</span>
-                        <span className="h-px w-12 bg-sand"></span>
-                        <span>0{MOMENTS.length}</span>
-                      </div>
+        <motion.h2
+          className="text-4xl md:text-6xl lg:text-7xl font-serif leading-[0.95] mb-8"
+          variants={fadeInUp}
+        >
+          THE <span className="italic text-accent-light">SIGNATURE</span>
+          <br />
+          EXPERIENCE
+        </motion.h2>
 
-                      <h2 className="text-4xl lg:text-6xl xl:text-7xl font-serif leading-none text-sand">
-                        {moment.title}
-                      </h2>
+        <motion.div
+          className="w-24 h-px bg-sand/30 mx-auto"
+          variants={lineReveal}
+          style={{ originX: 0.5 }}
+        />
+      </motion.div>
 
-                      <p className="font-sans text-base lg:text-lg text-sand/80 leading-relaxed max-w-md">
-                        {moment.description}
-                      </p>
-                    </motion.div>
-                  );
-                })}
-              </div>
-
-              {/* Navigation Dots */}
-              <div className="flex gap-3 mt-12">
-                {MOMENTS.map((_, idx) => (
-                  <motion.button
-                    key={idx}
-                    onClick={() => setActiveIndex(idx)}
-                    className="h-2 rounded-full"
-                    animate={{
-                      width: activeIndex === idx ? 32 : 8,
-                      backgroundColor: activeIndex === idx ? '#F4F1EA' : 'rgba(244,241,234,0.3)'
-                    }}
-                    transition={{ duration: 0.4, ease: LUXURY_EASE }}
-                    whileHover={{ scale: 1.2 }}
-                    whileTap={{ scale: 0.9 }}
-                    aria-label={`View ${MOMENTS[idx].title}`}
-                  />
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* RIGHT COLUMN (Scrolling Images) */}
-        <div className="w-1/2 flex flex-col">
-          {MOMENTS.map((moment, idx) => (
-            <div
-              key={moment.id}
-              className="h-screen w-full relative overflow-hidden border-l border-sand/10"
+      {/* Editorial Moments Grid */}
+      <div className="space-y-0">
+        {MOMENTS.map((moment, index) => (
+          <motion.article
+            key={moment.id}
+            className={`grid grid-cols-1 lg:grid-cols-2 min-h-[80vh] ${moment.layout === 'right' ? '' : 'lg:grid-flow-col-dense'
+              }`}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.2 }}
+            variants={staggerContainer}
+          >
+            {/* Image Block */}
+            <motion.div
+              className={`relative overflow-hidden aspect-[4/5] lg:aspect-auto ${moment.layout === 'right' ? 'lg:order-2' : 'lg:order-1'
+                }`}
+              variants={scaleIn}
             >
               <motion.img
                 src={moment.image}
                 alt={moment.title}
                 className="w-full h-full object-cover"
-                initial={{ scale: 1.15 }}
-                whileInView={{ scale: 1 }}
-                viewport={{ once: false, amount: 0.3 }}
-                transition={{ duration: 1.5, ease: LUXURY_EASE }}
+                whileHover={{ scale: 1.03 }}
+                transition={{ duration: 0.8, ease: LUXURY_EASE }}
               />
-              {/* Overlay Gradient */}
-              <div className="absolute inset-0 bg-gradient-to-r from-forest/50 to-transparent mix-blend-multiply pointer-events-none"></div>
 
-              {/* Section Number Badge */}
-              <div className="absolute bottom-8 right-8 font-serif text-8xl text-sand/10 select-none">
-                0{idx + 1}
+              {/* Large Number Overlay */}
+              <div className="absolute top-8 left-8 lg:top-12 lg:left-12">
+                <span className="font-serif text-7xl lg:text-9xl text-sand/10 select-none">
+                  {moment.number}
+                </span>
               </div>
-            </div>
-          ))}
-        </div>
-      </div>
 
-      {/* Mobile Layout: Stacked Cards */}
-      <div className="md:hidden flex flex-col">
-        {MOMENTS.map((moment, idx) => (
-          <motion.div
-            key={moment.id}
-            className="h-[80vh] w-full relative overflow-hidden border-b border-sand/10"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.8 }}
-          >
-            <img
-              src={moment.image}
-              alt={moment.title}
-              className="w-full h-full object-cover"
-            />
+              {/* Gradient Overlay */}
+              <div className={`absolute inset-0 pointer-events-none ${moment.layout === 'right'
+                  ? 'bg-gradient-to-l from-forest/60 to-transparent'
+                  : 'bg-gradient-to-r from-forest/60 to-transparent'
+                }`} />
+            </motion.div>
 
-            {/* Mobile Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t from-forest/95 via-forest/60 to-transparent flex flex-col justify-end p-6 sm:p-8 text-sand">
-              <div className="max-w-md mx-auto w-full mb-4">
-                <div className="mb-4 text-accent drop-shadow-md">{moment.icon}</div>
-
-                <div className="flex items-center gap-3 mb-3 opacity-90 text-[10px] uppercase tracking-[0.25em] font-medium">
-                  <span>0{idx + 1}</span>
-                  <span className="w-8 h-px bg-sand/60"></span>
-                  <span>Curated Moment</span>
+            {/* Content Block */}
+            <motion.div
+              className={`flex flex-col justify-center p-8 md:p-12 lg:p-20 xl:p-28 ${moment.layout === 'right' ? 'lg:order-1' : 'lg:order-2'
+                }`}
+              variants={staggerContainer}
+            >
+              {/* Icon + Label */}
+              <motion.div
+                className="flex items-center gap-4 mb-8"
+                variants={fadeInUp}
+              >
+                <div className="w-10 h-10 rounded-full border border-sand/30 flex items-center justify-center">
+                  {moment.icon}
                 </div>
+                <span className="font-sans text-xs uppercase tracking-[0.2em] text-sand/60">
+                  {moment.subtitle}
+                </span>
+              </motion.div>
 
-                <h3 className="text-3xl sm:text-4xl font-serif mb-3 leading-none drop-shadow-sm">
-                  {moment.title}
-                </h3>
+              {/* Title */}
+              <motion.h3
+                className="text-4xl md:text-5xl lg:text-6xl font-serif leading-[1.05] mb-6"
+                variants={fadeInUp}
+              >
+                {moment.title}
+              </motion.h3>
 
-                <p className="font-sans text-sm sm:text-base opacity-90 leading-relaxed text-sand/90 line-clamp-4">
-                  {moment.description}
-                </p>
-              </div>
-            </div>
-          </motion.div>
+              {/* Decorative Line */}
+              <motion.div
+                className="w-16 h-px bg-accent-light mb-8"
+                variants={lineReveal}
+                style={{ originX: 0 }}
+              />
+
+              {/* Description */}
+              <motion.p
+                className="font-sans text-lg lg:text-xl text-sand/70 leading-relaxed max-w-lg mb-10"
+                variants={fadeInUp}
+              >
+                {moment.description}
+              </motion.p>
+
+              {/* Number Badge */}
+              <motion.div
+                className="flex items-center gap-6"
+                variants={fadeInUp}
+              >
+                <span className="font-serif text-3xl text-sand/20">{moment.number}</span>
+                <span className="w-12 h-px bg-sand/20"></span>
+                <span className="font-serif text-sm text-sand/40">0{MOMENTS.length}</span>
+              </motion.div>
+            </motion.div>
+          </motion.article>
         ))}
       </div>
+
+      {/* Section Footer CTA */}
+      <motion.div
+        className="py-24 md:py-32 px-6 text-center border-t border-sand/10"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        variants={staggerContainer}
+      >
+        <motion.p
+          className="font-sans text-sm text-sand/50 mb-8 uppercase tracking-widest"
+          variants={fadeInUp}
+        >
+          Ready to experience it all?
+        </motion.p>
+
+        <motion.div variants={fadeInUp}>
+          <Link
+            href="/experiences"
+            className="group inline-flex items-center gap-4 px-10 py-5 border border-sand/30 rounded-full hover:bg-sand hover:text-forest transition-all duration-500"
+          >
+            <span className="font-sans text-xs uppercase tracking-[0.2em] font-medium">
+              Explore All Experiences
+            </span>
+            <motion.div
+              animate={{ x: [0, 5, 0] }}
+              transition={{ duration: 2, repeat: Infinity }}
+            >
+              <ArrowRight size={16} />
+            </motion.div>
+          </Link>
+        </motion.div>
+      </motion.div>
+
     </section>
   );
 };
