@@ -80,7 +80,7 @@ export const Hero: React.FC = () => {
           {/* Title */}
           <h1 className="font-serif text-5xl sm:text-6xl md:text-8xl lg:text-9xl text-sand leading-[0.9] mb-6 md:mb-8 tracking-tight">
             <span className="block animate-slide-up [animation-delay:100ms]">UBUD</span>
-            <span className="block animate-slide-up [animation-delay:200ms] text-sand-light">
+            <span className="block animate-slide-up [animation-delay:200ms] text-sand">
               UNFILTERED
               <span className="text-sand inline-block ml-2 w-2 h-2 sm:w-3 sm:h-3 md:w-4 md:h-4 bg-sand mb-1 sm:mb-2 md:mb-4 rounded-sm"></span>
             </span>
