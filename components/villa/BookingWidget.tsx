@@ -171,25 +171,31 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ villa }) => {
         </div>
       )}
 
-      {/* CTA */}
+      {/* CTA - Square Expensive */}
       <button
         onClick={handleBooking}
         disabled={!nightCount || isSubmitting || isLoadingAvailability}
-        className={`w-full py-4 text-sm font-bold uppercase tracking-widest transition-all duration-300 flex items-center justify-center gap-2
+        className={`group relative w-full py-6 text-xs font-bold uppercase tracking-[0.3em] transition-all duration-500 flex items-center justify-center gap-3 overflow-hidden
           ${!nightCount || isSubmitting
-            ? 'bg-forest/20 text-forest/50 cursor-not-allowed'
-            : 'bg-forest text-sand hover:bg-forest/90 shadow-lg hover:shadow-2xl hover:-translate-y-1'
+            ? 'bg-forest/10 text-forest/30 cursor-not-allowed'
+            : 'bg-forest-dark text-sand hover:tracking-[0.4em]'
           }
         `}
       >
-        {isSubmitting ? (
-          <>
-            <Loader2 className="animate-spin" size={16} />
-            <span>Processing...</span>
-          </>
-        ) : (
-          'Request to Book'
-        )}
+        {/* Hover Fill Effect */}
+        <span className="absolute inset-0 bg-sand scale-x-0 group-hover:scale-x-100 transition-transform duration-700 origin-left" />
+
+        {/* Button Content */}
+        <span className={`relative z-10 flex items-center gap-3 transition-colors duration-500 ${!nightCount || isSubmitting ? '' : 'group-hover:text-forest-dark'}`}>
+          {isSubmitting ? (
+            <>
+              <Loader2 className="animate-spin" size={14} />
+              <span>Processing...</span>
+            </>
+          ) : (
+            'Check Availability'
+          )}
+        </span>
       </button>
 
       <p className="text-center text-[10px] text-forest/50 mt-4 uppercase tracking-wider">
