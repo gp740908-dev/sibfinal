@@ -61,14 +61,11 @@ export const HeroClient: React.FC = () => {
                                 fill
                                 sizes="100vw"
                                 className="object-cover"
-                                priority={index === 0} // Ensure the LCP candidate is prioritized if re-fetched
+                                loading="lazy" // Defer to Server LCP
                             />
                         </div>
                     )
                 })}
-                {/* Cinematic Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-r from-forest-dark/90 via-forest-dark/50 to-transparent mix-blend-multiply pointer-events-none" />
-                <div className="absolute inset-0 bg-black/20 pointer-events-none" />
             </div>
 
             {/* --- CONTENT LAYER (Interactive parts) --- */}
@@ -93,14 +90,6 @@ export const HeroClient: React.FC = () => {
                         </Link>
                     </div>
                 </div>
-            </div>
-            {/* --- FOOTER ELEMENTS --- */}
-            {/* Scroll Indicator (Bottom Right) */}
-            <div className="absolute bottom-12 right-6 md:right-16 lg:right-24 z-20 flex flex-col items-center gap-4 animate-fade-in opacity-0 [animation-delay:800ms] pointer-events-none">
-                <span className="block font-sans text-[10px] uppercase tracking-[0.2em] text-text-inverse-muted vertical-lr rotate-180" style={{ writingMode: 'vertical-rl' }}>
-                    Scroll
-                </span>
-                <div className="w-[1px] h-12 bg-sand/30" />
             </div>
         </>
     );

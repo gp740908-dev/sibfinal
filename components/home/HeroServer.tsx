@@ -21,9 +21,6 @@ export const HeroServer: React.FC = () => {
                     priority={true} // High Priority LCP
                     fetchPriority="high"
                 />
-                {/* Overlays matched to client */}
-                <div className="absolute inset-0 bg-gradient-to-r from-forest-dark/90 via-forest-dark/50 to-transparent mix-blend-multiply" />
-                <div className="absolute inset-0 bg-black/20" />
             </div>
 
             {/* 2. STATIC CONTENT LAYER (Server Rendered Text) */}
