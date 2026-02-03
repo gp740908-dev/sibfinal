@@ -18,6 +18,7 @@ export const VillasPage: React.FC<VillasPageProps> = ({ villas }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const containerRef = useRef<HTMLDivElement>(null);
 
+
   // Parallax for Hero
   const { scrollY } = useScroll();
   const yHero = useTransform(scrollY, [0, 1000], [0, 400]);
@@ -27,8 +28,7 @@ export const VillasPage: React.FC<VillasPageProps> = ({ villas }) => {
   const filteredVillas = useMemo(() => {
     return villas.filter(villa => {
       // 1. Text Search
-      const matchesSearch = villa.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        villa.location?.toLowerCase().includes(searchQuery.toLowerCase());
+      const matchesSearch = villa.name.toLowerCase().includes(searchQuery.toLowerCase());
       if (!matchesSearch) return false;
 
       // 2. Category Filter
@@ -197,18 +197,18 @@ export const VillasPage: React.FC<VillasPageProps> = ({ villas }) => {
 
                     <div className="flex flex-wrap gap-2 mb-8">
                       {villa.features?.slice(0, 3).map(feature => (
-                        <span key={feature} className="text-[10px] uppercase tracking-widest border border-forest/20 px-3 py-1 rounded-full text-forest-dark/60">
+                        <span key={feature} className="text-[10px] uppercase tracking-widest border border-forest/20 px-3 py-1 rounded-full text-text-muted">
                           {feature}
                         </span>
                       ))}
                     </div>
 
-                    <p className="font-sans text-forest-dark/70 text-sm leading-relaxed mb-8 max-w-sm">
+                    <p className="font-sans text-text-body text-sm leading-relaxed mb-8 max-w-sm">
                       {villa.description?.split('.').slice(0, 1).join('.')}...
                     </p>
 
                     <div className="flex items-baseline gap-2">
-                      <span className="font-sans text-xs uppercase tracking-widest text-forest-dark/50">Starts from</span>
+                      <span className="font-sans text-xs uppercase tracking-widest text-text-muted">Starts from</span>
                       <span className="font-serif text-2xl text-forest-dark">{formatPrice(villa.pricePerNight)}</span>
                     </div>
 

@@ -12,12 +12,12 @@ export default function ContactPage() {
     return (
         <main className="bg-sand-light min-h-screen pt-32 pb-20">
             <div className="max-w-4xl mx-auto px-6 md:px-12 text-center">
-                <h1 className="text-4xl md:text-6xl font-serif text-forest mb-8">Contact Us</h1>
-                <p className="text-forest-dark/80 text-lg mb-12">
+                <h1 className="text-4xl md:text-6xl font-serif text-forest-dark mb-8">Contact Us</h1>
+                <p className="text-text-body text-lg mb-12">
                     We are here to assist with your reservations and inquiries.
                 </p>
 
-                <div className="bg-white p-8 rounded-lg shadow-sm border border-forest/10 max-w-xl mx-auto">
+                <div className="bg-white p-8 rounded-lg shadow-sm border border-forest-dark/10 max-w-xl mx-auto">
                     <p className="mb-4">
                         <strong>WhatsApp / Phone:</strong> <br />
                         <a href="https://wa.me/6282269128232" className="text-accent hover:underline">+62 822-6912-8232</a>

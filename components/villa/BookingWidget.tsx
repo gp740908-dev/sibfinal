@@ -106,20 +106,20 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ villa }) => {
         .rdp-day_selected:not([disabled]) { background-color: var(--rdp-accent-color); color: #D3D49F; font-weight: bold; }
         .rdp-day_selected:hover:not([disabled]) { background-color: var(--rdp-accent-color); opacity: 0.8; }
         .rdp-button:hover:not([disabled]):not(.rdp-day_selected) { background-color: #D3D49F; color: #537F5D; }
-        .rdp-caption_label { font-family: 'Playfair Display', serif; color: #537F5D; font-size: 1.1rem; }
-        .rdp-head_cell { color: #537F5D; font-family: 'Manrope', sans-serif; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; }
-        .rdp-day { color: #537F5D; font-family: 'Manrope', sans-serif; }
+        .rdp-caption_label { font-family: 'Playfair Display', serif; color: #3B523E; font-size: 1.1rem; }
+        .rdp-head_cell { color: #5C7A60; font-family: 'Manrope', sans-serif; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; }
+        .rdp-day { color: #3B523E; font-family: 'Manrope', sans-serif; }
         .rdp-day_disabled { opacity: 0.25; pointer-events: none; }
       `}</style>
 
       {/* Header */}
       <div className="flex justify-between items-end mb-6 border-b border-forest/10 pb-4">
         <div>
-          <span className="block text-sm text-forest/60 font-sans uppercase tracking-widest mb-1">Price per night</span>
-          <span className="text-2xl md:text-3xl font-serif text-forest">{formatPrice(villa.pricePerNight)}</span>
+          <span className="block text-sm text-text-muted font-sans uppercase tracking-widest mb-1">Price per night</span>
+          <span className="text-2xl md:text-3xl font-serif text-forest-dark">{formatPrice(villa.pricePerNight)}</span>
         </div>
         <div className="text-right">
-          <div className="flex items-center gap-1 text-xs font-bold uppercase tracking-widest text-forest bg-sand/50 px-2 py-1 rounded">
+          <div className="flex items-center gap-1 text-xs font-bold uppercase tracking-widest text-forest-dark bg-sand/50 px-2 py-1 rounded">
             <CalendarIcon size={12} />
             <span>Available</span>
           </div>
@@ -129,7 +129,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ villa }) => {
       {/* Calendar */}
       <div className="mb-6 flex justify-center bg-white/30 p-4 rounded-xl border border-white/40 min-h-[300px] items-center">
         {isLoadingAvailability ? (
-          <div className="flex flex-col items-center gap-2 text-forest/60 animate-pulse">
+          <div className="flex flex-col items-center gap-2 text-text-muted animate-pulse">
             <Loader2 className="animate-spin" />
             <span className="text-xs uppercase tracking-widest">Checking Dates...</span>
           </div>
@@ -147,16 +147,16 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ villa }) => {
 
       {/* Breakdown */}
       {nightCount > 0 && (
-        <div className="space-y-3 mb-6 font-sans text-sm text-forest animate-fade-in">
+        <div className="space-y-3 mb-6 font-sans text-sm text-text-body animate-fade-in">
           <div className="flex justify-between">
-            <span className="opacity-70">{formatPrice(villa.pricePerNight)} x {nightCount} nights</span>
+            <span className="text-text-muted">{formatPrice(villa.pricePerNight)} x {nightCount} nights</span>
             <span>{formatPrice(totalPrice)}</span>
           </div>
           <div className="flex justify-between">
-            <span className="opacity-70">Service Fee (10%)</span>
+            <span className="text-text-muted">Service Fee (10%)</span>
             <span>{formatPrice(serviceFee)}</span>
           </div>
-          <div className="border-t border-forest/10 pt-3 flex justify-between font-bold text-lg">
+          <div className="border-t border-forest/10 pt-3 flex justify-between font-bold text-lg text-forest-dark">
             <span>Total</span>
             <span>{formatPrice(grandTotal)}</span>
           </div>
@@ -165,7 +165,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ villa }) => {
 
       {/* Error Message */}
       {error && (
-        <div className="mb-4 p-3 bg-red-100 border border-red-200 text-red-700 text-xs rounded flex items-center gap-2">
+        <div className="mb-4 p-3 bg-red-50 border border-red-100 text-red-600 text-xs rounded flex items-center gap-2">
           <AlertCircle size={16} />
           {error}
         </div>
@@ -198,7 +198,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({ villa }) => {
         </span>
       </button>
 
-      <p className="text-center text-[10px] text-forest/50 mt-4 uppercase tracking-wider">
+      <p className="text-center text-[10px] text-text-muted mt-4 uppercase tracking-wider">
         You will be redirected to WhatsApp to finalize.
       </p>
     </div>

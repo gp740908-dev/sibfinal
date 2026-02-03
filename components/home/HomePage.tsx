@@ -17,7 +17,7 @@ const Newsletter = dynamic(() => import('./Newsletter'));
 const TrustBar = dynamic(() => import('./TrustBar'), { ssr: false });
 
 // Heavy components - Lazy loaded with Default Exports for stability
-const LocationSection = dynamic(() => import('./LocationSection'), { 
+const LocationSection = dynamic(() => import('./LocationSection'), {
     ssr: false,
     loading: () => <div className="h-[600px] w-full animate-pulse bg-[#F4F1EA]" />
 });
@@ -64,7 +64,7 @@ export const HomePage: React.FC<HomePageProps> = ({ villas }) => {
 
                 <div className="md:w-1/2">
                     <motion.span
-                        className="text-xs uppercase tracking-[0.3em] text-forest/50 mb-4 block font-sans"
+                        className="text-xs uppercase tracking-[0.3em] text-text-muted mb-4 block font-sans"
                         variants={{
                             hidden: { opacity: 0, y: 20 },
                             visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
@@ -83,7 +83,7 @@ export const HomePage: React.FC<HomePageProps> = ({ villas }) => {
                     />
 
                     <motion.h2
-                        className="text-4xl md:text-6xl font-serif text-forest leading-tight mb-8"
+                        className="text-4xl md:text-6xl font-serif text-forest-dark leading-tight mb-8"
                         variants={{
                             hidden: { opacity: 0, y: 40 },
                             visible: { opacity: 1, y: 0, transition: { duration: 1, ease: [0.16, 1, 0.3, 1] } }

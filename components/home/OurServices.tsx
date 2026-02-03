@@ -119,7 +119,7 @@ export const OurServices: React.FC = () => {
           <span className="block font-sans text-xs uppercase tracking-[0.2em] text-text-muted mb-4">
             Curated For You
           </span>
-          <h2 className="text-3xl md:text-5xl font-serif tracking-tight leading-none text-forest">
+          <h2 className="text-3xl md:text-5xl font-serif tracking-tight leading-none text-forest-dark">
             BESPOKE EXPERIENCES
           </h2>
         </motion.div>

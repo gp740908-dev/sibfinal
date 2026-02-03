@@ -119,7 +119,7 @@ export const Hero: React.FC = () => {
 
       {/* Scroll Indicator (Bottom Right) */}
       <div className="absolute bottom-12 right-6 md:right-16 lg:right-24 z-20 flex flex-col items-center gap-4 animate-fade-in opacity-0 [animation-delay:800ms]">
-        <span className="block font-sans text-[10px] uppercase tracking-[0.2em] text-sand/60 vertical-lr rotate-180" style={{ writingMode: 'vertical-rl' }}>
+        <span className="block font-sans text-[10px] uppercase tracking-[0.2em] text-text-inverse-muted vertical-lr rotate-180" style={{ writingMode: 'vertical-rl' }}>
           Scroll
         </span>
         <div className="w-[1px] h-12 bg-sand/30" />

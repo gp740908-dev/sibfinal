@@ -94,9 +94,9 @@ export const GuestDiaries: React.FC = () => {
         <div className="flex flex-col items-center gap-4 mb-20 animate-fade-in">
           <div className="flex items-center gap-2 px-4 py-1.5 bg-forest/5 rounded-full">
             <Star className="w-3.5 h-3.5 text-forest fill-forest" />
-            <span className="text-xs font-sans font-medium text-forest tracking-wide">4.96 Average Rating</span>
+            <span className="text-xs font-sans font-medium text-forest-dark tracking-wide">4.96 Average Rating</span>
           </div>
-          <span className="text-xs font-sans uppercase tracking-[0.3em] text-forest/40">
+          <span className="text-xs font-sans uppercase tracking-[0.3em] text-text-muted">
             Guest Diaries
           </span>
         </div>
@@ -111,7 +111,7 @@ export const GuestDiaries: React.FC = () => {
           </div>
 
           {/* Quote */}
-          <blockquote className="font-serif text-3xl md:text-5xl lg:text-6xl leading-[1.1] text-forest mb-12">
+          <blockquote className="font-serif text-3xl md:text-5xl lg:text-6xl leading-[1.1] text-forest-dark mb-12">
             "{activeReview?.quote}"
           </blockquote>
 
@@ -120,7 +120,7 @@ export const GuestDiaries: React.FC = () => {
             <span className="font-sans text-sm font-bold uppercase tracking-[0.2em] text-forest-dark">
               {activeReview?.guest_name}
             </span>
-            <span className="font-serif text-forest/60 italic text-lg">
+            <span className="font-serif text-text-body italic text-lg">
               {activeReview?.source}
             </span>
           </div>

@@ -52,9 +52,9 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView = 'home' }) => {
   // Hero is now Full Screen Dark Image, so Navbar should be Light at top
   const isDarkState = isScrolled || isInnerPage;
 
-  const textColor = isDarkState ? 'text-forest' : 'text-sand';
-  const borderColor = isDarkState ? 'border-forest/20' : 'border-transparent';
-  const iconColorClass = isDarkState ? 'text-forest' : 'text-sand';
+  const textColor = isDarkState ? 'text-forest-dark' : 'text-sand';
+  const borderColor = isDarkState ? 'border-forest-dark/10' : 'border-transparent';
+  const iconColorClass = isDarkState ? 'text-forest-dark' : 'text-sand';
 
   return (
     <>

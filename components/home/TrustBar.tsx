@@ -42,11 +42,11 @@ export const TrustBar: React.FC = () => {
 };
 
 const TrustItem: React.FC<{ icon: React.ReactNode; label: string }> = ({ icon, label }) => (
-    <div className="flex items-center gap-3 opacity-70 hover:opacity-100 transition-opacity cursor-default group">
+    <div className="flex items-center gap-3 text-text-muted hover:text-forest-dark transition-colors cursor-default group">
         <div className="text-forest group-hover:text-accent-default transition-colors">
             {icon}
         </div>
-        <span className="font-sans text-xs uppercase tracking-widest text-forest font-medium">
+        <span className="font-sans text-xs uppercase tracking-widest font-medium">
             {label}
         </span>
     </div>

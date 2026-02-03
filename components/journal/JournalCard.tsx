@@ -33,7 +33,7 @@ export const JournalCard: React.FC<JournalCardProps> = ({ post }) => {
 
       {/* Content */}
       <div className="flex flex-col gap-2">
-        <div className="flex items-center gap-3 text-[10px] font-sans uppercase tracking-widest text-forest-dark/60">
+        <div className="flex items-center gap-3 text-[10px] font-sans uppercase tracking-widest text-text-muted">
           <span>{post.category}</span>
           <span className="w-1 h-1 rounded-full bg-forest-dark/40"></span>
           <span>{post.publishedAt}</span>
@@ -43,7 +43,7 @@ export const JournalCard: React.FC<JournalCardProps> = ({ post }) => {
           {post.title}
         </h3>
 
-        <p className="font-sans text-forest-dark/70 text-sm leading-relaxed line-clamp-2">
+        <p className="font-sans text-text-body text-sm leading-relaxed line-clamp-2">
           {post.excerpt}
         </p>
       </div>

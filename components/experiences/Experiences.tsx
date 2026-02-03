@@ -107,7 +107,7 @@ export const Experiences: React.FC<ExperiencesProps> = ({ initialExperiences }) 
         animate="visible"
       >
         <motion.span
-          className="block font-sans text-xs md:text-sm uppercase tracking-[0.3em] text-forest-dark/60 mb-6"
+          className="block font-sans text-xs md:text-sm uppercase tracking-[0.3em] text-text-muted mb-6"
           variants={fadeInUp}
         >
           Beyond Accommodation
@@ -128,7 +128,7 @@ export const Experiences: React.FC<ExperiencesProps> = ({ initialExperiences }) 
         />
 
         <motion.p
-          className="font-sans text-lg md:text-xl text-forest-dark/80 max-w-2xl mx-auto leading-relaxed"
+          className="font-sans text-lg md:text-xl text-text-body max-w-2xl mx-auto leading-relaxed"
           variants={fadeInUp}
         >
           We believe that a true luxury escape is defined not just by where you stay, but by how you feel. Our concierge team crafts bespoke itineraries to immerse you in the magic of Ubud.
@@ -159,7 +159,7 @@ export const Experiences: React.FC<ExperiencesProps> = ({ initialExperiences }) 
               <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif text-forest-dark mb-8 leading-tight">
                 {item.title}
               </h2>
-              <p className="font-sans text-forest-dark/80 text-lg leading-relaxed mb-8">
+              <p className="font-sans text-text-body text-lg leading-relaxed mb-8">
                 {item.description}
               </p>
               <motion.button

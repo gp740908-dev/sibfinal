@@ -224,7 +224,7 @@ export const VillaDetail: React.FC<VillaDetailProps> = ({
               key={section.id}
               onClick={() => scrollToSection(section.id)}
               className={`py-6 text-xs font-bold uppercase tracking-widest whitespace-nowrap border-b-2 transition-all duration-300
-                 ${activeSection === section.id ? 'border-forest-dark text-forest-dark' : 'border-transparent text-forest-dark/40 hover:text-forest-dark'}
+                 ${activeSection === section.id ? 'border-forest-dark text-forest-dark' : 'border-transparent text-text-muted hover:text-forest-dark'}
                `}
             >
               {section.label}
@@ -269,7 +269,7 @@ export const VillaDetail: React.FC<VillaDetailProps> = ({
                 .map((item, idx) => (
                   <div key={idx} className="flex flex-col items-center justify-center p-6 border border-forest/10 rounded-xl hover:bg-forest/5 transition-colors text-center">
                     <item.icon size={24} className="text-forest-dark mb-3" />
-                    <span className="text-xs uppercase tracking-wider font-bold text-forest-dark/80">{item.label}</span>
+                    <span className="text-xs uppercase tracking-wider font-bold text-text-muted">{item.label}</span>
                   </div>
                 ))}
             </div>
@@ -302,8 +302,8 @@ export const VillaDetail: React.FC<VillaDetailProps> = ({
                     </div>
                     <div>
                       <span className="block font-bold text-base">{room.room}</span>
-                      <span className="block text-sm opacity-80 mt-1">{room.bed}</span>
-                      <span className="block text-xs opacity-60 mt-1 uppercase tracking-wider">{room.view}</span>
+                      <span className="block text-sm text-text-muted mt-1">{room.bed}</span>
+                      <span className="block text-xs text-text-subtle mt-1 uppercase tracking-wider">{room.view}</span>
                     </div>
                   </div>
                 ))}
@@ -317,7 +317,7 @@ export const VillaDetail: React.FC<VillaDetailProps> = ({
             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-12">
               {Object.entries(amenitiesDetail).map(([category, items]) => (
                 <div key={category}>
-                  <h3 className="text-xs font-black uppercase tracking-widest mb-6 flex items-center gap-3 text-forest-dark/40">
+                  <h3 className="text-xs font-black uppercase tracking-widest mb-6 flex items-center gap-3 text-text-muted">
                     {category === 'Bathroom' && <Waves size={14} />}
                     {category === 'Entertainment' && <Tv size={14} />}
                     {category === 'Kitchen' && <Utensils size={14} />}
@@ -351,14 +351,14 @@ export const VillaDetail: React.FC<VillaDetailProps> = ({
 
               {/* Proximity List */}
               <div className="w-full md:w-1/3 flex flex-col gap-2 justify-center">
-                <h3 className="text-xs font-bold uppercase tracking-widest flex items-center gap-2 mb-4 text-forest-dark/50">
+                <h3 className="text-xs font-bold uppercase tracking-widest flex items-center gap-2 mb-4 text-text-muted">
                   <MapPin size={14} /> Nearby
                 </h3>
                 <div className="space-y-2">
                   {proximity.map((place, idx) => (
                     <div key={idx} className="flex items-center justify-between group p-4 bg-white/40 rounded-xl border border-transparent hover:border-forest/10 transition-all">
                       <span className="text-sm font-bold text-forest-dark">{place.name}</span>
-                      <span className="text-xs opacity-70 whitespace-nowrap bg-white px-2 py-1 rounded-md">{place.distance}</span>
+                      <span className="text-xs text-text-muted whitespace-nowrap bg-white px-2 py-1 rounded-md">{place.distance}</span>
                     </div>
                   ))}
                 </div>
@@ -452,8 +452,8 @@ export const VillaDetail: React.FC<VillaDetailProps> = ({
                 />
                 <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors" />
               </div>
-              <h3 className="font-serif text-2xl text-forest-dark mb-2 group-hover:text-forest-dark/70 transition-colors">{v.name}</h3>
-              <p className="font-sans text-xs uppercase tracking-widest text-forest-dark/50">{v.bedrooms} Bedrooms • {v.guests} Guests</p>
+              <h3 className="font-serif text-2xl text-forest-dark mb-2 group-hover:text-text-muted transition-colors">{v.name}</h3>
+              <p className="font-sans text-xs uppercase tracking-widest text-text-muted">{v.bedrooms} Bedrooms • {v.guests} Guests</p>
             </Link>
           ))}
         </div>

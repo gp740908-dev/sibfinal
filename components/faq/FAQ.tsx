@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, Minus } from 'lucide-react';
 
 // Luxury Easing
-const LUXURY_EASE = [0.16, 1, 0.3, 1];
+const LUXURY_EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 type Category = 'General' | 'Villa Amenities' | 'Booking & Payment';
 
@@ -111,7 +111,7 @@ export const FAQ: React.FC = () => {
           variants={staggerContainer}
         >
           <motion.span
-            className="block font-sans text-xs uppercase tracking-[0.2em] text-forest-dark/60 mb-4"
+            className="block font-sans text-xs uppercase tracking-[0.2em] text-text-muted mb-4"
             variants={fadeInUp}
           >
             Support
@@ -120,10 +120,10 @@ export const FAQ: React.FC = () => {
             className="text-4xl md:text-6xl font-serif leading-none mb-6"
             variants={fadeInUp}
           >
-            FREQUENTLY ASKED <br /> <span className="italic text-forest-dark/70">QUESTIONS</span>
+            FREQUENTLY ASKED <br /> <span className="italic text-text-muted">QUESTIONS</span>
           </motion.h1>
           <motion.p
-            className="font-sans text-forest-dark/70 max-w-lg mx-auto"
+            className="font-sans text-text-body max-w-lg mx-auto"
             variants={fadeInUp}
           >
             Everything you need to know about your upcoming escape to Ubud.
@@ -143,7 +143,7 @@ export const FAQ: React.FC = () => {
               key={cat}
               onClick={() => { setActiveTab(cat); setOpenIndex(null); }}
               className={`font-sans text-xs md:text-sm uppercase tracking-widest transition-all duration-300 relative pb-2
-                ${activeTab === cat ? 'text-forest-dark font-bold' : 'text-forest-dark/40 hover:text-forest-dark'}
+                ${activeTab === cat ? 'text-forest-dark font-bold' : 'text-text-muted hover:text-forest-dark'}
               `}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
@@ -187,7 +187,7 @@ export const FAQ: React.FC = () => {
                     whileHover={{ x: 4 }}
                     transition={{ duration: 0.2 }}
                   >
-                    <h3 className={`font-serif text-xl md:text-2xl transition-colors duration-300 ${isOpen ? 'text-forest-dark' : 'text-forest-dark/80 group-hover:text-forest-dark'}`}>
+                    <h3 className={`font-serif text-xl md:text-2xl transition-colors duration-300 ${isOpen ? 'text-forest-dark' : 'text-text-body group-hover:text-forest-dark'}`}>
                       {item.question}
                     </h3>
                     <motion.div
@@ -211,7 +211,7 @@ export const FAQ: React.FC = () => {
                         className="overflow-hidden"
                       >
                         <motion.p
-                          className="font-sans text-forest-dark/70 leading-relaxed text-sm md:text-base pr-8 pb-8"
+                          className="font-sans text-text-body leading-relaxed text-sm md:text-base pr-8 pb-8"
                           initial={{ opacity: 0, y: -10 }}
                           animate={{ opacity: 1, y: 0 }}
                           exit={{ opacity: 0, y: -10 }}

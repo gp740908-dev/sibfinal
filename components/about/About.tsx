@@ -85,7 +85,7 @@ export const About: React.FC = () => {
         />
 
         <motion.p
-          className="text-lg md:text-2xl font-sans font-light max-w-2xl leading-relaxed text-forest-dark/90"
+          className="text-lg md:text-2xl font-sans font-light max-w-2xl leading-relaxed text-text-body"
           variants={fadeInUp}
         >
           We believe luxury isn't about golden taps. It's about silence, space, and the sound of the wind in the trees.
@@ -139,12 +139,12 @@ export const About: React.FC = () => {
             className="md:col-span-5"
             variants={fadeInUp}
           >
-            <span className="block font-sans text-xs uppercase tracking-[0.2em] text-forest-dark/60 mb-6">Origins</span>
-            <h2 className="text-4xl md:text-5xl font-serif mb-8 leading-tight">Born in the <br /> <span className="italic text-forest-dark/80">Sacred Valley</span></h2>
-            <p className="font-sans text-lg leading-relaxed mb-6 text-forest-dark/80">
+            <span className="block font-sans text-xs uppercase tracking-[0.2em] text-text-muted mb-6">Origins</span>
+            <h2 className="text-4xl md:text-5xl font-serif mb-8 leading-tight">Born in the <br /> <span className="italic text-forest-dark">Sacred Valley</span></h2>
+            <p className="font-sans text-lg leading-relaxed mb-6 text-text-body">
               StayinUBUD started as a whisper. A desire to share the side of Bali that often goes unseen—the misty mornings in the highlands, the intricate devotion of daily offerings, and the profound stillness of the jungle.
             </p>
-            <p className="font-sans text-lg leading-relaxed text-forest-dark/80">
+            <p className="font-sans text-lg leading-relaxed text-text-body">
               We moved away from the crowded centers to curate homes that honor the land they stand on. Each villa tells a story of craftsmanship, heritage, and harmony with nature.
             </p>
           </motion.div>
@@ -172,11 +172,11 @@ export const About: React.FC = () => {
               variants={fadeInUp}
               whileHover={{ y: -8, transition: { duration: 0.3 } }}
             >
-              <div className="mb-6 text-forest-dark/70 group-hover:text-forest-dark transition-colors">
+              <div className="mb-6 text-forest-dark group-hover:text-forest-dark transition-colors">
                 <Palette size={32} strokeWidth={1.5} />
               </div>
               <h3 className="text-2xl font-serif mb-4">Curated Design</h3>
-              <p className="font-sans text-forest-dark/70 leading-relaxed">
+              <p className="font-sans text-text-muted leading-relaxed">
                 Every corner is intentional. We select homes where architecture doesn't just house you, but moves you. Minimalist, textural, and authentically Balinese.
               </p>
             </motion.div>
@@ -187,11 +187,11 @@ export const About: React.FC = () => {
               variants={fadeInUp}
               whileHover={{ y: -8, transition: { duration: 0.3 } }}
             >
-              <div className="mb-6 text-forest-dark/70 group-hover:text-forest-dark transition-colors">
+              <div className="mb-6 text-forest-dark group-hover:text-forest-dark transition-colors">
                 <Heart size={32} strokeWidth={1.5} />
               </div>
               <h3 className="text-2xl font-serif mb-4">Local Soul</h3>
-              <p className="font-sans text-forest-dark/70 leading-relaxed">
+              <p className="font-sans text-text-muted leading-relaxed">
                 Deeply rooted in <span className="italic">Tri Hita Karana</span>. We work with local artisans, chefs, and guides to ensure your stay supports the community that hosts you.
               </p>
             </motion.div>
@@ -202,11 +202,11 @@ export const About: React.FC = () => {
               variants={fadeInUp}
               whileHover={{ y: -8, transition: { duration: 0.3 } }}
             >
-              <div className="mb-6 text-forest-dark/70 group-hover:text-forest-dark transition-colors">
+              <div className="mb-6 text-forest-dark group-hover:text-forest-dark transition-colors">
                 <ShieldCheck size={32} strokeWidth={1.5} />
               </div>
               <h3 className="text-2xl font-serif mb-4">Privacy First</h3>
-              <p className="font-sans text-forest-dark/70 leading-relaxed">
+              <p className="font-sans text-text-muted leading-relaxed">
                 Your sanctuary, undisturbed. We prioritize secluded locations and discreet service, giving you the rarest luxury of all: true privacy.
               </p>
             </motion.div>
@@ -241,13 +241,13 @@ export const About: React.FC = () => {
 
             {/* Text */}
             <div className="flex-1 text-center md:text-left">
-              <p className="font-serif text-xl md:text-2xl text-forest-dark/80 italic leading-relaxed mb-6">
+              <p className="font-serif text-xl md:text-2xl text-text-body italic leading-relaxed mb-6">
                 "We invite you to experience the Bali we love—the one that smells of incense and rain, feels like rough stone and soft silk, and sounds like a distant gamelan carried by the wind."
               </p>
               <div className="flex flex-col md:flex-row items-center md:items-end justify-between gap-4">
                 <div>
                   <span className="block font-sans text-xs uppercase tracking-widest font-bold">Cipeng</span>
-                  <span className="block font-sans text-xs text-forest-dark/60 mt-1">Founders, StayinUBUD</span>
+                  <span className="block font-sans text-xs text-text-muted mt-1">Founders, StayinUBUD</span>
                 </div>
 
                 {/* Signature SVG */}

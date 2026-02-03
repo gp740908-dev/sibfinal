@@ -132,7 +132,7 @@ export const BookingWizard: React.FC<BookingWizardProps> = ({
                     <span className="text-xs text-text-muted ml-1">/ night</span>
                 </div>
                 {step !== 'dates' && !bookingResult && (
-                    <button onClick={handleBack} className="text-forest/60 hover:text-forest text-xs font-bold uppercase tracking-wider flex items-center gap-1">
+                    <button onClick={handleBack} className="text-forest-dark/70 hover:text-forest-dark text-xs font-bold uppercase tracking-wider flex items-center gap-1">
                         <ChevronLeft size={14} /> Back
                     </button>
                 )}
@@ -144,7 +144,7 @@ export const BookingWizard: React.FC<BookingWizardProps> = ({
                 {/* STEP 1: DATES */}
                 {step === 'dates' && (
                     <div className="animate-in slide-in-from-right-4 duration-300">
-                        <h3 className="text-sm font-bold uppercase tracking-widest text-forest mb-6 flex items-center gap-2">
+                        <h3 className="text-sm font-bold uppercase tracking-widest text-forest-dark mb-6 flex items-center gap-2">
                             <CalendarIcon size={16} /> Select Dates
                         </h3>
                         <div className="flex justify-center mb-6">
@@ -158,16 +158,16 @@ export const BookingWizard: React.FC<BookingWizardProps> = ({
                         </div>
                         {dateRange?.from && dateRange?.to && (
                             <div className="bg-forest/5 p-4 rounded-lg flex justify-between items-center mb-4 animate-in fade-in">
-                                <span className="text-sm text-forest">
+                                <span className="text-sm text-forest-dark">
                                     {format(dateRange.from, 'dd MMM')} - {format(dateRange.to, 'dd MMM')}
                                 </span>
-                                <span className="font-bold text-forest">{nightCount} Nights</span>
+                                <span className="font-bold text-forest-dark">{nightCount} Nights</span>
                             </div>
                         )}
                         <button
                             onClick={handleNext}
                             disabled={!dateRange?.from || !dateRange?.to}
-                            className="w-full bg-forest text-sand py-4 rounded-xl font-bold uppercase tracking-widest text-sm hover:bg-forest-dark disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                            className="w-full bg-forest-dark text-sand py-4 rounded-xl font-bold uppercase tracking-widest text-sm hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                         >
                             Continue
                         </button>
@@ -177,19 +177,19 @@ export const BookingWizard: React.FC<BookingWizardProps> = ({
                 {/* STEP 2: GUESTS & DETAILS */}
                 {step === 'guests' && (
                     <div className="animate-in slide-in-from-right-4 duration-300">
-                        <h3 className="text-sm font-bold uppercase tracking-widest text-forest mb-6 flex items-center gap-2">
+                        <h3 className="text-sm font-bold uppercase tracking-widest text-forest-dark mb-6 flex items-center gap-2">
                             <Users size={16} /> Guest Details
                         </h3>
 
                         {/* Guest Count */}
                         <div className="mb-6">
-                            <label className="block text-xs uppercase tracking-wider text-forest/60 mb-2">Number of Guests</label>
+                            <label className="block text-xs uppercase tracking-wider text-text-muted mb-2">Number of Guests</label>
                             <div className="flex gap-2">
                                 {[1, 2, 3, 4].map(num => (
                                     <button
                                         key={num}
                                         onClick={() => setGuests(num)}
-                                        className={`flex-1 py-3 rounded-lg border text-sm font-bold transition-all ${guests === num ? 'bg-forest text-sand border-forest' : 'bg-transparent text-forest border-forest/20 hover:border-forest'}`}
+                                        className={`flex-1 py-3 rounded-lg border text-sm font-bold transition-all ${guests === num ? 'bg-forest-dark text-sand border-forest-dark' : 'bg-transparent text-forest-dark border-forest-dark/20 hover:border-forest-dark'}`}
                                     >
                                         {num}
                                     </button>
@@ -202,7 +202,7 @@ export const BookingWizard: React.FC<BookingWizardProps> = ({
                             <input
                                 type="text"
                                 placeholder="Full Name"
-                                className="w-full bg-transparent border-b border-forest/20 py-3 text-forest focus:outline-none focus:border-forest transition-colors"
+                                className="w-full bg-transparent border-b border-forest/20 py-3 text-forest-dark focus:outline-none focus:border-forest-dark transition-colors placeholder:text-forest-dark/40"
                                 value={guestData.fullName}
                                 onChange={e => setGuestData({ ...guestData, fullName: e.target.value })}
                             />
@@ -210,14 +210,14 @@ export const BookingWizard: React.FC<BookingWizardProps> = ({
                                 <input
                                     type="email"
                                     placeholder="Email"
-                                    className="w-full bg-transparent border-b border-forest/20 py-3 text-forest focus:outline-none focus:border-forest transition-colors"
+                                    className="w-full bg-transparent border-b border-forest/20 py-3 text-forest-dark focus:outline-none focus:border-forest-dark transition-colors placeholder:text-forest-dark/40"
                                     value={guestData.email}
                                     onChange={e => setGuestData({ ...guestData, email: e.target.value })}
                                 />
                                 <input
                                     type="tel"
                                     placeholder="WhatsApp"
-                                    className="w-full bg-transparent border-b border-forest/20 py-3 text-forest focus:outline-none focus:border-forest transition-colors"
+                                    className="w-full bg-transparent border-b border-forest/20 py-3 text-forest-dark focus:outline-none focus:border-forest-dark transition-colors placeholder:text-forest-dark/40"
                                     value={guestData.phone}
                                     onChange={e => setGuestData({ ...guestData, phone: e.target.value })}
                                 />
@@ -227,17 +227,17 @@ export const BookingWizard: React.FC<BookingWizardProps> = ({
                         {/* Add-ons */}
                         <div className="space-y-3 mb-8">
                             <label className="flex items-center gap-3 p-3 border border-forest/10 rounded-lg cursor-pointer hover:bg-forest/5 transition-colors">
-                                <input type="checkbox" checked={addons.breakfast} onChange={() => setAddons(p => ({ ...p, breakfast: !p.breakfast }))} className="accent-forest w-4 h-4" />
+                                <input type="checkbox" checked={addons.breakfast} onChange={() => setAddons(p => ({ ...p, breakfast: !p.breakfast }))} className="accent-forest-dark w-4 h-4" />
                                 <div className="flex-1">
-                                    <span className="text-sm font-medium text-forest block">Daily Floating Breakfast</span>
-                                    <span className="text-xs text-forest/60">IDR 150k / person</span>
+                                    <span className="text-sm font-medium text-forest-dark block">Daily Floating Breakfast</span>
+                                    <span className="text-xs text-text-muted">IDR 150k / person</span>
                                 </div>
                             </label>
                             <label className="flex items-center gap-3 p-3 border border-forest/10 rounded-lg cursor-pointer hover:bg-forest/5 transition-colors">
-                                <input type="checkbox" checked={addons.airportPickup} onChange={() => setAddons(p => ({ ...p, airportPickup: !p.airportPickup }))} className="accent-forest w-4 h-4" />
+                                <input type="checkbox" checked={addons.airportPickup} onChange={() => setAddons(p => ({ ...p, airportPickup: !p.airportPickup }))} className="accent-forest-dark w-4 h-4" />
                                 <div className="flex-1">
-                                    <span className="text-sm font-medium text-forest block">Airport Pickup (SUV)</span>
-                                    <span className="text-xs text-forest/60">IDR 350k / way</span>
+                                    <span className="text-sm font-medium text-forest-dark block">Airport Pickup (SUV)</span>
+                                    <span className="text-xs text-text-muted">IDR 350k / way</span>
                                 </div>
                             </label>
                         </div>
@@ -245,7 +245,7 @@ export const BookingWizard: React.FC<BookingWizardProps> = ({
                         <button
                             onClick={handleNext}
                             disabled={!guestData.fullName || !guestData.phone}
-                            className="w-full bg-forest text-sand py-4 rounded-xl font-bold uppercase tracking-widest text-sm hover:bg-forest-dark disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                            className="w-full bg-forest-dark text-sand py-4 rounded-xl font-bold uppercase tracking-widest text-sm hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                         >
                             Review Booking
                         </button>
@@ -255,42 +255,42 @@ export const BookingWizard: React.FC<BookingWizardProps> = ({
                 {/* STEP 3: CONFIRM */}
                 {step === 'confirm' && !bookingResult && (
                     <div className="animate-in slide-in-from-right-4 duration-300">
-                        <h3 className="text-sm font-bold uppercase tracking-widest text-forest mb-6 flex items-center gap-2">
+                        <h3 className="text-sm font-bold uppercase tracking-widest text-forest-dark mb-6 flex items-center gap-2">
                             <Check size={16} /> Confirm Details
                         </h3>
 
                         <div className="bg-sand/20 rounded-xl p-6 space-y-4 mb-8">
                             <div className="flex justify-between text-sm">
-                                <span className="text-forest/60">Dates</span>
-                                <span className="font-medium text-forest">{format(dateRange!.from!, 'dd MMM')} - {format(dateRange!.to!, 'dd MMM')}</span>
+                                <span className="text-text-muted">Dates</span>
+                                <span className="font-medium text-forest-dark">{format(dateRange!.from!, 'dd MMM')} - {format(dateRange!.to!, 'dd MMM')}</span>
                             </div>
                             <div className="flex justify-between text-sm">
-                                <span className="text-forest/60">Guests</span>
-                                <span className="font-medium text-forest">{guests} Adult{guests > 1 ? 's' : ''}</span>
+                                <span className="text-text-muted">Guests</span>
+                                <span className="font-medium text-forest-dark">{guests} Adult{guests > 1 ? 's' : ''}</span>
                             </div>
                             <div className="border-t border-forest/10 my-2"></div>
                             <div className="flex justify-between text-sm">
-                                <span className="text-forest/60">{nightCount} Nights</span>
-                                <span className="font-medium text-forest">{formatPrice(subTotal)}</span>
+                                <span className="text-text-muted">{nightCount} Nights</span>
+                                <span className="font-medium text-forest-dark">{formatPrice(subTotal)}</span>
                             </div>
                             {addonTotal > 0 && (
                                 <div className="flex justify-between text-sm">
-                                    <span className="text-forest/60">Add-ons</span>
-                                    <span className="font-medium text-forest">{formatPrice(addonTotal)}</span>
+                                    <span className="text-text-muted">Add-ons</span>
+                                    <span className="font-medium text-forest-dark">{formatPrice(addonTotal)}</span>
                                 </div>
                             )}
                             <div className="flex justify-between text-sm">
-                                <span className="text-forest/60">Service Fee (10%)</span>
-                                <span className="font-medium text-forest">{formatPrice(serviceFee)}</span>
+                                <span className="text-text-muted">Service Fee (10%)</span>
+                                <span className="font-medium text-forest-dark">{formatPrice(serviceFee)}</span>
                             </div>
                             <div className="border-t border-forest/10 my-2"></div>
-                            <div className="flex justify-between text-xl font-serif text-forest">
+                            <div className="flex justify-between text-xl font-serif text-forest-dark">
                                 <span>Total</span>
                                 <span>{formatPrice(total)}</span>
                             </div>
                         </div>
 
-                        <div className="flex items-start gap-3 bg-blue-50 p-4 rounded-lg mb-8 text-xs text-blue-800">
+                        <div className="flex items-start gap-3 bg-sand/30 p-4 rounded-lg mb-8 text-xs text-forest-dark">
                             <Info className="w-4 h-4 shrink-0 mt-0.5" />
                             <p>Clicking "Submit Request" will open WhatsApp with your booking details pre-filled. Our concierge will confirm availability instantly.</p>
                         </div>
@@ -298,7 +298,7 @@ export const BookingWizard: React.FC<BookingWizardProps> = ({
                         <button
                             onClick={handleSubmit}
                             disabled={isSubmitting}
-                            className="w-full bg-forest text-sand py-4 rounded-xl font-bold uppercase tracking-widest text-sm hover:bg-forest-dark disabled:opacity-50 transition-all flex items-center justify-center gap-2"
+                            className="w-full bg-forest-dark text-sand py-4 rounded-xl font-bold uppercase tracking-widest text-sm hover:opacity-90 disabled:opacity-50 transition-all flex items-center justify-center gap-2"
                         >
                             {isSubmitting ? <Loader2 className="animate-spin" /> : 'Submit Request'}
                         </button>
@@ -308,11 +308,11 @@ export const BookingWizard: React.FC<BookingWizardProps> = ({
                 {/* SUCCESS STATE */}
                 {bookingResult && (
                     <div className="animate-in zoom-in-95 duration-500 text-center py-8">
-                        <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                            <Check className="w-8 h-8 text-green-600" />
+                        <div className="w-16 h-16 bg-[#537F5D]/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <Check className="w-8 h-8 text-[#537F5D]" />
                         </div>
-                        <h3 className="text-2xl font-serif text-forest mb-2">Request Sent!</h3>
-                        <p className="text-forest/60 mb-8 max-w-xs mx-auto">
+                        <h3 className="text-2xl font-serif text-forest-dark mb-2">Request Sent!</h3>
+                        <p className="text-text-muted mb-8 max-w-xs mx-auto">
                             Check your WhatsApp. Our concierge is reviewing your request for <strong>{villaName}</strong>.
                         </p>
                         <button
@@ -321,7 +321,7 @@ export const BookingWizard: React.FC<BookingWizardProps> = ({
                                 setStep('dates');
                                 setDateRange(undefined);
                             }}
-                            className="text-xs font-bold uppercase tracking-widest text-forest underline hover:text-forest-dark"
+                            className="text-xs font-bold uppercase tracking-widest text-forest-dark underline hover:text-black"
                         >
                             Book Another Stay
                         </button>
@@ -332,7 +332,7 @@ export const BookingWizard: React.FC<BookingWizardProps> = ({
 
             {/* Footer info (Desktop Only) */}
             {!bookingResult && !isMobile && (
-                <div className="bg-sand/30 p-4 text-center text-[10px] text-forest/40 uppercase tracking-wider font-bold">
+                <div className="bg-sand/30 p-4 text-center text-[10px] text-text-muted uppercase tracking-wider font-bold">
                     Secure Booking • No Credit Card Required
                 </div>
             )}
@@ -359,7 +359,7 @@ export const BookingWizard: React.FC<BookingWizardProps> = ({
                     </div>
                     <button
                         onClick={() => setIsMobileOpen(true)}
-                        className="bg-forest text-sand px-6 py-3 rounded-full font-bold uppercase tracking-widest text-sm shadow-lg hover:bg-forest-dark transition-colors"
+                        className="bg-forest-dark text-sand px-6 py-3 rounded-full font-bold uppercase tracking-widest text-sm shadow-lg hover:opacity-90 transition-colors"
                     >
                         Check Availability
                     </button>

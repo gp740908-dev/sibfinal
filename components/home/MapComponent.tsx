@@ -61,7 +61,7 @@ const MapComponent: React.FC<MapComponentProps> = ({ villas, activeVillaId }) =>
               <h4 className="font-serif text-lg text-forest-dark font-bold truncate">
                 {villaName}
               </h4>
-              <p className="text-xs text-forest-dark/60 mt-0.5">
+              <p className="text-xs text-text-muted mt-0.5">
                 Ubud, Bali
               </p>
             </div>

@@ -163,7 +163,7 @@ export const Journal: React.FC<JournalProps> = ({ initialPosts }) => {
               key={cat}
               onClick={() => setActiveCategory(cat)}
               className={`font-sans text-xs uppercase tracking-[0.2em] transition-all duration-300 relative
-                ${activeCategory === cat ? 'text-forest-dark font-bold' : 'text-forest-dark/50 hover:text-forest-dark'}
+                ${activeCategory === cat ? 'text-forest-dark font-bold' : 'text-text-muted hover:text-forest-dark'}
               `}
             >
               {cat}
@@ -194,7 +194,7 @@ export const Journal: React.FC<JournalProps> = ({ initialPosts }) => {
 
             {/* Right: Text (40%) */}
             <div className="lg:col-span-2 flex flex-col justify-center">
-              <div className="flex items-center gap-3 mb-4 text-xs font-sans uppercase tracking-widest text-forest-dark/60">
+              <div className="flex items-center gap-3 mb-4 text-xs font-sans uppercase tracking-widest text-text-muted">
                 <span>Featured Story</span>
                 <span className="w-8 h-px bg-forest-dark/30"></span>
                 <span>{featuredPost.category}</span>
@@ -204,7 +204,7 @@ export const Journal: React.FC<JournalProps> = ({ initialPosts }) => {
                 {featuredPost.title}
               </h2>
 
-              <p className="text-forest-dark/70 font-sans text-base md:text-lg leading-relaxed mb-8">
+              <p className="text-text-body font-sans text-base md:text-lg leading-relaxed mb-8">
                 {featuredPost.excerpt}
               </p>
 
@@ -228,7 +228,7 @@ export const Journal: React.FC<JournalProps> = ({ initialPosts }) => {
         </div>
 
         {gridPosts.length === 0 && !featuredPost && (
-          <div className="text-center py-20 text-forest-dark/50 font-serif italic">
+          <div className="text-center py-20 text-text-muted font-serif italic">
             No stories found in this category.
           </div>
         )}
@@ -264,7 +264,7 @@ export const Journal: React.FC<JournalProps> = ({ initialPosts }) => {
             </button>
           </div>
           {subscribeStatus === 'success' && <p className="text-accent-light text-xs mt-4">Welcome to the family.</p>}
-          {subscribeStatus === 'error' && <p className="text-red-400 text-xs mt-4">Something went wrong. Please try again.</p>}
+          {subscribeStatus === 'error' && <p className="text-error text-xs mt-4">Something went wrong. Please try again.</p>}
         </div>
       </section>
 
