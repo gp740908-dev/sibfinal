@@ -25,7 +25,7 @@ export const LocationSection: React.FC<LocationSectionProps> = ({ villas }) => {
       {/* LEFT: Content */}
       <div className="loc-content w-full lg:w-1/3 bg-sand px-6 md:px-12 pt-32 md:pt-40 pb-12 md:pb-24 flex flex-col justify-center relative z-20 shadow-2xl">
         <div className="mb-12">
-          <div className="flex items-center gap-2 text-forest-dark/60 mb-4">
+          <div className="flex items-center gap-2 text-text-muted mb-4">
             <MapPin size={16} />
             <span className="font-sans text-xs uppercase tracking-[0.2em] text-text-muted">The Locations</span>
           </div>
@@ -49,7 +49,7 @@ export const LocationSection: React.FC<LocationSectionProps> = ({ villas }) => {
               aria-pressed={activeVillaId === villa.id}
             >
               <div>
-                <span className={`block font-serif text-xl transition-colors ${activeVillaId === villa.id ? 'text-forest-dark' : 'text-forest-dark/60'}`}>
+                <span className={`block font-serif text-xl transition-colors ${activeVillaId === villa.id ? 'text-forest-dark' : 'text-text-muted'}`}>
                   {villa.name}
                 </span>
                 {activeVillaId === villa.id && (

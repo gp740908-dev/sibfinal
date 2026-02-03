@@ -6,7 +6,7 @@ import { Coffee, Sparkles, Sun, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 
 // Luxury Easing
-const LUXURY_EASE = [0.16, 1, 0.3, 1];
+const LUXURY_EASE: any = [0.16, 1, 0.3, 1];
 
 // Animation Variants
 const fadeInUp = {
@@ -94,7 +94,7 @@ export const SignatureDetails: React.FC = () => {
         variants={staggerContainer}
       >
         <motion.span
-          className="block font-sans text-xs uppercase tracking-[0.3em] text-sand/50 mb-6"
+          className="block font-sans text-xs uppercase tracking-[0.3em] text-text-inverse-muted mb-6"
           variants={fadeInUp}
         >
           Curated Moments
@@ -170,7 +170,7 @@ export const SignatureDetails: React.FC = () => {
                 <div className="w-10 h-10 rounded-full border border-sand/30 flex items-center justify-center">
                   {moment.icon}
                 </div>
-                <span className="font-sans text-xs uppercase tracking-[0.2em] text-sand/60">
+                <span className="font-sans text-xs uppercase tracking-[0.2em] text-text-inverse-muted">
                   {moment.subtitle}
                 </span>
               </motion.div>
@@ -192,7 +192,7 @@ export const SignatureDetails: React.FC = () => {
 
               {/* Description */}
               <motion.p
-                className="font-sans text-lg lg:text-xl text-sand/70 leading-relaxed max-w-lg mb-10"
+                className="font-sans text-lg lg:text-xl text-text-inverse-muted leading-relaxed max-w-lg mb-10"
                 variants={fadeInUp}
               >
                 {moment.description}
@@ -203,9 +203,9 @@ export const SignatureDetails: React.FC = () => {
                 className="flex items-center gap-6"
                 variants={fadeInUp}
               >
-                <span className="font-serif text-3xl text-sand/20">{moment.number}</span>
+                <span className="font-serif text-3xl text-text-inverse-muted/30">{moment.number}</span>
                 <span className="w-12 h-px bg-sand/20"></span>
-                <span className="font-serif text-sm text-sand/40">0{MOMENTS.length}</span>
+                <span className="font-serif text-sm text-text-inverse-muted/50">0{MOMENTS.length}</span>
               </motion.div>
             </motion.div>
           </motion.article>
@@ -258,7 +258,7 @@ export const SignatureDetails: React.FC = () => {
         </motion.div>
       </motion.div>
 
-    </section>
+    </section >
   );
 };
 

@@ -87,7 +87,7 @@ export const Hero: React.FC = () => {
           </h1>
 
           {/* Description */}
-          <p className="font-sans text-sand/80 text-xs sm:text-sm md:text-lg leading-relaxed max-w-md md:max-w-lg mb-8 md:mb-12 animate-fade-in opacity-0 [animation-delay:400ms] border-l border-sand/30 pl-4 md:pl-6">
+          <p className="font-sans text-text-inverse-muted text-xs sm:text-sm md:text-lg leading-relaxed max-w-md md:max-w-lg mb-8 md:mb-12 animate-fade-in opacity-0 [animation-delay:400ms] border-l border-sand/30 pl-4 md:pl-6">
             A raw exploration of monolithic luxury. Where concrete meets the jungle canopy in a brutalist symphony of silence.
           </p>
 
@@ -109,10 +109,10 @@ export const Hero: React.FC = () => {
 
       {/* Coordinates (Bottom Left) */}
       <div className="absolute bottom-12 left-6 md:left-16 lg:left-24 z-20 animate-fade-in opacity-0 [animation-delay:800ms]">
-        <span className="block font-sans text-[10px] md:text-xs uppercase tracking-[0.15em] text-sand/60 mb-1">
+        <span className="block font-sans text-[10px] md:text-xs uppercase tracking-[0.15em] text-text-inverse-muted mb-1">
           8.5069° S, 115.2625° E
         </span>
-        <span className="block font-sans text-[10px] md:text-xs uppercase tracking-[0.15em] text-sand/40">
+        <span className="block font-sans text-[10px] md:text-xs uppercase tracking-[0.15em] text-text-inverse-muted/70">
           Gianyar Regency, Bali
         </span>
       </div>

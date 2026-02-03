@@ -6,7 +6,7 @@ import { supabase } from '../../lib/supabase';
 import { Loader2, ArrowRight, Mail, Check, AlertCircle } from 'lucide-react';
 
 // Luxury Easing
-const LUXURY_EASE = [0.16, 1, 0.3, 1];
+const LUXURY_EASE: any = [0.16, 1, 0.3, 1];
 
 // Animation Variants
 const fadeInUp = {
@@ -76,42 +76,28 @@ export const Newsletter: React.FC = () => {
         </svg>
       </div>
 
-      <motion.div
+      <div
         className="max-w-4xl mx-auto text-center relative z-10"
-        variants={staggerContainer}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, margin: "-100px" }}
       >
         {/* Icon */}
-        <motion.div
-          className="flex justify-center mb-6 text-sand/60"
-          variants={fadeInUp}
-        >
+        <div className="flex justify-center mb-6 text-sand/60 animate-fade-in [animation-delay:100ms] opacity-0 fill-mode-forwards">
           <Mail size={32} strokeWidth={1} />
-        </motion.div>
+        </div>
 
         {/* Title */}
-        <motion.h2
-          className="text-4xl md:text-6xl font-serif mb-6 leading-tight text-sand"
-          variants={fadeInUp}
-        >
+        <h2 className="text-4xl md:text-6xl font-serif mb-6 leading-tight text-sand animate-fade-in [animation-delay:200ms] opacity-0 fill-mode-forwards">
           THE INNER <span className="italic text-accent-light">CIRCLE</span>
-        </motion.h2>
+        </h2>
 
         {/* Description */}
-        <motion.p
-          className="font-sans text-lg text-sand/80 mb-10 max-w-xl mx-auto leading-relaxed font-light"
-          variants={fadeInUp}
-        >
+        <p className="font-sans text-lg text-sand/80 mb-10 max-w-xl mx-auto leading-relaxed font-light animate-fade-in [animation-delay:300ms] opacity-0 fill-mode-forwards">
           Join our private guest list for curated Ubud itineraries, secret villa openings, and stories from the jungle.
-        </motion.p>
+        </p>
 
         {/* Form */}
-        <motion.form
+        <form
           onSubmit={handleSubscribe}
-          className="flex flex-col md:flex-row items-center justify-center gap-6 max-w-md mx-auto"
-          variants={fadeInUp}
+          className="flex flex-col md:flex-row items-center justify-center gap-6 max-w-md mx-auto animate-fade-in [animation-delay:400ms] opacity-0 fill-mode-forwards"
         >
           {/* Input Container with Premium Focus Effect */}
           <div className="relative w-full">
@@ -197,7 +183,7 @@ export const Newsletter: React.FC = () => {
               </AnimatePresence>
             </span>
           </motion.button>
-        </motion.form>
+        </form>
 
         {/* Status Messages */}
         <div aria-live="polite" className="min-h-[3rem] mt-6">
@@ -231,7 +217,7 @@ export const Newsletter: React.FC = () => {
             )}
           </AnimatePresence>
         </div>
-      </motion.div>
+      </div>
     </section>
   );
 };

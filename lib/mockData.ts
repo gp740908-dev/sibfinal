@@ -1,4 +1,4 @@
-import { Villa } from '@/types';
+import { Villa, BlogPost } from '@/types';
 
 export const MOCK_VILLAS: Villa[] = [
     {
@@ -52,5 +52,38 @@ export const MOCK_VILLAS: Villa[] = [
         features: ['Sunset View', 'Infinity Pool', 'Butler Service'],
         land_area: 300, building_area: 210, levels: 1, bathrooms: 2, pantry: 1, pool_area: 1,
         latitude: -8.4850, longitude: 115.2400
+    }
+];
+
+export const MOCK_JOURNAL_POSTS: BlogPost[] = [
+    {
+        id: '1',
+        title: 'The Art of Silence: Nyepi Day Explained',
+        excerpt: 'Why the entire island of Bali shuts down for 24 hours, and how this ancient tradition restores the balance of nature and spirit.',
+        category: 'Culture',
+        imageUrl: 'https://images.unsplash.com/photo-1555400038-63f5ba517a91?auto=format&fit=crop&q=80&w=1000',
+        publishedAt: 'March 10, 2024',
+        slug: 'art-of-silence-nyepi',
+        author: 'Wayan Sudra'
+    },
+    {
+        id: '2',
+        title: 'Hidden Waterfalls of Northern Ubud',
+        excerpt: 'Venture beyond Tegenungan. We explore three secret cascades accessible only by footpaths known to locals.',
+        category: 'Travel',
+        imageUrl: 'https://images.unsplash.com/photo-1596395818822-7f94d35eb7a4?auto=format&fit=crop&q=80&w=800',
+        publishedAt: 'February 28, 2024',
+        slug: 'hidden-waterfalls',
+        author: 'Sarah Jenkins'
+    },
+    {
+        id: '3',
+        title: 'Farm to Table: The Organic Revolution',
+        excerpt: 'Meet the chefs transforming Ubud\'s culinary scene by returning to the roots of traditional Balinese permaculture.',
+        category: 'Food',
+        imageUrl: 'https://images.unsplash.com/photo-1596919014169-2f588a800880?auto=format&fit=crop&q=80&w=800',
+        publishedAt: 'February 15, 2024',
+        slug: 'organic-revolution',
+        author: 'Chef Made'
     }
 ];

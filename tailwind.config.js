@@ -29,11 +29,11 @@ module.exports = {
         // NEW: Semantic Text Color System
         text: {
           DEFAULT: '#243326',           // forest-dark - headings, primary text
-          body: 'rgba(36, 51, 38, 0.8)', // forest-dark/80 - body paragraphs
-          muted: 'rgba(36, 51, 38, 0.6)', // forest-dark/60 - secondary info
-          subtle: 'rgba(36, 51, 38, 0.4)', // forest-dark/40 - captions, placeholders
+          body: '#3B523E',              // forest-dark/80 -> solid #3B523E
+          muted: '#5C7A60',             // forest-dark/60 -> solid #5C7A60
+          subtle: '#8CA390',            // forest-dark/40 -> solid #8CA390
           inverse: '#F4F1EA',            // sand-light - on dark backgrounds
-          'inverse-muted': 'rgba(244, 241, 234, 0.8)', // sand-light/80
+          'inverse-muted': '#D6D2C4',   // sand-light/80 -> solid #D6D2C4
           accent: '#9BB784',             // accent-light - links, emphasis
           error: '#DC2626',              // error states
           success: '#537F5D',            // forest - success states

@@ -7,7 +7,7 @@ import { ArrowUpRight } from 'lucide-react';
 import { supabase, isMock } from '../../lib/supabase';
 
 // Luxury Easing
-const LUXURY_EASE = [0.16, 1, 0.3, 1];
+const LUXURY_EASE: any = [0.16, 1, 0.3, 1];
 
 // Animation Variants
 const fadeInUp = {

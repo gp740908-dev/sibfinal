@@ -7,9 +7,10 @@ import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { BlogPost } from '../../types';
 import { supabase, isMock } from '../../lib/supabase';
+import { MOCK_JOURNAL_POSTS } from '../../lib/mockData';
 
 // Luxury Easing
-const LUXURY_EASE = [0.16, 1, 0.3, 1];
+const LUXURY_EASE: any = [0.16, 1, 0.3, 1];
 
 // Animation Variants
 const fadeInUp = {
@@ -42,38 +43,7 @@ const cardReveal = {
 };
 
 // Fallback data
-const MOCK_POSTS: BlogPost[] = [
-  {
-    id: '1',
-    title: 'The Art of Silence: Nyepi Day Explained',
-    excerpt: 'Why the entire island of Bali shuts down for 24 hours, and how this ancient tradition restores the balance of nature and spirit.',
-    category: 'Culture',
-    imageUrl: 'https://images.unsplash.com/photo-1555400038-63f5ba517a91?auto=format&fit=crop&q=80&w=1000',
-    publishedAt: 'March 10, 2024',
-    slug: 'art-of-silence-nyepi',
-    author: 'Wayan Sudra'
-  },
-  {
-    id: '2',
-    title: 'Hidden Waterfalls of Northern Ubud',
-    excerpt: 'Venture beyond Tegenungan. We explore three secret cascades accessible only by footpaths known to locals.',
-    category: 'Travel',
-    imageUrl: 'https://images.unsplash.com/photo-1596395818822-7f94d35eb7a4?auto=format&fit=crop&q=80&w=800',
-    publishedAt: 'February 28, 2024',
-    slug: 'hidden-waterfalls',
-    author: 'Sarah Jenkins'
-  },
-  {
-    id: '3',
-    title: 'Farm to Table: The Organic Revolution',
-    excerpt: 'Meet the chefs transforming Ubud\'s culinary scene by returning to the roots of traditional Balinese permaculture.',
-    category: 'Food',
-    imageUrl: 'https://images.unsplash.com/photo-1596919014169-2f588a800880?auto=format&fit=crop&q=80&w=800',
-    publishedAt: 'February 15, 2024',
-    slug: 'organic-revolution',
-    author: 'Chef Made'
-  }
-];
+// Fallback data - Imported from mockData
 
 export const RecentJournal: React.FC = () => {
   const [posts, setPosts] = useState<BlogPost[]>([]);
@@ -81,7 +51,7 @@ export const RecentJournal: React.FC = () => {
   useEffect(() => {
     async function fetchRecent() {
       if (isMock) {
-        setPosts(MOCK_POSTS);
+        setPosts(MOCK_JOURNAL_POSTS);
         return;
       }
 
@@ -107,11 +77,11 @@ export const RecentJournal: React.FC = () => {
           }));
           setPosts(formatted);
         } else {
-          setPosts(MOCK_POSTS);
+          setPosts(MOCK_JOURNAL_POSTS);
         }
       } catch (err) {
         console.warn("Error fetching recent journal, using fallback:", err);
-        setPosts(MOCK_POSTS);
+        setPosts(MOCK_JOURNAL_POSTS);
       }
     }
     fetchRecent();
