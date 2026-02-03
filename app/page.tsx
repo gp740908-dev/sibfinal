@@ -16,6 +16,8 @@ export const metadata: Metadata = {
   },
 };
 
+import { HeroServer } from '@/components/home/HeroServer';
+
 export default async function Home() {
   let villas: Villa[] = [];
 
@@ -37,5 +39,10 @@ export default async function Home() {
     }
   }
 
-  return <HomePage villas={villas} />;
+  return (
+    <HomePage
+      villas={villas}
+      heroSection={<HeroServer />}
+    />
+  );
 }

@@ -5,6 +5,7 @@ import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import { Hero } from './Hero';
 import { Villa } from '../../types';
+import TrustBar from './TrustBar'; // Standard Import for SSR
 
 // Components
 const VillaShowcase = dynamic(() => import('./VillaShowcase'), {
@@ -14,7 +15,6 @@ const RecentJournal = dynamic(() => import('./RecentJournal'), {
     loading: () => <div className="h-[500px] md:h-[600px] w-full animate-pulse bg-[#F4F1EA]" />,
 });
 const Newsletter = dynamic(() => import('./Newsletter'));
-const TrustBar = dynamic(() => import('./TrustBar'), { ssr: false });
 
 // Optimization: Lazy loaded with Default Exports for stability
 // These components are heavy and not needed for LCP.
@@ -24,18 +24,19 @@ const LocationSection = dynamic(() => import('./LocationSection'), {
 });
 const VideoParallax = dynamic(() => import('./VideoParallax'), { ssr: false });
 const OurServices = dynamic(() => import('./OurServices'), { ssr: false });
-const GuestDiaries = dynamic(() => import('./GuestDiaries'), { ssr: false });
-const SignatureDetails = dynamic(() => import('./SignatureDetails'), { ssr: false });
+const GuestDiaries = dynamic(() => import('./GuestDiaries'));
+const SignatureDetails = dynamic(() => import('./SignatureDetails'));
 
 interface HomePageProps {
     villas: Villa[];
+    heroSection?: React.ReactNode; // Slot for Server Component
 }
 
-export const HomePage: React.FC<HomePageProps> = ({ villas }) => {
+export const HomePage: React.FC<HomePageProps> = ({ villas, heroSection }) => {
     return (
         <main id="main-content" role="main" className="flex flex-col w-full">
             {/* Hero Section */}
-            <Hero />
+            {heroSection}
 
             {/* Trust Bar - Immediate Reassurance */}
             <TrustBar />
