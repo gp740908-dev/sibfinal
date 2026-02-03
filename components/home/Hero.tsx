@@ -59,6 +59,7 @@ export const Hero: React.FC = () => {
                 src={slide.src}
                 alt={slide.alt}
                 fill
+                sizes="100vw"
                 className="object-cover"
                 priority={index === 0}
               />

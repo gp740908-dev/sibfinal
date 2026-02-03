@@ -1,9 +1,7 @@
-
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
-import gsap from 'gsap';
-import { useGSAP } from '@gsap/react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { MessageCircle, X } from 'lucide-react';
 import { FaWhatsapp, FaInstagram, FaTiktok } from 'react-icons/fa6';
 
@@ -35,9 +33,6 @@ const SOCIAL_LINKS = [
 export const SocialFab: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
-  const menuRef = useRef<HTMLDivElement>(null);
-  const triggerRef = useRef<HTMLButtonElement>(null);
-  const iconRef = useRef<HTMLDivElement>(null);
 
   // Close menu when clicking outside
   useEffect(() => {
@@ -49,50 +44,6 @@ export const SocialFab: React.FC = () => {
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
-
-  useGSAP(() => {
-    const menuItems = menuRef.current?.children;
-    if (!menuItems) return;
-
-    if (isOpen) {
-      // OPEN ANIMATION
-      gsap.to(menuItems, {
-        y: 0,
-        autoAlpha: 1,
-        scale: 1,
-        stagger: -0.1, // Stagger from bottom to top
-        duration: 0.5,
-        ease: "back.out(1.7)",
-        pointerEvents: "auto"
-      });
-
-      // Rotate Icon to X
-      gsap.to(iconRef.current, {
-        rotation: 135,
-        duration: 0.3,
-        ease: "power2.inOut"
-      });
-
-    } else {
-      // CLOSE ANIMATION
-      gsap.to(menuItems, {
-        y: 20,
-        autoAlpha: 0,
-        scale: 0.5,
-        stagger: 0.05, // Stagger quickly back down
-        duration: 0.3,
-        ease: "power2.in",
-        pointerEvents: "none"
-      });
-
-      // Rotate Icon back
-      gsap.to(iconRef.current, {
-        rotation: 0,
-        duration: 0.3,
-        ease: "power2.inOut"
-      });
-    }
-  }, { scope: containerRef, dependencies: [isOpen] });
 
   return (
     <div
@@ -116,54 +67,69 @@ export const SocialFab: React.FC = () => {
       `}</style>
 
       {/* Social Buttons Stack */}
-      <div
-        ref={menuRef}
-        className="flex flex-col gap-3 items-end mb-2"
-      >
-        {SOCIAL_LINKS.map((social) => (
-          <a
-            key={social.id}
-            href={social.href}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group relative flex items-center justify-center w-14 h-14 bg-white rounded-full shadow-lg hover:scale-110 transition-transform duration-300 opacity-0 translate-y-5"
-            aria-label={`Visit StayinUBUD on ${social.label}`}
-          >
-            {/* Tooltip Label */}
-            <span className="absolute right-full mr-3 px-3 py-1 bg-white text-forest-dark text-xs font-bold uppercase tracking-wider rounded-md shadow-md opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 whitespace-nowrap" aria-hidden="true">
-              {social.label}
-            </span>
+      <div className="flex flex-col gap-3 items-end mb-2 min-h-[56px]">
+        <AnimatePresence>
+          {isOpen && (
+            SOCIAL_LINKS.map((social, index) => (
+              <motion.a
+                key={social.id}
+                href={social.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group relative flex items-center justify-center w-14 h-14 bg-white rounded-full shadow-lg"
+                aria-label={`Visit StayinUBUD on ${social.label}`}
+                initial={{ opacity: 0, y: 20, scale: 0.5 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: 20, scale: 0.5 }}
+                transition={{
+                  duration: 0.3,
+                  delay: (SOCIAL_LINKS.length - 1 - index) * 0.1, // Stagger bottom to top
+                  ease: [0.16, 1, 0.3, 1] // Luxury ease
+                }}
+                whileHover={{ scale: 1.1 }}
+              >
+                {/* Tooltip Label */}
+                <span className="absolute right-full mr-3 px-3 py-1 bg-white text-forest-dark text-xs font-bold uppercase tracking-wider rounded-md shadow-md opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 whitespace-nowrap" aria-hidden="true">
+                  {social.label}
+                </span>
 
-            {/* Icon */}
-            <social.icon size={28} className={social.colorClass} aria-hidden="true" />
-          </a>
-        ))}
+                {/* Icon */}
+                <social.icon size={28} className={social.colorClass} aria-hidden="true" />
+              </motion.a>
+            ))
+          )}
+        </AnimatePresence>
       </div>
 
       {/* Main Trigger Button */}
-      <button
-        ref={triggerRef}
+      <motion.button
         onClick={() => setIsOpen(!isOpen)}
         className="relative w-16 h-16 bg-forest-dark text-[#D3D49F] rounded-full shadow-xl flex items-center justify-center hover:bg-[#466a4e] transition-colors focus:outline-none focus:ring-4 focus:ring-[#D3D49F]/50"
         aria-label={isOpen ? "Close social menu" : "Open social menu"}
         aria-expanded={isOpen}
         aria-haspopup="true"
+        whileTap={{ scale: 0.95 }}
       >
-        <div ref={iconRef} className="relative w-8 h-8 flex items-center justify-center">
-          {/* We use the Plus icon because we rotate it 135deg to make an X, or 0 to be a Plus. 
-               However, the prompt requested MessageCircle. 
-               Let's use a Plus/X concept for the rotation, but if we want MessageCircle, rotation might look weird.
-               Let's stick to the Plus icon concept for rotation, or overlay icons.
-               
-               Design Choice: Using a Plus icon for the fab is standard UX for 'Expand'. 
-               But since it's a concierge, MessageCircle is better. 
-               Let's use an icon swapping technique or just rotate the Plus.
-               
-               Let's use the MessageCircle, but on Open, we fade it to an X.
-           */}
-          {isOpen ? <X size={32} /> : <MessageCircle size={32} />}
+        <div className="relative w-8 h-8 flex items-center justify-center">
+          {/* Simpler icon swap logic for cleaner animation */}
+          <motion.div
+            initial={false}
+            animate={{ rotate: isOpen ? 90 : 0, opacity: isOpen ? 1 : 0 }}
+            transition={{ duration: 0.3 }}
+            className="absolute inset-0 flex items-center justify-center"
+          >
+            <X size={32} />
+          </motion.div>
+          <motion.div
+            initial={false}
+            animate={{ rotate: isOpen ? 90 : 0, opacity: isOpen ? 0 : 1 }}
+            transition={{ duration: 0.3 }}
+            className="absolute inset-0 flex items-center justify-center"
+          >
+            <MessageCircle size={32} />
+          </motion.div>
         </div>
-      </button>
+      </motion.button>
     </div>
   );
 };

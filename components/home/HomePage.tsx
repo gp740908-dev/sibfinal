@@ -16,7 +16,8 @@ const RecentJournal = dynamic(() => import('./RecentJournal'), {
 const Newsletter = dynamic(() => import('./Newsletter'));
 const TrustBar = dynamic(() => import('./TrustBar'), { ssr: false });
 
-// Heavy components - Lazy loaded with Default Exports for stability
+// Optimization: Lazy loaded with Default Exports for stability
+// These components are heavy and not needed for LCP.
 const LocationSection = dynamic(() => import('./LocationSection'), {
     ssr: false,
     loading: () => <div className="h-[600px] w-full animate-pulse bg-[#F4F1EA]" />
