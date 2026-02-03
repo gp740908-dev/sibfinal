@@ -196,6 +196,7 @@ export const FullScreenMenu: React.FC<FullScreenMenuProps> = ({ isOpen, onClose 
                           color: 'rgba(241, 235, 225, 0.6)',
                           transition: { duration: 0.4, ease: LUXURY_EASE }
                         }}
+                        whileTap={{ scale: 0.95, x: 10, opacity: 0.8 }} // Tactile feedback for mobile
                       >
                         {link.label}
                       </motion.span>
