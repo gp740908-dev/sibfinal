@@ -48,17 +48,19 @@ export const LocationSection: React.FC<LocationSectionProps> = ({ villas }) => {
               onMouseEnter={() => setActiveVillaId(villa.id)}
               aria-pressed={activeVillaId === villa.id}
             >
-              <div>
-                <span className={`block font-serif text-xl transition-colors ${activeVillaId === villa.id ? 'text-forest-dark' : 'text-text-muted'}`}>
+              <div className="flex-1 pr-6">
+                <span className={`block font-serif text-xl md:text-2xl transition-all duration-500 ${activeVillaId === villa.id ? 'text-forest-dark translate-x-2' : 'text-forest-dark/40 group-hover:text-forest-dark/70'}`}>
                   {villa.name}
                 </span>
                 {activeVillaId === villa.id && (
-                  <span className="text-[10px] uppercase tracking-widest text-accent animate-fade-in block mt-1">
-                    Viewing Location
-                  </span>
+                  <div className="flex items-center gap-4 mt-2 animate-fade-in pl-2">
+                    <span className="text-[10px] font-sans uppercase tracking-[0.2em] text-accent">
+                      8.5069° S, 115.2625° E
+                    </span>
+                  </div>
                 )}
               </div>
-              <div className={`w-2 h-2 rounded-full transition-all ${activeVillaId === villa.id ? 'bg-forest-dark scale-150' : 'bg-forest-dark/20'}`}></div>
+              <div className={`w-1.5 h-1.5 rounded-full transition-all duration-500 ${activeVillaId === villa.id ? 'bg-accent scale-100 opacity-100' : 'bg-forest-dark scale-0 opacity-0'}`}></div>
             </button>
           ))}
         </div>

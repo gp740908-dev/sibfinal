@@ -37,22 +37,28 @@ const MapComponent: React.FC<MapComponentProps> = ({ villas, activeVillaId }) =>
 
   return (
     <div className="h-full w-full relative bg-sand/50 rounded-xl overflow-hidden">
-      {/* Google Maps Embed */}
+      {/* Google Maps Embed with Custom "High-End" Filter */}
       <iframe
         src={embedUrl}
         width="100%"
         height="100%"
-        style={{ border: 0, minHeight: '400px' }}
+        style={{
+          border: 0,
+          minHeight: '400px',
+          // Filter to remove "Google Blue" and blend with Sand Theme
+          filter: 'grayscale(100%) invert(0%) sepia(20%) contrast(1.1) brightness(0.95)'
+        }}
         allowFullScreen
         loading="lazy"
         referrerPolicy="no-referrer-when-downgrade"
         title={`Map showing ${villaName}`}
-        className="w-full h-full"
+        // Using mix-blend-multiply to let the bg-sand/50 texture bleed through
+        className="w-full h-full opacity-80 mix-blend-multiply transition-all duration-700 hover:opacity-100 hover:filter-none"
       />
 
       {/* Villa Info Overlay */}
       <div className="absolute bottom-4 left-4 right-4 md:left-auto md:right-4 md:w-auto">
-        <div className="bg-white/95 backdrop-blur-sm rounded-xl p-4 shadow-lg border border-forest/10">
+        <div className="bg-sand-light shadow-2xl rounded-sm p-5 border border-forest/5 max-w-xs">
           <div className="flex items-start gap-3">
             <div className="p-2 bg-forest/10 rounded-lg">
               <MapPin size={18} className="text-forest" />
@@ -66,21 +72,20 @@ const MapComponent: React.FC<MapComponentProps> = ({ villas, activeVillaId }) =>
               </p>
             </div>
           </div>
-          <a
-            href={googleMapsUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-3 flex items-center justify-center gap-2 w-full py-2.5 px-4 bg-forest text-sand-light text-xs font-bold uppercase tracking-widest rounded-lg hover:bg-forest-dark transition-colors"
+          href={googleMapsUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-4 flex items-center justify-center gap-2 w-full py-3 px-4 bg-forest-dark text-sand text-[10px] font-bold uppercase tracking-[0.2em] rounded-sm hover:bg-forest transition-colors"
           >
-            <ExternalLink size={14} />
-            Open in Google Maps
-          </a>
-        </div>
+          <ExternalLink size={14} />
+          Open in Google Maps
+        </a>
       </div>
-
-      {/* Decorative overlay */}
-      <div className="absolute inset-0 pointer-events-none border-[1px] border-forest/10 rounded-xl" />
     </div>
+
+      {/* Decorative overlay */ }
+  <div className="absolute inset-0 pointer-events-none border-[1px] border-forest/10 rounded-xl" />
+    </div >
   );
 };
 
