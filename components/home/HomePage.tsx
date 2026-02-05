@@ -9,10 +9,10 @@ import TrustBar from './TrustBar'; // Standard Import for SSR
 
 // Components
 const VillaShowcase = dynamic(() => import('./VillaShowcase'), {
-    loading: () => <div className="h-[600px] md:h-[800px] w-full animate-pulse bg-[#D3D49F]/20" />,
+    loading: () => <div className="h-[600px] md:h-[800px] w-full animate-pulse bg-sand/20" />,
 });
 const RecentJournal = dynamic(() => import('./RecentJournal'), {
-    loading: () => <div className="h-[500px] md:h-[600px] w-full animate-pulse bg-[#F4F1EA]" />,
+    loading: () => <div className="h-[500px] md:h-[600px] w-full animate-pulse bg-sand-light" />,
 });
 const Newsletter = dynamic(() => import('./Newsletter'));
 
@@ -20,7 +20,7 @@ const Newsletter = dynamic(() => import('./Newsletter'));
 // These components are heavy and not needed for LCP.
 const LocationSection = dynamic(() => import('./LocationSection'), {
     ssr: false,
-    loading: () => <div className="h-[600px] w-full animate-pulse bg-[#F4F1EA]" />
+    loading: () => <div className="h-[600px] w-full animate-pulse bg-sand-light" />
 });
 const VideoParallax = dynamic(() => import('./VideoParallax'), { ssr: false });
 const OurServices = dynamic(() => import('./OurServices'), { ssr: false });

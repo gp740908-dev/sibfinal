@@ -104,7 +104,7 @@ export const SocialFab: React.FC = () => {
       {/* Main Trigger Button */}
       <motion.button
         onClick={() => setIsOpen(!isOpen)}
-        className="relative w-16 h-16 bg-forest-dark text-[#D3D49F] rounded-full shadow-xl flex items-center justify-center hover:bg-[#466a4e] transition-colors focus:outline-none focus:ring-4 focus:ring-[#D3D49F]/50"
+        className="relative w-16 h-16 bg-forest-dark text-sand rounded-full shadow-xl flex items-center justify-center hover:bg-forest transition-colors focus:outline-none focus:ring-4 focus:ring-sand/50"
         aria-label={isOpen ? "Close social menu" : "Open social menu"}
         aria-expanded={isOpen}
         aria-haspopup="true"

@@ -62,7 +62,7 @@ export const VillaShowcase: React.FC<VillaShowcaseProps> = ({ villas }) => {
   };
 
   return (
-    <section className="py-20 px-4 md:px-12 bg-[#D3D49F] relative z-20">
+    <section className="py-20 px-4 md:px-12 bg-sand relative z-20">
       <div className="max-w-7xl mx-auto">
 
         {/* A. Section Header - Always visible to maintain layout */}
@@ -99,7 +99,7 @@ export const VillaShowcase: React.FC<VillaShowcaseProps> = ({ villas }) => {
                     className={`py-4 px-2 text-center text-xs md:text-sm font-sans uppercase tracking-widest transition-all duration-300 h-full flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-sand
                       ${isActive
                         ? 'bg-forest text-sand-light font-bold shadow-inner'
-                        : 'bg-[#D3D49F] text-forest-dark hover:bg-forest/10'}
+                        : 'bg-sand text-forest-dark hover:bg-forest/10'}
                     `}
                   >
                     {villa.name}

@@ -70,7 +70,7 @@ export const GuestFormModal: React.FC<GuestFormModalProps> = ({
       <div className="relative bg-white w-full max-w-lg rounded-2xl shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
 
         {/* Header with Summary */}
-        <div className="bg-[#D3D49F]/20 p-6 border-b border-forest-dark/10">
+        <div className="bg-sand/20 p-6 border-b border-forest-dark/10">
           <div className="flex justify-between items-start mb-4">
             <h3 className="font-serif text-2xl text-forest-dark">Complete your Request</h3>
             <button onClick={onClose} className="text-forest-dark/60 hover:text-forest-dark transition-colors">
