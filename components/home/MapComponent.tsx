@@ -71,22 +71,22 @@ const MapComponent: React.FC<MapComponentProps> = ({ villas, activeVillaId }) =>
                 Ubud, Bali
               </p>
             </div>
+            <a
+              href={googleMapsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-4 flex items-center justify-center gap-2 w-full py-3 px-4 bg-forest-dark text-sand text-[10px] font-bold uppercase tracking-[0.2em] rounded-sm hover:bg-forest transition-colors"
+            >
+              <ExternalLink size={14} />
+              Open in Google Maps
+            </a>
           </div>
-          href={googleMapsUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mt-4 flex items-center justify-center gap-2 w-full py-3 px-4 bg-forest-dark text-sand text-[10px] font-bold uppercase tracking-[0.2em] rounded-sm hover:bg-forest transition-colors"
-          >
-          <ExternalLink size={14} />
-          Open in Google Maps
-        </a>
-      </div>
-    </div>
+        </div>
 
-      {/* Decorative overlay */ }
-  <div className="absolute inset-0 pointer-events-none border-[1px] border-forest/10 rounded-xl" />
-    </div >
-  );
+        {/* Decorative overlay */}
+        <div className="absolute inset-0 pointer-events-none border-[1px] border-forest/10 rounded-xl" />
+      </div>
+      );
 };
 
-export default MapComponent;
+      export default MapComponent;
