@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Villa } from '../../types';
@@ -24,9 +24,54 @@ interface VillaShowcaseProps {
   villas: Villa[];
 }
 
+// Hover Image Preview Component
+const HoverImagePreview = ({
+  imageUrl,
+  villaName,
+  mousePosition,
+  isVisible
+}: {
+  imageUrl: string;
+  villaName: string;
+  mousePosition: { x: number; y: number };
+  isVisible: boolean;
+}) => {
+  if (!isVisible) return null;
+
+  return (
+    <div
+      className="fixed pointer-events-none z-50 animate-image-reveal"
+      style={{
+        left: mousePosition.x + 20,
+        top: mousePosition.y - 60,
+        transform: 'translateY(-50%)',
+      }}
+    >
+      <div className="relative w-48 h-32 rounded-lg overflow-hidden shadow-2xl border-2 border-sand/20">
+        <Image
+          src={imageUrl}
+          alt={villaName}
+          fill
+          className="object-cover"
+          sizes="192px"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-forest-dark/60 to-transparent" />
+        <span className="absolute bottom-2 left-2 text-sand text-xs font-bold uppercase tracking-wider">
+          {villaName}
+        </span>
+      </div>
+    </div>
+  );
+};
+
 export const VillaShowcase: React.FC<VillaShowcaseProps> = ({ villas }) => {
   const [activeTabId, setActiveTabId] = useState<string>('');
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  // Hover image reveal state
+  const [hoveredVilla, setHoveredVilla] = useState<Villa | null>(null);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const containerRef = useRef<HTMLDivElement>(null);
 
   // Sync active tab when data arrives
   useEffect(() => {
@@ -83,7 +128,8 @@ export const VillaShowcase: React.FC<VillaShowcaseProps> = ({ villas }) => {
             <div
               role="tablist"
               aria-label="Villa Selection"
-              className="grid grid-cols-2 md:grid-cols-4 gap-px bg-forest/20 border border-forest/20 mb-8 rounded-sm overflow-hidden"
+              className="grid grid-cols-2 md:grid-cols-4 gap-px bg-forest/20 border border-forest/20 mb-8 rounded-sm overflow-hidden relative"
+              ref={containerRef}
             >
               {villas.map((villa) => {
                 const isActive = activeTabId === villa.id;
@@ -96,6 +142,9 @@ export const VillaShowcase: React.FC<VillaShowcaseProps> = ({ villas }) => {
                     id={`tab-${villa.id}`}
                     tabIndex={isActive ? 0 : -1}
                     onClick={() => handleTabClick(villa.id)}
+                    onMouseEnter={() => setHoveredVilla(villa)}
+                    onMouseMove={(e) => setMousePosition({ x: e.clientX, y: e.clientY })}
+                    onMouseLeave={() => setHoveredVilla(null)}
                     className={`py-4 px-2 text-center text-xs md:text-sm font-sans uppercase tracking-widest transition-all duration-300 h-full flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-sand
                       ${isActive
                         ? 'bg-forest text-sand-light font-bold shadow-inner'
@@ -107,6 +156,15 @@ export const VillaShowcase: React.FC<VillaShowcaseProps> = ({ villas }) => {
                 );
               })}
             </div>
+
+            {/* Hover Image Preview - follows cursor */}
+            <HoverImagePreview
+              imageUrl={hoveredVilla?.imageUrl || ''}
+              villaName={hoveredVilla?.name || ''}
+              mousePosition={mousePosition}
+              isVisible={!!hoveredVilla && hoveredVilla.id !== activeTabId}
+            />
+
 
             <div className="flex flex-col lg:flex-row gap-12 animate-fade-in">
 
@@ -217,13 +275,19 @@ export const VillaShowcase: React.FC<VillaShowcaseProps> = ({ villas }) => {
                           Explore All Villas
                         </Link>
 
-                        {/* 3. Contact Action */}
-                        <button className="flex items-center gap-2 text-forest-dark font-sans text-sm uppercase tracking-wider hover:text-accent transition-colors py-2 md:py-0">
-                          <div className="w-10 h-10 rounded-full border border-forest-dark flex items-center justify-center">
+                        {/* 3. Contact Action - WhatsApp Link */}
+                        <a
+                          href={`https://wa.me/6281234567890?text=${encodeURIComponent(`Hi, I'm interested in ${activeVilla.name}. Could you provide more information about availability and pricing?`)}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-2 text-forest-dark font-sans text-sm uppercase tracking-wider hover:text-accent transition-colors py-2 md:py-0"
+                          aria-label={`Contact agent about ${activeVilla.name} via WhatsApp`}
+                        >
+                          <div className="w-10 h-10 rounded-full border border-forest-dark flex items-center justify-center group-hover:bg-forest-dark group-hover:text-sand transition-colors">
                             <Phone size={18} />
                           </div>
                           <span>Contact Agent</span>
-                        </button>
+                        </a>
                       </div>
                     </div>
                   </>

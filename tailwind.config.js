@@ -53,6 +53,12 @@ module.exports = {
         'menu-item-slide': 'menuItemSlide 0.5s ease-out forwards',
         'menu-bg-reveal': 'menuBgReveal 0.6s cubic-bezier(0.87, 0, 0.13, 1) forwards',
         'scroll': 'scroll 2s ease-in-out infinite', // New scroll animation
+        // Creative Awwwards Animations
+        'letter-reveal': 'letterReveal 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+        'line-draw': 'lineDraw 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards',
+        'pulse-glow': 'pulseGlow 2s ease-in-out infinite',
+        'scroll-indicator': 'scrollIndicator 2s ease-in-out infinite',
+        'image-reveal': 'imageReveal 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards',
       },
       keyframes: {
         fadeIn: {
@@ -91,11 +97,31 @@ module.exports = {
           '0%': { transform: 'translateY(4px)', opacity: '1' },
           '100%': { transform: 'translateY(14px)', opacity: '0' },
         },
-        // HAPUS kenBurns atau buat versi ringan
-        // kenBurns: {
-        //   '0%': { transform: 'scale(1.05)' }, // Start sudah zoomed
-        //   '100%': { transform: 'scale(1.05)' }, // Static, no animation
-        // }
+        // Creative Animations for Awwwards
+        letterReveal: {
+          '0%': { opacity: '0', transform: 'translateY(100%)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+        lineDraw: {
+          '0%': { width: '0' },
+          '100%': { width: '4rem' },
+        },
+        pulseGlow: {
+          '0%, 100%': { opacity: '1', boxShadow: '0 0 0 0 rgba(196, 163, 90, 0.4)' },
+          '50%': { opacity: '0.8', boxShadow: '0 0 20px 4px rgba(196, 163, 90, 0.2)' },
+        },
+        scrollIndicator: {
+          '0%, 100%': { opacity: '1', height: '3rem' },
+          '50%': { opacity: '0.5', height: '2rem' },
+        },
+        magneticPull: {
+          '0%': { transform: 'translate(0, 0)' },
+          '100%': { transform: 'translate(var(--magnetic-x, 0), var(--magnetic-y, 0))' },
+        },
+        imageReveal: {
+          '0%': { opacity: '0', transform: 'scale(0.8) rotate(-3deg)' },
+          '100%': { opacity: '1', transform: 'scale(1) rotate(0deg)' },
+        },
       }
     },
   },

@@ -86,7 +86,8 @@ const MapComponent: React.FC<MapComponentProps> = ({ villas, activeVillaId }) =>
         {/* Decorative overlay */}
         <div className="absolute inset-0 pointer-events-none border-[1px] border-forest/10 rounded-xl" />
       </div>
-      );
+    </div>
+  );
 };
 
-      export default MapComponent;
+export default MapComponent;

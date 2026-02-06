@@ -1,6 +1,6 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { useRef, useState, useEffect } from 'react';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import { Hero } from './Hero';
@@ -33,6 +33,28 @@ interface HomePageProps {
 }
 
 export const HomePage: React.FC<HomePageProps> = ({ villas, heroSection }) => {
+    const aboutRef = useRef<HTMLElement>(null);
+    const [isAboutVisible, setIsAboutVisible] = useState(false);
+
+    // Intersection Observer for scroll-triggered animations
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    setIsAboutVisible(true);
+                    observer.disconnect(); // Only trigger once
+                }
+            },
+            { threshold: 0.1, rootMargin: '-100px' }
+        );
+
+        if (aboutRef.current) {
+            observer.observe(aboutRef.current);
+        }
+
+        return () => observer.disconnect();
+    }, []);
+
     return (
         <main id="main-content" role="main" className="flex flex-col w-full">
             {/* Hero Section */}
@@ -42,65 +64,40 @@ export const HomePage: React.FC<HomePageProps> = ({ villas, heroSection }) => {
             <TrustBar />
 
             {/* Intro Text - Our Philosophy */}
-            <motion.section
+            <section
+                ref={aboutRef}
                 id="about"
                 className="py-24 md:py-40 px-6 md:px-12 max-w-7xl mx-auto flex flex-col md:flex-row gap-16 items-start relative"
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, margin: "-100px" }}
-                variants={{
-                    hidden: {},
-                    visible: { transition: { staggerChildren: 0.15 } }
-                }}
             >
-                {/* Decorative Large Number */}
-                <motion.span
-                    className="absolute -left-4 md:left-0 top-20 font-serif text-[15rem] md:text-[20rem] leading-none text-forest/[0.03] select-none pointer-events-none -z-10"
-                    variants={{
-                        hidden: { opacity: 0, x: -50 },
-                        visible: { opacity: 1, x: 0, transition: { duration: 1.2, ease: [0.16, 1, 0.3, 1] } }
-                    }}
+                {/* Decorative Large Number - with scroll-linked rotation */}
+                <span
+                    className={`absolute -left-4 md:left-0 top-20 font-serif text-[15rem] md:text-[20rem] leading-none text-forest/[0.03] select-none pointer-events-none -z-10 transition-all duration-[1500ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${isAboutVisible ? 'opacity-100 translate-x-0 rotate-0 scale-100' : 'opacity-0 -translate-x-12 -rotate-12 scale-95'}`}
+                    aria-hidden="true"
                 >
                     01
-                </motion.span>
+                </span>
 
                 <div className="md:w-1/2">
-                    <motion.span
-                        className="text-xs uppercase tracking-[0.3em] text-text-muted mb-4 block font-sans"
-                        variants={{
-                            hidden: { opacity: 0, y: 20 },
-                            visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
-                        }}
+                    <span
+                        className={`text-xs uppercase tracking-[0.3em] text-text-muted mb-4 block font-sans transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] [transition-delay:100ms] ${isAboutVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}`}
                     >
                         Our Philosophy
-                    </motion.span>
+                    </span>
 
                     {/* Line Accent */}
-                    <motion.div
-                        className="w-16 h-[2px] bg-accent mb-8"
-                        variants={{
-                            hidden: { scaleX: 0, originX: 0 },
-                            visible: { scaleX: 1, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
-                        }}
+                    <div
+                        className={`w-16 h-[2px] bg-accent mb-8 origin-left transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] [transition-delay:200ms] ${isAboutVisible ? 'scale-x-100' : 'scale-x-0'}`}
                     />
 
-                    <motion.h2
-                        className="text-4xl md:text-6xl font-serif text-forest-dark leading-tight mb-8"
-                        variants={{
-                            hidden: { opacity: 0, y: 40 },
-                            visible: { opacity: 1, y: 0, transition: { duration: 1, ease: [0.16, 1, 0.3, 1] } }
-                        }}
+                    <h2
+                        className={`text-4xl md:text-6xl font-serif text-forest-dark leading-tight mb-8 transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] [transition-delay:300ms] ${isAboutVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
                     >
                         Where luxury meets <br /> <span className="italic text-accent">serenity.</span>
-                    </motion.h2>
+                    </h2>
                 </div>
 
-                <motion.div
-                    className="md:w-1/2 border-l border-forest/10 pl-8"
-                    variants={{
-                        hidden: { opacity: 0, y: 30 },
-                        visible: { opacity: 1, y: 0, transition: { duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.2 } }
-                    }}
+                <div
+                    className={`md:w-1/2 border-l border-forest/10 pl-8 transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] [transition-delay:400ms] ${isAboutVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
                 >
                     <p className="text-text-body font-sans text-lg leading-relaxed mb-6">
                         Ubud is not just a destination; it is a feeling. At StayinUBUD, we select homes that breathe.
@@ -110,8 +107,8 @@ export const HomePage: React.FC<HomePageProps> = ({ villas, heroSection }) => {
                     <p className="text-text-body font-sans text-lg leading-relaxed">
                         Every stay includes 24/7 personal concierge service to ensure your retreat is effortless.
                     </p>
-                </motion.div>
-            </motion.section>
+                </div>
+            </section>
 
             {/* Villa Showcase Section */}
             <div id="villas">

@@ -8,6 +8,10 @@ import { Preloader } from '../ui/Preloader';
 import { SocialFab } from '../ui/SocialFab';
 import { SmoothScroll } from '../SmoothScroll';
 import { WishlistProvider } from '../../context/WishlistContext';
+import dynamic from 'next/dynamic';
+
+// Dynamic import for CustomCursor to avoid SSR issues
+const CustomCursor = dynamic(() => import('../ui/CustomCursor'), { ssr: false });
 
 interface ClientLayoutProps {
     children: React.ReactNode;
@@ -35,6 +39,9 @@ export const ClientLayout: React.FC<ClientLayoutProps> = ({ children }) => {
     return (
         <SmoothScroll>
             <WishlistProvider>
+                {/* Custom Cursor - Desktop Only */}
+                <CustomCursor />
+
                 <Preloader />
 
                 {!isTransientPage && (
