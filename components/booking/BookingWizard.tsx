@@ -265,7 +265,7 @@ const SocialProofBadge: React.FC<{
             {guestsHosted && (
                 <div className="flex items-center gap-1.5 text-[10px] text-text-muted">
                     <UserCheck size={12} className="text-forest" aria-hidden="true" />
-                    <span>{guestsHosted.toLocaleString()}+ guests hosted</span>
+                    <span suppressHydrationWarning>{guestsHosted}+ guests hosted</span>
                 </div>
             )}
         </div>
@@ -342,7 +342,8 @@ export const BookingWizard: React.FC<BookingWizardProps> = ({
     const total = subTotal + serviceFee + addonTotal;
 
     const formatPrice = (price: number) => {
-        return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(price);
+        // Use simple formatting to avoid SSR/client mismatch
+        return `Rp ${Math.round(price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}`;
     };
 
     // Validation functions
