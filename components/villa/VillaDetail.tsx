@@ -128,7 +128,7 @@ export const VillaDetail: React.FC<VillaDetailProps> = ({
   };
 
   return (
-    <div ref={containerRef} className="bg-sand min-h-screen pb-20 text-forest-dark selection:bg-forest selection:text-sand-light">
+    <div ref={containerRef} className="bg-sand min-h-screen pb-20 lg:pb-20 pb-[calc(5rem+env(safe-area-inset-bottom))] text-forest-dark selection:bg-forest selection:text-sand-light">
 
       {/* 1. CINEMATIC HERO HEADER */}
       <header className="relative w-full h-[85vh] overflow-hidden">
@@ -427,6 +427,7 @@ export const VillaDetail: React.FC<VillaDetailProps> = ({
               villaName={villa.name}
               villaId={villa.id}
               blockedDates={blockedDates}
+              maxGuests={villa.house_rules?.max_guests || villa.guests || 8}
             />
           </div>
         </div>
