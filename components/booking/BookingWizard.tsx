@@ -473,7 +473,8 @@ export const BookingWizard: React.FC<BookingWizardProps> = ({
     };
 
     // --- RENDER CONTENT ---
-    const WizardContent = ({ isMobile = false, onClose }: { isMobile?: boolean, onClose?: () => void }) => (
+    // Note: This is a render FUNCTION, not a component, to prevent remounting on state changes
+    const renderWizardContent = (isMobile = false, onClose?: () => void) => (
         <div
             className={`bg-white ${isMobile ? 'h-full flex flex-col' : 'rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] border border-forest-dark/10 relative max-h-[calc(100vh-10rem)] flex flex-col overflow-hidden'}`}
             onKeyDown={handleKeyDown}
@@ -889,7 +890,7 @@ export const BookingWizard: React.FC<BookingWizardProps> = ({
         <>
             {/* DESKTOP VIEW */}
             <div className="hidden lg:block">
-                <WizardContent />
+                {renderWizardContent()}
             </div>
 
             {/* MOBILE VIEW */}
@@ -907,7 +908,7 @@ export const BookingWizard: React.FC<BookingWizardProps> = ({
                     </div>
                     <button
                         onClick={() => setIsMobileOpen(true)}
-                        className="bg-forest-dark text-sand px-6 py-3 rounded-full font-bold uppercase tracking-widest text-sm shadow-lg hover:opacity-90 transition-colors focus:outline-none focus:ring-2 focus:ring-forest focus:ring-offset-2"
+                        className="bg-forest-dark text-sand px-6 py-3 font-bold uppercase tracking-widest text-sm shadow-lg hover:opacity-90 transition-colors focus:outline-none focus:ring-2 focus:ring-forest focus:ring-offset-2"
                         aria-haspopup="dialog"
                     >
                         Check Availability
@@ -926,7 +927,7 @@ export const BookingWizard: React.FC<BookingWizardProps> = ({
                             className="bg-white w-full h-[90vh] md:h-auto md:max-w-md rounded-t-2xl md:rounded-2xl shadow-2xl relative overflow-hidden animate-in slide-in-from-bottom"
                             onClick={(e) => e.stopPropagation()}
                         >
-                            <WizardContent isMobile={true} onClose={() => setIsMobileOpen(false)} />
+                            {renderWizardContent(true, () => setIsMobileOpen(false))}
                             {/* Mobile Trust Badges */}
                             {!bookingResult && <TrustBadges compact />}
                         </div>
