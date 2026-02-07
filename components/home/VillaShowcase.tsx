@@ -266,6 +266,10 @@ const VillaShowcaseMain: React.FC<VillaShowcaseProps> = ({ villas }) => {
     }
   };
 
+  const formatPrice = (price: number) => {
+    return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(price).replace('Rp', 'Rp ').replace(',00', ',-');
+  };
+
   return (
     <section
       ref={containerRef}
