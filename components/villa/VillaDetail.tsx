@@ -4,13 +4,12 @@ import React, { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { Villa } from '../../types';
-import { BookingWizard } from '../booking/BookingWizard';
 import { Breadcrumb } from '../ui/Breadcrumb';
 import { WishlistButton } from '../ui/WishlistButton';
 import MapComponent from '../home/MapComponent';
 import {
   ArrowLeft, ArrowRight, Wifi, Wind, Waves, Coffee, Shield, X, Maximize2,
-  MapPin, Clock, Ban, Cigarette, Dog, CheckCircle2, Bed, Tv, Utensils
+  MapPin, Clock, Ban, Cigarette, Dog, CheckCircle2, Bed, Tv, Utensils, CalendarDays
 } from 'lucide-react';
 
 // Luxury Easing
@@ -419,16 +418,47 @@ export const VillaDetail: React.FC<VillaDetailProps> = ({
 
         </div>
 
-        {/* RIGHT COLUMN: Sticky Booking Widget (Desktop) */}
+        {/* RIGHT COLUMN: Sticky Booking CTA (Desktop) */}
         <div className="lg:col-span-1 h-full">
           <div className="sticky top-32 z-30 w-full">
-            <BookingWizard
-              pricePerNight={villa.pricePerNight}
-              villaName={villa.name}
-              villaId={villa.id}
-              blockedDates={blockedDates}
-              maxGuests={villa.house_rules?.max_guests || villa.guests || 8}
-            />
+            <div className="bg-white rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] border border-forest-dark/10 overflow-hidden">
+              {/* Price Header */}
+              <div className="p-6 border-b border-forest/5 bg-sand/10">
+                <span className="font-serif text-3xl text-forest-dark">
+                  Rp {Math.round(villa.pricePerNight).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}
+                </span>
+                <span className="text-sm text-text-muted ml-1">/ night</span>
+              </div>
+
+              {/* Quick Info */}
+              <div className="p-6 space-y-4">
+                <div className="flex items-center gap-3 text-sm text-text-muted">
+                  <Bed size={16} className="text-forest" />
+                  <span>{villa.bedrooms} Bedrooms · {villa.guests} Guests</span>
+                </div>
+
+                {/* CTA Button */}
+                <Link
+                  href={`/villas/${villa.id}/booking`}
+                  className="w-full bg-forest-dark text-sand py-4 font-bold uppercase tracking-widest text-sm hover:bg-forest-dark/90 transition-all flex items-center justify-center gap-2 focus:outline-none focus:ring-2 focus:ring-forest focus:ring-offset-2 rounded-sm"
+                >
+                  <CalendarDays size={18} />
+                  Book This Villa
+                </Link>
+
+                {/* Trust Signals */}
+                <div className="flex flex-wrap justify-center gap-4 pt-4 border-t border-forest/5">
+                  <div className="flex items-center gap-1.5 text-[10px] text-text-muted">
+                    <Shield size={12} className="text-forest" />
+                    <span>48h Free Cancellation</span>
+                  </div>
+                  <div className="flex items-center gap-1.5 text-[10px] text-text-muted">
+                    <CheckCircle2 size={12} className="text-forest" />
+                    <span>Instant Confirmation</span>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -489,6 +519,24 @@ export const VillaDetail: React.FC<VillaDetailProps> = ({
           </div>
         </div>
       )}
+
+      {/* Mobile Fixed Bottom CTA */}
+      <div className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white border-t border-forest/10 p-4 pb-[max(1rem,env(safe-area-inset-bottom))] flex items-center justify-between shadow-[0_-5px_20px_rgba(0,0,0,0.05)]">
+        <div>
+          <span className="text-xs text-text-muted">From</span>
+          <div className="font-serif text-xl text-forest-dark leading-none">
+            Rp {Math.round(villa.pricePerNight).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}
+          </div>
+          <span className="text-[10px] text-text-muted">/ night</span>
+        </div>
+        <Link
+          href={`/villas/${villa.id}/booking`}
+          className="bg-forest-dark text-sand px-6 py-3 font-bold uppercase tracking-widest text-sm shadow-lg hover:opacity-90 transition-colors flex items-center gap-2"
+        >
+          <CalendarDays size={16} />
+          Book Now
+        </Link>
+      </div>
 
     </div>
   );

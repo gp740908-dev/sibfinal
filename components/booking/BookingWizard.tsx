@@ -18,12 +18,14 @@ interface BookingWizardProps {
     blockedDates?: Date[];
     maxGuests?: number;
     // Social Proof
-    rating?: number;          // e.g., 4.9
-    reviewCount?: number;     // e.g., 127
-    guestsHosted?: number;    // e.g., 850
+    rating?: number;
+    reviewCount?: number;
+    guestsHosted?: number;
     // Calendar enhancements
-    minimumStay?: number;     // Minimum nights
-    weekendPriceMultiplier?: number; // e.g., 1.15 for 15% weekend premium
+    minimumStay?: number;
+    weekendPriceMultiplier?: number;
+    // Full page mode (for dedicated booking page)
+    fullPage?: boolean;
 }
 
 type Step = 'dates' | 'guests' | 'confirm';
@@ -282,7 +284,8 @@ export const BookingWizard: React.FC<BookingWizardProps> = ({
     reviewCount,
     guestsHosted,
     minimumStay = 2,
-    weekendPriceMultiplier
+    weekendPriceMultiplier,
+    fullPage = false
 }) => {
     const [step, setStep] = useState<Step>('dates');
     const [dateRange, setDateRange] = useState<DateRange | undefined>();
@@ -886,6 +889,245 @@ export const BookingWizard: React.FC<BookingWizardProps> = ({
     );
 
     const [isMobileOpen, setIsMobileOpen] = useState(false);
+
+    // FULL PAGE MODE: Direct render without mobile/desktop wrappers
+    if (fullPage) {
+        return (
+            <div className="p-6">
+                {/* Step Indicator */}
+                {!bookingResult && (
+                    <StepIndicator currentStep={step} steps={stepConfig} />
+                )}
+
+                {/* Social Proof Badge */}
+                {!bookingResult && (rating || guestsHosted) && (
+                    <SocialProofBadge rating={rating} reviewCount={reviewCount} guestsHosted={guestsHosted} />
+                )}
+
+                {/* Scrollable Content Area */}
+                <div ref={stepContainerRef} className="py-6" onKeyDown={handleKeyDown}>
+
+                    {/* Error Banner */}
+                    {submitError && (
+                        <ErrorBanner
+                            message={submitError}
+                            onDismiss={() => setSubmitError(null)}
+                            onRetry={handleSubmit}
+                        />
+                    )}
+
+                    {/* STEP 1: DATES */}
+                    {step === 'dates' && (
+                        <div className="animate-in slide-in-from-right-4 duration-300" role="region" aria-label="Step 1: Select dates">
+                            <h3 className="text-sm font-bold uppercase tracking-widest text-forest-dark mb-6 flex items-center gap-2">
+                                <CalendarIcon size={16} aria-hidden="true" /> Select Dates
+                            </h3>
+                            <div className="flex justify-center mb-6">
+                                <Calendar
+                                    selected={dateRange}
+                                    onSelect={setDateRange}
+                                    disabledDates={blockedDates}
+                                    numberOfMonths={2}
+                                />
+                            </div>
+                            {dateRange?.from && dateRange?.to && (
+                                <div className="bg-forest/5 p-4 rounded-lg flex justify-between items-center mb-4 animate-in fade-in" role="status">
+                                    <span className="text-sm text-forest-dark">
+                                        {format(dateRange.from, 'dd MMM')} - {format(dateRange.to, 'dd MMM')}
+                                    </span>
+                                    <span className="font-bold text-forest-dark">{nightCount} Nights</span>
+                                </div>
+                            )}
+
+                            {/* Minimum Stay & Weekend Pricing Hints */}
+                            <div className="flex flex-wrap gap-3 mb-4 text-[10px]">
+                                {minimumStay > 1 && (
+                                    <div className="flex items-center gap-1.5 text-text-muted">
+                                        <CalendarIcon size={10} aria-hidden="true" />
+                                        <span>Min. {minimumStay} nights</span>
+                                    </div>
+                                )}
+                                {weekendPriceMultiplier && weekendPriceMultiplier > 1 && (
+                                    <div className="flex items-center gap-1.5 text-text-muted">
+                                        <Info size={10} aria-hidden="true" />
+                                        <span>Weekend rates +{Math.round((weekendPriceMultiplier - 1) * 100)}%</span>
+                                    </div>
+                                )}
+                            </div>
+                            <button
+                                onClick={handleNext}
+                                disabled={!dateRange?.from || !dateRange?.to}
+                                className="w-full bg-forest-dark text-sand py-4 font-bold uppercase tracking-widest text-sm hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-all focus:outline-none focus:ring-2 focus:ring-forest focus:ring-offset-2"
+                                aria-label="Continue to guest details"
+                            >
+                                Continue
+                            </button>
+                        </div>
+                    )}
+
+                    {/* STEP 2: GUESTS (simplified for fullPage) */}
+                    {step === 'guests' && (
+                        <div className="animate-in slide-in-from-right-4 duration-300" role="region" aria-label="Step 2: Guest details">
+                            <h3 className="text-sm font-bold uppercase tracking-widest text-forest-dark mb-6 flex items-center gap-2">
+                                <Users size={16} aria-hidden="true" /> Guest Details
+                            </h3>
+
+                            {/* Guest Counter */}
+                            <div className="mb-6 p-4 bg-sand/30 rounded-lg">
+                                <div className="flex justify-between items-center mb-2">
+                                    <span className="text-sm font-medium text-forest-dark">Guests</span>
+                                    <span className="text-[10px] text-text-muted">Max {maxGuests} guests</span>
+                                </div>
+                                <div className="divide-y divide-forest/10">
+                                    <GuestStepper label="Adults" description="Ages 13+" icon={<User size={16} />} value={adults} min={1} max={maxGuests - children} onChange={setAdults} />
+                                    <GuestStepper label="Children" description="Ages 2-12" icon={<Users size={16} />} value={children} min={0} max={maxGuests - adults} onChange={setChildren} />
+                                    <GuestStepper label="Infants" description="Under 2" icon={<Baby size={16} />} value={infants} min={0} max={3} onChange={setInfants} />
+                                </div>
+                            </div>
+
+                            {/* Personal Info */}
+                            <fieldset className="space-y-4 mb-8">
+                                <legend className="sr-only">Contact Information</legend>
+
+                                <div className="space-y-1">
+                                    <label htmlFor="fullName" className="text-[10px] uppercase tracking-widest text-text-muted font-bold">
+                                        Full Name <span className="text-red-500" aria-hidden="true">*</span>
+                                    </label>
+                                    <div className="relative">
+                                        <input
+                                            ref={firstInputRef}
+                                            id="fullName"
+                                            type="text"
+                                            placeholder="e.g. Elena Rossi"
+                                            className={getInputClasses('fullName')}
+                                            value={guestData.fullName}
+                                            onChange={e => handleChange('fullName', e.target.value)}
+                                            onBlur={() => handleBlur('fullName')}
+                                            aria-invalid={!!errors.fullName}
+                                            required
+                                        />
+                                        <ValidIndicator isValid={isFieldValid('fullName')} />
+                                    </div>
+                                    {errors.fullName && <span role="alert" className="text-xs text-red-500">{errors.fullName}</span>}
+                                </div>
+
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    <div className="space-y-1">
+                                        <label htmlFor="email" className="text-[10px] uppercase tracking-widest text-text-muted font-bold">
+                                            Email <span className="text-red-500" aria-hidden="true">*</span>
+                                        </label>
+                                        <div className="relative">
+                                            <input id="email" type="email" placeholder="your@email.com" className={getInputClasses('email')} value={guestData.email} onChange={e => handleChange('email', e.target.value)} onBlur={() => handleBlur('email')} required />
+                                            <ValidIndicator isValid={isFieldValid('email')} />
+                                        </div>
+                                        {errors.email && <span role="alert" className="text-xs text-red-500">{errors.email}</span>}
+                                    </div>
+                                    <div className="space-y-1">
+                                        <label htmlFor="whatsapp" className="text-[10px] uppercase tracking-widest text-text-muted font-bold">
+                                            WhatsApp <span className="text-red-500" aria-hidden="true">*</span>
+                                        </label>
+                                        <div className="relative">
+                                            <input id="whatsapp" type="tel" placeholder="+62 812 xxxx xxxx" className={getInputClasses('whatsapp')} value={guestData.whatsapp} onChange={e => handleChange('whatsapp', e.target.value)} onBlur={() => handleBlur('whatsapp')} required />
+                                            <ValidIndicator isValid={isFieldValid('whatsapp')} />
+                                        </div>
+                                        {errors.whatsapp && <span role="alert" className="text-xs text-red-500">{errors.whatsapp}</span>}
+                                    </div>
+                                </div>
+
+                                <div className="space-y-1">
+                                    <label htmlFor="specialRequests" className="text-[10px] uppercase tracking-widest text-text-muted font-bold">
+                                        Special Requests (Optional)
+                                    </label>
+                                    <textarea id="specialRequests" placeholder="Late check-in, dietary restrictions, honeymoon arrangement..." rows={2} className="w-full bg-transparent border-b border-forest/20 py-3 text-forest-dark focus:outline-none focus:border-forest-dark transition-colors placeholder:text-forest-dark/40 resize-none" value={guestData.specialRequest} onChange={e => handleChange('specialRequest', e.target.value)} />
+                                </div>
+                            </fieldset>
+
+                            <button
+                                onClick={handleNext}
+                                disabled={!validateAllFields()}
+                                className="w-full bg-forest-dark text-sand py-4 font-bold uppercase tracking-widest text-sm hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-all focus:outline-none focus:ring-2 focus:ring-forest focus:ring-offset-2"
+                            >
+                                Review Booking
+                            </button>
+                        </div>
+                    )}
+
+                    {/* STEP 3: CONFIRM */}
+                    {step === 'confirm' && !bookingResult && (
+                        <div className="animate-in slide-in-from-right-4 duration-300" role="region" aria-label="Step 3: Confirm booking">
+                            <h3 className="text-sm font-bold uppercase tracking-widest text-forest-dark mb-6 flex items-center gap-2">
+                                <Check size={16} aria-hidden="true" /> Confirm Booking
+                            </h3>
+
+                            {/* Summary */}
+                            <div className="bg-sand/30 p-4 rounded-lg mb-6 space-y-3">
+                                <div className="flex justify-between text-sm">
+                                    <span className="text-text-muted">{formatPrice(pricePerNight)} × {nightCount} nights</span>
+                                    <span className="text-forest-dark">{formatPrice(subTotal)}</span>
+                                </div>
+                                <div className="flex justify-between text-sm">
+                                    <span className="text-text-muted">Service fee (10%)</span>
+                                    <span className="text-forest-dark">{formatPrice(serviceFee)}</span>
+                                </div>
+                                {addonTotal > 0 && (
+                                    <div className="flex justify-between text-sm">
+                                        <span className="text-text-muted">Add-ons</span>
+                                        <span className="text-forest-dark">{formatPrice(addonTotal)}</span>
+                                    </div>
+                                )}
+                                <hr className="border-forest/10" />
+                                <div className="flex justify-between text-lg font-bold">
+                                    <span className="text-forest-dark">Total</span>
+                                    <span className="text-forest-dark">{formatPrice(total)}</span>
+                                </div>
+                            </div>
+
+                            {/* Guest Summary */}
+                            <div className="p-4 bg-white border border-forest/10 rounded-lg mb-6 text-sm space-y-1">
+                                <p><strong>Guest:</strong> {guestData.fullName}</p>
+                                <p><strong>Email:</strong> {guestData.email}</p>
+                                <p><strong>WhatsApp:</strong> {guestData.whatsapp}</p>
+                                <p><strong>Party:</strong> {adults} adults, {children} children{infants > 0 ? `, ${infants} infants` : ''}</p>
+                                {guestData.specialRequest && <p><strong>Requests:</strong> {guestData.specialRequest}</p>}
+                            </div>
+
+                            {/* Trust Badges */}
+                            <TrustBadges />
+
+                            <button
+                                onClick={handleSubmit}
+                                disabled={isSubmitting}
+                                className="w-full bg-forest-dark text-sand py-4 font-bold uppercase tracking-widest text-sm hover:opacity-90 disabled:opacity-50 transition-all flex items-center justify-center gap-2 focus:outline-none focus:ring-2 focus:ring-forest focus:ring-offset-2"
+                                aria-busy={isSubmitting}
+                            >
+                                {isSubmitting ? (
+                                    <>
+                                        <Loader2 className="animate-spin" size={16} aria-hidden="true" />
+                                        <span>Opening WhatsApp...</span>
+                                    </>
+                                ) : (
+                                    'Submit Request via WhatsApp'
+                                )}
+                            </button>
+                        </div>
+                    )}
+
+                    {/* SUCCESS STATE */}
+                    {bookingResult && (
+                        <div className="animate-in zoom-in-95 duration-500 text-center py-8" role="status" aria-live="polite">
+                            <div className="w-16 h-16 bg-[#537F5D]/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                                <Check className="w-8 h-8 text-[#537F5D]" aria-hidden="true" />
+                            </div>
+                            <h3 className="text-2xl font-serif text-forest-dark mb-2">Request Sent!</h3>
+                            <p className="text-text-muted mb-8 max-w-xs mx-auto">
+                                Check your WhatsApp. Our concierge is reviewing your request for <strong>{villaName}</strong>.
+                            </p>
+                        </div>
+                    )}
+                </div>
+            </div>
+        );
+    }
 
     return (
         <>
