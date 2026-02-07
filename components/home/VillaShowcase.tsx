@@ -4,7 +4,8 @@ import React, { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Villa } from '../../types';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Compass } from 'lucide-react';
+import { MagneticButton } from '@/components/ui/MagneticButton';
 
 interface VillaShowcaseProps {
   villas: Villa[];
@@ -385,7 +386,7 @@ const VillaShowcaseMain: React.FC<VillaShowcaseProps> = ({ villas }) => {
       </div>
 
       {/* Floating Detail Image (Bottom) */}
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 z-40 translate-y-[15%] pointer-events-none">
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 z-40 translate-y-[15%] pointer-events-none hidden md:block">
         <div className="relative w-40 h-56 md:w-56 md:h-72 overflow-hidden rounded-t-[100px] border-4 border-white/10 shadow-2xl animate-fade-in-up">
           {/* Key changes to force re-render animation on slide change */}
           <Image
@@ -397,6 +398,18 @@ const VillaShowcaseMain: React.FC<VillaShowcaseProps> = ({ villas }) => {
             sizes="(max-width: 768px) 160px, 224px"
           />
         </div>
+      </div>
+
+      {/* Viewport UI: Explore Collection Button (Bottom Right) */}
+      <div className="absolute bottom-8 right-8 z-50 hidden md:block">
+        <Link href="/villas" className="pointer-events-auto">
+          <MagneticButton className="group flex items-center gap-3 px-6 py-3 border border-white/20 bg-white/5 hover:bg-white/10 hover:border-white/40 backdrop-blur-sm transition-all duration-500 rounded-full">
+            <Compass size={16} className="text-white/80 group-hover:rotate-45 transition-transform duration-500" />
+            <span className="font-sans text-[10px] font-medium uppercase tracking-[0.2em] text-white/90">
+              Explore Collection
+            </span>
+          </MagneticButton>
+        </Link>
       </div>
 
       {/* Custom Cursor */}
