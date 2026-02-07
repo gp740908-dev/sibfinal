@@ -44,7 +44,7 @@ export const Newsletter: React.FC = () => {
   };
 
   return (
-    <section className="relative py-24 px-6 md:px-12 bg-forest text-sand overflow-hidden border-t border-sand/10">
+    <section className="relative py-32 md:py-40 px-6 md:px-12 bg-forest text-sand overflow-hidden border-t border-sand/10">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-[0.03] pointer-events-none">
         <svg width="100%" height="100%">
