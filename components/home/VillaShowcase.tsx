@@ -194,9 +194,28 @@ const VillaShowcaseMain: React.FC<VillaShowcaseProps> = ({ villas }) => {
 
   const [touchStart, setTouchStart] = useState<number | null>(null);
   const [touchEnd, setTouchEnd] = useState<number | null>(null);
+  const [isPaused, setIsPaused] = useState(false);
 
   if (!villas || villas.length === 0) return null;
   const activeVilla = villas[currentIndex];
+
+  // Derived State for Side Previews
+  const prevIndex = (currentIndex - 1 + villas.length) % villas.length;
+  const nextIndex = (currentIndex + 1) % villas.length;
+  const prevVilla = villas[prevIndex];
+  const nextVilla = villas[nextIndex];
+
+  // Auto-Play Logic
+  useEffect(() => {
+    if (isPaused) return;
+
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % villas.length);
+    }, 6000); // 6 seconds
+
+    return () => clearInterval(interval);
+  }, [isPaused, villas.length]);
+
 
   // Detail image fallback
   const detailImage = activeVilla.images && activeVilla.images.length > 1
@@ -276,7 +295,11 @@ const VillaShowcaseMain: React.FC<VillaShowcaseProps> = ({ villas }) => {
       className="relative w-full h-[90vh] md:h-screen bg-forest-dark overflow-hidden cursor-none group"
       onMouseMove={handleMouseMove}
       onClick={handleClick}
-      onMouseLeave={() => setMousePos({ x: -100, y: -100 })}
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => {
+        setIsPaused(false);
+        setMousePos({ x: -100, y: -100 });
+      }}
       onTouchStart={onTouchStart}
       onTouchMove={onTouchMove}
       onTouchEnd={onTouchEnd}
@@ -306,6 +329,29 @@ const VillaShowcaseMain: React.FC<VillaShowcaseProps> = ({ villas }) => {
           <span>{currentIndex + 1}</span>
           <span className="w-16 h-[1px] bg-white/60"></span>
           <span>{villas.length}</span>
+        </div>
+      </div>
+
+      {/* Side Text Previews (Desktop Only) */}
+      <div className="hidden md:block absolute inset-y-0 left-0 w-[15%] z-30 overflow-hidden pointer-events-none">
+        <div className="absolute left-6 top-1/2 -translate-y-1/2 -rotate-180 flex items-center justify-center opacity-40 transition-all duration-500 group-hover:-translate-x-2">
+          <span
+            className="text-6xl font-serif text-transparent stroke-text whitespace-nowrap opacity-50"
+            style={{ writingMode: 'vertical-rl', WebkitTextStroke: '1px rgba(255,255,255,0.7)' }}
+          >
+            {prevVilla.name}
+          </span>
+        </div>
+      </div>
+
+      <div className="hidden md:block absolute inset-y-0 right-0 w-[15%] z-30 overflow-hidden pointer-events-none">
+        <div className="absolute right-6 top-1/2 -translate-y-1/2 flex items-center justify-center opacity-40 transition-all duration-500 group-hover:translate-x-2">
+          <span
+            className="text-6xl font-serif text-transparent stroke-text whitespace-nowrap opacity-50"
+            style={{ writingMode: 'vertical-rl', WebkitTextStroke: '1px rgba(255,255,255,0.7)' }}
+          >
+            {nextVilla.name}
+          </span>
         </div>
       </div>
 
