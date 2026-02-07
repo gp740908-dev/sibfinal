@@ -221,7 +221,7 @@ const GuestStepper: React.FC<{
 // Trust Badges Component
 const TrustBadges: React.FC<{ compact?: boolean }> = ({ compact = false }) => (
     <div className={`${compact ? 'py-3' : 'py-4'} border-t border-forest/5`}>
-        <div className={`flex ${compact ? 'justify-center gap-4' : 'flex-wrap justify-center gap-4'}`}>
+        <div className={`flex flex-wrap justify-center ${compact ? 'gap-3' : 'gap-x-4 gap-y-2'}`}>
             <div className="flex items-center gap-1.5 text-[10px] text-text-muted">
                 <Shield size={12} className="text-forest" aria-hidden="true" />
                 <span>48h Free Cancellation</span>
@@ -660,7 +660,7 @@ export const BookingWizard: React.FC<BookingWizardProps> = ({
                                 )}
                             </div>
 
-                            <div className="grid grid-cols-2 gap-4">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 {/* Email */}
                                 <div className="space-y-1">
                                     <label htmlFor="email" className="text-[10px] uppercase tracking-widest text-text-muted font-bold">
