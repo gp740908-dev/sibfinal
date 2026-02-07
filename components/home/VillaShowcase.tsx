@@ -308,7 +308,7 @@ const VillaShowcaseMain: React.FC<VillaShowcaseProps> = ({ villas }) => {
       {villas.map((villa, index) => (
         <div
           key={villa.id}
-          className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${index === currentIndex ? 'opacity-100 z-10' : 'opacity-0 z-0'
+          className={`absolute inset-0 transition-all duration-[1500ms] ease-in-out ${index === currentIndex ? 'opacity-100 scale-100 z-10' : 'opacity-0 scale-110 z-0'
             }`}
         >
           <Image
@@ -319,7 +319,7 @@ const VillaShowcaseMain: React.FC<VillaShowcaseProps> = ({ villas }) => {
             priority={index === 0}
             sizes="100vw"
           />
-          <div className="absolute inset-0 bg-black/30 md:bg-black/20" /> {/* Scrim */}
+          <div className="absolute inset-0 bg-black/30 md:bg-black/20 transition-opacity duration-500 group-hover:bg-black/40" />
         </div>
       ))}
 
