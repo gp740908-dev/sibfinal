@@ -476,7 +476,7 @@ export const BookingWizard: React.FC<BookingWizardProps> = ({
     // Note: This is a render FUNCTION, not a component, to prevent remounting on state changes
     const renderWizardContent = (isMobile = false, onClose?: () => void) => (
         <div
-            className={`bg-white ${isMobile ? 'h-full flex flex-col' : 'rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] border border-forest-dark/10 relative max-h-[calc(100vh-10rem)] flex flex-col overflow-hidden'}`}
+            className={`bg-white ${isMobile ? 'h-full flex flex-col' : 'rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] border border-forest-dark/10 relative max-h-[calc(100vh-10rem)] flex flex-col'}`}
             onKeyDown={handleKeyDown}
         >
 
@@ -522,7 +522,7 @@ export const BookingWizard: React.FC<BookingWizardProps> = ({
             </div>
 
             {/* Scrollable Content Area */}
-            <div ref={stepContainerRef} className="p-6 flex-1 overflow-y-auto min-h-0">
+            <div ref={stepContainerRef} className="p-6 flex-1 overflow-y-auto min-h-0 overscroll-contain">
 
                 {/* Error Banner */}
                 {submitError && (
@@ -889,7 +889,7 @@ export const BookingWizard: React.FC<BookingWizardProps> = ({
     return (
         <>
             {/* DESKTOP VIEW */}
-            <div className="hidden lg:block">
+            <div className="hidden lg:block max-h-[calc(100vh-8rem)]">
                 {renderWizardContent()}
             </div>
 
