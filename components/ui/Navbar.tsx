@@ -52,9 +52,9 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView = 'home' }) => {
   // Hero is now Full Screen Dark Image, so Navbar should be Light at top
   const isDarkState = isScrolled || isInnerPage;
 
-  const textColor = isDarkState ? 'text-forest-dark' : 'text-sand';
+  const textColor = isDarkState ? 'text-forest-dark' : 'text-white';
   const borderColor = isDarkState ? 'border-forest-dark/10' : 'border-transparent';
-  const iconColorClass = isDarkState ? 'text-forest-dark' : 'text-sand';
+  const iconColorClass = isDarkState ? 'text-forest-dark' : 'text-white';
 
   return (
     <>
@@ -116,9 +116,9 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView = 'home' }) => {
                 className={`absolute inset-0 h-full w-full bg-forest [mask-image:url(/rumah.png)] [mask-size:contain] [mask-repeat:no-repeat] [mask-position:center] transition-opacity duration-500 ${isDarkState ? 'opacity-100' : 'opacity-0'}`}
               />
 
-              {/* 3. Sand Tint Version (Mask) */}
+              {/* 3. White Version (Mask) - For transparent header */}
               <div
-                className={`absolute inset-0 h-full w-full bg-sand [mask-image:url(/rumah.png)] [mask-size:contain] [mask-repeat:no-repeat] [mask-position:center] transition-opacity duration-500 ${isDarkState ? 'opacity-0' : 'opacity-100'}`}
+                className={`absolute inset-0 h-full w-full bg-white [mask-image:url(/rumah.png)] [mask-size:contain] [mask-repeat:no-repeat] [mask-position:center] transition-opacity duration-500 ${isDarkState ? 'opacity-0' : 'opacity-100'}`}
               />
             </div>
 
@@ -176,13 +176,13 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView = 'home' }) => {
               </span>
               <div className="w-8 flex flex-col items-end gap-[5px]">
                 <span className={`block w-full h-[1.5px] transition-all duration-300 group-hover:w-2/3 
-                   ${isDarkState ? 'bg-forest' : 'bg-sand'}
+                   ${isDarkState ? 'bg-forest' : 'bg-white'}
                  `} />
                 <span className={`block w-2/3 h-[1.5px] transition-all duration-300 group-hover:w-full 
-                   ${isDarkState ? 'bg-forest' : 'bg-sand'}
+                   ${isDarkState ? 'bg-forest' : 'bg-white'}
                  `} />
                 <span className={`block w-full h-[1.5px] transition-all duration-300 group-hover:w-2/3 
-                   ${isDarkState ? 'bg-forest' : 'bg-sand'}
+                   ${isDarkState ? 'bg-forest' : 'bg-white'}
                  `} />
               </div>
             </button>
