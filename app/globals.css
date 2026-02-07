@@ -44,6 +44,7 @@ body {
   background-color: #537F5D;
   color: #537F5D;
   overflow-x: hidden;
+  line-height: 1.625; /* Relaxed leading for luxury feel */
   /* HAPUS font-smoothing untuk performa lebih baik */
 }
 

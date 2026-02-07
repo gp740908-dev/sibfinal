@@ -5,7 +5,7 @@ import { ShieldCheck, Clock, Award, RefreshCw } from 'lucide-react';
 
 export const TrustBar: React.FC = () => {
     return (
-        <section className="bg-sand/30 border-b border-forest/5 py-6 md:py-8">
+        <section className="bg-transparent border-b border-forest/5 py-10 md:py-12">
             <div className="max-w-7xl mx-auto px-6 md:px-12">
                 <div className="flex flex-wrap justify-center md:justify-between items-center gap-6 md:gap-8">
 
@@ -46,7 +46,7 @@ const TrustItem: React.FC<{ icon: React.ReactNode; label: string }> = ({ icon, l
         <div className="text-forest group-hover:text-accent-default transition-colors">
             {icon}
         </div>
-        <span className="font-sans text-xs uppercase tracking-widest font-medium">
+        <span className="font-sans text-xs uppercase tracking-[0.25em] font-medium">
             {label}
         </span>
     </div>

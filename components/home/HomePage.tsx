@@ -6,6 +6,8 @@ import dynamic from 'next/dynamic';
 import { Hero } from './Hero';
 import { Villa } from '../../types';
 import TrustBar from './TrustBar'; // Standard Import for SSR
+import { MagneticButton } from '@/components/ui/MagneticButton';
+import { ArrowRight } from 'lucide-react';
 
 // Components
 const VillaShowcase = dynamic(() => import('./VillaShowcase'), {
@@ -67,11 +69,11 @@ export const HomePage: React.FC<HomePageProps> = ({ villas, heroSection }) => {
             <section
                 ref={aboutRef}
                 id="about"
-                className="py-24 md:py-40 px-6 md:px-12 max-w-7xl mx-auto flex flex-col md:flex-row gap-16 items-start relative"
+                className="py-32 md:py-48 px-6 md:px-12 max-w-7xl mx-auto flex flex-col md:flex-row gap-20 md:gap-32 items-start relative"
             >
                 {/* Decorative Large Number - with scroll-linked rotation */}
                 <span
-                    className={`absolute -left-4 md:left-0 top-20 font-serif text-[15rem] md:text-[20rem] leading-none text-forest/[0.03] select-none pointer-events-none -z-10 transition-all duration-[1500ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${isAboutVisible ? 'opacity-100 translate-x-0 rotate-0 scale-100' : 'opacity-0 -translate-x-12 -rotate-12 scale-95'}`}
+                    className={`absolute -left-12 md:-left-20 top-20 font-serif text-[15rem] md:text-[24rem] leading-none text-forest/[0.02] select-none pointer-events-none -z-10 transition-all duration-[1500ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${isAboutVisible ? 'opacity-100 translate-x-0 rotate-0 scale-100' : 'opacity-0 -translate-x-12 -rotate-12 scale-95'}`}
                     aria-hidden="true"
                 >
                     01
@@ -111,21 +113,23 @@ export const HomePage: React.FC<HomePageProps> = ({ villas, heroSection }) => {
             </section>
 
             {/* Villa Showcase Section */}
-            <div id="villas">
+            <div id="villas" className="mb-24 md:mb-40">
                 <VillaShowcase villas={villas.slice(0, 4)} />
 
-                <div className="flex justify-center mt-8 gap-4 mb-20 flex-wrap px-4">
-                    {villas.slice(0, 4).map(v => (
-                        <Link
-                            key={v.id}
-                            href={`/villas/${v.id}`}
-                            className="text-xs uppercase tracking-widest border-b border-forest/20 pb-1 hover:border-forest transition-colors"
-                        >
-                            View {v.name}
-                        </Link>
-                    ))}
+                <div className="flex justify-center mt-16 md:mt-24">
+                    <Link href="/villas">
+                        <MagneticButton className="group flex items-center gap-4 px-10 py-5 border border-forest/20 hover:border-forest/50 bg-transparent transition-all duration-500 rounded-full">
+                            <span className="font-sans text-xs font-medium uppercase tracking-[0.25em] text-forest-dark group-hover:text-forest transition-colors">
+                                Explore Full Collection
+                            </span>
+                            <ArrowRight size={16} className="text-forest-dark group-hover:translate-x-1 transition-transform duration-300" />
+                        </MagneticButton>
+                    </Link>
                 </div>
             </div>
+
+            {/* Signature Details (Sticky Scroll) - Moved UP for narrative flow */}
+            <SignatureDetails />
 
             {/* Sensory Video Break */}
             <VideoParallax />
@@ -137,9 +141,6 @@ export const HomePage: React.FC<HomePageProps> = ({ villas, heroSection }) => {
 
             {/* Guest Diaries Social Proof */}
             <GuestDiaries />
-
-            {/* Signature Details (Sticky Scroll) */}
-            <SignatureDetails />
 
 
 
