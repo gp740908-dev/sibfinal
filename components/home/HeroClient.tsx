@@ -4,6 +4,9 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Compass } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { MagneticButton } from '@/components/ui/MagneticButton';
+// KineticText is handled by the server component for LCP, but can be added here for client-side navigation if needed
 
 const HERO_SLIDES = [
     {
@@ -35,55 +38,55 @@ export const HeroClient: React.FC = () => {
 
     return (
         <>
-            {/* --- BACKGROUND CAROUSEL (Slides 2 & 3 only, Slide 1 is Server Rendered) --- */}
+            {/* --- BACKGROUND CAROUSEL --- */}
             <div className="absolute inset-0 z-0">
-                {HERO_SLIDES.map((slide, index) => {
-                    // Optimization: Logic to handle transitions matching the server slide
-                    // We render ALL slides here to manage the crossfade state correctly client-side
-                    // but relying on the Server Component for the INITIAL paint of Index 0.
-
-                    const isActive = index === activeSlide;
-
-                    return (
-                        <div
-                            key={slide.id}
-                            className={`absolute inset-0 transition-opacity duration-1500 ease-in-out ${isActive ? 'opacity-100' : 'opacity-0'}`}
-                        >
-                            {/* 
-                  STRATEGY: 
-                  The First Slide (Index 0) is ALREADY rendered by the Server Component underneath this Client wrapper.
-                  However, to maintain the loop, we render it here too.
-                  Key: The "priority" and "sizes" are critical here.
-               */}
-                            <Image
-                                src={slide.src}
-                                alt={slide.alt}
-                                fill
-                                sizes="100vw"
-                                className="object-cover"
-                                loading="lazy" // Defer to Server LCP
-                            />
-                            {/* Clean Overlay match Server */}
-                            <div className="absolute inset-0 bg-black/30 md:bg-black/20" />
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/30" />
-                        </div>
-                    )
-                })}
+                <AnimatePresence mode="popLayout">
+                    {HERO_SLIDES.map((slide, index) => (
+                        index === activeSlide && (
+                            <motion.div
+                                key={slide.id}
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                                transition={{ duration: 1.5, ease: "easeInOut" }}
+                                className="absolute inset-0"
+                            >
+                                <Image
+                                    src={slide.src}
+                                    alt={slide.alt}
+                                    fill
+                                    sizes="100vw"
+                                    className="object-cover"
+                                    priority={index === 0} // Only priority for first image
+                                />
+                                {/* Clean Overlay matching Server */}
+                                <div className="absolute inset-0 bg-black/40" />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30" />
+                            </motion.div>
+                        )
+                    ))}
+                </AnimatePresence>
             </div>
 
             {/* --- CONTENT LAYER (Interactive parts) --- */}
             <div className="relative z-20 h-full flex flex-col justify-center px-6 md:px-16 lg:px-24 pb-32 pointer-events-none">
                 <div className="max-w-4xl pointer-events-auto">
                     {/* Action Buttons */}
-                    <div className="flex items-center gap-4 md:gap-6 animate-fade-in opacity-0 [animation-delay:600ms] mt-12 md:mt-16">
-                        <Link
-                            href="/villas"
-                            className="group flex items-center gap-3 md:gap-4 px-5 py-3 md:px-8 md:py-4 border border-white/30 hover:border-white hover:bg-white/10 transition-all duration-500 rounded-sm"
-                        >
-                            <Compass size={16} className="text-white group-hover:rotate-45 transition-transform duration-500 md:w-[18px] md:h-[18px]" />
-                            <span className="font-sans text-[10px] md:text-xs font-bold uppercase tracking-[0.15em] md:tracking-[0.2em] text-white">Explore The Space</span>
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 1.2, duration: 0.8 }}
+                        className="flex items-center gap-4 md:gap-6 mt-12 md:mt-16"
+                    >
+                        <Link href="/villas">
+                            <MagneticButton className="group flex items-center gap-3 md:gap-4 px-6 py-4 md:px-8 md:py-5 border border-white/20 bg-white/5 hover:bg-white/10 hover:border-white/40 backdrop-blur-sm transition-all duration-500 rounded-full">
+                                <Compass size={18} className="text-white group-hover:rotate-45 transition-transform duration-500" />
+                                <span className="font-sans text-[11px] md:text-xs font-medium uppercase tracking-[0.25em] text-white">
+                                    Explore The Space
+                                </span>
+                            </MagneticButton>
                         </Link>
-                    </div>
+                    </motion.div>
                 </div>
             </div>
         </>
