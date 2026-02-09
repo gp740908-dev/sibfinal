@@ -44,7 +44,7 @@ export const MagneticButton: React.FC<MagneticButtonProps> = ({
             onClick={onClick}
             animate={{ x: position.x, y: position.y }}
             transition={{ type: 'spring', stiffness: 150, damping: 15, mass: 0.1 }}
-            className={`inline-block cursor-none ${className}`} // cursor-none if using custom cursor, else default
+            className={`inline-block cursor-pointer ${className}`}
         >
             {children}
         </motion.div>

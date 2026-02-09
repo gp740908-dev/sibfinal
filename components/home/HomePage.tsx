@@ -126,7 +126,7 @@ export const HomePage: React.FC<HomePageProps> = ({ villas, heroSection }) => {
                     {/* CTA Button */}
                     <div className={`transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] [transition-delay:600ms] ${isAboutVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
                         <Link href="/about">
-                            <MagneticButton className="group inline-flex items-center gap-3 px-8 py-4 border border-forest/20 hover:border-forest/50 bg-transparent transition-all duration-500 rounded-full">
+                            <MagneticButton className="group inline-flex items-center gap-3 px-8 py-4 border border-forest/20 hover:border-forest/50 bg-transparent transition-all duration-500">
                                 <span className="font-sans text-xs font-medium uppercase tracking-[0.2em] text-forest-dark group-hover:text-forest transition-colors">
                                     Discover Our Story
                                 </span>
