@@ -46,9 +46,13 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => 
         }
     }, [isOpen]);
 
-    // Close on route change
+    // Close on route change (but not on initial mount)
+    const prevPathname = useRef(pathname);
     useEffect(() => {
-        onClose();
+        if (prevPathname.current !== pathname) {
+            onClose();
+            prevPathname.current = pathname;
+        }
     }, [pathname, onClose]);
 
     // Filter Logic
