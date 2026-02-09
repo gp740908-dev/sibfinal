@@ -106,35 +106,35 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView = 'home' }) => {
             className="flex flex-col items-center justify-start cursor-pointer group -my-2"
           >
             {/* Icon Image - Dual Layer for Color Control */}
-            <div className={`relative w-auto transition-all duration-700 ease-in-out ${isDarkState ? 'h-16' : 'h-20'}`}>
+            <div className={`relative w-auto transition-all duration-700 ease-in-out ${isScrolled ? 'h-0 opacity-0 w-0 overflow-hidden' : 'h-20 opacity-100'}`}>
 
               {/* 1. Layout Spacer (Invisible) */}
               <img src="/rumah.png" alt="" className="h-full w-auto opacity-0 pointer-events-none select-none" />
 
-              {/* 2. Forest Version (For Dark/Scrolled State) */}
+              {/* 2. Forest Version (For Dark/Inner Page Initial State) */}
               <div
-                className={`absolute inset-0 h-full w-full bg-forest [mask-image:url(/rumah.png)] [mask-size:contain] [mask-repeat:no-repeat] [mask-position:center] transition-opacity duration-500 ${isDarkState ? 'opacity-100' : 'opacity-0'}`}
+                className={`absolute inset-0 h-full w-full bg-forest [mask-image:url(/rumah.png)] [mask-size:contain] [mask-repeat:no-repeat] [mask-position:center] transition-opacity duration-500 ${isInnerPage && !isScrolled ? 'opacity-100' : 'opacity-0'}`}
               />
 
-              {/* 3. White Version (Mask) - For transparent header */}
+              {/* 3. White Version (Mask) - For Initial Hero State */}
               <div
-                className={`absolute inset-0 h-full w-full bg-white [mask-image:url(/rumah.png)] [mask-size:contain] [mask-repeat:no-repeat] [mask-position:center] transition-opacity duration-500 ${isDarkState ? 'opacity-0' : 'opacity-100'}`}
+                className={`absolute inset-0 h-full w-full bg-white [mask-image:url(/rumah.png)] [mask-size:contain] [mask-repeat:no-repeat] [mask-position:center] transition-opacity duration-500 ${!isInnerPage && !isScrolled ? 'opacity-100' : 'opacity-0'}`}
               />
             </div>
 
-            {/* Text Container */}
+            {/* Text Container - ALWAYS VISIBLE (adjusted for scroll) */}
             <div
               className={`flex flex-col items-center justify-center overflow-hidden transition-all duration-700 ease-in-out
                 ${isScrolled
-                  ? 'max-h-0 opacity-0 mt-0'
-                  : 'max-h-[60px] opacity-100 mt-0'
+                  ? 'mt-0 scale-90' // Slight scale down on scroll if desired, or keep 100
+                  : 'mt-0 scale-100'
                 }
               `}
             >
-              <span className={`font-serif text-xl md:text-2xl leading-none tracking-tight whitespace-nowrap ${textColor}`}>
+              <span className={`font-serif text-xl md:text-2xl leading-none tracking-tight whitespace-nowrap transition-colors duration-500 ${textColor}`}>
                 Stayin<span className="italic font-light">UBUD</span>
               </span>
-              <span className={`font-sans text-[0.55rem] md:text-[0.65rem] uppercase tracking-[0.35em] leading-none mt-1.5 whitespace-nowrap ${textColor} opacity-90`}>
+              <span className={`font-sans text-[0.55rem] md:text-[0.65rem] uppercase tracking-[0.35em] leading-none mt-1.5 whitespace-nowrap transition-colors duration-500 ${textColor} opacity-90`}>
                 Villa Bali Culture
               </span>
             </div>
