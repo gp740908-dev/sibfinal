@@ -47,10 +47,9 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView = 'home' }) => {
 
 
 
-  // Determine Theme
-  const isInnerPage = currentView !== 'home';
-  // Hero is now Full Screen Dark Image, so Navbar should be Light at top
-  const isDarkState = isScrolled || isInnerPage;
+  // Determine Theme - Always use scroll-based logic (global consistency)
+  // Removed `isInnerPage` check to unify behavior across all pages
+  const isDarkState = isScrolled;
 
   const textColor = isDarkState ? 'text-forest-dark' : 'text-white';
   const borderColor = isDarkState ? 'border-forest-dark/10' : 'border-transparent';
@@ -69,7 +68,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView = 'home' }) => {
         ref={navRef}
         className={`fixed top-0 left-0 right-0 z-[50] border-b transition-all duration-500 ease-in-out
           ${isVisible ? 'translate-y-0' : '-translate-y-full'}
-          ${isScrolled || isInnerPage
+          ${isScrolled
             ? 'bg-sand/95 backdrop-blur-md shadow-sm py-3'
             : 'bg-transparent py-6 border-transparent'
           }
@@ -111,14 +110,14 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView = 'home' }) => {
               {/* 1. Layout Spacer (Invisible) */}
               <img src="/rumah.png" alt="" className="h-full w-auto opacity-0 pointer-events-none select-none" />
 
-              {/* 2. Forest Version (For Dark/Inner Page Initial State) */}
+              {/* 2. Forest Version - Hidden on scroll */}
               <div
-                className={`absolute inset-0 h-full w-full bg-forest [mask-image:url(/rumah.png)] [mask-size:contain] [mask-repeat:no-repeat] [mask-position:center] transition-opacity duration-500 ${isInnerPage && !isScrolled ? 'opacity-100' : 'opacity-0'}`}
+                className={`absolute inset-0 h-full w-full bg-forest [mask-image:url(/rumah.png)] [mask-size:contain] [mask-repeat:no-repeat] [mask-position:center] transition-opacity duration-500 opacity-0`}
               />
 
-              {/* 3. White Version (Mask) - For Initial Hero State */}
+              {/* 3. White Version (Mask) - Visible at top */}
               <div
-                className={`absolute inset-0 h-full w-full bg-white [mask-image:url(/rumah.png)] [mask-size:contain] [mask-repeat:no-repeat] [mask-position:center] transition-opacity duration-500 ${!isInnerPage && !isScrolled ? 'opacity-100' : 'opacity-0'}`}
+                className={`absolute inset-0 h-full w-full bg-white [mask-image:url(/rumah.png)] [mask-size:contain] [mask-repeat:no-repeat] [mask-position:center] transition-opacity duration-500 ${!isScrolled ? 'opacity-100' : 'opacity-0'}`}
               />
             </div>
 
@@ -146,7 +145,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView = 'home' }) => {
             {/* Search Trigger */}
             <button
               onClick={() => setIsSearchOpen(true)}
-              className={`hidden md:flex items-center justify-center w-10 h-10 rounded-full hover:bg-forest/5 transition-colors ${iconColorClass}`}
+              className={`flex items-center justify-center w-10 h-10 rounded-full hover:bg-forest/5 transition-colors ${iconColorClass}`}
               aria-label="Search"
             >
               <Search size={20} strokeWidth={1.5} />
