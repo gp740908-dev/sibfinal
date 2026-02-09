@@ -175,13 +175,13 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView = 'home' }) => {
               </span>
               <div className="w-8 flex flex-col items-end gap-[5px]">
                 <span className={`block w-full h-[1.5px] transition-all duration-300 group-hover:w-2/3 
-                   ${isDarkState ? 'bg-forest' : 'bg-white'}
+                   ${isDarkState ? 'bg-forest-dark' : 'bg-white'}
                  `} />
                 <span className={`block w-2/3 h-[1.5px] transition-all duration-300 group-hover:w-full 
-                   ${isDarkState ? 'bg-forest' : 'bg-white'}
+                   ${isDarkState ? 'bg-forest-dark' : 'bg-white'}
                  `} />
                 <span className={`block w-full h-[1.5px] transition-all duration-300 group-hover:w-2/3 
-                   ${isDarkState ? 'bg-forest' : 'bg-white'}
+                   ${isDarkState ? 'bg-forest-dark' : 'bg-white'}
                  `} />
               </div>
             </button>

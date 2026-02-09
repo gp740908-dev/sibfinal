@@ -189,10 +189,10 @@ export const FullScreenMenu: React.FC<FullScreenMenuProps> = ({ isOpen, onClose 
                       </span>
 
                       {/* Main Text */}
-                      <span className="text-4xl md:text-6xl lg:text-8xl font-serif text-sand/50 group-hover:text-sand transition-colors duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] tracking-tight leading-[0.9] block relative">
+                      <span className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-serif text-sand/50 group-hover:text-sand transition-colors duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] tracking-tight leading-[1.1] md:leading-[0.9] block relative text-center">
                         <span className="block group-hover:-translate-y-[10%] transition-transform duration-700">{link.label}</span>
                         {/* Underline Effect */}
-                        <span className="absolute bottom-2 left-1/2 -translate-x-1/2 w-0 h-[1px] bg-sand/50 group-hover:w-full transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] opacity-0 group-hover:opacity-100" />
+                        <span className="absolute bottom-1 md:bottom-2 left-1/2 -translate-x-1/2 w-0 h-[1px] bg-sand/50 group-hover:w-full transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] opacity-0 group-hover:opacity-100" />
                       </span>
                     </Link>
                   </motion.li>
