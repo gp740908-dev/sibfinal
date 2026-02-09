@@ -79,6 +79,19 @@ export const HomePage: React.FC<HomePageProps> = ({ villas, heroSection }) => {
                     01
                 </span>
 
+                {/* Floating Decorative Image - Subtle visual element */}
+                <div
+                    className={`absolute -right-8 md:right-12 top-1/2 -translate-y-1/2 w-32 h-48 md:w-48 md:h-64 rounded-full overflow-hidden opacity-20 md:opacity-30 pointer-events-none -z-10 transition-all duration-[2000ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${isAboutVisible ? 'opacity-20 md:opacity-30 translate-x-0 scale-100' : 'opacity-0 translate-x-12 scale-90'}`}
+                    aria-hidden="true"
+                >
+                    <img
+                        src="https://images.unsplash.com/photo-1518495973542-4542c06a5843?auto=format&fit=crop&q=60&w=300"
+                        alt=""
+                        className="w-full h-full object-cover"
+                        loading="lazy"
+                    />
+                </div>
+
                 <div className="md:w-1/2">
                     <span
                         className={`text-xs uppercase tracking-[0.3em] text-text-muted mb-4 block font-sans transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] [transition-delay:100ms] ${isAboutVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}`}
@@ -92,7 +105,7 @@ export const HomePage: React.FC<HomePageProps> = ({ villas, heroSection }) => {
                     />
 
                     <h2
-                        className={`text-4xl md:text-6xl font-serif text-forest-dark leading-tight mb-8 transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] [transition-delay:300ms] ${isAboutVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
+                        className={`text-4xl md:text-6xl lg:text-7xl font-serif text-forest-dark leading-[1.1] mb-8 transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] [transition-delay:300ms] ${isAboutVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
                     >
                         Where luxury meets <br /> <span className="italic text-accent">serenity.</span>
                     </h2>
@@ -101,14 +114,26 @@ export const HomePage: React.FC<HomePageProps> = ({ villas, heroSection }) => {
                 <div
                     className={`md:w-1/2 border-l border-forest/10 pl-8 transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] [transition-delay:400ms] ${isAboutVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
                 >
-                    <p className="text-text-body font-sans text-lg leading-relaxed mb-6">
+                    <p className="text-text-body font-sans text-lg leading-loose mb-6">
                         Ubud is not just a destination; it is a feeling. At StayinUBUD, we select homes that breathe.
                         Our collection features villas that open up to the jungle, float above rice terraces, and offer
                         silence so profound you can hear your own thoughts.
                     </p>
-                    <p className="text-text-body font-sans text-lg leading-relaxed">
+                    <p className="text-text-body font-sans text-lg leading-loose mb-10">
                         Every stay includes 24/7 personal concierge service to ensure your retreat is effortless.
                     </p>
+
+                    {/* CTA Button */}
+                    <div className={`transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] [transition-delay:600ms] ${isAboutVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
+                        <Link href="/about">
+                            <MagneticButton className="group inline-flex items-center gap-3 px-8 py-4 border border-forest/20 hover:border-forest/50 bg-transparent transition-all duration-500 rounded-full">
+                                <span className="font-sans text-xs font-medium uppercase tracking-[0.2em] text-forest-dark group-hover:text-forest transition-colors">
+                                    Discover Our Story
+                                </span>
+                                <ArrowRight size={14} className="text-forest-dark group-hover:translate-x-1 transition-transform duration-300" />
+                            </MagneticButton>
+                        </Link>
+                    </div>
                 </div>
             </section>
 
