@@ -42,11 +42,11 @@ export const VillaShowcase: React.FC<VillaShowcaseProps> = ({ villas }) => {
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!containerRef.current) return;
 
-    const { left, width, top } = containerRef.current.getBoundingClientRect();
-    const x = e.clientX - left;
-    const y = e.clientY - top;
+    const { left, width } = containerRef.current.getBoundingClientRect();
+    const x = e.clientX - left; // Relative X for zone detection
 
-    setMousePos({ x, y });
+    // Store Client coordinates for Fixed Custom Cursor
+    setMousePos({ x: e.clientX, y: e.clientY });
 
     // Determine zone
     const widthPercent = x / width;
@@ -414,22 +414,23 @@ const VillaShowcaseMain: React.FC<VillaShowcaseProps> = ({ villas }) => {
 
       {/* Custom Cursor */}
       <div
-        className="fixed z-50 pointer-events-none hidden md:flex flex-col items-center justify-center gap-2 mix-blend-difference text-white transition-opacity duration-200"
+        className="fixed z-[100] pointer-events-none hidden md:flex items-center justify-center transition-all duration-150 ease-out"
         style={{
           left: mousePos.x,
           top: mousePos.y,
           transform: 'translate(-50%, -50%)',
-          opacity: mousePos.x < 0 ? 0 : 1
         }}
       >
         <div className={`
-            backdrop-blur-md bg-white/20 border border-white/30 rounded-full px-6 py-2 
-            transition-all duration-300 ease-out
-            ${cursorText === 'VIEW' ? 'scale-110 bg-white/30' : 'scale-100'}
-        `}>
-          <span className="font-sans text-xs font-bold tracking-widest">
+             flex items-center justify-center px-5 py-2 rounded-full backdrop-blur-lg border transition-all duration-300
+             ${cursorText === 'VIEW' ? 'bg-white/10 border-white/30 scale-100' : 'bg-white/20 border-white/50 scale-95'}
+             shadow-lg
+          `}>
+          {cursorText === 'PREV' && <ArrowRight className="w-3 h-3 text-white mr-2 rotate-180" />}
+          <span className="text-[10px] font-sans font-bold tracking-[0.2em] text-white uppercase">
             {cursorText}
           </span>
+          {cursorText === 'NEXT' && <ArrowRight className="w-3 h-3 text-white ml-2" />}
         </div>
       </div>
     </section>
