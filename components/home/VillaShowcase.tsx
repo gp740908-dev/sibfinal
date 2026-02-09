@@ -190,8 +190,8 @@ export default function VillaShowcaseWrapper({ villas }: VillaShowcaseProps) {
 const VillaShowcaseMain: React.FC<VillaShowcaseProps> = ({ villas }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [cursorText, setCursorText] = useState<'PREV' | 'VIEW' | 'NEXT'>('VIEW');
-  const [mousePos, setMousePos] = useState({ x: -100, y: -100 }); // Start off-screen
   const containerRef = useRef<HTMLDivElement>(null);
+  const cursorRef = useRef<HTMLDivElement>(null); // For smooth cursor animation
 
   const [touchStart, setTouchStart] = useState<number | null>(null);
   const [touchEnd, setTouchEnd] = useState<number | null>(null);
@@ -255,8 +255,12 @@ const VillaShowcaseMain: React.FC<VillaShowcaseProps> = ({ villas }) => {
   };
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    // Tracking client coordinates for the fixed cursor
-    setMousePos({ x: e.clientX, y: e.clientY });
+    // Direct DOM manipulation for smooth 60fps cursor
+    if (cursorRef.current) {
+      cursorRef.current.style.left = `${e.clientX}px`;
+      cursorRef.current.style.top = `${e.clientY}px`;
+      cursorRef.current.style.opacity = '1';
+    }
 
     // Zone detection logic (using bounding box)
     if (containerRef.current) {
@@ -299,7 +303,9 @@ const VillaShowcaseMain: React.FC<VillaShowcaseProps> = ({ villas }) => {
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => {
         setIsPaused(false);
-        setMousePos({ x: -100, y: -100 });
+        if (cursorRef.current) {
+          cursorRef.current.style.opacity = '0';
+        }
       }}
       onTouchStart={onTouchStart}
       onTouchMove={onTouchMove}
@@ -414,11 +420,12 @@ const VillaShowcaseMain: React.FC<VillaShowcaseProps> = ({ villas }) => {
 
       {/* Custom Cursor */}
       <div
-        className="fixed z-[100] pointer-events-none hidden md:flex items-center justify-center transition-all duration-150 ease-out"
+        ref={cursorRef}
+        className="fixed z-[100] pointer-events-none hidden md:flex items-center justify-center"
         style={{
-          left: mousePos.x,
-          top: mousePos.y,
           transform: 'translate(-50%, -50%)',
+          opacity: 0,
+          transition: 'opacity 0.2s ease-out',
         }}
       >
         <div className={`
