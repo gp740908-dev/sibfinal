@@ -113,19 +113,8 @@ export const HomePage: React.FC<HomePageProps> = ({ villas, heroSection }) => {
             </section>
 
             {/* Villa Showcase Section */}
-            <div id="villas" className="mb-24 md:mb-40">
+            <div id="villas" className="mb-0">
                 <VillaShowcase villas={villas.slice(0, 4)} />
-
-                <div className="flex justify-center mt-16 md:mt-24">
-                    <Link href="/villas">
-                        <MagneticButton className="group flex items-center gap-4 px-10 py-5 border border-forest/20 hover:border-forest/50 bg-transparent transition-all duration-500 rounded-full">
-                            <span className="font-sans text-xs font-medium uppercase tracking-[0.25em] text-forest-dark group-hover:text-forest transition-colors">
-                                Explore Full Collection
-                            </span>
-                            <ArrowRight size={16} className="text-forest-dark group-hover:translate-x-1 transition-transform duration-300" />
-                        </MagneticButton>
-                    </Link>
-                </div>
             </div>
 
             {/* Signature Details (Sticky Scroll) - Moved UP for narrative flow */}
