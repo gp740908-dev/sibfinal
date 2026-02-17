@@ -3,7 +3,7 @@
 import React, { useState, useMemo, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Villa } from '../../types';
 import { ArrowUpRight, Search, SlidersHorizontal } from 'lucide-react';
 
@@ -27,11 +27,6 @@ export const VillasPage: React.FC<VillasPageProps> = ({ villas }) => {
     return () => mql.removeEventListener('change', handler);
   }, []);
 
-
-  // Parallax for Hero
-  const { scrollY } = useScroll();
-  const yHero = useTransform(scrollY, [0, 1000], [0, 400]);
-  const opacityHero = useTransform(scrollY, [0, 600], [1, 0]);
 
   // Filter Logic
   const filteredVillas = useMemo(() => {
@@ -66,13 +61,10 @@ export const VillasPage: React.FC<VillasPageProps> = ({ villas }) => {
 
       {/* --- HERO SECTION --- */}
       <section className="relative h-[60vh] md:h-[85vh] w-full overflow-hidden flex items-center justify-center">
-        {/* Background Image Parallax */}
-        <motion.div
-          style={isMobile ? undefined : { y: yHero, opacity: opacityHero }}
-          className="absolute inset-0 z-0"
-        >
+        {/* Background Image - CSS only, no JS scroll tracking */}
+        <div className="absolute inset-0 z-0">
           <Image
-            src="/herohomapage/1.webp" // Using a high-quality hero asset
+            src="/herohomapage/1.webp"
             alt="Ubud Villas Collection"
             fill
             className="object-cover"
@@ -80,7 +72,7 @@ export const VillasPage: React.FC<VillasPageProps> = ({ villas }) => {
           />
           <div className="absolute inset-0 bg-forest-dark/30 mix-blend-multiply" />
           <div className="absolute inset-0 bg-gradient-to-t from-sand via-transparent to-transparent" />
-        </motion.div>
+        </div>
 
         {/* Hero Content */}
         <div className="relative z-10 text-center px-6">
