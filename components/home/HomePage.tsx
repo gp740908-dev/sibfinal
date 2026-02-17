@@ -58,7 +58,7 @@ export const HomePage: React.FC<HomePageProps> = ({ villas, heroSection }) => {
     }, []);
 
     return (
-        <main id="main-content" role="main" className="flex flex-col w-full">
+        <main id="main-content" role="main" className="flex flex-col w-full overflow-x-hidden">
             {/* Hero Section */}
             {heroSection}
 
@@ -69,11 +69,11 @@ export const HomePage: React.FC<HomePageProps> = ({ villas, heroSection }) => {
             <section
                 ref={aboutRef}
                 id="about"
-                className="py-32 md:py-48 px-6 md:px-12 max-w-7xl mx-auto flex flex-col md:flex-row gap-20 md:gap-32 items-start relative"
+                className="py-32 md:py-48 px-6 md:px-12 max-w-7xl mx-auto flex flex-col md:flex-row gap-20 md:gap-32 items-start relative overflow-hidden"
             >
                 {/* Decorative Large Number - with scroll-linked rotation */}
                 <span
-                    className={`absolute -left-12 md:-left-20 top-20 font-serif text-[15rem] md:text-[24rem] leading-none text-forest/[0.02] select-none pointer-events-none -z-10 transition-all duration-[1500ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${isAboutVisible ? 'opacity-100 translate-x-0 rotate-0 scale-100' : 'opacity-0 -translate-x-12 -rotate-12 scale-95'}`}
+                    className={`absolute left-0 md:-left-20 top-20 font-serif text-[10rem] md:text-[24rem] leading-none text-forest/[0.02] select-none pointer-events-none -z-10 transition-all duration-[1500ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${isAboutVisible ? 'opacity-100 translate-x-0 rotate-0 scale-100' : 'opacity-0 -translate-x-12 -rotate-12 scale-95'}`}
                     aria-hidden="true"
                 >
                     01
@@ -81,7 +81,7 @@ export const HomePage: React.FC<HomePageProps> = ({ villas, heroSection }) => {
 
                 {/* Floating Decorative Image - Subtle visual element */}
                 <div
-                    className={`absolute -right-8 md:right-12 top-1/2 -translate-y-1/2 w-32 h-48 md:w-48 md:h-64 rounded-full overflow-hidden opacity-20 md:opacity-30 pointer-events-none -z-10 transition-all duration-[2000ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${isAboutVisible ? 'opacity-20 md:opacity-30 translate-x-0 scale-100' : 'opacity-0 translate-x-12 scale-90'}`}
+                    className={`absolute right-0 md:right-12 top-1/2 -translate-y-1/2 w-24 h-36 md:w-48 md:h-64 rounded-full overflow-hidden opacity-10 md:opacity-30 pointer-events-none -z-10 transition-all duration-[2000ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${isAboutVisible ? 'opacity-10 md:opacity-30 translate-x-0 scale-100' : 'opacity-0 translate-x-12 scale-90'}`}
                     aria-hidden="true"
                 >
                     <img

@@ -165,7 +165,7 @@ export const OurServices: React.FC = () => {
                   </motion.span>
 
                   <motion.h3
-                    className="text-4xl md:text-6xl font-serif"
+                    className="text-3xl md:text-6xl font-serif"
                     animate={{
                       opacity: isActive ? 1 : 0.4,
                       x: isActive ? 16 : 0,
