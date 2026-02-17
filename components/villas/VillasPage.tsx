@@ -65,7 +65,7 @@ export const VillasPage: React.FC<VillasPageProps> = ({ villas }) => {
     <div ref={containerRef} className="min-h-screen bg-sand text-forest-dark overflow-x-hidden">
 
       {/* --- HERO SECTION --- */}
-      <section className="relative h-[85vh] w-full overflow-hidden flex items-center justify-center">
+      <section className="relative h-[60vh] md:h-[85vh] w-full overflow-hidden flex items-center justify-center">
         {/* Background Image Parallax */}
         <motion.div
           style={isMobile ? undefined : { y: yHero, opacity: opacityHero }}
@@ -102,7 +102,7 @@ export const VillasPage: React.FC<VillasPageProps> = ({ villas }) => {
 
 
       {/* --- FILTER & SEARCH BAR --- */}
-      <section className="sticky top-20 z-40 bg-sand/95 md:backdrop-blur-md border-b border-forest/5 py-6 px-6 md:px-12 transition-all">
+      <section className="sticky top-20 z-40 bg-sand md:bg-sand/95 md:backdrop-blur-md border-b border-forest/5 py-4 md:py-6 px-6 md:px-12 transition-all">
         <div className="max-w-[1600px] mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
 
           {/* Categories */}
@@ -151,7 +151,7 @@ export const VillasPage: React.FC<VillasPageProps> = ({ villas }) => {
               filteredVillas.map((villa, index) => (
                 <motion.div
                   key={villa.id}
-                  initial={{ opacity: 0, y: 100 }}
+                  initial={{ opacity: 0, y: isMobile ? 40 : 100 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-10%" }}
                   transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}

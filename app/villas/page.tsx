@@ -4,9 +4,10 @@ import { mapDbToVilla } from '@/lib/utils';
 import { VillasPage } from '@/components/villas/VillasPage';
 import { JsonLd } from '@/components/seo/JsonLd';
 import { BreadcrumbsSchema } from '@/components/seo/BreadcrumbsSchema';
+import { MOCK_VILLAS } from '@/lib/mockData';
+import { Villa } from '@/types';
 
 export const dynamic = 'force-dynamic';
-export const revalidate = 0;
 
 export const metadata: Metadata = {
     title: 'Our Villas | Luxury Private Pool Villas in Ubud',
@@ -22,8 +23,19 @@ export const metadata: Metadata = {
 };
 
 export default async function VillasPageRoute() {
-    const { data } = await supabase.from('villas').select('*');
-    const villas = (data || []).map(mapDbToVilla);
+    let villas: Villa[] = [];
+    try {
+        const { data, error } = await supabase.from('villas').select('*');
+        if (!error && data && data.length > 0) {
+            villas = data.map(mapDbToVilla);
+        } else {
+            console.warn('Villas: Using mock data due to DB error or empty result');
+            villas = MOCK_VILLAS;
+        }
+    } catch (e) {
+        console.error('Failed to fetch villas', e);
+        villas = MOCK_VILLAS;
+    }
 
     const villasListSchema = {
         '@context': 'https://schema.org',
