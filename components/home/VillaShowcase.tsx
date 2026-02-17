@@ -429,15 +429,13 @@ const VillaShowcaseMain: React.FC<VillaShowcaseProps> = ({ villas }) => {
         }}
       >
         <div className={`
-             flex items-center justify-center px-5 py-2 rounded-full backdrop-blur-lg border transition-all duration-300
-             ${cursorText === 'VIEW' ? 'bg-white/10 border-white/30 scale-100' : 'bg-white/20 border-white/50 scale-95'}
-             shadow-lg
+             backdrop-blur-md bg-white/20 border border-white/30 rounded-full px-5 py-2
+             transition-all duration-300 ease-out
+             ${cursorText === 'VIEW' ? 'scale-110 bg-white/30' : 'scale-100'}
           `}>
-          {cursorText === 'PREV' && <ArrowRight className="w-3 h-3 text-white mr-2 rotate-180" />}
           <span className="text-[10px] font-sans font-bold tracking-[0.2em] text-white uppercase">
             {cursorText}
           </span>
-          {cursorText === 'NEXT' && <ArrowRight className="w-3 h-3 text-white ml-2" />}
         </div>
       </div>
     </section>

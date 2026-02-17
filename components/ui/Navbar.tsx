@@ -78,7 +78,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView = 'home' }) => {
         <div className="px-6 md:px-12 grid grid-cols-3 items-center">
 
           {/* LEFT: Social Icons */}
-          <div className="flex items-center gap-4 md:gap-6 justify-start">
+          <div className="flex items-center gap-3 md:gap-6 justify-start">
             <a
               href="https://instagram.com"
               target="_blank"
@@ -86,7 +86,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView = 'home' }) => {
               className={`transition-colors duration-300 hover:opacity-70 ${iconColorClass}`}
               aria-label="Instagram"
             >
-              <FaInstagram size={20} />
+              <FaInstagram className="w-[18px] h-[18px] md:w-5 md:h-5" />
             </a>
             <a
               href="https://wa.me/6282269128232"
@@ -95,7 +95,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView = 'home' }) => {
               className={`transition-colors duration-300 hover:opacity-70 ${iconColorClass}`}
               aria-label="WhatsApp"
             >
-              <FaWhatsapp size={20} />
+              <FaWhatsapp className="w-[18px] h-[18px] md:w-5 md:h-5" />
             </a>
           </div>
 
@@ -105,7 +105,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView = 'home' }) => {
             className="flex flex-col items-center justify-start cursor-pointer group -my-2"
           >
             {/* Icon Image - Dual Layer for Color Control */}
-            <div className={`relative w-auto transition-all duration-700 ease-in-out ${isScrolled ? 'h-0 opacity-0 w-0 overflow-hidden' : 'h-20 opacity-100'}`}>
+            <div className={`relative w-auto transition-all duration-700 ease-in-out ${isScrolled ? 'h-0 opacity-0 w-0 overflow-hidden' : 'h-14 md:h-20 opacity-100'}`}>
 
               {/* 1. Layout Spacer (Invisible) */}
               <img src="/rumah.png" alt="" className="h-full w-auto opacity-0 pointer-events-none select-none" />
@@ -145,7 +145,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView = 'home' }) => {
             {/* Search Trigger */}
             <button
               onClick={() => setIsSearchOpen(true)}
-              className={`flex items-center justify-center w-10 h-10 rounded-full hover:bg-forest/5 transition-colors ${iconColorClass}`}
+              className={`flex items-center justify-center w-10 h-10 rounded-full hover:bg-forest/5 active:bg-forest/10 transition-colors ${iconColorClass}`}
               aria-label="Search"
             >
               <Search size={20} strokeWidth={1.5} />
