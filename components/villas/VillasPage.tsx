@@ -27,6 +27,14 @@ export const VillasPage: React.FC<VillasPageProps> = ({ villas }) => {
     return () => mql.removeEventListener('change', handler);
   }, []);
 
+  // Override global scroll-smooth for this page only
+  useEffect(() => {
+    document.documentElement.style.scrollBehavior = 'auto';
+    return () => {
+      document.documentElement.style.scrollBehavior = '';
+    };
+  }, []);
+
 
   // Filter Logic
   const filteredVillas = useMemo(() => {
