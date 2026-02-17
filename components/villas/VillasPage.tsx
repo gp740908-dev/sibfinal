@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useMemo, useRef } from 'react';
+import React, { useState, useMemo, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
@@ -17,6 +17,15 @@ export const VillasPage: React.FC<VillasPageProps> = ({ villas }) => {
   const [activeFilter, setActiveFilter] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
   const containerRef = useRef<HTMLDivElement>(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const mql = window.matchMedia('(max-width: 768px)');
+    setIsMobile(mql.matches);
+    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
+    mql.addEventListener('change', handler);
+    return () => mql.removeEventListener('change', handler);
+  }, []);
 
 
   // Parallax for Hero
@@ -59,7 +68,7 @@ export const VillasPage: React.FC<VillasPageProps> = ({ villas }) => {
       <section className="relative h-[85vh] w-full overflow-hidden flex items-center justify-center">
         {/* Background Image Parallax */}
         <motion.div
-          style={{ y: yHero, opacity: opacityHero }}
+          style={isMobile ? undefined : { y: yHero, opacity: opacityHero }}
           className="absolute inset-0 z-0"
         >
           <Image
@@ -93,7 +102,7 @@ export const VillasPage: React.FC<VillasPageProps> = ({ villas }) => {
 
 
       {/* --- FILTER & SEARCH BAR --- */}
-      <section className="sticky top-0 z-40 bg-sand/95 backdrop-blur-md border-b border-forest/5 py-6 px-6 md:px-12 transition-all">
+      <section className="sticky top-20 z-40 bg-sand/95 md:backdrop-blur-md border-b border-forest/5 py-6 px-6 md:px-12 transition-all">
         <div className="max-w-[1600px] mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
 
           {/* Categories */}
@@ -136,13 +145,12 @@ export const VillasPage: React.FC<VillasPageProps> = ({ villas }) => {
 
       {/* --- VILLA GRID --- */}
       <section className="px-6 md:px-12 py-24 md:py-32 max-w-[1600px] mx-auto min-h-screen">
-        <div className="flex flex-col gap-32 md:gap-40">
-          <AnimatePresence mode="popLayout">
+        <div className="flex flex-col gap-16 md:gap-32 lg:gap-40">
+          <AnimatePresence>
             {filteredVillas.length > 0 ? (
               filteredVillas.map((villa, index) => (
                 <motion.div
                   key={villa.id}
-                  layout
                   initial={{ opacity: 0, y: 100 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-10%" }}
@@ -156,7 +164,7 @@ export const VillasPage: React.FC<VillasPageProps> = ({ villas }) => {
                   <div className="w-full md:w-7/12 lg:w-3/5 overflow-hidden">
                     <Link href={`/villas/${villa.id}`} className="block relative aspect-[4/5] md:aspect-[4/3] w-full overflow-hidden bg-forest/5">
                       <motion.div
-                        whileHover={{ scale: 1.05 }}
+                        whileHover={isMobile ? undefined : { scale: 1.05 }}
                         transition={{ duration: 0.7, ease: "easeOut" }}
                         className="w-full h-full relative"
                       >
