@@ -923,12 +923,22 @@ export const BookingWizard: React.FC<BookingWizardProps> = ({
                                 <CalendarIcon size={16} aria-hidden="true" /> Select Dates
                             </h3>
                             <div className="flex justify-center mb-6">
-                                <Calendar
-                                    selected={dateRange}
-                                    onSelect={setDateRange}
-                                    disabledDates={blockedDates}
-                                    numberOfMonths={2}
-                                />
+                                <div className="hidden md:block">
+                                    <Calendar
+                                        selected={dateRange}
+                                        onSelect={setDateRange}
+                                        disabledDates={blockedDates}
+                                        numberOfMonths={2}
+                                    />
+                                </div>
+                                <div className="md:hidden">
+                                    <Calendar
+                                        selected={dateRange}
+                                        onSelect={setDateRange}
+                                        disabledDates={blockedDates}
+                                        numberOfMonths={1}
+                                    />
+                                </div>
                             </div>
                             {dateRange?.from && dateRange?.to && (
                                 <div className="bg-forest/5 p-4 rounded-lg flex justify-between items-center mb-4 animate-in fade-in" role="status">

@@ -23,13 +23,13 @@ export const LocationSection: React.FC<LocationSectionProps> = ({ villas }) => {
       </h2>
 
       {/* LEFT: Content */}
-      <div className="loc-content w-full lg:w-1/3 bg-sand px-6 md:px-12 pt-32 md:pt-40 pb-12 md:pb-24 flex flex-col justify-center relative z-20 shadow-2xl">
+      <div className="loc-content w-full lg:w-1/3 bg-sand px-6 md:px-12 pt-16 md:pt-40 pb-12 md:pb-24 flex flex-col justify-center relative z-20 shadow-2xl">
         <div className="mb-12">
           <div className="flex items-center gap-2 text-text-muted mb-4">
             <MapPin size={16} />
             <span className="font-sans text-xs uppercase tracking-[0.2em] text-text-muted">The Locations</span>
           </div>
-          <h2 className="text-5xl md:text-6xl font-serif text-forest-dark leading-none mb-6">
+          <h2 className="text-4xl md:text-6xl font-serif text-forest-dark leading-none mb-6">
             ROOTED IN <br /> <span className="italic">UBUD</span>
           </h2>
           <p className="text-text-body font-sans leading-relaxed">

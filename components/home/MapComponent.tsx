@@ -58,29 +58,29 @@ const MapComponent: React.FC<MapComponentProps> = ({ villas, activeVillaId }) =>
 
       {/* Villa Info Overlay */}
       <div className="absolute bottom-4 left-4 right-4 md:left-auto md:right-4 md:w-auto">
-        <div className="bg-sand-light shadow-2xl rounded-sm p-5 border border-forest/5 max-w-xs">
-          <div className="flex items-start gap-3">
-            <div className="p-2 bg-forest/10 rounded-lg">
+        <div className="bg-sand-light shadow-2xl rounded-sm p-4 md:p-5 border border-forest/5 max-w-xs">
+          <div className="flex items-center gap-3 mb-3">
+            <div className="p-2 bg-forest/10 rounded-lg shrink-0">
               <MapPin size={18} className="text-forest" />
             </div>
             <div className="flex-1 min-w-0">
-              <h4 className="font-serif text-lg text-forest-dark font-bold truncate">
+              <h4 className="font-serif text-base md:text-lg text-forest-dark font-bold truncate">
                 {villaName}
               </h4>
               <p className="text-xs text-text-muted mt-0.5">
                 Ubud, Bali
               </p>
             </div>
-            <a
-              href={googleMapsUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-4 flex items-center justify-center gap-2 w-full py-3 px-4 bg-forest-dark text-sand text-[10px] font-bold uppercase tracking-[0.2em] rounded-sm hover:bg-forest transition-colors"
-            >
-              <ExternalLink size={14} />
-              Open in Google Maps
-            </a>
           </div>
+          <a
+            href={googleMapsUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-center gap-2 w-full py-3 px-4 bg-forest-dark text-sand text-[10px] font-bold uppercase tracking-[0.2em] rounded-sm hover:bg-forest transition-colors"
+          >
+            <ExternalLink size={14} />
+            Open in Google Maps
+          </a>
         </div>
 
         {/* Decorative overlay */}
