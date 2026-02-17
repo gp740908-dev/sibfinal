@@ -22,7 +22,7 @@ export const BookingPage: React.FC<BookingPageProps> = ({
     };
 
     return (
-        <div className="min-h-screen bg-sand-light pt-20">
+        <div className="min-h-screen bg-sand-light pt-32">
             {/* Header */}
             <header className="bg-white border-b border-forest/10">
                 <div className="max-w-6xl mx-auto px-4 py-4">

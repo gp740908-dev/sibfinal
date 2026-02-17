@@ -97,7 +97,7 @@ export const Experiences: React.FC<ExperiencesProps> = ({ initialExperiences }) 
   if (experiences.length === 0) return <div className="min-h-screen bg-sand"></div>;
 
   return (
-    <div className="bg-sand min-h-screen pt-24 pb-20 overflow-hidden">
+    <div className="bg-sand min-h-screen pt-32 pb-20 overflow-hidden">
 
       {/* 1. HERO */}
       <motion.section

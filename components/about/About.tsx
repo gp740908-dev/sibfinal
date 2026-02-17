@@ -59,7 +59,7 @@ export const About: React.FC = () => {
   };
 
   return (
-    <div className="pt-24 pb-0 min-h-screen bg-sand text-forest-dark overflow-hidden">
+    <div className="pt-32 pb-0 min-h-screen bg-sand text-forest-dark overflow-hidden">
 
       {/* SECTION 1: THE PHILOSOPHY (Hero) */}
       <motion.section

@@ -148,7 +148,7 @@ export const VillaDetail: React.FC<VillaDetailProps> = ({
 
         {/* Top Nav Overlay */}
         <motion.div
-          className="absolute top-0 left-0 right-0 p-6 md:p-12 z-20 flex justify-between items-start"
+          className="absolute top-20 left-0 right-0 p-6 md:p-12 z-20 flex justify-between items-start"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: LUXURY_EASE, delay: 0.5 }}

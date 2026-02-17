@@ -145,7 +145,7 @@ export const Journal: React.FC<JournalProps> = ({ initialPosts }) => {
   const gridPosts = filteredPosts.slice(1);
 
   return (
-    <div className="pt-24 pb-0 min-h-screen bg-sand text-forest-dark">
+    <div className="pt-32 pb-0 min-h-screen bg-sand text-forest-dark">
 
       {/* 1. Page Header */}
       <div className="px-6 md:px-12 py-12 md:py-20 text-center max-w-4xl mx-auto">
