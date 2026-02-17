@@ -88,7 +88,7 @@ export const VillasPage: React.FC<VillasPageProps> = ({ villas }) => {
 
 
       {/* --- FILTER & SEARCH BAR --- */}
-      <section className="sticky top-20 z-40 bg-sand border-b border-forest/5 py-4 md:py-6 px-6 md:px-12">
+      <section className="bg-sand border-b border-forest/5 py-4 md:py-6 px-6 md:px-12">
         <div className="max-w-[1600px] mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
 
           {/* Categories */}
