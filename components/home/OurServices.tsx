@@ -219,7 +219,7 @@ export const OurServices: React.FC = () => {
       </motion.div>
 
       {/* RIGHT COLUMN: Image Reveal Stage */}
-      <div className="w-full lg:w-1/2 min-h-[400px] lg:h-auto relative overflow-hidden bg-forest/5">
+      <div className="w-full lg:w-1/2 h-[50vh] lg:h-auto relative overflow-hidden bg-forest/5">
         <div className="w-full h-full relative">
           <AnimatePresence mode="wait">
             <motion.div
