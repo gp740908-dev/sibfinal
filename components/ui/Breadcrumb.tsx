@@ -6,7 +6,7 @@ import { usePathname } from 'next/navigation';
 import { ChevronRight, Home } from 'lucide-react';
 
 interface BreadcrumbProps {
-    items?: { label: string; href: string }[];
+    items?: { label: string; href?: string }[];
     className?: string;
 }
 
@@ -38,7 +38,7 @@ export const Breadcrumb: React.FC<BreadcrumbProps> = ({ items, className = '' })
                     const isLast = idx === crumbs.length - 1;
 
                     return (
-                        <li key={crumb.href} className="flex items-center">
+                        <li key={crumb.href || crumb.label} className="flex items-center">
                             {idx > 0 && <ChevronRight size={12} className="text-forest/30 mx-2" />}
 
                             {isLast ? (
