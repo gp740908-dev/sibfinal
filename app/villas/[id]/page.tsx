@@ -9,7 +9,7 @@ import { Metadata } from 'next';
 
 // ISR: Revalidate every hour for fresh content while keeping speed
 // Pages are rendered on first request, then cached for 1 hour
-export const revalidate = 3600;
+export const revalidate = 0;
 
 // Dynamic params: Allow any villa ID (rendered on-demand, then cached)
 export const dynamicParams = true;
