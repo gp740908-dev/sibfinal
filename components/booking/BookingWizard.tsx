@@ -918,7 +918,7 @@ export const BookingWizard: React.FC<BookingWizardProps> = ({
 
                     {/* STEP 1: DATES */}
                     {step === 'dates' && (
-                        <div className="animate-in slide-in-from-right-4 duration-300" role="region" aria-label="Step 1: Select dates">
+                        <div className="transition-opacity duration-300" role="region" aria-label="Step 1: Select dates">
                             <h3 className="text-sm font-bold uppercase tracking-widest text-forest-dark mb-6 flex items-center gap-2">
                                 <CalendarIcon size={16} aria-hidden="true" /> Select Dates
                             </h3>
@@ -977,7 +977,7 @@ export const BookingWizard: React.FC<BookingWizardProps> = ({
 
                     {/* STEP 2: GUESTS (simplified for fullPage) */}
                     {step === 'guests' && (
-                        <div className="animate-in slide-in-from-right-4 duration-300" role="region" aria-label="Step 2: Guest details">
+                        <div className="transition-opacity duration-300" role="region" aria-label="Step 2: Guest details">
                             <h3 className="text-sm font-bold uppercase tracking-widest text-forest-dark mb-6 flex items-center gap-2">
                                 <Users size={16} aria-hidden="true" /> Guest Details
                             </h3>
@@ -1064,7 +1064,7 @@ export const BookingWizard: React.FC<BookingWizardProps> = ({
 
                     {/* STEP 3: CONFIRM */}
                     {step === 'confirm' && !bookingResult && (
-                        <div className="animate-in slide-in-from-right-4 duration-300" role="region" aria-label="Step 3: Confirm booking">
+                        <div className="transition-opacity duration-300" role="region" aria-label="Step 3: Confirm booking">
                             <h3 className="text-sm font-bold uppercase tracking-widest text-forest-dark mb-6 flex items-center gap-2">
                                 <Check size={16} aria-hidden="true" /> Confirm Booking
                             </h3>
@@ -1124,7 +1124,7 @@ export const BookingWizard: React.FC<BookingWizardProps> = ({
 
                     {/* SUCCESS STATE */}
                     {bookingResult && (
-                        <div className="animate-in zoom-in-95 duration-500 text-center py-8" role="status" aria-live="polite">
+                        <div className="text-center py-8" role="status" aria-live="polite">
                             <div className="w-16 h-16 bg-[#537F5D]/20 rounded-full flex items-center justify-center mx-auto mb-6">
                                 <Check className="w-8 h-8 text-[#537F5D]" aria-hidden="true" />
                             </div>
