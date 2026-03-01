@@ -65,13 +65,18 @@ export const VillaDetail: React.FC<VillaDetailProps> = ({
   const containerRef = useRef<HTMLDivElement>(null);
 
   // Fallback Data if DB is empty or missing JSON fields
-  const amenitiesDetail: Record<string, string[]> = villa.amenities_detail || {
-    "Bathroom": ["Hair dryer", "Bathtub", "Premium shampoo", "Hot water", "Bathrobes"],
-    "Bedroom": ["King-size bed", "Cotton linens", "Safe", "Wardrobe", "Iron"],
-    "Entertainment": ["HDTV with Netflix", "Bluetooth Speaker", "High-speed Wi-Fi"],
-    "Kitchen": ["Microwave", "Refrigerator", "Coffee Maker", "Stove", "Water dispenser"],
-    "Outdoor": ["Private Pool", "Sun loungers", "Terrace"]
-  };
+ const hasRealAmenities = villa.amenities_detail && 
+    Object.keys(villa.amenities_detail).length > 0;
+
+ const amenitiesDetail = hasRealAmenities 
+    ? villa.amenities_detail 
+    : {
+        "Bathroom": ["Hair dryer", "Bathtub", "Premium shampoo", "Hot water", "Bathrobes"],
+        "Bedroom": ["King-size bed", "Cotton linens", "Safe", "Wardrobe", "Iron"],
+        "Entertainment": ["HDTV with Netflix", "Bluetooth Speaker", "High-speed Wi-Fi"],
+        "Kitchen": ["Microwave", "Refrigerator", "Coffee Maker", "Stove", "Water dispenser"],
+        "Outdoor": ["Private Pool", "Sun loungers", "Terrace"]
+    };
 
   const houseRules = villa.house_rules || {
     check_in: "14:00",
