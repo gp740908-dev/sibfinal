@@ -111,7 +111,7 @@ export const BookingPage: React.FC<BookingPageProps> = ({
 
                     {/* RIGHT: Booking Wizard */}
                     <div className="lg:col-span-2">
-                        <div className="bg-white rounded-2xl shadow-lg border border-forest/10 overflow-hidden">
+                        <div className="bg-white rounded-2xl shadow-lg border border-forest/10">
                             {/* Wizard Header */}
                             <div className="p-6 border-b border-forest/10 bg-sand/20">
                                 <h2 className="text-2xl font-serif text-forest-dark">Complete Your Booking</h2>
