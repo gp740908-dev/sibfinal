@@ -131,8 +131,8 @@ export default async function VillaPage({ params }: PageProps) {
       value: villa.building_area || 200,
       unitCode: 'MTK', // Square meters
     },
-    checkinTime: '14:00',
-    checkoutTime: '11:00',
+    checkinTime: villa.house_rules?.check_in || '14:00',
+    checkoutTime: villa.house_rules?.check_out || '11:00',
     provider: {
       '@type': 'Organization',
       name: 'StayinUBUD',
