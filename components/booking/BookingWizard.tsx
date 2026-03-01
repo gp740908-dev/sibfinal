@@ -392,6 +392,16 @@ export const BookingWizard: React.FC<BookingWizardProps> = ({
         return Object.keys(newErrors).length === 0;
     };
 
+    // Pure validation check (no setState) - safe to call during render
+    const isFormValid = (): boolean => {
+        return (['fullName', 'email', 'whatsapp'] as const).every(field => {
+            const validatorKey = fieldToValidator[field];
+            if (!validatorKey) return true;
+            const value = guestData[field] || '';
+            return !validators[validatorKey](value);
+        });
+    };
+
     const getInputClasses = (field: keyof GuestFormData) => {
         const wasTouched = touched[field];
         const hasError = errors[field];
@@ -1054,7 +1064,7 @@ export const BookingWizard: React.FC<BookingWizardProps> = ({
 
                             <button
                                 onClick={handleNext}
-                                disabled={!validateAllFields()}
+                                disabled={!isFormValid()}
                                 className="w-full bg-forest-dark text-sand py-4 font-bold uppercase tracking-widest text-sm hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-all focus:outline-none focus:ring-2 focus:ring-forest focus:ring-offset-2"
                             >
                                 Review Booking
