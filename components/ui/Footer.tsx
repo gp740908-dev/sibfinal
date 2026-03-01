@@ -56,7 +56,7 @@ export const Footer: React.FC = () => {
               TW
             </a>
           </div>
-          <p className="font-sans text-[10px] uppercase tracking-widest opacity-40 mt-2">© {new Date().getFullYear()} StayinUBUD</p>
+          <p className="font-sans text-[10px] uppercase tracking-widest opacity-40 mt-2" suppressHydrationWarning>© {new Date().getFullYear()} StayinUBUD</p>
         </div>
       </div>
     </footer>

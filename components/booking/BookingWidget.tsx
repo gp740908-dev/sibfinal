@@ -58,7 +58,7 @@ export const BookingWidget: React.FC<BookingWidgetProps> = ({
   const total = subTotal + serviceFee;
 
   const formatPrice = (price: number) => {
-    return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(price);
+    return `Rp ${Math.round(price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}`;
   };
 
   const handleRequestClick = () => {

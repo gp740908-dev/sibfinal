@@ -49,12 +49,7 @@ export const VillasPage: React.FC<VillasPageProps> = ({ villas }) => {
 
   // Format price
   const formatPrice = (price: number) => {
-    return new Intl.NumberFormat('id-ID', {
-      style: 'currency',
-      currency: 'IDR',
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0,
-    }).format(price);
+    return `Rp ${Math.round(price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}`;
   };
 
   return (
